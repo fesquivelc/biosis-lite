@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jpa:entity-mappings theme="CLASSIC" persistenceUnitName="biosis-PU" id="_14197969282181" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd" xmlns:ns4="http://nbmodeler.java.net" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <jpa:package>biz.juvitec.entidades</jpa:package>
+    <jpa:entity class="Jornada" visibile="true" minimized="false" id="_1419797094305">
+        <jpa:attributes>
+            <jpa:id name="codigo" attribute-type="String" visibile="true" id="_14197971009155">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="45" precision="0" scale="0"/>
+                <jpa:generated-value/>
+            </jpa:id>
+            <jpa:basic name="turnoHE" attribute-type="java.util.Date" visibile="true" id="_14197971334046">
+                <jpa:column name="turno_he" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>TIME</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="turnoHS" attribute-type="java.util.Date" visibile="true" id="_14197971559887">
+                <jpa:column name="turno_hs" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>TIME</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="refrigerioHS" attribute-type="java.util.Date" visibile="true" id="_14197972007558">
+                <jpa:column name="refrigerio_hs" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>TIME</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="refrigerioHE" attribute-type="java.util.Date" visibile="true" id="_14197972213409">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>TIME</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="desdeHE" attribute-type="java.util.Date" visibile="true" id="_141979727176410">
+                <jpa:column name="desde_marcacion_he" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>TIME</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="toleranciaHE" attribute-type="java.util.Date" visibile="true" id="_141979730710711">
+                <jpa:column name="tolerancia_turno_he" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>TIME</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="tardanzaHE" attribute-type="java.util.Date" visibile="true" id="_141979737356312">
+                <jpa:column name="tardanza_turno_he" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>TIME</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="toleranciaRefrigerioHE" attribute-type="java.util.Date" visibile="true" id="_141979739711613">
+                <jpa:column name="tolerancia_refrigerio_he" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>TIME</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="nombre" attribute-type="String" visibile="true" id="_141979746330816">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:one-to-many name="horarioList" target-entity="Horario" fetch="LAZY" mapped-by="jornada" collection-type="java.util.List" connected-entity-id="_1419797437526" connected-attribute-id="_141981663725320" visibile="true" id="_141981663725621">
+                <jpa:join-table/>
+            </jpa:one-to-many>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="Horario" visibile="true" minimized="false" id="_1419797437526">
+        <jpa:attributes>
+            <jpa:id name="codigo" attribute-type="String" visibile="true" id="_14198155023796">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="45" precision="0" scale="0"/>
+                <jpa:generated-value/>
+            </jpa:id>
+            <jpa:basic name="nombre" attribute-type="String" visibile="true" id="_141979744457915">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="domingo" attribute-type="boolean" visibile="true" id="_141981664821122">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="lunes" attribute-type="boolean" visibile="true" id="_141981665350823">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="martes" attribute-type="boolean" visibile="true" id="_141981665758724">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="miercoles" attribute-type="boolean" visibile="true" id="_141981666310725">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="jueves" attribute-type="boolean" visibile="true" id="_141981666834026">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="viernes" attribute-type="boolean" visibile="true" id="_141981667405227">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="sabado" attribute-type="boolean" visibile="true" id="_141981667915528">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:many-to-one name="jornada" target-entity="Jornada" optional="false" primaryKey="false" connected-entity-id="_1419797094305" connected-attribute-id="_141981663725621" visibile="true" id="_141981663725320">
+                <jpa:join-column name="jornada_codigo" referenced-column-name="codigo" unique="false" nullable="false" insertable="true" updatable="true" column-definition="" table=""/>
+                <jpa:join-table/>
+            </jpa:many-to-one>
+            <jpa:one-to-many name="asignacionHorarioList" target-entity="AsignacionHorario" fetch="LAZY" mapped-by="horario" collection-type="java.util.List" connected-entity-id="_1419817066614" connected-attribute-id="_141981722902242" visibile="true" id="_141981722902543">
+                <jpa:join-table/>
+            </jpa:one-to-many>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="GrupoHorario" visibile="true" minimized="false" id="_1419816874537">
+        <jpa:table name="grupo_horario"/>
+        <jpa:attributes>
+            <jpa:id name="codigo" attribute-type="String" visibile="true" id="_141981688449230">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="45" precision="0" scale="0"/>
+                <jpa:generated-value/>
+            </jpa:id>
+            <jpa:basic name="nombre" attribute-type="String" visibile="true" id="_141981692658031">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:one-to-many name="detalleGrupoHorarioList" target-entity="DetalleGrupoHorario" fetch="LAZY" mapped-by="grupoHorario" collection-type="java.util.List" connected-entity-id="_1419816954830" connected-attribute-id="_141981702976635" visibile="true" id="_141981702976836">
+                <jpa:join-table/>
+            </jpa:one-to-many>
+            <jpa:one-to-many name="asignacionHorarioList" target-entity="AsignacionHorario" fetch="LAZY" mapped-by="grupoHorario" collection-type="java.util.List" connected-entity-id="_1419817066614" connected-attribute-id="_141981710065239" visibile="true" id="_141981710065340">
+                <jpa:join-table/>
+            </jpa:one-to-many>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="DetalleGrupoHorario" visibile="true" minimized="false" id="_1419816954830">
+        <jpa:table name="detalle_grupo_horario"/>
+        <jpa:attributes>
+            <jpa:id name="id" attribute-type="Long" visibile="true" id="_141981699539633">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:generated-value strategy="IDENTITY"/>
+            </jpa:id>
+            <jpa:basic name="empleado" attribute-type="String" visibile="true" id="_141981700846034">
+                <jpa:column name="empleado_nro_documento" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:many-to-one name="grupoHorario" target-entity="GrupoHorario" optional="false" primaryKey="false" connected-entity-id="_1419816874537" connected-attribute-id="_141981702976836" visibile="true" id="_141981702976635">
+                <jpa:join-column name="grupo_horario_codigo" referenced-column-name="codigo" unique="false" nullable="false" insertable="true" updatable="true" column-definition="" table=""/>
+                <jpa:join-table/>
+            </jpa:many-to-one>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="AsignacionHorario" visibile="true" minimized="false" id="_1419817066614">
+        <jpa:table name="asignacion_horario"/>
+        <jpa:attributes>
+            <jpa:id name="id" attribute-type="Long" visibile="true" id="_141981707410038">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:generated-value strategy="IDENTITY"/>
+            </jpa:id>
+            <jpa:basic name="empleado" optional="true" attribute-type="String" visibile="true" id="_141981719677241">
+                <jpa:column name="empleado_nro_documento" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:many-to-one name="grupoHorario" target-entity="GrupoHorario" optional="true" primaryKey="false" connected-entity-id="_1419816874537" connected-attribute-id="_141981710065340" visibile="true" id="_141981710065239">
+                <jpa:join-column name="grupo_horario_codigo" referenced-column-name="codigo" unique="false" nullable="true" insertable="true" updatable="true" column-definition="" table=""/>
+                <jpa:join-table/>
+            </jpa:many-to-one>
+            <jpa:many-to-one name="horario" target-entity="Horario" optional="false" primaryKey="false" connected-entity-id="_1419797437526" connected-attribute-id="_141981722902543" visibile="true" id="_141981722902242">
+                <jpa:join-column name="horario_codigo" referenced-column-name="codigo" unique="false" nullable="false" insertable="true" updatable="true" column-definition="" table=""/>
+                <jpa:join-table/>
+            </jpa:many-to-one>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="TipoPermiso" visibile="true" minimized="false" id="_1419857416453">
+        <jpa:table name="tipo_permiso"/>
+        <jpa:attributes>
+            <jpa:id name="codigo" attribute-type="String" visibile="true" id="_141985743097945">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:generated-value/>
+            </jpa:id>
+            <jpa:basic name="nombre" attribute-type="String" visibile="true" id="_141985947420646">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="diasMaximo" attribute-type="int" visibile="true" id="_141985948114147">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="tipoDescuento" attribute-type="char" visibile="true" id="_141985988742355">
+                <jpa:column name="tipo_descuento" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="clase" attribute-type="char" visibile="true" id="_141986933500968">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:one-to-many name="licenciaList" target-entity="Permiso" fetch="LAZY" mapped-by="tipoPermiso" collection-type="java.util.List" connected-entity-id="_1419859527825" connected-attribute-id="_141985977578451" visibile="true" id="_141985977578652">
+                <jpa:join-table/>
+            </jpa:one-to-many>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="Permiso" visibile="true" minimized="false" id="_1419859527825">
+        <jpa:attributes>
+            <jpa:id name="id" attribute-type="Long" visibile="true" id="_141985953922249">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:generated-value strategy="IDENTITY"/>
+            </jpa:id>
+            <jpa:basic name="empleado" attribute-type="String" visibile="true" id="_141985975451050">
+                <jpa:column name="empleado_nro_documento" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="fechaInicio" attribute-type="java.util.Date" visibile="true" id="_141985984551053">
+                <jpa:column name="fecha_inicio" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>DATE</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="fechaFin" attribute-type="java.util.Date" visibile="true" id="_141985985283854">
+                <jpa:column name="fecha_fin" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>DATE</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="horaInicio" attribute-type="java.util.Date" visibile="true" id="_141986946662569">
+                <jpa:column name="hora_inicio" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>TIME</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="horaFin" attribute-type="java.util.Date" visibile="true" id="_141986947317770">
+                <jpa:column name="hora_fin" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>TIME</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="porFecha" attribute-type="boolean" visibile="true" id="_1419872984437105">
+                <jpa:column name="por_fecha" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:many-to-one name="tipoPermiso" target-entity="TipoPermiso" optional="false" primaryKey="false" connected-entity-id="_1419857416453" connected-attribute-id="_141985977578652" visibile="true" id="_141985977578451">
+                <jpa:join-column name="tipo_permiso_codigo" referenced-column-name="codigo" unique="false" nullable="false" insertable="true" updatable="true" column-definition="" table=""/>
+                <jpa:join-table/>
+            </jpa:many-to-one>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="Vacacion" visibile="true" minimized="false" id="_1419860919430">
+        <jpa:attributes>
+            <jpa:id name="id" attribute-type="Long" visibile="true" id="_141986101011165">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:generated-value strategy="IDENTITY"/>
+            </jpa:id>
+            <jpa:basic name="fechaInicio" attribute-type="java.util.Date" visibile="true" id="_141986106196067">
+                <jpa:column name="fecha_inicio" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>DATE</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="fechaFin" attribute-type="java.util.Date" visibile="true" id="_141986955137771">
+                <jpa:column name="fecha_fin" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>DATE</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="empleado" attribute-type="String" visibile="true" id="_141986955888972">
+                <jpa:column name="empleado_nro_documento" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="fechaInterrupcion" attribute-type="java.util.Date" visibile="true" id="_141987260510995">
+                <jpa:column name="fecha_interrupcion" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>DATE</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="hayInterrupcion" attribute-type="boolean" visibile="true" id="_141987261173396">
+                <jpa:column name="hay_interrupcion" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:many-to-one name="periodo" target-entity="Periodo" optional="false" primaryKey="false" connected-entity-id="_1419869578736" connected-attribute-id="_141987200678579" visibile="true" id="_141987200678378">
+                <jpa:join-column name="periodo_anio" referenced-column-name="anio" unique="false" nullable="false" insertable="true" updatable="true" column-definition="" table=""/>
+                <jpa:join-table/>
+            </jpa:many-to-one>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="Periodo" visibile="true" minimized="false" id="_1419869578736">
+        <jpa:attributes>
+            <jpa:id name="anio" attribute-type="int" visibile="true" id="_141986958716974">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="4" precision="0" scale="0"/>
+                <jpa:generated-value/>
+            </jpa:id>
+            <jpa:basic name="nombre" attribute-type="String" visibile="true" id="_141986963041775">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="vigente" attribute-type="boolean" visibile="true" id="_141987209982880">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:one-to-many name="vacacionList" target-entity="Vacacion" fetch="LAZY" mapped-by="periodo" collection-type="java.util.List" connected-entity-id="_1419860919430" connected-attribute-id="_141987200678378" visibile="true" id="_141987200678579">
+                <jpa:join-table/>
+            </jpa:one-to-many>
+            <jpa:one-to-many name="feriadoList" target-entity="Feriado" fetch="LAZY" mapped-by="periodo" collection-type="java.util.List" connected-entity-id="_1419869918591" connected-attribute-id="_141987218360684" visibile="true" id="_141987218360985">
+                <jpa:join-table/>
+                <jpa:cascade>
+                    <jpa:cascade-all/>
+                </jpa:cascade>
+            </jpa:one-to-many>
+            <jpa:one-to-many name="saldoVacacionalList" target-entity="SaldoVacacional" fetch="LAZY" mapped-by="periodo" collection-type="java.util.List" connected-entity-id="_1419872241459" connected-attribute-id="_141987244843890" visibile="true" id="_141987244843991">
+                <jpa:join-table/>
+            </jpa:one-to-many>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="Feriado" visibile="true" minimized="false" id="_1419869918591">
+        <jpa:attributes>
+            <jpa:id name="fechaInicio" attribute-type="java.util.Date" visibile="true" id="_141987212101281">
+                <jpa:column name="fecha_inicio" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:generated-value/>
+                <jpa:temporal>DATE</jpa:temporal>
+            </jpa:id>
+            <jpa:basic name="fechaFin" attribute-type="java.util.Date" visibile="true" id="_141987214438082">
+                <jpa:column name="fecha_fin" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>DATE</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="nombre" attribute-type="String" visibile="true" id="_141987216718883">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:many-to-one name="periodo" target-entity="Periodo" optional="false" primaryKey="false" connected-entity-id="_1419869578736" connected-attribute-id="_141987218360985" visibile="true" id="_141987218360684">
+                <jpa:join-column name="periodo_anio" referenced-column-name="anio" unique="false" nullable="false" insertable="true" updatable="true" column-definition="" table=""/>
+                <jpa:join-table/>
+            </jpa:many-to-one>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="SaldoVacacional" visibile="true" minimized="false" id="_1419872241459">
+        <jpa:table name="saldo_vacacional"/>
+        <jpa:attributes>
+            <jpa:id name="id" attribute-type="Long" visibile="true" id="_141987225687687">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:generated-value strategy="IDENTITY"/>
+            </jpa:id>
+            <jpa:basic name="empleado" attribute-type="String" visibile="true" id="_141987226247088">
+                <jpa:column name="empleado_nro_documento" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="diasRestantes" attribute-type="String" visibile="true" id="_141987234621389">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:many-to-one name="periodo" target-entity="Periodo" optional="false" primaryKey="false" connected-entity-id="_1419869578736" connected-attribute-id="_141987244843991" visibile="true" id="_141987244843890">
+                <jpa:join-column name="periodo_anio" referenced-column-name="anio" unique="false" nullable="false" insertable="true" updatable="true" column-definition="" table=""/>
+                <jpa:join-table/>
+            </jpa:many-to-one>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="RegistroAsistencia" visibile="true" minimized="false" id="_1419872745030">
+        <jpa:table name="registro_asistencia"/>
+        <jpa:attributes>
+            <jpa:id name="id" attribute-type="Long" visibile="true" id="_141987275239798">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:generated-value strategy="IDENTITY"/>
+            </jpa:id>
+            <jpa:basic name="empleado" attribute-type="String" visibile="true" id="_141987276873599">
+                <jpa:column name="emleado_nro_documento" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="fecha" attribute-type="java.util.Date" visibile="true" id="_1419872780485100">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>DATE</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="tipoAsistencia" attribute-type="char" visibile="true" id="_1419872865965102">
+                <jpa:column name="tipo_asistencia" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="milisegundosTrabajados" attribute-type="long" visibile="true" id="_1419874039415116">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="milisegundosTardanza" attribute-type="long" visibile="true" id="_1419874049359117">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:many-to-one name="horario" target-entity="Horario" optional="false" primaryKey="false" connected-entity-id="_1419797437526" visibile="true" id="_1419872792209101">
+                <jpa:join-column name="horario_codigo" referenced-column-name="codigo" unique="false" nullable="false" insertable="true" updatable="true" column-definition="" table=""/>
+                <jpa:join-table/>
+            </jpa:many-to-one>
+            <jpa:many-to-one name="vacacion" target-entity="Vacacion" optional="true" primaryKey="false" connected-entity-id="_1419860919430" visibile="true" id="_1419872926095103">
+                <jpa:join-column name="vacacion_id" referenced-column-name="id" unique="false" nullable="true" insertable="true" updatable="true" column-definition="" table=""/>
+                <jpa:join-table/>
+            </jpa:many-to-one>
+            <jpa:many-to-one name="permiso" target-entity="Permiso" optional="true" primaryKey="false" connected-entity-id="_1419859527825" visibile="true" id="_1419872955375104">
+                <jpa:join-table/>
+            </jpa:many-to-one>
+            <jpa:many-to-one name="feriado" target-entity="Feriado" optional="true" primaryKey="false" connected-entity-id="_1419869918591" visibile="true" id="_1419873025583106">
+                <jpa:join-column name="feriado_fecha_inicio" referenced-column-name="fecha_inicio" unique="false" nullable="true" insertable="true" updatable="true" column-definition="" table=""/>
+                <jpa:join-table/>
+            </jpa:many-to-one>
+            <jpa:one-to-many name="detalleRegistroAsistenciaList" target-entity="DetalleRegistroAsistencia" fetch="LAZY" mapped-by="registroAsistencia" collection-type="java.util.List" connected-entity-id="_1419873178531" connected-attribute-id="_1419873689392112" visibile="true" id="_1419873689395113">
+                <jpa:join-table/>
+            </jpa:one-to-many>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="DetalleRegistroAsistencia" visibile="true" minimized="false" id="_1419873178531">
+        <jpa:table name="detalle_registro_asistencia"/>
+        <jpa:attributes>
+            <jpa:id name="id" attribute-type="Long" visibile="true" id="_1419873193742108">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:generated-value strategy="IDENTITY"/>
+            </jpa:id>
+            <jpa:basic name="evento" attribute-type="String" visibile="true" id="_1419873199150109">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="tipo" attribute-type="String" visibile="true" id="_1419873305046110">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="hora" attribute-type="java.util.Date" visibile="true" id="_1419873646270111">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>TIME</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="resultado" attribute-type="char" visibile="true" id="_1419881852256125">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:many-to-one name="registroAsistencia" target-entity="RegistroAsistencia" optional="false" primaryKey="false" connected-entity-id="_1419872745030" connected-attribute-id="_1419873689395113" visibile="true" id="_1419873689392112">
+                <jpa:join-column name="registro_asistencia_id" referenced-column-name="id" unique="false" nullable="false" insertable="true" updatable="true" column-definition="" table=""/>
+                <jpa:join-table/>
+            </jpa:many-to-one>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="TCAnalisis" visibile="true" minimized="false" id="_1419881765499">
+        <jpa:table name="tc_analisis"/>
+        <jpa:attributes>
+            <jpa:id name="empleado" attribute-type="String" visibile="true" id="_1419881790688122">
+                <jpa:column name="empleado_nro_documento" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:generated-value/>
+            </jpa:id>
+            <jpa:basic name="fecha" attribute-type="java.util.Date" visibile="true" id="_1419881802976123">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>DATE</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="hora" attribute-type="java.util.Date" visibile="true" id="_1419881813984124">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>TIME</jpa:temporal>
+            </jpa:basic>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:diagram id="_14197969282182">
+        <plane elementRef="_14197969282181" id="_14197969282193_p">
+            <shape elementRef="_1419797094305" id="_1419797094305_gui">
+                <Bounds x="1150.0" y="-41.0" width="192.0" height="283.0"/>
+            </shape>
+            <shape elementRef="_1419797437526" id="_1419797437526_gui">
+                <Bounds x="867.0" y="-41.0" width="194.0" height="283.0"/>
+            </shape>
+            <shape elementRef="_1419816874537" id="_1419816874537_gui">
+                <Bounds x="77.0" y="132.0" width="207.0" height="143.0"/>
+            </shape>
+            <shape elementRef="_1419816954830" id="_1419816954830_gui">
+                <Bounds x="498.0" y="-147.0" width="245.0" height="123.0"/>
+            </shape>
+            <shape elementRef="_1419817066614" id="_1419817066614_gui">
+                <Bounds x="498.0" y="78.0" width="228.0" height="143.0"/>
+            </shape>
+            <shape elementRef="_1419857416453" id="_1419857416453_gui">
+                <Bounds x="1.0" y="387.0" width="185.0" height="183.0"/>
+            </shape>
+            <shape elementRef="_1419859527825" id="_1419859527825_gui">
+                <Bounds x="235.0" y="347.0" width="155.0" height="223.0"/>
+            </shape>
+            <shape elementRef="_1419860919430" id="_1419860919430_gui">
+                <Bounds x="852.0" y="722.0" width="163.0" height="203.0"/>
+            </shape>
+            <shape elementRef="_1419869578736" id="_1419869578736_gui">
+                <Bounds x="1101.0" y="776.0" width="182.0" height="183.0"/>
+            </shape>
+            <shape elementRef="_1419869918591" id="_1419869918591_gui">
+                <Bounds x="1256.0" y="548.0" width="152.0" height="143.0"/>
+            </shape>
+            <shape elementRef="_1419872241459" id="_1419872241459_gui">
+                <Bounds x="1225.0" y="328.0" width="214.0" height="143.0"/>
+            </shape>
+            <shape elementRef="_1419872745030" id="_1419872745030_gui">
+                <Bounds x="741.0" y="345.0" width="239.0" height="283.0"/>
+            </shape>
+            <shape elementRef="_1419873178531" id="_1419873178531_gui">
+                <Bounds x="461.0" y="705.0" width="282.0" height="183.0"/>
+            </shape>
+            <shape elementRef="_1419881765499" id="_1419881765499_gui">
+                <Bounds x="77.0" y="705.0" width="170.0" height="110.0"/>
+            </shape>
+        </plane>
+    </jpa:diagram>
+</jpa:entity-mappings>

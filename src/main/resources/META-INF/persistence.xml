@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="biosis-PU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>biz.juvitec.entidades.Jornada</class>
+    <class>biz.juvitec.entidades.Horario</class>
+    <class>biz.juvitec.entidades.GrupoHorario</class>
+    <class>biz.juvitec.entidades.DetalleGrupoHorario</class>
+    <class>biz.juvitec.entidades.AsignacionHorario</class>
+    <class>biz.juvitec.entidades.TipoPermiso</class>
+    <class>biz.juvitec.entidades.Permiso</class>
+    <class>biz.juvitec.entidades.Vacacion</class>
+    <class>biz.juvitec.entidades.Periodo</class>
+    <class>biz.juvitec.entidades.Feriado</class>
+    <class>biz.juvitec.entidades.SaldoVacacional</class>
+    <class>biz.juvitec.entidades.RegistroAsistencia</class>
+    <class>biz.juvitec.entidades.DetalleRegistroAsistencia</class>
+    <class>biz.juvitec.entidades.TCAnalisis</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/minedu-biosis"/>
+      <property name="javax.persistence.jdbc.password" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="javax.persistence.jdbc.user" value="postgres"/>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="rrhh-PU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>biz.juvitec.entidades.Empleado</class>
+    <properties>
+      <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+    </properties>
+  </persistence-unit>
+</persistence>
