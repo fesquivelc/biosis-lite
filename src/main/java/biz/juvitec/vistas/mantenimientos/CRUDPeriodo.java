@@ -171,22 +171,22 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jPanel4, gridBagConstraints);
 
         jPanel5.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
-        btnNuevo1.setText("Nuevo");
+        btnNuevo1.setText("Guardar");
         jPanel5.add(btnNuevo1);
 
-        btnModificar1.setText("Modificar");
+        btnModificar1.setText("Cancelar");
         jPanel5.add(btnModificar1);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel2.add(jPanel5, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
