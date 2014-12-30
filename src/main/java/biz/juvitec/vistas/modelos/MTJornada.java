@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biz.juvitec.vistas.mt;
+package biz.juvitec.vistas.modelos;
 
 import biz.juvitec.entidades.Jornada;
 import com.personal.utiles.ModeloTabla;

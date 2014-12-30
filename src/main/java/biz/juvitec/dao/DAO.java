@@ -25,7 +25,7 @@ import org.hibernate.internal.SessionFactoryImpl;
 public class DAO<T> {
 
     protected String PU = "biosis-PU";
-    protected EntityManager em;
+    protected static EntityManager em;
     protected Class<T> clase;
     private static final Logger LOG = Logger.getLogger(DAO.class.getName());
 
@@ -69,7 +69,7 @@ public class DAO<T> {
             return true;
         } catch (Exception e) {
             LOG.error("ERROR EN EL GUARDADO: " + e.getLocalizedMessage() + " " + e.getMessage());
-            getEntityManager().getTransaction().rollback();
+            rollback();
             return false;
         }
 
@@ -83,7 +83,8 @@ public class DAO<T> {
             return true;
         } catch (Exception e) {
             LOG.error("ERROR AL MODIFICAR: " + e.getLocalizedMessage() + " " + e.getMessage());
-            getEntityManager().getTransaction().rollback();
+            rollback();
+
             return false;
         }
 
@@ -97,7 +98,7 @@ public class DAO<T> {
             return true;
         } catch (Exception e) {
             LOG.error("ERROR AL ELIMINAR: " + e.getLocalizedMessage() + " " + e.getMessage());
-            getEntityManager().getTransaction().rollback();
+            rollback();
             return false;
         }
     }
@@ -132,7 +133,7 @@ public class DAO<T> {
 
             return lista;
         } catch (Exception e) {
-            LOG.error("ERROR AL ELIMINAR: " + e.getLocalizedMessage() + " " + e.getMessage());
+            LOG.error("ERROR AL BUSCAR: " + e.getLocalizedMessage() + " " + e.getMessage());
             return null;
         }
 
@@ -154,5 +155,10 @@ public class DAO<T> {
 
     public T buscarPorId(Object id) {
         return getEntityManager().find(clase, id);
+    }
+
+    private void rollback() {
+        getEntityManager().getTransaction().begin();
+        getEntityManager().getTransaction().rollback();
     }
 }

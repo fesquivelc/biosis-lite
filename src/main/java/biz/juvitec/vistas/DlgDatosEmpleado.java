@@ -8,6 +8,7 @@ package biz.juvitec.vistas;
 import biz.juvitec.entidades.Empleado;
 import com.personal.utiles.FormularioUtil;
 import java.util.Date;
+import javax.swing.JDialog;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
@@ -32,6 +33,19 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
     }
     
     public DlgDatosEmpleado(JInternalFrame parent, boolean modal) {
+        super(JOptionPane.getFrameForComponent(parent), modal);
+        initComponents();
+        this.setLocationRelativeTo(parent);
+        
+        FormularioUtil.activarComponente(dtFechaNacimiento, false);
+        FormularioUtil.activarComponente(dtFechaContrato, false);
+        dtFechaNacimiento.getCalendarButton().setVisible(false);  
+        dtFechaContrato.getCalendarButton().setVisible(false);  
+        
+        dtFechaNacimiento.setDate(new Date());
+    }
+    
+    public DlgDatosEmpleado(JDialog parent, boolean modal) {
         super(JOptionPane.getFrameForComponent(parent), modal);
         initComponents();
         this.setLocationRelativeTo(parent);

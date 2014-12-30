@@ -6,9 +6,15 @@
 package biz.juvitec.vistas.mantenimientos;
 
 import biz.juvitec.controladores.Controlador;
-import biz.juvitec.controladores.PeriodoControlador;
-import biz.juvitec.entidades.Periodo;
-import biz.juvitec.vistas.modelos.MTPeriodo;
+import biz.juvitec.controladores.EmpleadoControlador;
+import biz.juvitec.controladores.GrupoHorarioControlador;
+import biz.juvitec.entidades.AsignacionHorario;
+import biz.juvitec.entidades.DetalleGrupoHorario;
+import biz.juvitec.entidades.Empleado;
+import biz.juvitec.entidades.GrupoHorario;
+import biz.juvitec.vistas.dialogos.DlgEmpleado;
+import biz.juvitec.vistas.modelos.MTEmpleado;
+import biz.juvitec.vistas.modelos.MTGrupoHorario;
 import com.personal.utiles.FormularioUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +24,18 @@ import org.jdesktop.observablecollections.ObservableCollections;
  *
  * @author fesquivelc
  */
-public class CRUDPeriodo extends javax.swing.JInternalFrame {
+public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form CRUDPeriodo
      */
-    private List<Periodo> periodoList;
-    private PeriodoControlador controlador;
+    private List<GrupoHorario> listado;
+    private List<Empleado> integrantes;
+    private GrupoHorarioControlador controlador;
+    private EmpleadoControlador ec;
     private int accion;
-    
-    public CRUDPeriodo() {
+
+    public CRUDGrupoHorario() {
         initComponents();
         inicializar();
         bindeoSalvaje();
@@ -53,24 +61,27 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtNombre = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
-        chkVigente = new javax.swing.JCheckBox();
-        spPeriodo = new javax.swing.JSpinner();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblIntegrantes = new org.jdesktop.swingx.JXTable();
+        btnAgregar = new javax.swing.JButton();
+        btnQuitar = new javax.swing.JButton();
+        txtCodigo = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
         setClosable(true);
+        setIconifiable(true);
         setMaximizable(true);
-        setTitle("CREACIÓN DE PERÍODOS");
+        setTitle("CREACIÓN DE GRUPOS HORARIO");
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
         layout.columnWidths = new int[] {0, 5, 0};
         layout.rowHeights = new int[] {0};
         getContentPane().setLayout(layout);
 
-        pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder("Períodos"));
+        pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder("Grupos"));
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
         jPanel1Layout.columnWidths = new int[] {0};
         jPanel1Layout.rowHeights = new int[] {0, 5, 0};
@@ -110,6 +121,11 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblTabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tblTablaMouseReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblTabla);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -137,62 +153,94 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
 
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
         jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
-        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0};
+        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0};
         jPanel4.setLayout(jPanel4Layout);
 
-        jLabel1.setText("Período:");
+        jLabel1.setText("Código:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel4.add(jLabel1, gridBagConstraints);
 
-        jLabel2.setText("Nombre:");
+        jLabel2.setText("Integrantes:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel4.add(jLabel2, gridBagConstraints);
 
-        txtNombre.setColumns(20);
-        txtNombre.setLineWrap(true);
-        txtNombre.setRows(8);
-        txtNombre.setTabSize(4);
-        jScrollPane2.setViewportView(txtNombre);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        jPanel4.add(jScrollPane2, gridBagConstraints);
-
-        jLabel3.setText("Vigente:");
+        jLabel3.setText("Nombre:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel4.add(jLabel3, gridBagConstraints);
+
+        tblIntegrantes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblIntegrantes.setHorizontalScrollEnabled(true);
+        jScrollPane3.setViewportView(tblIntegrantes);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        jPanel4.add(jScrollPane3, gridBagConstraints);
+
+        btnAgregar.setText("+");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(btnAgregar, gridBagConstraints);
+
+        btnQuitar.setText("-");
+        btnQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuitarActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
+        jPanel4.add(btnQuitar, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        jPanel4.add(txtCodigo, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel4.add(chkVigente, gridBagConstraints);
-
-        spPeriodo.setModel(new javax.swing.SpinnerNumberModel(2013, 2013, 3000, 1));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel4.add(spPeriodo, gridBagConstraints);
+        gridBagConstraints.weightx = 0.1;
+        jPanel4.add(txtNombre, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.weighty = 0.1;
@@ -228,7 +276,7 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weightx = 0.2;
         gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(pnlDatos, gridBagConstraints);
@@ -240,7 +288,7 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         this.accion = 0;
         this.controles(accion);
-        FormularioUtil.limpiarComponente(this.pnlDatos);   
+        FormularioUtil.limpiarComponente(this.pnlDatos);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
@@ -248,51 +296,92 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
         this.accion = Controlador.NUEVO;
         controlador.prepararCrear();
         this.controles(accion);
+        integrantes.clear();
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        int fila = tblTabla.getSelectedRow();
-        if(fila != -1){                        
+        int fila = tblTabla.getSelectedRow();        
+        if (fila != -1) {
             this.accion = Controlador.MODIFICAR;
-            controlador.setSeleccionado(this.periodoList.get(fila));
+            controlador.setSeleccionado(this.listado.get(fila));
             this.controles(accion);
-            FormularioUtil.activarComponente(spPeriodo, false);
+            FormularioUtil.activarComponente(txtCodigo, false);
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
-            Periodo seleccionada = this.controlador.getSeleccionado();
-            
+            GrupoHorario seleccionada = this.controlador.getSeleccionado();
+
             FormularioUtil.convertirMayusculas(this.pnlDatos);
 
             if (accion == Controlador.NUEVO) {
-                seleccionada.setAnio(Integer.parseInt(spPeriodo.getValue().toString()));
+                seleccionada.setCodigo(txtCodigo.getText());
             }
             seleccionada.setNombre(txtNombre.getText());
-            seleccionada.setVigente(chkVigente.isSelected());
-            
-            if(controlador.accion(accion)){
+
+            //CREAMOS LOS DETALLES
+//            DetalleGrupoHorario detalle;
+//            List<DetalleGrupoHorario> detalles = new ArrayList<>();
+//            for (Empleado empleado : integrantes) {
+//                detalle = new DetalleGrupoHorario();
+//
+//                detalle.setGrupoHorario(seleccionada);
+//                detalle.setEmpleado(empleado.getNroDocumento());
+//
+//                detalles.add(detalle);
+//            }
+//
+//            seleccionada.setDetalleGrupoHorarioList(detalles);
+
+            if (controlador.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
                 this.accion = 0;
+                FormularioUtil.limpiarComponente(this.pnlDatos);
+                this.integrantes.clear();
                 this.controles(accion);
-                this.actualizarTabla();                
-            }else{
+                this.actualizarTabla();
+            } else {
                 FormularioUtil.mensajeError(this, accion);
-            }                        
-            
+            }
+
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        DlgEmpleado dialogo = new DlgEmpleado(this);
+        dialogo.setVisible(true);
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void tblTablaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTablaMouseReleased
+        // TODO add your handling code here:
+        int fila = tblTabla.getSelectedRow();
+        if (fila != -1) {
+            GrupoHorario grupo = listado.get(fila);
+
+            mostrar(grupo);
+        }
+    }//GEN-LAST:event_tblTablaMouseReleased
+
+    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
+        // TODO add your handling code here:
+        int fila = tblIntegrantes.getSelectedRow();
+        if(fila != -1){
+            quitarEmpleado(fila);
+        }
+    }//GEN-LAST:event_btnQuitarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JCheckBox chkVigente;
+    private javax.swing.JButton btnQuitar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -300,41 +389,60 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel pnlDatos;
     private javax.swing.JPanel pnlListado;
-    private javax.swing.JSpinner spPeriodo;
+    private org.jdesktop.swingx.JXTable tblIntegrantes;
     private org.jdesktop.swingx.JXTable tblTabla;
-    private javax.swing.JTextArea txtNombre;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
-    private void mostrar(Periodo periodo){
-        spPeriodo.setValue(periodo.getAnio());
-        txtNombre.setText(periodo.getNombre());
-        chkVigente.setSelected(periodo.isVigente());
-        
+    private void mostrar(GrupoHorario grupo) {
+        txtCodigo.setText(grupo.getCodigo());
+        txtNombre.setText(grupo.getNombre());
+
+        List<String> listaDNI = obtenerListadoDNI(grupo.getDetalleGrupoHorarioList());
+        if (!listaDNI.isEmpty()) {
+            mostrarIntegrantes(listaDNI);
+        }
+
     }
+
     private void bindeoSalvaje() {
-        periodoList = new ArrayList<>();
-        periodoList = ObservableCollections.observableList(periodoList);
-        
-        String[] columnas = {"Año","Nombre","Vigente"};
-        
-        MTPeriodo mt = new MTPeriodo(periodoList, columnas);
+        listado = new ArrayList<>();
+        listado = ObservableCollections.observableList(listado);
+
+        integrantes = ObservableCollections.observableList(new ArrayList<Empleado>());
+
+        String[] columnas = {"Código","Nombre"};
+        String[] columnasIntegrantes = {"Nro Documento", "Empleado"};
+
+        MTGrupoHorario mt = new MTGrupoHorario(listado, columnas);
+        MTEmpleado mtIntegrantes = new MTEmpleado(integrantes, columnasIntegrantes);
         tblTabla.setModel(mt);
-        
+        tblIntegrantes.setModel(mtIntegrantes);
+
         actualizarTabla();
     }
 
     private void actualizarTabla() {
-        periodoList.clear();
-        periodoList.addAll(controlador.buscarTodos());        
+        listado.clear();
+        listado.addAll(controlador.buscarTodos());
+    }
+
+    private void mostrarIntegrantes(List<String> listadoDNI) {
+        integrantes.clear();
+        integrantes.addAll(ec.buscarPorLista(listadoDNI));
+        tblIntegrantes.packAll();
     }
 
     private void inicializar() {
         this.accion = 0;
+        
+        controlador = new GrupoHorarioControlador();
+        ec = new EmpleadoControlador();
         this.controles(accion);
-        controlador = new PeriodoControlador();
     }
 
     private void controles(int accion) {
@@ -342,9 +450,33 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
 
         FormularioUtil.activarComponente(this.pnlListado, !bandera);
         FormularioUtil.activarComponente(this.pnlDatos, bandera);
-        
-        if(accion != Controlador.MODIFICAR){
+
+        if (accion != Controlador.MODIFICAR) {
             FormularioUtil.limpiarComponente(this.pnlDatos);
+            
         }
+    }
+
+    private List<String> obtenerListadoDNI(List<DetalleGrupoHorario> detalles) {
+        List<String> listadoDNI = new ArrayList<>();
+        for (DetalleGrupoHorario detalle : detalles) {
+            listadoDNI.add(detalle.getEmpleado());
+        }
+        return listadoDNI;
+    }
+
+    public void agregarEmpleado(Empleado empleado) {
+        integrantes.add(empleado);
+        
+        DetalleGrupoHorario detalle = new DetalleGrupoHorario();
+        detalle.setEmpleado(empleado.getNroDocumento());
+        detalle.setGrupoHorario(controlador.getSeleccionado());
+        
+        controlador.getSeleccionado().getDetalleGrupoHorarioList().add(detalle);
+    }
+    
+    private void quitarEmpleado(int fila){
+        integrantes.remove(fila);        
+        controlador.getSeleccionado().getDetalleGrupoHorarioList().remove(fila);
     }
 }

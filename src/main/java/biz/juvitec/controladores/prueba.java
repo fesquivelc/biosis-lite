@@ -5,8 +5,10 @@
  */
 package biz.juvitec.controladores;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -19,10 +21,13 @@ public class prueba {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
+        List<String> listado = new ArrayList<>();
+        listado.add("05401971");
+        listado.add("05640304");
         
-        System.out.println("DIA: "+cal.get(Calendar.DAY_OF_WEEK));
+        EmpleadoControlador ec = new EmpleadoControlador();
+        System.out.println(ec.buscarPorLista(listado).size());
+        System.exit(0);
     }
     
 }

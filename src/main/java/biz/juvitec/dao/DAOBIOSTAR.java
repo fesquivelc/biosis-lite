@@ -23,6 +23,7 @@ import javax.persistence.Query;
  */
 public class DAOBIOSTAR<T> extends DAO<T> {
 
+    private static EntityManager entityManagerBIOSTAR;
     public DAOBIOSTAR(Class<T> clase) {
         this.PU = "biostar-PU";
         this.clase = clase;
@@ -30,7 +31,7 @@ public class DAOBIOSTAR<T> extends DAO<T> {
 
     @Override
     public EntityManager getEntityManager() {
-        if (em == null) {
+        if (entityManagerBIOSTAR == null) {
             Properties configuracion = PropertiesUtil.cargarProperties("config/biostar-config.properties");
             int tipoBD = Integer.parseInt(configuracion.getProperty("tipo"));
 
@@ -46,8 +47,8 @@ public class DAOBIOSTAR<T> extends DAO<T> {
             properties.put("javax.persistence.jdbc.url", url);
 
             EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.PU, properties);
-            em = emf.createEntityManager();
+            entityManagerBIOSTAR = emf.createEntityManager();
         }
-        return em;
+        return entityManagerBIOSTAR;
     }
 }

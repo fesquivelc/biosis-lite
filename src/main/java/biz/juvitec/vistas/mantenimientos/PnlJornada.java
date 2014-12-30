@@ -8,7 +8,7 @@ package biz.juvitec.vistas.mantenimientos;
 import biz.juvitec.controladores.Controlador;
 import biz.juvitec.controladores.JornadaControlador;
 import biz.juvitec.entidades.Jornada;
-import biz.juvitec.vistas.mt.MTJornada;
+import biz.juvitec.vistas.modelos.MTJornada;
 import com.personal.utiles.FormularioUtil;
 import java.util.Calendar;
 import java.util.Date;

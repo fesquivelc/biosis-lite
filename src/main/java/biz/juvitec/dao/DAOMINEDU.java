@@ -20,6 +20,7 @@ import javax.persistence.Persistence;
  * @param <T>
  */
 public class DAOMINEDU<T> extends DAO<T> {
+    private static EntityManager entityManagerMINEDU;
 
     public DAOMINEDU(Class<T> clase) {
         this.PU = "rrhh-PU";
@@ -28,7 +29,7 @@ public class DAOMINEDU<T> extends DAO<T> {
 
     @Override
     public EntityManager getEntityManager() {
-        if (em == null) {
+        if (entityManagerMINEDU == null) {
             Properties configuracion = PropertiesUtil.cargarProperties("config/rrhh-config.properties");
             int tipoBD = Integer.parseInt(configuracion.getProperty("tipo"));
 
@@ -44,8 +45,8 @@ public class DAOMINEDU<T> extends DAO<T> {
             properties.put("javax.persistence.jdbc.url", url);
 
             EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.PU, properties);
-            em = emf.createEntityManager();
+            entityManagerMINEDU = emf.createEntityManager();
         }
-        return em;
+        return entityManagerMINEDU;
     }
 }

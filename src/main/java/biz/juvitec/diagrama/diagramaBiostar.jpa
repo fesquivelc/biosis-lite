@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jpa:entity-mappings persistenceUnitName="biostar-PU" id="_14199651175011" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd" xmlns:ns4="http://nbmodeler.java.net" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <jpa:package>biz.juvitec.entidades</jpa:package>
+    <jpa:entity class="Marcacion" visibile="true" minimized="false" id="_1419965123651">
+        <jpa:table name="v_marcaciones"/>
+        <jpa:attributes>
+            <jpa:id name="id" attribute-type="Long" visibile="true" id="_14199651320875">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:generated-value/>
+            </jpa:id>
+            <jpa:basic name="fecha" attribute-type="java.util.Date" visibile="true" id="_14199651606476">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>DATE</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="hora" attribute-type="java.util.Date" visibile="true" id="_14199651658797">
+                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:temporal>TIME</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="empleado" attribute-type="int" visibile="true" id="_14199651716238">
+                <jpa:column name="empleado_nro_documento" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="equipo" attribute-type="String" visibile="true" id="_141996570099110">
+                <jpa:column name="equipo_ip" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:diagram id="_14199651175012">
+        <plane elementRef="_14199651175011" id="_14199651175023_p">
+            <shape elementRef="_1419965123651" id="_1419965123651_gui">
+                <Bounds x="337.0" y="171.0" width="168.0" height="146.0"/>
+            </shape>
+        </plane>
+    </jpa:diagram>
+</jpa:entity-mappings>
