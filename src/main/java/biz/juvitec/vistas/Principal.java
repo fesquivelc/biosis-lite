@@ -10,6 +10,7 @@ import biz.juvitec.vistas.mantenimientos.CRUDGrupoHorario;
 import biz.juvitec.vistas.mantenimientos.CRUDHorario;
 import biz.juvitec.vistas.mantenimientos.CRUDJornada;
 import biz.juvitec.vistas.mantenimientos.CRUDPeriodo;
+import biz.juvitec.vistas.mantenimientos.CRUDTipoPermiso;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,6 +50,8 @@ public class Principal extends javax.swing.JFrame {
         saveAsMenuItem = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         cutMenuItem = new javax.swing.JMenuItem();
@@ -111,6 +114,22 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         fileMenu.add(jMenuItem3);
+
+        jMenuItem4.setText("Asignar horario");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem4);
+
+        jMenuItem5.setText("Tipos de permiso");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItem5);
 
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Salir");
@@ -244,6 +263,18 @@ public class Principal extends javax.swing.JFrame {
         agregarAPanel(marcaciones, true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        FrmAsignacionHorario asignacion = new FrmAsignacionHorario();
+        agregarAPanel(asignacion, true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        CRUDTipoPermiso tipos = new CRUDTipoPermiso();
+        agregarAPanel(tipos, true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -287,6 +318,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JMenuBar menuBar;

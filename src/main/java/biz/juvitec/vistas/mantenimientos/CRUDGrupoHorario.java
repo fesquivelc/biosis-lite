@@ -429,6 +429,7 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
     private void actualizarTabla() {
         listado.clear();
         listado.addAll(controlador.buscarTodos());
+        tblTabla.packAll();
     }
 
     private void mostrarIntegrantes(List<String> listadoDNI) {

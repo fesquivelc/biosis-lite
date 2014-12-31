@@ -28,7 +28,7 @@ public  class AsignacionHorario implements Serializable {
     private Horario horario;
 
 
-    @Column(name="empleado_nro_documento",nullable=false)
+    @Column(name="empleado_nro_documento")
     @Basic
     private String empleado;
 
@@ -36,6 +36,11 @@ public  class AsignacionHorario implements Serializable {
     @ManyToOne(targetEntity=GrupoHorario.class)
     @JoinColumn(name="grupo_horario_codigo",referencedColumnName="codigo")
     private GrupoHorario grupoHorario;
+
+
+    @Column(name="por_grupo",nullable=false)
+    @Basic
+    private boolean porGrupo;
 
     public AsignacionHorario(){
 
@@ -82,6 +87,17 @@ public  class AsignacionHorario implements Serializable {
 
   public void setGrupoHorario (GrupoHorario grupoHorario) {
         this.grupoHorario = grupoHorario;
+    }
+
+
+
+    public boolean isPorGrupo() {
+        return this.porGrupo;
+    }
+
+
+  public void setPorGrupo (boolean porGrupo) {
+        this.porGrupo = porGrupo;
     }
 
 }
