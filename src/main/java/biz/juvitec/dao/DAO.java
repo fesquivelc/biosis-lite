@@ -5,10 +5,14 @@
  */
 package biz.juvitec.dao;
 
+import com.personal.utiles.ParametrosUtil;
+import com.personal.utiles.PropertiesUtil;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -39,7 +43,21 @@ public class DAO<T> {
 
     public EntityManager getEntityManager() {
         if (em == null) {
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.PU);
+            Properties configuracion = PropertiesUtil.cargarProperties("config/biosis-config.properties");
+            int tipoBD = Integer.parseInt(configuracion.getProperty("tipo"));
+
+            String driver = ParametrosUtil.obtenerDriver(tipoBD);
+            String url = configuracion.getProperty("url");
+            String usuario = configuracion.getProperty("usuario");
+            String password = configuracion.getProperty("password");
+
+            Map<String, String> properties = new HashMap<>();
+            properties.put("javax.persistence.jdbc.user", usuario);
+            properties.put("javax.persistence.jdbc.password", password);
+            properties.put("javax.persistence.jdbc.driver", driver);
+            properties.put("javax.persistence.jdbc.url", url);
+            
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.PU,properties);
             em = emf.createEntityManager();
         }
         return em;
