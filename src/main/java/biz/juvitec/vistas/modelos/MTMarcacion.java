@@ -33,12 +33,22 @@ public class MTMarcacion extends ModeloTabla<Marcacion> {
     @Override
     public Object getValorEn(int rowIndex, int columnIndex) {
         Marcacion marcacion = this.datos.get(rowIndex);
-        Empleado e = ec.buscarPorId(marcacion.getEmpleado());;
+        Empleado e = ec.buscarPorId(marcacion.getEmpleado());
         switch (columnIndex) {
-            case 0:                
-                return e.getNroDocumento();
+            case 0:
+                if (e != null) {
+                    return e.getNroDocumento();
+                } else {
+                    return marcacion.getEmpleado();
+                }
+
             case 1:
-                return e.getApellidoPaterno() + " " + e.getApellidoMaterno() + " " + e.getNombre();
+                if (e != null) {
+                    return e.getApellidoPaterno() + " " + e.getApellidoMaterno() + " " + e.getNombre();
+                } else {
+                    return null;
+                }
+
             case 2:
                 return dtFecha.format(marcacion.getFecha());
             case 3:
