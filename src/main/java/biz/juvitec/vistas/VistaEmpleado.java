@@ -5,6 +5,7 @@
  */
 package biz.juvitec.vistas;
 
+import biz.juvitec.vistas.dialogos.DlgDatosEmpleado;
 import biz.juvitec.controladores.EmpleadoControlador;
 import biz.juvitec.entidades.Empleado;
 import biz.juvitec.entidades.Marcacion;

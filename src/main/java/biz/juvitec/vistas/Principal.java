@@ -16,12 +16,15 @@ import biz.juvitec.vistas.mantenimientos.CRUDHorario;
 import biz.juvitec.vistas.mantenimientos.CRUDJornada;
 import biz.juvitec.vistas.mantenimientos.CRUDPeriodo;
 import biz.juvitec.vistas.mantenimientos.CRUDTipoPermiso;
+import java.awt.Component;
+import java.awt.event.MouseMotionListener;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JInternalFrame;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /**
  *
@@ -36,8 +39,6 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         iniciar();
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -237,7 +238,15 @@ public class Principal extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         Configuracion configBD = new Configuracion();
-        agregarAPanel(configBD);
+        agregarAPanel(configBD, this.getSize().width, 450);
+
+        BasicInternalFrameUI ui = (BasicInternalFrameUI) configBD.getUI();
+        Component northPane = ui.getNorthPane();
+        MouseMotionListener[] motionListeners = (MouseMotionListener[]) northPane.getListeners(MouseMotionListener.class);
+
+        for (MouseMotionListener listener : motionListeners) {
+            northPane.removeMouseMotionListener(listener);
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
@@ -350,6 +359,14 @@ public class Principal extends javax.swing.JFrame {
             } catch (PropertyVetoException ex) {
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+
+    private void agregarAPanel(JInternalFrame internal, int ancho, int largo) {
+        if (!this.desktopPane.isAncestorOf(internal)) {
+            this.desktopPane.add(internal);
+            internal.setSize(ancho, largo);
+            internal.setVisible(true);
         }
     }
 

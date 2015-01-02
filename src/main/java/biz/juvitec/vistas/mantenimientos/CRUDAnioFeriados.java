@@ -16,7 +16,6 @@ public class CRUDAnioFeriados extends javax.swing.JInternalFrame {
      */
     public CRUDAnioFeriados() {
         initComponents();
-        pnlNuevoModificarEliminar.controles(true, false, true);
     }
 
     /**
@@ -32,7 +31,6 @@ public class CRUDAnioFeriados extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jXTable1 = new org.jdesktop.swingx.JXTable();
-        pnlNuevoModificarEliminar = new biz.juvitec.vistas.pnlNuevoModificarEliminar();
         jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -41,7 +39,6 @@ public class CRUDAnioFeriados extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtDenominacion = new javax.swing.JTextArea();
         chkVigente = new javax.swing.JCheckBox();
-        pnlGuardarCancelar1 = new biz.juvitec.vistas.pnlGuardarCancelar();
         txtAnio = new javax.swing.JFormattedTextField();
 
         setTitle("Año o período");
@@ -71,11 +68,6 @@ public class CRUDAnioFeriados extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         jPanel1.add(jScrollPane2, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(pnlNuevoModificarEliminar, gridBagConstraints);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(), "Datos"));
         jPanel3.setToolTipText("");
@@ -123,12 +115,6 @@ public class CRUDAnioFeriados extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(chkVigente, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel2.add(pnlGuardarCancelar1, gridBagConstraints);
 
         txtAnio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("####"))));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -193,8 +179,6 @@ public class CRUDAnioFeriados extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private org.jdesktop.swingx.JXTable jXTable1;
-    private biz.juvitec.vistas.pnlGuardarCancelar pnlGuardarCancelar1;
-    private biz.juvitec.vistas.pnlNuevoModificarEliminar pnlNuevoModificarEliminar;
     private javax.swing.JFormattedTextField txtAnio;
     private javax.swing.JTextArea txtDenominacion;
     // End of variables declaration//GEN-END:variables

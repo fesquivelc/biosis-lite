@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biz.juvitec.vistas;
+package biz.juvitec.vistas.dialogos;
 
 import biz.juvitec.entidades.Empleado;
 import com.personal.utiles.FormularioUtil;
