@@ -40,6 +40,17 @@ public  class Marcacion implements Serializable {
     @Column(name="empleado_nro_documento",nullable=false)
     @Basic
     private int empleado;
+    
+    @Column(name = "empleado_nombre",nullable = true)
+    private String nombre;
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
     public Marcacion(){
 

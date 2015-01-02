@@ -15109,3 +15109,10 @@
 2014-12-30 22:53:13.046	ERROR	[AWT-EventQueue-0]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:ERROR: no existe la columna «por_grupo» en la relación «asignacion_horario»
   Position: 95
 2014-12-30 22:53:13.051	ERROR	[AWT-EventQueue-0]	CLASE: DAO	 METODO: guardar	LINEA:71	MSJE:ERROR EN EL GUARDADO: org.hibernate.exception.SQLGrammarException: could not execute statement org.hibernate.exception.SQLGrammarException: could not execute statement
+2015-01-02 03:53:28.932	ERROR	[AWT-EventQueue-0]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:ERROR: no existe la columna empleado0_.area
+  Position: 143
+2015-01-02 03:53:29.025	ERROR	[AWT-EventQueue-0]	CLASE: DAO	 METODO: buscar	LINEA:154	MSJE:ERROR AL BUSCAR: org.hibernate.exception.SQLGrammarException: could not extract ResultSet org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+2015-01-02 03:55:36.830	ERROR	[AWT-EventQueue-0]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:ERROR: failed to find conversion function from unknown to text
+2015-01-02 03:55:36.835	ERROR	[AWT-EventQueue-0]	CLASE: DAO	 METODO: buscar	LINEA:154	MSJE:ERROR AL BUSCAR: org.hibernate.exception.GenericJDBCException: could not extract ResultSet org.hibernate.exception.GenericJDBCException: could not extract ResultSet
+2015-01-02 04:00:25.232	ERROR	[AWT-EventQueue-0]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:ERROR: failed to find conversion function from unknown to text
+2015-01-02 04:00:25.236	ERROR	[AWT-EventQueue-0]	CLASE: DAO	 METODO: buscar	LINEA:154	MSJE:ERROR AL BUSCAR: org.hibernate.exception.GenericJDBCException: could not extract ResultSet org.hibernate.exception.GenericJDBCException: could not extract ResultSet

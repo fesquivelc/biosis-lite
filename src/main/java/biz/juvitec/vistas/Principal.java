@@ -5,6 +5,11 @@
  */
 package biz.juvitec.vistas;
 
+import biz.juvitec.dao.DAO;
+import biz.juvitec.dao.DAOBIOSTAR;
+import biz.juvitec.dao.DAOMINEDU;
+import biz.juvitec.entidades.Empleado;
+import biz.juvitec.entidades.Marcacion;
 import biz.juvitec.vistas.mantenimientos.CRUDAnioFeriados;
 import biz.juvitec.vistas.mantenimientos.CRUDGrupoHorario;
 import biz.juvitec.vistas.mantenimientos.CRUDHorario;
@@ -29,7 +34,10 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        iniciar();
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -343,5 +351,14 @@ public class Principal extends javax.swing.JFrame {
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    private void iniciar() {
+        DAO dao = new DAO();
+        dao.getEntityManager();
+        DAOBIOSTAR dao2 = new DAOBIOSTAR(Marcacion.class);
+        DAOMINEDU dao3 = new DAOMINEDU(Empleado.class);
+        dao2.getEntityManager();
+        dao3.getEntityManager();
     }
 }

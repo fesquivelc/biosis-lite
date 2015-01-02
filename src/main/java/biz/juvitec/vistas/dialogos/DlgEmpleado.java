@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.observablecollections.ObservableCollections;
@@ -39,6 +40,7 @@ public class DlgEmpleado extends javax.swing.JDialog {
         ec = new EmpleadoControlador();
         bindeoSalvaje();
         buscar();
+        actualizarControlesNavegacion();
         this.setLocationRelativeTo(parent);
     }
 
@@ -60,12 +62,20 @@ public class DlgEmpleado extends javax.swing.JDialog {
         tblEmpleado = new org.jdesktop.swingx.JXTable();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        pnlNavegacion = new javax.swing.JPanel();
+        btnPrimero = new javax.swing.JButton();
+        btnAnterior = new javax.swing.JButton();
+        spPagina = new javax.swing.JSpinner();
+        txtTotal = new javax.swing.JTextField();
+        btnSiguiente = new javax.swing.JButton();
+        btnUltimo = new javax.swing.JButton();
+        cboTamanio = new javax.swing.JComboBox();
 
         setTitle("LISTADO DE EMPLEADOS");
 
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
         jPanel1Layout.columnWidths = new int[] {0, 8, 0, 8, 0};
-        jPanel1Layout.rowHeights = new int[] {0, 8, 0, 8, 0};
+        jPanel1Layout.rowHeights = new int[] {0, 8, 0, 8, 0, 8, 0};
         jPanel1.setLayout(jPanel1Layout);
 
         lblBusqueda.setText("Nro de documento o Nombre");
@@ -142,9 +152,76 @@ public class DlgEmpleado extends javax.swing.JDialog {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 5;
         jPanel1.add(jPanel2, gridBagConstraints);
+
+        pnlNavegacion.setLayout(new java.awt.GridLayout(1, 0, 2, 0));
+
+        btnPrimero.setText("<<");
+        btnPrimero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrimeroActionPerformed(evt);
+            }
+        });
+        pnlNavegacion.add(btnPrimero);
+
+        btnAnterior.setText("<");
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
+        pnlNavegacion.add(btnAnterior);
+
+        spPagina.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spPagina.setMinimumSize(new java.awt.Dimension(60, 20));
+        spPagina.setPreferredSize(new java.awt.Dimension(60, 20));
+        spPagina.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spPaginaStateChanged(evt);
+            }
+        });
+        pnlNavegacion.add(spPagina);
+
+        txtTotal.setEditable(false);
+        txtTotal.setColumns(3);
+        txtTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtTotal.setText("1");
+        txtTotal.setPreferredSize(new java.awt.Dimension(60, 20));
+        pnlNavegacion.add(txtTotal);
+
+        btnSiguiente.setText(">");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
+        pnlNavegacion.add(btnSiguiente);
+
+        btnUltimo.setText(">>");
+        btnUltimo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUltimoActionPerformed(evt);
+            }
+        });
+        pnlNavegacion.add(btnUltimo);
+
+        cboTamanio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "5", "10", "15", "20", "25", "40", "50" }));
+        cboTamanio.setMinimumSize(new java.awt.Dimension(53, 24));
+        cboTamanio.setPreferredSize(new java.awt.Dimension(53, 24));
+        cboTamanio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTamanioActionPerformed(evt);
+            }
+        });
+        pnlNavegacion.add(cboTamanio);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 5;
+        jPanel1.add(pnlNavegacion, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -214,16 +291,56 @@ public class DlgEmpleado extends javax.swing.JDialog {
 
     }//GEN-LAST:event_tblEmpleadoMouseReleased
 
+    private void btnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeroActionPerformed
+        // TODO add your handling code here:
+        primero();
+    }//GEN-LAST:event_btnPrimeroActionPerformed
+
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        // TODO add your handling code here:
+        anterior();
+    }//GEN-LAST:event_btnAnteriorActionPerformed
+
+    private void spPaginaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spPaginaStateChanged
+        // TODO add your handling code here:
+        this.seleccionPagina();
+    }//GEN-LAST:event_spPaginaStateChanged
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        // TODO add your handling code here:
+        siguiente();
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
+        // TODO add your handling code here:
+        ultimo();
+    }//GEN-LAST:event_btnUltimoActionPerformed
+
+    private void cboTamanioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTamanioActionPerformed
+        // TODO add your handling code here:
+        this.paginaActual = 1;
+        buscar();
+        this.actualizarControlesNavegacion();
+    }//GEN-LAST:event_cboTamanioActionPerformed
+
     private Empleado empleadoSeleccionado;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnPrimero;
+    private javax.swing.JButton btnSiguiente;
+    private javax.swing.JButton btnUltimo;
+    private javax.swing.JComboBox cboTamanio;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXBusyLabel lblBusqueda;
+    private javax.swing.JPanel pnlNavegacion;
+    private javax.swing.JSpinner spPagina;
     private org.jdesktop.swingx.JXTable tblEmpleado;
     private javax.swing.JTextField txtBusqueda;
+    private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 
     private void bindeoSalvaje() {
@@ -245,11 +362,13 @@ public class DlgEmpleado extends javax.swing.JDialog {
         binding.bind();
     }
 
-    private void buscar() {
-        lista.clear();
-        lista.addAll(ec.buscarXPatron(txtBusqueda.getText()));
-        tblEmpleado.packAll();
-    }
+//    private void buscar() {
+//        lista.clear();
+//        lista.addAll(ec.buscarXPatron(txtBusqueda.getText()));
+//        tblEmpleado.packAll();
+//    }
+    
+    
 
     public Empleado getEmpleadoSeleccionado() {
         return empleadoSeleccionado;
@@ -258,5 +377,82 @@ public class DlgEmpleado extends javax.swing.JDialog {
     public Empleado getSeleccionado(){
         this.setVisible(true);
         return getEmpleadoSeleccionado();        
+    }
+    
+    private int paginaActual = 1;
+    private int totalPaginas = 0;
+    private int tamanioPagina = 0;
+
+    private void buscar() {
+        String busqueda = txtBusqueda.getText();
+        tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
+
+        lista.clear();
+
+        lista.addAll(this.listar(busqueda, paginaActual, tamanioPagina));
+
+        tblEmpleado.packAll();
+    }
+
+    private List<Empleado> listar(String busqueda, int pagina, int tamanio) {
+        int total = ec.totalXPatron(busqueda);
+
+        if (total % tamanio == 0) {
+            totalPaginas = total / tamanio;
+        } else {
+            totalPaginas = (total / tamanio) + 1;
+        }
+
+        if (totalPaginas == 0) {
+            totalPaginas = 1;
+        }
+
+        return ec.buscarXPatron(busqueda, (pagina - 1) * tamanio, tamanio);
+
+    }
+
+    private void siguiente() {
+        paginaActual++;
+        buscar();
+        this.actualizarControlesNavegacion();
+    }
+
+    private void ultimo() {
+        paginaActual = totalPaginas;
+        buscar();
+        this.actualizarControlesNavegacion();
+    }
+
+    private void primero() {
+        paginaActual = 1;
+        buscar();
+        this.actualizarControlesNavegacion();
+    }
+
+    private void anterior() {
+        paginaActual--;
+        buscar();
+        this.actualizarControlesNavegacion();
+    }
+
+    private void seleccionPagina() {
+        paginaActual = (int) spPagina.getValue();
+        buscar();
+        this.actualizarControlesNavegacion();
+    }
+
+    private void actualizarControlesNavegacion() {
+        spPagina.setValue(paginaActual);
+        txtTotal.setText(totalPaginas + "");
+
+        SpinnerNumberModel modeloSP = (SpinnerNumberModel) spPagina.getModel();
+        Comparable<Integer> maximo = totalPaginas;
+        modeloSP.setMaximum(maximo);
+
+        this.btnSiguiente.setEnabled(paginaActual != totalPaginas);
+        this.btnUltimo.setEnabled(paginaActual != totalPaginas);
+
+        this.btnAnterior.setEnabled(paginaActual != 1);
+        this.btnPrimero.setEnabled(paginaActual != 1);
     }
 }

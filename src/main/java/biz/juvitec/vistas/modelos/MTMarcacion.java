@@ -21,11 +21,11 @@ public class MTMarcacion extends ModeloTabla<Marcacion> {
 
     private final DateFormat dtFecha;
     private final DateFormat dtHora;
-    private EmpleadoControlador ec;
+    private final EmpleadoControlador ec;
 
     public MTMarcacion(List<Marcacion> datos, String[] nombreColumnas) {
         super(datos, nombreColumnas);
-        dtFecha = new SimpleDateFormat("dd/MM/yyyy");
+        dtFecha = new SimpleDateFormat("dd MMM yyyy");
         dtHora = new SimpleDateFormat("HH:mm:ss");
         ec = new EmpleadoControlador();
     }
@@ -33,22 +33,23 @@ public class MTMarcacion extends ModeloTabla<Marcacion> {
     @Override
     public Object getValorEn(int rowIndex, int columnIndex) {
         Marcacion marcacion = this.datos.get(rowIndex);
-        Empleado e = ec.buscarPorId(marcacion.getEmpleado());
+//        Empleado e = ec.buscarPorId(marcacion.getEmpleado());
         switch (columnIndex) {
             case 0:
-                if (e != null) {
-                    return e.getNroDocumento();
-                } else {
-                    return marcacion.getEmpleado();
-                }
+//                if (e != null) {
+//                    return e.getNroDocumento();
+//                } else {
+//                    return marcacion.getEmpleado();
+//                }
+                return marcacion.getEmpleado();
 
             case 1:
-                if (e != null) {
-                    return e.getApellidoPaterno() + " " + e.getApellidoMaterno() + " " + e.getNombre();
-                } else {
-                    return null;
-                }
-
+//                if (e != null) {
+//                    return e.getApellidoPaterno() + " " + e.getApellidoMaterno() + " " + e.getNombre();
+//                } else {
+//                    return null;
+//                }
+                return marcacion.getNombre();
             case 2:
                 return dtFecha.format(marcacion.getFecha());
             case 3:

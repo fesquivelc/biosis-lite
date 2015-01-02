@@ -29,27 +29,33 @@ public class prueba {
      * @param args the command line arguments
      */
     private static final Logger LOG = Logger.getLogger(prueba.class.getName());
+    
+    public void getPrueba(){
+        System.out.println(getClass().getClassLoader().getResource("."));
+    }
 
     public static void main(String[] args) {
         // TODO code application logic here
-        DAOMINEDU dao = new DAOMINEDU(Empleado.class);
-        EntityManager em = dao.getEntityManager();
-        Session sesion = (Session) em.getDelegate();
-        SessionFactoryImpl sessionFactory = (SessionFactoryImpl) sesion.getSessionFactory();
-        Connection connection;
-        try {
-            connection = sessionFactory.getConnectionProvider().getConnection();
-            Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM v_empleado");
-            int conteo = 0;
-            while(rs.next()){
-                LOG.warn(rs.getString(1));
-                conteo++;
-            }
-            LOG.warn("CONTEO "+conteo);
-        } catch (SQLException e) {
-            LOG.error("ERROR " + e.getMessage());
-        }
+//        DAOMINEDU dao = new DAOMINEDU(Empleado.class);
+//        EntityManager em = dao.getEntityManager();
+//        Session sesion = (Session) em.getDelegate();
+//        SessionFactoryImpl sessionFactory = (SessionFactoryImpl) sesion.getSessionFactory();
+//        Connection connection;
+//        try {
+//            connection = sessionFactory.getConnectionProvider().getConnection();
+//            Statement st = connection.createStatement();
+//            ResultSet rs = st.executeQuery("SELECT * FROM v_empleado");
+//            int conteo = 0;
+//            while(rs.next()){
+//                LOG.warn(rs.getString(1));
+//                conteo++;
+//            }
+//            LOG.warn("CONTEO "+conteo);
+//        } catch (SQLException e) {
+//            LOG.error("ERROR " + e.getMessage());
+//        }
+        prueba p = new prueba();
+        p.getPrueba();
         System.exit(0);
     }
 
