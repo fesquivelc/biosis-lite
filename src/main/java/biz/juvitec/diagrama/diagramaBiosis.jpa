@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<jpa:entity-mappings theme="CLASSIC" persistenceUnitName="biosis-PU" id="_14197969282181" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd" xmlns:ns4="http://nbmodeler.java.net" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<jpa:entity-mappings theme="CLASSIC" persistenceUnitName="biosis-PU" jaxb-support="false" id="_14197969282181" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd" xmlns:ns4="http://nbmodeler.java.net" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <jpa:package>biz.juvitec.entidades</jpa:package>
-    <jpa:entity class="Jornada" visibile="true" minimized="false" id="_1419797094305">
+    <jpa:entity class="Jornada" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1419797094305">
         <jpa:attributes>
             <jpa:id name="codigo" attribute-type="String" visibile="true" id="_14197971009155">
                 <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="45" precision="0" scale="0"/>
@@ -47,7 +47,7 @@
             </jpa:one-to-many>
         </jpa:attributes>
     </jpa:entity>
-    <jpa:entity class="Horario" visibile="true" minimized="false" id="_1419797437526">
+    <jpa:entity class="Horario" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1419797437526">
         <jpa:attributes>
             <jpa:id name="codigo" attribute-type="String" visibile="true" id="_14198155023796">
                 <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="45" precision="0" scale="0"/>
@@ -86,7 +86,7 @@
             </jpa:one-to-many>
         </jpa:attributes>
     </jpa:entity>
-    <jpa:entity class="GrupoHorario" visibile="true" minimized="false" id="_1419816874537">
+    <jpa:entity class="GrupoHorario" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1419816874537">
         <jpa:table name="grupo_horario"/>
         <jpa:attributes>
             <jpa:id name="codigo" attribute-type="String" visibile="true" id="_141981688449230">
@@ -107,7 +107,7 @@
             </jpa:one-to-many>
         </jpa:attributes>
     </jpa:entity>
-    <jpa:entity class="DetalleGrupoHorario" visibile="true" minimized="false" id="_1419816954830">
+    <jpa:entity class="DetalleGrupoHorario" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1419816954830">
         <jpa:table name="detalle_grupo_horario"/>
         <jpa:attributes>
             <jpa:id name="id" attribute-type="Long" visibile="true" id="_141981699539633">
@@ -123,7 +123,7 @@
             </jpa:many-to-one>
         </jpa:attributes>
     </jpa:entity>
-    <jpa:entity class="AsignacionHorario" visibile="true" minimized="false" id="_1419817066614">
+    <jpa:entity class="AsignacionHorario" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1419817066614">
         <jpa:table name="asignacion_horario"/>
         <jpa:attributes>
             <jpa:id name="id" attribute-type="Long" visibile="true" id="_141981707410038">
@@ -146,7 +146,7 @@
             </jpa:many-to-one>
         </jpa:attributes>
     </jpa:entity>
-    <jpa:entity class="TipoPermiso" visibile="true" minimized="false" id="_1419857416453">
+    <jpa:entity class="TipoPermiso" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1419857416453">
         <jpa:table name="tipo_permiso"/>
         <jpa:attributes>
             <jpa:id name="codigo" attribute-type="String" visibile="true" id="_141985743097945">
@@ -170,15 +170,12 @@
             </jpa:one-to-many>
         </jpa:attributes>
     </jpa:entity>
-    <jpa:entity class="Permiso" visibile="true" minimized="false" id="_1419859527825">
+    <jpa:entity class="Permiso" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1419859527825">
         <jpa:attributes>
             <jpa:id name="id" attribute-type="Long" visibile="true" id="_141985953922249">
                 <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
                 <jpa:generated-value strategy="IDENTITY"/>
             </jpa:id>
-            <jpa:basic name="empleado" attribute-type="String" visibile="true" id="_141985975451050">
-                <jpa:column name="empleado_nro_documento" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
-            </jpa:basic>
             <jpa:basic name="fechaInicio" attribute-type="java.util.Date" visibile="true" id="_141985984551053">
                 <jpa:column name="fecha_inicio" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
                 <jpa:temporal>DATE</jpa:temporal>
@@ -198,13 +195,22 @@
             <jpa:basic name="porFecha" attribute-type="boolean" visibile="true" id="_1419872984437105">
                 <jpa:column name="por_fecha" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
             </jpa:basic>
+            <jpa:basic name="motivo" attribute-type="String" visibile="true" id="_142020851862931">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
             <jpa:many-to-one name="tipoPermiso" target-entity="TipoPermiso" optional="false" primaryKey="false" connected-entity-id="_1419857416453" connected-attribute-id="_141985977578652" visibile="true" id="_141985977578451">
                 <jpa:join-column name="tipo_permiso_codigo" referenced-column-name="codigo" unique="false" nullable="false" insertable="true" updatable="true" column-definition="" table=""/>
                 <jpa:join-table/>
             </jpa:many-to-one>
+            <jpa:one-to-many name="asignacionPermisoList" target-entity="AsignacionPermiso" fetch="LAZY" mapped-by="permiso" collection-type="java.util.List" connected-entity-id="_1420208587542" connected-attribute-id="_142020869317735" visibile="true" id="_142020869317936">
+                <jpa:join-table/>
+                <jpa:cascade>
+                    <jpa:cascade-all/>
+                </jpa:cascade>
+            </jpa:one-to-many>
         </jpa:attributes>
     </jpa:entity>
-    <jpa:entity class="Vacacion" visibile="true" minimized="false" id="_1419860919430">
+    <jpa:entity class="Vacacion" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1419860919430">
         <jpa:attributes>
             <jpa:id name="id" attribute-type="Long" visibile="true" id="_141986101011165">
                 <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
@@ -234,7 +240,7 @@
             </jpa:many-to-one>
         </jpa:attributes>
     </jpa:entity>
-    <jpa:entity class="Periodo" visibile="true" minimized="false" id="_1419869578736">
+    <jpa:entity class="Periodo" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1419869578736">
         <jpa:attributes>
             <jpa:id name="anio" attribute-type="int" visibile="true" id="_141986958716974">
                 <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="4" precision="0" scale="0"/>
@@ -260,7 +266,7 @@
             </jpa:one-to-many>
         </jpa:attributes>
     </jpa:entity>
-    <jpa:entity class="Feriado" visibile="true" minimized="false" id="_1419869918591">
+    <jpa:entity class="Feriado" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1419869918591">
         <jpa:attributes>
             <jpa:id name="fechaInicio" attribute-type="java.util.Date" visibile="true" id="_141987212101281">
                 <jpa:column name="fecha_inicio" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
@@ -280,7 +286,7 @@
             </jpa:many-to-one>
         </jpa:attributes>
     </jpa:entity>
-    <jpa:entity class="SaldoVacacional" visibile="true" minimized="false" id="_1419872241459">
+    <jpa:entity class="SaldoVacacional" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1419872241459">
         <jpa:table name="saldo_vacacional"/>
         <jpa:attributes>
             <jpa:id name="id" attribute-type="Long" visibile="true" id="_141987225687687">
@@ -299,7 +305,7 @@
             </jpa:many-to-one>
         </jpa:attributes>
     </jpa:entity>
-    <jpa:entity class="RegistroAsistencia" visibile="true" minimized="false" id="_1419872745030">
+    <jpa:entity class="RegistroAsistencia" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1419872745030">
         <jpa:table name="registro_asistencia"/>
         <jpa:attributes>
             <jpa:id name="id" attribute-type="Long" visibile="true" id="_141987275239798">
@@ -342,7 +348,7 @@
             </jpa:one-to-many>
         </jpa:attributes>
     </jpa:entity>
-    <jpa:entity class="DetalleRegistroAsistencia" visibile="true" minimized="false" id="_1419873178531">
+    <jpa:entity class="DetalleRegistroAsistencia" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1419873178531">
         <jpa:table name="detalle_registro_asistencia"/>
         <jpa:attributes>
             <jpa:id name="id" attribute-type="Long" visibile="true" id="_1419873193742108">
@@ -368,7 +374,7 @@
             </jpa:many-to-one>
         </jpa:attributes>
     </jpa:entity>
-    <jpa:entity class="TCAnalisis" visibile="true" minimized="false" id="_1419881765499">
+    <jpa:entity class="TCAnalisis" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1419881765499">
         <jpa:table name="tc_analisis"/>
         <jpa:attributes>
             <jpa:id name="empleado" attribute-type="String" visibile="true" id="_1419881790688122">
@@ -385,49 +391,67 @@
             </jpa:basic>
         </jpa:attributes>
     </jpa:entity>
+    <jpa:entity class="AsignacionPermiso" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1420208587542">
+        <jpa:attributes>
+            <jpa:id name="id" attribute-type="Long" visibile="true" id="_142020860440533">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:generated-value strategy="IDENTITY"/>
+            </jpa:id>
+            <jpa:basic name="empleado" attribute-type="String" visibile="true" id="_142020862013334">
+                <jpa:column name="empleado_nro_documento" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:many-to-one name="permiso" target-entity="Permiso" optional="false" primaryKey="false" connected-entity-id="_1419859527825" connected-attribute-id="_142020869317936" visibile="true" id="_142020869317735">
+                <jpa:join-column name="permiso_id" referenced-column-name="id" unique="false" nullable="false" insertable="true" updatable="true" column-definition="" table=""/>
+                <jpa:join-table/>
+            </jpa:many-to-one>
+        </jpa:attributes>
+    </jpa:entity>
     <jpa:diagram id="_14197969282182">
         <plane elementRef="_14197969282181" id="_14197969282193_p">
             <shape elementRef="_1419797094305" id="_1419797094305_gui">
-                <Bounds x="1146.0" y="-45.0" width="192.0" height="283.0"/>
+                <Bounds x="1144.0" y="-47.0" width="192.0" height="283.0"/>
             </shape>
             <shape elementRef="_1419797437526" id="_1419797437526_gui">
-                <Bounds x="863.0" y="-45.0" width="194.0" height="283.0"/>
+                <Bounds x="861.0" y="-47.0" width="194.0" height="283.0"/>
             </shape>
             <shape elementRef="_1419816874537" id="_1419816874537_gui">
-                <Bounds x="73.0" y="128.0" width="207.0" height="143.0"/>
+                <Bounds x="53.0" y="-19.0" width="207.0" height="143.0"/>
             </shape>
             <shape elementRef="_1419816954830" id="_1419816954830_gui">
-                <Bounds x="494.0" y="-151.0" width="245.0" height="123.0"/>
+                <Bounds x="492.0" y="-153.0" width="245.0" height="123.0"/>
             </shape>
             <shape elementRef="_1419817066614" id="_1419817066614_gui">
-                <Bounds x="494.0" y="74.0" width="228.0" height="163.0"/>
+                <Bounds x="492.0" y="72.0" width="228.0" height="163.0"/>
             </shape>
             <shape elementRef="_1419857416453" id="_1419857416453_gui">
-                <Bounds x="-3.0" y="383.0" width="185.0" height="183.0"/>
+                <Bounds x="-37.0" y="282.0" width="185.0" height="183.0"/>
             </shape>
             <shape elementRef="_1419859527825" id="_1419859527825_gui">
-                <Bounds x="231.0" y="343.0" width="155.0" height="223.0"/>
+                <Bounds x="218.0" y="222.0" width="198.0" height="243.0"/>
             </shape>
             <shape elementRef="_1419860919430" id="_1419860919430_gui">
-                <Bounds x="848.0" y="718.0" width="163.0" height="203.0"/>
+                <Bounds x="846.0" y="716.0" width="163.0" height="203.0"/>
             </shape>
             <shape elementRef="_1419869578736" id="_1419869578736_gui">
-                <Bounds x="1097.0" y="772.0" width="182.0" height="183.0"/>
+                <Bounds x="1095.0" y="770.0" width="182.0" height="183.0"/>
             </shape>
             <shape elementRef="_1419869918591" id="_1419869918591_gui">
-                <Bounds x="1252.0" y="544.0" width="152.0" height="143.0"/>
+                <Bounds x="1250.0" y="542.0" width="152.0" height="143.0"/>
             </shape>
             <shape elementRef="_1419872241459" id="_1419872241459_gui">
-                <Bounds x="1221.0" y="324.0" width="214.0" height="143.0"/>
+                <Bounds x="1219.0" y="322.0" width="214.0" height="143.0"/>
             </shape>
             <shape elementRef="_1419872745030" id="_1419872745030_gui">
-                <Bounds x="737.0" y="341.0" width="239.0" height="283.0"/>
+                <Bounds x="737.0" y="339.0" width="239.0" height="283.0"/>
             </shape>
             <shape elementRef="_1419873178531" id="_1419873178531_gui">
-                <Bounds x="457.0" y="701.0" width="282.0" height="183.0"/>
+                <Bounds x="455.0" y="699.0" width="282.0" height="183.0"/>
             </shape>
             <shape elementRef="_1419881765499" id="_1419881765499_gui">
-                <Bounds x="73.0" y="701.0" width="170.0" height="110.0"/>
+                <Bounds x="71.0" y="699.0" width="170.0" height="110.0"/>
+            </shape>
+            <shape elementRef="_1420208587542" id="_1420208587542_gui">
+                <Bounds x="480.0" y="324.0" width="232.0" height="123.0"/>
             </shape>
         </plane>
     </jpa:diagram>
