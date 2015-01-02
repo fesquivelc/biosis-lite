@@ -235,7 +235,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
     private void bindeoSalvaje() {
         lista = ObservableCollections.observableList(new ArrayList<Marcacion>());
         
-        String[] columnas = {"ID Empleado","Fecha","Hora","Ip de Equipo"};
+        String[] columnas = {"Nro de documento","Empleado","Fecha","Hora","Ip de Equipo"};
         MTMarcacion mt = new MTMarcacion(lista, columnas);
         tblEmpleado.setModel(mt);
     }
