@@ -20,6 +20,7 @@ import javax.persistence.Query;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.internal.SessionFactoryImpl;
+import utiles.Encriptador;
 
 /**
  *
@@ -53,7 +54,7 @@ public class DAO<T> {
 
             Map<String, String> properties = new HashMap<>();
             properties.put("javax.persistence.jdbc.user", usuario);
-            properties.put("javax.persistence.jdbc.password", password);
+            properties.put("javax.persistence.jdbc.password", Encriptador.decrypt(password));
             properties.put("javax.persistence.jdbc.driver", driver);
             properties.put("javax.persistence.jdbc.url", url);
             

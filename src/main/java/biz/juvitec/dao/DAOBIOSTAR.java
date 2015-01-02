@@ -15,6 +15,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import utiles.Encriptador;
 
 /**
  *
@@ -42,7 +43,7 @@ public class DAOBIOSTAR<T> extends DAO<T> {
 
             Map<String, String> properties = new HashMap<>();
             properties.put("javax.persistence.jdbc.user", usuario);
-            properties.put("javax.persistence.jdbc.password", password);
+            properties.put("javax.persistence.jdbc.password", Encriptador.decrypt(password));
             properties.put("javax.persistence.jdbc.driver", driver);
             properties.put("javax.persistence.jdbc.url", url);
 

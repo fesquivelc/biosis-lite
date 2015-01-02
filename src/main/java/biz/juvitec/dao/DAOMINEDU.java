@@ -13,6 +13,7 @@ import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import utiles.Encriptador;
 
 /**
  *
@@ -40,7 +41,7 @@ public class DAOMINEDU<T> extends DAO<T> {
 
             Map<String, String> properties = new HashMap<>();
             properties.put("javax.persistence.jdbc.user", usuario);
-            properties.put("javax.persistence.jdbc.password", password);
+            properties.put("javax.persistence.jdbc.password", Encriptador.decrypt(password));
             properties.put("javax.persistence.jdbc.driver", driver);
             properties.put("javax.persistence.jdbc.url", url);
 

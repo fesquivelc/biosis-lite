@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
 import org.apache.commons.beanutils.BeanUtils;
+import utiles.Encriptador;
 
 /**
  *
@@ -67,7 +68,7 @@ public class Configuracion extends javax.swing.JInternalFrame {
         combo.setSelectedIndex(tipoBD - 1);
         txtConexion.setText(url);
         txtUsuario.setText(usuario);
-        txtPassword.setText(password);
+        txtPassword.setText(Encriptador.decrypt(password));
     }
 
     private void guardar(Properties fichero, String urlFichero, JComboBox combo, JTextField txtConexion, JTextField txtUsuario, JTextField txtPassword) {
@@ -86,7 +87,7 @@ public class Configuracion extends javax.swing.JInternalFrame {
         
         fichero.setProperty("url", url);
         fichero.setProperty("usuario", usuario);
-        fichero.setProperty("password", password);
+        fichero.setProperty("password", Encriptador.encrypt(password));
         fichero.setProperty("tipo", tipoBD+"");
 
         PropertiesUtil.guardarProperties(fichero, urlFichero);
