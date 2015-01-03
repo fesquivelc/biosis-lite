@@ -157,6 +157,26 @@ public class DAO<T> {
         }
 
     }
+    
+    public int contar(String queryJPQL, Map<String, Object> parametros) {
+        try {
+            Query query = getEntityManager().createQuery(queryJPQL);
+
+            if (parametros != null) {
+                for (Map.Entry<String, Object> entry : parametros.entrySet()) {
+                    query.setParameter(entry.getKey(), entry.getValue());
+                }
+            }
+
+            Long conteo = (Long)query.getSingleResult();
+
+            return conteo.intValue();
+        } catch (Exception e) {
+            LOG.error("ERROR AL CONTAR: " + e.getLocalizedMessage() + " " + e.getMessage());
+            return 0;
+        }
+
+    }
 
     public List<T> buscarTodos() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();

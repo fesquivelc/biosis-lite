@@ -72,12 +72,11 @@ public class MarcacionControlador extends Controlador<Marcacion> {
     }
     
     public int totalXFecha(Date fechaInicio, Date fechaFin){
-        String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.fecha BETWEEN :fechaInicio AND :fechaFin";
-        Long cont = (Long)this.getDao().getEntityManager().createQuery(jpql)
-                .setParameter("fechaInicio", fechaInicio)
-                .setParameter("fechaFin", fechaFin).getSingleResult();
-        int conteo = cont.intValue();
-        return conteo;
+        String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.fecha BETWEEN :fechaInicio AND :fechaFin ";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("fechaInicio", fechaInicio);
+        mapa.put("fechaFin", fechaFin);
+        return this.getDao().contar(jpql, mapa);
     }
     
     private String ceros(String dni) {
