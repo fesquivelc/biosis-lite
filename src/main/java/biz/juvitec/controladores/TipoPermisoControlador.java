@@ -13,8 +13,7 @@ import biz.juvitec.entidades.TipoPermiso;
  */
 public class TipoPermisoControlador extends Controlador<TipoPermiso>{
 
-    public TipoPermisoControlador(Class<TipoPermiso> clase) {
+    public TipoPermisoControlador() {
         super(TipoPermiso.class);
     }
-    
 }

@@ -11,10 +11,12 @@ import biz.juvitec.entidades.AsignacionHorario;
  *
  * @author fesquivelc
  */
-public class AsignacionHorarioControlador extends Controlador<AsignacionHorario>{
+public class AsignacionHorarioControlador extends Controlador<AsignacionHorario> {
 
     public AsignacionHorarioControlador() {
         super(AsignacionHorario.class);
     }
+
     
+
 }

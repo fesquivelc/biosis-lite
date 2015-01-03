@@ -21,8 +21,11 @@ import javax.crypto.spec.PBEParameterSpec;
 
 import com.sun.mail.util.BASE64DecoderStream;
 import com.sun.mail.util.BASE64EncoderStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.UnsupportedEncodingException;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 public class Encriptador {
 
@@ -30,6 +33,7 @@ public class Encriptador {
     private static Cipher dcipher;
 
     private static final int iterationCount = 10;
+    private static final Logger LOG = Logger.getLogger(Encriptador.class.getName());
 
     // 8-byte Salt
     private static final byte[] salt = {
@@ -56,7 +60,7 @@ public class Encriptador {
 
             dcipher.init(Cipher.DECRYPT_MODE, key, paramSpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException ex) {
-            Logger.getLogger(Encriptador.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Encriptador.class.getName()).log(Level.ERROR, null, ex);
         }
     }
 
@@ -77,9 +81,9 @@ public class Encriptador {
 
             return new String(enc);
 
-        } catch (Exception e) {
+        } catch (UnsupportedEncodingException | IllegalBlockSizeException | BadPaddingException e) {
 
-            e.printStackTrace();
+            LOG.error(e);
 
         }
 
@@ -101,9 +105,9 @@ public class Encriptador {
 // create new string based on the specified charset
             return new String(utf8, "UTF8");
 
-        } catch (Exception e) {
+        } catch (IllegalBlockSizeException | BadPaddingException | UnsupportedEncodingException e) {
 
-            e.printStackTrace();
+            LOG.error(e);
 
         }
 

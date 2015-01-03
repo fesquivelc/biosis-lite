@@ -39,7 +39,7 @@ public class Permiso implements Serializable {
     @Column(name="por_fecha",nullable=false)
     @Basic
     private boolean porFecha;
-    @Column(name="fecha_fin",nullable=false)
+    @Column(name="fecha_fin",nullable=true)
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaFin;

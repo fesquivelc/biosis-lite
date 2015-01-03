@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biz.juvitec.vistas.mantenimientos;
+package biz.juvitec.vistas.dialogos;
 
 import biz.juvitec.controladores.Controlador;
 import biz.juvitec.controladores.TipoPermisoControlador;
@@ -11,17 +11,17 @@ import biz.juvitec.entidades.TipoPermiso;
 import biz.juvitec.vistas.modelos.MTTipoPermiso;
 import com.personal.utiles.FormularioUtil;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import javax.swing.JSpinner;
-import javax.swing.text.DateFormatter;
+import javax.swing.JDialog;
+import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import org.jdesktop.observablecollections.ObservableCollections;
 
 /**
  *
  * @author fesquivelc
  */
-public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
+public class DlgTipoPermiso extends JDialog {
 
     /**
      * Creates new form CRUDJornada
@@ -29,14 +29,16 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
     private int accion;
     private final TipoPermisoControlador controlador;
     private List<TipoPermiso> listado;
-    private TipoPermiso jornadaSeleccionada;
+    private TipoPermiso tipoSeleccionado;
 
-    public CRUDTipoPermiso() {
+    public DlgTipoPermiso(JInternalFrame padre) {
+        super(JOptionPane.getFrameForComponent(padre), true);
         initComponents();
         controlador = new TipoPermisoControlador();
         bindeoSalvaje();
         accion = 0;
         this.controles(accion);
+        this.setLocationRelativeTo(padre);
     }
 
     /**
@@ -69,9 +71,7 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTabla = new org.jdesktop.swingx.JXTable();
 
-        setClosable(true);
-        setIconifiable(true);
-        setMaximizable(true);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MANTENIMIENTO TIPOS DE PERMISO");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -169,7 +169,7 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
                     .addGroup(pnlDatosLayout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnlDatosLayout.setVerticalGroup(
@@ -307,7 +307,15 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         int fila = tblTabla.getSelectedRow();
         if(fila != -1){
-            mostrar(listado.get(fila));
+            tipoSeleccionado = listado.get(fila);            
+            if(evt.getClickCount() == 1){
+                mostrar(tipoSeleccionado);
+            }else if(evt.getClickCount() == 2){
+                if(tipoSeleccionado == null){
+                    System.out.println("ES NULL");
+                }
+                this.dispose();
+            }
         }
         
     }//GEN-LAST:event_tblTablaMouseReleased
@@ -342,6 +350,10 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
+    public TipoPermiso getSeleccionado(){
+        this.setVisible(true);
+        return tipoSeleccionado;
+    }
 
     private void controles(int accion) {
         boolean bandera = accion == Controlador.NUEVO || accion == Controlador.MODIFICAR;
@@ -352,9 +364,6 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
         if(accion != Controlador.MODIFICAR){
             FormularioUtil.limpiarComponente(this.pnlDatos);
         }
-        
-        
-
     }
 
     private void bindeoSalvaje() {
