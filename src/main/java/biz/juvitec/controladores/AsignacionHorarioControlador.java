@@ -6,6 +6,8 @@
 package biz.juvitec.controladores;
 
 import biz.juvitec.entidades.AsignacionHorario;
+import biz.juvitec.entidades.Horario;
+import java.util.List;
 
 /**
  *
@@ -16,7 +18,5 @@ public class AsignacionHorarioControlador extends Controlador<AsignacionHorario>
     public AsignacionHorarioControlador() {
         super(AsignacionHorario.class);
     }
-
-    
 
 }

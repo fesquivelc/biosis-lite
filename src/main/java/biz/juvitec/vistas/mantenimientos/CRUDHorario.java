@@ -354,17 +354,17 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
             seleccionada.setJueves(chkJueves.isSelected());
             seleccionada.setViernes(chkViernes.isSelected());
             seleccionada.setSabado(chkSabado.isSelected());
-            seleccionada.setDomingo(chkDomingo.isSelected());          
-            
-            if(horarioControlador.accion(accion)){
+            seleccionada.setDomingo(chkDomingo.isSelected());
+
+            if (horarioControlador.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
                 this.accion = 0;
                 this.controles(accion);
-                this.actualizarTabla();                
-            }else{
+                this.actualizarTabla();
+            } else {
                 FormularioUtil.mensajeError(this, accion);
-            }                        
-            
+            }
+
         } else {
             return;
         }
@@ -373,10 +373,10 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
     private void tblHorarioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHorarioMouseReleased
         // TODO add your handling code here:
         int fila = tblHorario.getSelectedRow();
-        if(fila != -1){
+        if (fila != -1) {
             mostrar(horarioList.get(fila));
         }
-        
+
     }//GEN-LAST:event_tblHorarioMouseReleased
 
     private void btnJornadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJornadaActionPerformed
@@ -390,7 +390,7 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         this.accion = 0;
         this.controles(accion);
-        FormularioUtil.limpiarComponente(this.pnlDatos);        
+        FormularioUtil.limpiarComponente(this.pnlDatos);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
 
@@ -452,12 +452,10 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
 
         FormularioUtil.activarComponente(this.pnlListado, !bandera);
         FormularioUtil.activarComponente(this.pnlDatos, bandera);
-        
-        if(accion != Controlador.MODIFICAR){
+
+        if (accion != Controlador.MODIFICAR) {
             FormularioUtil.limpiarComponente(this.pnlDatos);
         }
-        
-        
 
     }
 
@@ -465,7 +463,7 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
         horarioList = new ArrayList<>();
         horarioList = ObservableCollections.observableList(horarioList);
 
-        String[] columnas = {"Nombre", "Lunes", "Martes", "Miércoles", "Jueves","Viernes","Sábado","Domingo"};
+        String[] columnas = {"Horario", "Jornada", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
 
         MTHorario mt = new MTHorario(horarioList, columnas);
         tblHorario.setModel(mt);
