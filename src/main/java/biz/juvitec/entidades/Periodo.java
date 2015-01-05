@@ -22,7 +22,7 @@ public class Periodo implements Serializable {
     private List<Feriado> feriadoList;
     @OneToMany(fetch = FetchType.LAZY,targetEntity = SaldoVacacional.class,mappedBy = "periodo")
     private List<SaldoVacacional> saldoVacacionalList;
-    @OneToMany(fetch = FetchType.LAZY,targetEntity = Vacacion.class,mappedBy = "periodo")
+    @OneToMany(fetch = FetchType.LAZY,targetEntity = Vacacion.class,mappedBy = "periodo",orphanRemoval = true)
     private List<Vacacion> vacacionList;
     @Column(nullable=false)
     @Basic

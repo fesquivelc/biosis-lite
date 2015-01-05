@@ -28,6 +28,8 @@ public class Permiso implements Serializable {
     private TipoPermiso tipoPermiso;
     @Basic
     private String motivo;
+    @OneToMany(fetch = FetchType.LAZY,targetEntity = DetalleRegistroAsistencia.class,mappedBy = "permiso",orphanRemoval = true)
+    private List<DetalleRegistroAsistencia> detalleRegistroAsistenciaList;
     @Column(name="hora_inicio")
     @Temporal(TemporalType.TIME)
     @Basic
@@ -39,11 +41,11 @@ public class Permiso implements Serializable {
     @Column(name="por_fecha",nullable=false)
     @Basic
     private boolean porFecha;
-    @Column(name="fecha_fin",nullable=true)
+    @Column(name="fecha_fin",nullable=false)
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaFin;
-    @OneToMany(cascade={CascadeType.ALL},fetch = FetchType.LAZY,targetEntity = AsignacionPermiso.class,mappedBy = "permiso",orphanRemoval = true)
+    @OneToMany(cascade={CascadeType.ALL},fetch = FetchType.LAZY,targetEntity = AsignacionPermiso.class,mappedBy = "permiso")
     private List<AsignacionPermiso> asignacionPermisoList;
     @Column(name="fecha_inicio",nullable=false)
     @Temporal(TemporalType.DATE)
@@ -76,6 +78,14 @@ public class Permiso implements Serializable {
 
     public void setMotivo(String motivo) {
         this.motivo = motivo;
+    }
+   
+    public List<DetalleRegistroAsistencia> getDetalleRegistroAsistenciaList() {
+        return this.detalleRegistroAsistenciaList;
+    }
+
+    public void setDetalleRegistroAsistenciaList(List<DetalleRegistroAsistencia> detalleRegistroAsistenciaList) {
+        this.detalleRegistroAsistenciaList = detalleRegistroAsistenciaList;
     }
    
     public Date getHoraInicio() {

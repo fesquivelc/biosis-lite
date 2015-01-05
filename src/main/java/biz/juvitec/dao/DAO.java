@@ -88,10 +88,23 @@ public class DAO<T> {
             return true;
         } catch (Exception e) {
             LOG.error("ERROR EN EL GUARDADO: " + e.getLocalizedMessage() + " " + e.getMessage());
-            rollback();
             return false;
         }
 
+    }
+    
+    public boolean guardarLote(List<T> lote){
+        try {
+            getEntityManager().getTransaction().begin();
+            for(T objeto : lote){
+                getEntityManager().persist(objeto);
+            }
+            getEntityManager().getTransaction().commit();
+            return true;
+        } catch (Exception e) {
+            LOG.error("ERROR EN EL GUARDADO POR LOTE: " + e.getLocalizedMessage() + " " + e.getMessage());
+            return false;
+        }
     }
 
     public boolean modificar(T objeto) {
@@ -102,8 +115,6 @@ public class DAO<T> {
             return true;
         } catch (Exception e) {
             LOG.error("ERROR AL MODIFICAR: " + e.getLocalizedMessage() + " " + e.getMessage());
-            rollback();
-
             return false;
         }
 
@@ -117,7 +128,6 @@ public class DAO<T> {
             return true;
         } catch (Exception e) {
             LOG.error("ERROR AL ELIMINAR: " + e.getLocalizedMessage() + " " + e.getMessage());
-            rollback();
             return false;
         }
     }

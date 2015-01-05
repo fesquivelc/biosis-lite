@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,7 +32,7 @@ public class RegistroAsistencia implements Serializable {
     @ManyToOne(optional=false,targetEntity = Horario.class)
     @JoinColumn(name="horario_codigo",referencedColumnName="codigo",nullable=false)
     private Horario horario;
-    @OneToMany(fetch = FetchType.LAZY,targetEntity = DetalleRegistroAsistencia.class,mappedBy = "registroAsistencia")
+    @OneToMany(fetch = FetchType.LAZY,targetEntity = DetalleRegistroAsistencia.class,mappedBy = "registroAsistencia",orphanRemoval = true,cascade = CascadeType.ALL)
     private List<DetalleRegistroAsistencia> detalleRegistroAsistenciaList;
     @ManyToOne(targetEntity = Permiso.class)
     private Permiso permiso;

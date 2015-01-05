@@ -9,6 +9,7 @@ import biz.juvitec.vistas.dialogos.DlgDatosEmpleado;
 import biz.juvitec.controladores.EmpleadoControlador;
 import biz.juvitec.entidades.Empleado;
 import biz.juvitec.entidades.Marcacion;
+import biz.juvitec.vistas.dialogos.DlgMostrarHorarios;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -140,6 +141,11 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         jPanel2.add(jButton1);
 
         jButton2.setText("VER HORARIOS");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton2);
 
         jButton3.setText("VER REGISTRO DE ASISTENCIA");
@@ -294,6 +300,15 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         buscar();
         this.actualizarControlesNavegacion();
     }//GEN-LAST:event_cboTamanioActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int fila = tblEmpleado.getSelectedRow();
+        if(fila != -1){
+            DlgMostrarHorarios dialogo = new DlgMostrarHorarios(this, this.lista.get(fila));
+            dialogo.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

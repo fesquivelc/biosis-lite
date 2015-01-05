@@ -24,6 +24,9 @@ public class DetalleRegistroAsistencia implements Serializable {
     @Temporal(TemporalType.TIME)
     @Basic
     private Date hora;
+    @ManyToOne(targetEntity = Permiso.class)
+    @JoinColumn(name="permiso_id",referencedColumnName="id")
+    private Permiso permiso;
     @Basic
     private String tipo;
     @Column(nullable=false)
@@ -54,6 +57,14 @@ public class DetalleRegistroAsistencia implements Serializable {
 
     public void setHora(Date hora) {
         this.hora = hora;
+    }
+   
+    public Permiso getPermiso() {
+        return this.permiso;
+    }
+
+    public void setPermiso(Permiso permiso) {
+        this.permiso = permiso;
     }
    
     public String getTipo() {

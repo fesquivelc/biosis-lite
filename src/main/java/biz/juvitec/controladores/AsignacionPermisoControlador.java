@@ -7,6 +7,7 @@ package biz.juvitec.controladores;
 
 import biz.juvitec.entidades.AsignacionHorario;
 import biz.juvitec.entidades.AsignacionPermiso;
+import biz.juvitec.entidades.Empleado;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -70,5 +71,19 @@ public class AsignacionPermisoControlador extends Controlador<AsignacionPermiso>
         }else{
             return asignacion.get(0);
         }        
+    }
+
+    public List<AsignacionPermiso> obtenerPermisosXHora(String dni, Date fecha, Date horaI, Date horaF) {
+        String jpql = "SELECT a FROM AsignacionPermiso a WHERE "
+                + "a.empleado = :dni AND "
+                + "a.porFecha = FALSE AND "
+                + "a.permiso.fechaInicio = :fecha AND "
+                + "a.permiso.horaInicio BETWEEN :horaI AND :horaF";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", dni);
+        mapa.put("fecha", fecha);
+        mapa.put("horaI", horaI);
+        mapa.put("horaF", horaF);
+        return this.getDao().buscar(jpql, mapa);
     }
 }

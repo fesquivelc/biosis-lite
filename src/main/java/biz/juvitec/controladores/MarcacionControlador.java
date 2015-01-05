@@ -93,4 +93,25 @@ public class MarcacionControlador extends Controlador<Marcacion> {
         return ceros;
     }
 
+    public Marcacion buscarXFechaXhora(String dni, Date fecha, Date horaI, Date horaF) {
+        String jpql = "SELECT m FROM Marcacion m WHERE "
+                + "CONCAT(:ceros,m.empleado) = :dni "
+                + "AND m.fecha = :fecha "
+                + "AND m.hora = :horaI and :horaF "
+                + "ORDER BY m.hora ASC";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", dni);
+        mapa.put("fecha", fecha);
+        mapa.put("horaI", horaI);
+        mapa.put("horaF", horaF);
+        mapa.put("ceros", this.ceros(dni));
+        List<Marcacion> marcaciones =  this.getDao().buscar(jpql, mapa, -1, 1);
+        
+        if(marcaciones.isEmpty()){
+            return null;
+        }else{
+            return marcaciones.get(0);
+        }
+    }
+
 }
