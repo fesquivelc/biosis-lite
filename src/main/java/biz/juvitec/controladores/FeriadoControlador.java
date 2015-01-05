@@ -21,7 +21,7 @@ public class FeriadoControlador extends Controlador<Feriado>{
         super(Feriado.class);
     }
     
-    public Feriado buscarXFecha(Date fecha){
+    public Feriado buscarXDia(Date fecha){
         String jpql = "SELECT f FROM Feriado f WHERE :fecha BETWEEN f.fechaInicio AND f.fechaFin";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("fecha", fecha);

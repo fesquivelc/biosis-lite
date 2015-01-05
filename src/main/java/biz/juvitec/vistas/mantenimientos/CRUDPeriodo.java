@@ -110,6 +110,11 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblTabla.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tblTablaMouseReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblTabla);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -285,6 +290,15 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
             
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void tblTablaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTablaMouseReleased
+        // TODO add your handling code here:
+        int fila = tblTabla.getSelectedRow();
+        if(fila != -1){
+            Periodo periodo = this.periodoList.get(fila);
+            mostrar(periodo);
+        }
+    }//GEN-LAST:event_tblTablaMouseReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

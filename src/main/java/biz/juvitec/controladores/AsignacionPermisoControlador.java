@@ -58,4 +58,17 @@ public class AsignacionPermisoControlador extends Controlador<AsignacionPermiso>
         System.out.println("CONTEO"+conteo);
         return conteo;
     }
+    
+    public AsignacionPermiso buscarXDia(String dni, Date dia){
+        String jpql = "SELECT a FROM AsignacionPermiso a WHERE a.empleado = :dni AND a.permiso.porFecha = TRUE AND :dia BETWEEN a.permiso.fechaInicio AND a.permiso.fechaFin";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("fechaInicio", dia);
+        mapa.put("dni", dni);
+        List<AsignacionPermiso> asignacion = this.getDao().buscar(jpql, mapa, -1, 1);
+        if(asignacion.isEmpty()){
+            return null;
+        }else{
+            return asignacion.get(0);
+        }        
+    }
 }

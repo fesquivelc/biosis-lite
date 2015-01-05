@@ -32,6 +32,15 @@ public class DlgEmpleado extends javax.swing.JDialog {
     private List<Empleado> lista;
     private final EmpleadoControlador ec;
     private final JInternalFrame padre;
+    private boolean agregar;
+
+    public boolean isAgregar() {
+        return agregar;
+    }
+
+    public void setAgregar(boolean agregar) {
+        this.agregar = agregar;
+    }
 
     public DlgEmpleado(JInternalFrame parent) {
         super(JOptionPane.getFrameForComponent(parent), true);
@@ -41,6 +50,7 @@ public class DlgEmpleado extends javax.swing.JDialog {
         bindeoSalvaje();
         buscar();
         actualizarControlesNavegacion();
+        agregar = true;
         this.setLocationRelativeTo(parent);
     }
 
@@ -279,13 +289,15 @@ public class DlgEmpleado extends javax.swing.JDialog {
         int fila = tblEmpleado.getSelectedRow();
         if (fila != -1) {
             if (evt.getClickCount() == 2) {
-                if (this.padre instanceof CRUDGrupoHorario) {
-                    ((CRUDGrupoHorario) padre).agregarEmpleado(lista.get(fila));
-                    lista.remove(fila);
-                }else if(this.padre instanceof AsignarPermiso){
-                    ((AsignarPermiso)padre).agregarEmpleado(lista.get(fila));
-                    
-                }else{
+                if (agregar) {
+                    if (this.padre instanceof CRUDGrupoHorario) {
+                        ((CRUDGrupoHorario) padre).agregarEmpleado(lista.get(fila));
+                        lista.remove(fila);
+                    } else if (this.padre instanceof AsignarPermiso) {
+                        ((AsignarPermiso) padre).agregarEmpleado(lista.get(fila));
+
+                    }
+                } else {
                     empleadoSeleccionado = lista.get(fila);
                     this.dispose();
                 }
@@ -370,18 +382,15 @@ public class DlgEmpleado extends javax.swing.JDialog {
 //        lista.addAll(ec.buscarXPatron(txtBusqueda.getText()));
 //        tblEmpleado.packAll();
 //    }
-    
-    
-
     public Empleado getEmpleadoSeleccionado() {
         return empleadoSeleccionado;
     }
-    
-    public Empleado getSeleccionado(){
+
+    public Empleado getSeleccionado() {
         this.setVisible(true);
-        return getEmpleadoSeleccionado();        
+        return getEmpleadoSeleccionado();
     }
-    
+
     private int paginaActual = 1;
     private int totalPaginas = 0;
     private int tamanioPagina = 0;

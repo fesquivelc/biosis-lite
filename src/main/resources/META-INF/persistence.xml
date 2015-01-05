@@ -17,6 +17,7 @@
     <class>biz.juvitec.entidades.DetalleRegistroAsistencia</class>
     <class>biz.juvitec.entidades.TCAnalisis</class>
     <class>biz.juvitec.entidades.AsignacionPermiso</class>
+    <class>biz.juvitec.entidades.TCSistema</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/minedu-biosis"/>
       <property name="javax.persistence.jdbc.password" value="root"/>

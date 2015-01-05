@@ -62,4 +62,19 @@ public class VacacionControlador extends Controlador<Vacacion> {
         mapa.put("fechaFin", fechaFin);
         return this.getDao().contar(jpql, mapa);
     }
+
+    public Vacacion buscarXDia(String dni, Date dia) {
+        String jpql = "SELECT v FROM Vacacion v"
+                + " WHERE v.empleado = :dni"
+                + " AND :dia BETWEEN v.fechaInicio AND v.fechaFin";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", dni);
+        mapa.put("dia", dia);
+        List<Vacacion> vacacion = this.getDao().buscar(jpql, mapa, -1, 1);
+        if(vacacion.isEmpty()){
+            return null;
+        }else{
+            return vacacion.get(0);
+        }
+    }
 }
