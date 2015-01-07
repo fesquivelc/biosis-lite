@@ -38,7 +38,7 @@ public class Horario implements Serializable {
     @Column(nullable=false)
     @Basic
     private boolean domingo;
-    @OneToMany(fetch = FetchType.LAZY,targetEntity = AsignacionHorario.class,mappedBy = "horario",orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY,targetEntity = AsignacionHorario.class,mappedBy = "horario")
     private List<AsignacionHorario> asignacionHorarioList;
     @Column(nullable=false)
     @Basic

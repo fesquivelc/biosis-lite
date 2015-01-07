@@ -27,14 +27,15 @@ public class DetalleRegistroAsistencia implements Serializable {
     @ManyToOne(targetEntity = Permiso.class)
     @JoinColumn(name="permiso_id",referencedColumnName="id")
     private Permiso permiso;
+    @Column(nullable=false)
     @Basic
-    private String tipo;
+    private char tipo;
     @Column(nullable=false)
     @Basic
     private char resultado;
     @Column(nullable=false)
     @Basic
-    private String evento;
+    private char evento;
     @ManyToOne(optional=false,targetEntity = RegistroAsistencia.class)
     @JoinColumn(name="registro_asistencia_id",referencedColumnName="id",nullable=false)
     private RegistroAsistencia registroAsistencia;
@@ -67,11 +68,11 @@ public class DetalleRegistroAsistencia implements Serializable {
         this.permiso = permiso;
     }
    
-    public String getTipo() {
+    public char getTipo() {
         return this.tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(char tipo) {
         this.tipo = tipo;
     }
    
@@ -83,11 +84,11 @@ public class DetalleRegistroAsistencia implements Serializable {
         this.resultado = resultado;
     }
    
-    public String getEvento() {
+    public char getEvento() {
         return this.evento;
     }
 
-    public void setEvento(String evento) {
+    public void setEvento(char evento) {
         this.evento = evento;
     }
    

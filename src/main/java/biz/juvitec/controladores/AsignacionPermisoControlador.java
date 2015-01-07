@@ -63,7 +63,7 @@ public class AsignacionPermisoControlador extends Controlador<AsignacionPermiso>
     public AsignacionPermiso buscarXDia(String dni, Date dia){
         String jpql = "SELECT a FROM AsignacionPermiso a WHERE a.empleado = :dni AND a.permiso.porFecha = TRUE AND :dia BETWEEN a.permiso.fechaInicio AND a.permiso.fechaFin";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("fechaInicio", dia);
+        mapa.put("dia", dia);
         mapa.put("dni", dni);
         List<AsignacionPermiso> asignacion = this.getDao().buscar(jpql, mapa, -1, 1);
         if(asignacion.isEmpty()){
@@ -76,7 +76,7 @@ public class AsignacionPermisoControlador extends Controlador<AsignacionPermiso>
     public List<AsignacionPermiso> obtenerPermisosXHora(String dni, Date fecha, Date horaI, Date horaF) {
         String jpql = "SELECT a FROM AsignacionPermiso a WHERE "
                 + "a.empleado = :dni AND "
-                + "a.porFecha = FALSE AND "
+                + "a.permiso.porFecha = FALSE AND "
                 + "a.permiso.fechaInicio = :fecha AND "
                 + "a.permiso.horaInicio BETWEEN :horaI AND :horaF";
         Map<String, Object> mapa = new HashMap<>();

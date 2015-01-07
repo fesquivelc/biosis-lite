@@ -15,6 +15,7 @@ import biz.juvitec.entidades.Empleado;
 import biz.juvitec.entidades.GrupoHorario;
 import biz.juvitec.entidades.Horario;
 import biz.juvitec.vistas.dialogos.DlgEmpleado;
+import biz.juvitec.vistas.dialogos.DlgVerIntegrantes;
 import biz.juvitec.vistas.modelos.MTAsignacion;
 import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
@@ -264,6 +265,11 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
         jPanel4.add(cboGrupo, gridBagConstraints);
 
         btnVerGrupoHorario.setText("Ver");
+        btnVerGrupoHorario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerGrupoHorarioActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 4;
@@ -407,10 +413,21 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         DlgEmpleado seleccion = new DlgEmpleado(this);
         empleadoSeleccionado = seleccion.getSeleccionado();
-        if(empleadoSeleccionado != null){
-            txtEmpleado.setText(empleadoSeleccionado.getApellidoPaterno() + " " +empleadoSeleccionado.getApellidoMaterno()+" "+empleadoSeleccionado.getNombre());
+        if (empleadoSeleccionado != null) {
+            txtEmpleado.setText(empleadoSeleccionado.getApellidoPaterno() + " " + empleadoSeleccionado.getApellidoMaterno() + " " + empleadoSeleccionado.getNombre());
         }
     }//GEN-LAST:event_btnEmpleadoActionPerformed
+
+    private void btnVerGrupoHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerGrupoHorarioActionPerformed
+        // TODO add your handling code here:
+        int grupo = this.cboGrupo.getSelectedIndex();
+        if(grupo != -1){
+            grupoSeleccionado = grupoList.get(grupo);
+            DlgVerIntegrantes integrantes = new DlgVerIntegrantes(this, grupoSeleccionado);
+            integrantes.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_btnVerGrupoHorarioActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -448,9 +465,8 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
         listado = ObservableCollections.observableList(new ArrayList<AsignacionHorario>());
         horarioList = hc.buscarTodos();
         grupoList = gc.buscarTodos();
-        
+
         this.controles(accion);
-        
 
     }
 
@@ -513,11 +529,14 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
     }
 
     private void checkboxes() {
-        boolean porGrupo = radGrupoHorario.isSelected();
+        if (accion != 0) {
+            boolean porGrupo = radGrupoHorario.isSelected();
 
-        FormularioUtil.activarComponente(btnEmpleado, !porGrupo);
-        FormularioUtil.activarComponente(cboGrupo, porGrupo);
-        FormularioUtil.activarComponente(txtEmpleado, false);
+            FormularioUtil.activarComponente(btnEmpleado, !porGrupo);
+            FormularioUtil.activarComponente(cboGrupo, porGrupo);
+            FormularioUtil.activarComponente(txtEmpleado, false);
+        }
+
     }
 
     private void actualizarTabla() {
@@ -529,17 +548,17 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
     private void mostrar(AsignacionHorario asignacion) {
         cboHorario.setSelectedItem(asignacion.getHorario());
         boolean porGrupo = asignacion.isPorGrupo();
-        
+
         radEmpleado.setSelected(!porGrupo);
         radGrupoHorario.setSelected(porGrupo);
-        
-//        checkboxes();
-        
-        if(porGrupo){
+
+        checkboxes();
+
+        if (porGrupo) {
             cboGrupo.setSelectedItem(asignacion.getGrupoHorario());
-        }else{
+        } else {
             Empleado e = ec.buscarPorId(asignacion.getEmpleado());
-            txtEmpleado.setText(e.getApellidoPaterno() + " " +e.getApellidoMaterno()+" "+e.getNombre());
+            txtEmpleado.setText(e.getApellidoPaterno() + " " + e.getApellidoMaterno() + " " + e.getNombre());
         }
     }
 }

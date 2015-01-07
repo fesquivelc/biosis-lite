@@ -70,8 +70,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         cboTamanio = new javax.swing.JComboBox();
 
         setClosable(true);
-        setMaximizable(true);
-        setResizable(true);
+        setIconifiable(true);
         setTitle("LISTADO DE MARCACIONES SIN PROCESAR");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -281,6 +280,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         DlgEmpleado dialogo = new DlgEmpleado(this);
+        dialogo.setAgregar(false);
         this.empleadoSeleccionado = dialogo.getSeleccionado();
         if (this.empleadoSeleccionado != null) {
             this.txtBusqueda.setText(

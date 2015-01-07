@@ -6,6 +6,7 @@
 package biz.juvitec.controladores;
 
 import biz.juvitec.entidades.Periodo;
+import java.util.List;
 
 /**
  *
@@ -15,6 +16,11 @@ public class PeriodoControlador extends Controlador<Periodo>{
 
     public PeriodoControlador() {
         super(Periodo.class);
+    }
+
+    public List<Periodo> buscarTodosOrden() {
+        String jpql = "SELECT p FROM Periodo p ORDER BY p.anio DESC";
+        return this.getDao().buscar(jpql);
     }
     
 }

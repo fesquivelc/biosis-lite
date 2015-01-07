@@ -15,6 +15,11 @@ import java.util.List;
  */
 public class MTEmpleado extends ModeloTabla<Empleado>{
 
+    public MTEmpleado(List<Empleado> datos) {
+        super(datos);
+        this.nombreColumnas = new String[]{"Nro documento","Nombres y apellidos"};
+    }
+    
     public MTEmpleado(List<Empleado> datos, String[] nombreColumnas) {
         super(datos, nombreColumnas);
     }

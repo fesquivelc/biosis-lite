@@ -46,7 +46,7 @@ public abstract class Controlador<T>{
         this.dao = dao;
     }
 
-    private boolean guardar(T objeto) {
+    public boolean guardar(T objeto) {
         return this.dao.guardar(objeto);
     }
     
@@ -54,11 +54,11 @@ public abstract class Controlador<T>{
         return this.dao.guardarLote(lote);
     }
 
-    private boolean modificar(T objeto) {
+    public boolean modificar(T objeto) {
         return this.dao.modificar(objeto);
     }
 
-    private boolean eliminar(T objeto) {
+    public boolean eliminar(T objeto) {
         return this.dao.eliminar(objeto);
     }
     

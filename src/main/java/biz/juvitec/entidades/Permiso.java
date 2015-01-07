@@ -28,7 +28,7 @@ public class Permiso implements Serializable {
     private TipoPermiso tipoPermiso;
     @Basic
     private String motivo;
-    @OneToMany(fetch = FetchType.LAZY,targetEntity = DetalleRegistroAsistencia.class,mappedBy = "permiso",orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY,targetEntity = DetalleRegistroAsistencia.class,mappedBy = "permiso")
     private List<DetalleRegistroAsistencia> detalleRegistroAsistenciaList;
     @Column(name="hora_inicio")
     @Temporal(TemporalType.TIME)

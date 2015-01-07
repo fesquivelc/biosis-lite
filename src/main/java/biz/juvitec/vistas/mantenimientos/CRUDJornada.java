@@ -79,6 +79,8 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         jLabel10 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        chkRefrigerioEspecial = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -98,8 +100,8 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         pnlDatosJornada.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de jornada"));
 
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
-        jPanel1Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
-        jPanel1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel1Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
+        jPanel1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel1.setLayout(jPanel1Layout);
 
         jLabel1.setText("Hora de entrada (HH:mm):");
@@ -280,6 +282,24 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtNombre, gridBagConstraints);
 
+        jLabel11.setText("¿Refrigerio de una hora?");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(jLabel11, gridBagConstraints);
+
+        chkRefrigerioEspecial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkRefrigerioEspecialActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(chkRefrigerioEspecial, gridBagConstraints);
+
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
         btnGuardar.setText("Guardar");
@@ -305,7 +325,7 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
             .addGroup(pnlDatosJornadaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnlDatosJornadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
                     .addGroup(pnlDatosJornadaLayout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -316,7 +336,7 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
             .addGroup(pnlDatosJornadaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -334,7 +354,10 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         getContentPane().add(pnlDatosJornada, gridBagConstraints);
 
         pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder("Jornadas"));
-        pnlListado.setLayout(new java.awt.GridBagLayout());
+        java.awt.GridBagLayout pnlListadoLayout = new java.awt.GridBagLayout();
+        pnlListadoLayout.columnWidths = new int[] {0};
+        pnlListadoLayout.rowHeights = new int[] {0, 5, 0};
+        pnlListado.setLayout(pnlListadoLayout);
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
@@ -364,7 +387,7 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         pnlListado.add(jPanel4, gridBagConstraints);
 
         tblJornadas.setModel(new javax.swing.table.DefaultTableModel(
@@ -386,6 +409,8 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblJornadas);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
@@ -405,41 +430,6 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void spTurnoHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spTurnoHEStateChanged
-        // TODO add your handling code here:
-        Date hora = (Date) spTurnoHE.getValue();
-
-        System.out.println("HORA: " + hora.toString());
-    }//GEN-LAST:event_spTurnoHEStateChanged
-
-    private void spToleranciaRefrigerioHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spToleranciaRefrigerioHEStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_spToleranciaRefrigerioHEStateChanged
-
-    private void spDesdeHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spDesdeHEStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_spDesdeHEStateChanged
-
-    private void spToleranciaHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spToleranciaHEStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_spToleranciaHEStateChanged
-
-    private void spTardanzaHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spTardanzaHEStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_spTardanzaHEStateChanged
-
-    private void spTurnoHSStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spTurnoHSStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_spTurnoHSStateChanged
-
-    private void spRefrigerioHSStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spRefrigerioHSStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_spRefrigerioHSStateChanged
-
-    private void spRefrigerioHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spRefrigerioHEStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_spRefrigerioHEStateChanged
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
@@ -466,40 +456,6 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         this.accion = Controlador.ELIMINAR;
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-        if (FormularioUtil.dialogoConfirmar(this, accion)) {
-            Jornada seleccionada = jornadaControlador.getSeleccionado();
-            
-            FormularioUtil.convertirMayusculas(this.pnlDatosJornada);
-
-            if (accion == Controlador.NUEVO) {
-                seleccionada.setCodigo(txtCodigo.getText());
-            }
-            seleccionada.setNombre(txtNombre.getText());
-            seleccionada.setDesdeHE((Date)spDesdeHE.getValue());
-            seleccionada.setRefrigerioHS((Date)spRefrigerioHS.getValue());
-            seleccionada.setRefrigerioHE((Date)spRefrigerioHE.getValue());
-            seleccionada.setTardanzaHE((Date)spTardanzaHE.getValue());            
-            seleccionada.setToleranciaRefrigerioHE((Date)spToleranciaRefrigerioHE.getValue());            
-            seleccionada.setToleranciaHE((Date)spToleranciaHE.getValue());            
-            seleccionada.setTurnoHE((Date)spTurnoHE.getValue());            
-            seleccionada.setTurnoHS((Date)spTurnoHS.getValue());            
-            
-            if(jornadaControlador.accion(accion)){
-                FormularioUtil.mensajeExito(this, accion);
-                this.accion = 0;
-                this.controles(accion);
-                this.actualizarTabla();                
-            }else{
-                FormularioUtil.mensajeError(this, accion);
-            }                        
-            
-        } else {
-            return;
-        }
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
     private void tblJornadasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblJornadasMouseReleased
         // TODO add your handling code here:
         int fila = tblJornadas.getSelectedRow();
@@ -510,8 +466,82 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         this.accion = 0;
         this.controles(accion);
-        FormularioUtil.limpiarComponente(this.pnlDatosJornada);    
+        FormularioUtil.limpiarComponente(this.pnlDatosJornada);
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        if (FormularioUtil.dialogoConfirmar(this, accion)) {
+            Jornada seleccionada = jornadaControlador.getSeleccionado();
+
+            FormularioUtil.convertirMayusculas(this.pnlDatosJornada);
+
+            if (accion == Controlador.NUEVO) {
+                seleccionada.setCodigo(txtCodigo.getText());
+            }
+            seleccionada.setNombre(txtNombre.getText());
+            seleccionada.setDesdeHE((Date)spDesdeHE.getValue());
+            seleccionada.setRefrigerioHS((Date)spRefrigerioHS.getValue());
+            seleccionada.setRefrigerioHE((Date)spRefrigerioHE.getValue());
+            seleccionada.setTardanzaHE((Date)spTardanzaHE.getValue());
+            seleccionada.setToleranciaRefrigerioHE((Date)spToleranciaRefrigerioHE.getValue());
+            seleccionada.setToleranciaHE((Date)spToleranciaHE.getValue());
+            seleccionada.setTurnoHE((Date)spTurnoHE.getValue());
+            seleccionada.setTurnoHS((Date)spTurnoHS.getValue());
+            seleccionada.setRefrigerioEspecial(chkRefrigerioEspecial.isSelected());
+
+            if(jornadaControlador.accion(accion)){
+                FormularioUtil.mensajeExito(this, accion);
+                this.accion = 0;
+                this.controles(accion);
+                this.actualizarTabla();
+            }else{
+                FormularioUtil.mensajeError(this, accion);
+            }
+
+        } else {
+            return;
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void chkRefrigerioEspecialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkRefrigerioEspecialActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkRefrigerioEspecialActionPerformed
+
+    private void spRefrigerioHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spRefrigerioHEStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spRefrigerioHEStateChanged
+
+    private void spRefrigerioHSStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spRefrigerioHSStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spRefrigerioHSStateChanged
+
+    private void spTurnoHSStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spTurnoHSStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spTurnoHSStateChanged
+
+    private void spTardanzaHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spTardanzaHEStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spTardanzaHEStateChanged
+
+    private void spToleranciaHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spToleranciaHEStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spToleranciaHEStateChanged
+
+    private void spDesdeHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spDesdeHEStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spDesdeHEStateChanged
+
+    private void spToleranciaRefrigerioHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spToleranciaRefrigerioHEStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spToleranciaRefrigerioHEStateChanged
+
+    private void spTurnoHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spTurnoHEStateChanged
+        // TODO add your handling code here:
+        Date hora = (Date) spTurnoHE.getValue();
+
+        System.out.println("HORA: " + hora.toString());
+    }//GEN-LAST:event_spTurnoHEStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -520,8 +550,10 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JCheckBox chkRefrigerioEspecial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -607,11 +639,18 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         spToleranciaHE.setValue(seleccionado.getToleranciaHE());
         spTurnoHE.setValue(seleccionado.getTurnoHE());
         spTurnoHS.setValue(seleccionado.getTurnoHS());
+        chkRefrigerioEspecial.setSelected(seleccionado.isRefrigerioEspecial());
     }
 
     private void actualizarTabla() {        
         jornadaList.clear();
         jornadaList.addAll(jornadaControlador.buscarTodos());
         tblJornadas.packAll();
+    }
+    
+    public void chekboxes(){
+        if(accion != 0){
+            spToleranciaRefrigerioHE.setEnabled(chkRefrigerioEspecial.isSelected());
+        }
     }
 }

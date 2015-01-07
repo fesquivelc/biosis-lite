@@ -289,14 +289,13 @@ public class DlgEmpleado extends javax.swing.JDialog {
         int fila = tblEmpleado.getSelectedRow();
         if (fila != -1) {
             if (evt.getClickCount() == 2) {
-                if (agregar) {
-                    if (this.padre instanceof CRUDGrupoHorario) {
-                        ((CRUDGrupoHorario) padre).agregarEmpleado(lista.get(fila));
-                        lista.remove(fila);
-                    } else if (this.padre instanceof AsignarPermiso) {
-                        ((AsignarPermiso) padre).agregarEmpleado(lista.get(fila));
 
-                    }
+                if (this.padre instanceof CRUDGrupoHorario && agregar) {
+                    ((CRUDGrupoHorario) padre).agregarEmpleado(lista.get(fila));
+                    lista.remove(fila);
+                } else if (this.padre instanceof AsignarPermiso && agregar) {
+                    ((AsignarPermiso) padre).agregarEmpleado(lista.get(fila));
+
                 } else {
                     empleadoSeleccionado = lista.get(fila);
                     this.dispose();

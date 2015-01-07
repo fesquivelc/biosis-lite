@@ -5,6 +5,8 @@
  */
 package biz.juvitec.controladores;
 
+import algoritmo.AnalisisAsistencia;
+import biz.juvitec.entidades.Empleado;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,8 +45,15 @@ public class prueba {
 //        System.out.println(df.format(cal.getTime()));
 //        System.out.println("COMPARATIVA " + fechaInicio.compareTo(cal.getTime()));
 //        System.exit(0);
-        Calendar cal = Calendar.getInstance();
-        System.out.println("DIA: "+cal.get(Calendar.DAY_OF_WEEK));
+        EmpleadoControlador ec = new EmpleadoControlador();
+        AnalisisAsistencia aa = new AnalisisAsistencia();
+        List<Empleado> empleados = ec.buscarXPatron("10001020");
+        if(!empleados.isEmpty()){
+            aa.analizarEmpleados(empleados);
+        }
+        
+        System.exit(0);
+        
     }
     
 }

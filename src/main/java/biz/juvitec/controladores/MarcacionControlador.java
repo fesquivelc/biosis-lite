@@ -97,7 +97,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
         String jpql = "SELECT m FROM Marcacion m WHERE "
                 + "CONCAT(:ceros,m.empleado) = :dni "
                 + "AND m.fecha = :fecha "
-                + "AND m.hora = :horaI and :horaF "
+                + "AND m.hora BETWEEN :horaI AND :horaF "
                 + "ORDER BY m.hora ASC";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("dni", dni);

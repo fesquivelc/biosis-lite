@@ -70,7 +70,7 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         cboTamanio = new javax.swing.JComboBox();
 
         setClosable(true);
-        setMaximizable(true);
+        setIconifiable(true);
         setTitle("LISTADO DE EMPLEADOS");
 
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();

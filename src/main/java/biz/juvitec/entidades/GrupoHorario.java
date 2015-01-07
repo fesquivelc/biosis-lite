@@ -23,7 +23,7 @@ public class GrupoHorario implements Serializable {
     private String codigo;
     @OneToMany(fetch = FetchType.LAZY,targetEntity = AsignacionHorario.class,mappedBy = "grupoHorario")
     private List<AsignacionHorario> asignacionHorarioList;
-    @OneToMany(cascade={CascadeType.ALL},fetch = FetchType.LAZY,targetEntity = DetalleGrupoHorario.class,mappedBy = "grupoHorario",orphanRemoval = true)
+    @OneToMany(cascade={CascadeType.ALL},fetch = FetchType.LAZY,targetEntity = DetalleGrupoHorario.class,mappedBy = "grupoHorario")
     private List<DetalleGrupoHorario> detalleGrupoHorarioList;
 
     public GrupoHorario() {

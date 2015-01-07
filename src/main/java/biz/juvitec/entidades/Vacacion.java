@@ -19,7 +19,7 @@ public class Vacacion implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @Column(name="fecha_interrupcion",nullable=false)
+    @Column(name="fecha_interrupcion")
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaInterrupcion;

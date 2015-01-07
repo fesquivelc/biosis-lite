@@ -29,10 +29,10 @@ public class RegistroAsistencia implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(optional=false,targetEntity = Horario.class)
-    @JoinColumn(name="horario_codigo",referencedColumnName="codigo",nullable=false)
+    @ManyToOne(targetEntity = Horario.class)
+    @JoinColumn(name="horario_codigo",referencedColumnName="codigo")
     private Horario horario;
-    @OneToMany(fetch = FetchType.LAZY,targetEntity = DetalleRegistroAsistencia.class,mappedBy = "registroAsistencia",orphanRemoval = true,cascade = CascadeType.ALL)
+    @OneToMany(cascade={CascadeType.ALL},fetch = FetchType.LAZY,targetEntity = DetalleRegistroAsistencia.class,mappedBy = "registroAsistencia")
     private List<DetalleRegistroAsistencia> detalleRegistroAsistenciaList;
     @ManyToOne(targetEntity = Permiso.class)
     private Permiso permiso;

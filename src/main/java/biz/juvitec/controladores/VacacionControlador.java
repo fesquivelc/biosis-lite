@@ -35,7 +35,7 @@ public class VacacionControlador extends Controlador<Vacacion> {
 
     public List<Vacacion> buscarXFecha(Date fechaInicio, Date fechaFin, int desde, int tamanio) {
         String jpql = "SELECT v FROM Vacacion v"
-                + " AND v.fechaInicio BETWEEN :fechaInicio AND :fechaFin"
+                + " WHERE v.fechaInicio BETWEEN :fechaInicio AND :fechaFin"
                 + " ORDER BY v.fechaInicio DESC";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("fechaInicio", fechaInicio);
@@ -56,7 +56,7 @@ public class VacacionControlador extends Controlador<Vacacion> {
 
     public int contarXFecha(Date fechaInicio, Date fechaFin) {
         String jpql = "SELECT COUNT(v.id) FROM Vacacion v"
-                + " AND v.fechaInicio BETWEEN :fechaInicio AND :fechaFin";
+                + " WHERE v.fechaInicio BETWEEN :fechaInicio AND :fechaFin";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("fechaInicio", fechaInicio);
         mapa.put("fechaFin", fechaFin);

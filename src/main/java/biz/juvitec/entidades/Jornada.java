@@ -43,6 +43,9 @@ public class Jornada implements Serializable {
     @Temporal(TemporalType.TIME)
     @Basic
     private Date refrigerioHS;
+    @Column(name="refrigerio_especial",nullable=false)
+    @Basic
+    private boolean refrigerioEspecial;
     @Column(name="turno_he",nullable=false)
     @Temporal(TemporalType.TIME)
     @Basic
@@ -122,6 +125,14 @@ public class Jornada implements Serializable {
 
     public void setRefrigerioHS(Date refrigerioHS) {
         this.refrigerioHS = refrigerioHS;
+    }
+    
+    public boolean isRefrigerioEspecial() {
+        return this.refrigerioEspecial;
+    }
+
+    public void setRefrigerioEspecial(boolean refrigerioEspecial) {
+        this.refrigerioEspecial = refrigerioEspecial;
     }
    
     public Date getTurnoHE() {

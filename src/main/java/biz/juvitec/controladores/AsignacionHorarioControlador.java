@@ -30,6 +30,14 @@ public class AsignacionHorarioControlador extends Controlador<AsignacionHorario>
         return this.getDao().buscar(jpql, mapa);
     }
     
+    public List<AsignacionHorario> buscarXGrupo(GrupoHorario grupo){
+        String jpql = "SELECT a FROM AsignacionHorario a WHERE "
+                + "a.grupoHorario = :grupo";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("grupo", grupo);
+        return this.getDao().buscar(jpql, mapa);
+    }
+    
     public List<AsignacionHorario> buscarXEmpleado(Empleado empleado){
         String jpql = "SELECT a FROM AsignacionHorario a WHERE "
                 + "a.empleado = :empleado";

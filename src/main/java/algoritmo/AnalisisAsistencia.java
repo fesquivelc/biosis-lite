@@ -113,8 +113,12 @@ public class AnalisisAsistencia {
 
                 registros.addAll(analizarHorario(empleado, horario, partida, llegada));
             }
-            
-            this.rac.guardarLote(registros);
+            if (!registros.isEmpty()) {
+                this.rac.guardarLote(registros);
+                llegada.setEmpleado(empleado.getNroDocumento());
+                this.tcac.modificar(llegada);
+            }
+
             registros.clear();
         }
         return registros;
@@ -161,17 +165,18 @@ public class AnalisisAsistencia {
 
         while (fInicio.compareTo(fFin) < 1) {
 
+            System.out.println("FECHA INICIO: " + fInicio.toString() + " FECHA FIN: " + fFin.toString());
             registro = new RegistroAsistencia();
             registro.setFecha(fInicio);
             registro.setEmpleado(empleado.getNroDocumento());
             registro.setHorario(horario);
-            
+
             AsignacionPermiso permisoXFecha = this.apc.buscarXDia(empleado.getNroDocumento(), fInicio);
 
             if (permisoXFecha != null) {
                 //SE GUARDA EL REGISTRO COMO UN PERMISO
                 registro.setPermiso(permisoXFecha.getPermiso());
-                registro.setTipoAsistencia('P');                
+                registro.setTipoAsistencia('P');
             } else {
                 Vacacion vacacion = this.vc.buscarXDia(empleado.getNroDocumento(), fInicio);
 
@@ -179,7 +184,7 @@ public class AnalisisAsistencia {
                     //SE GUARDA EL REGISTRO COMO VACACION
                     registro.setVacacion(vacacion);
                     registro.setTipoAsistencia('V');
-                    
+
                 } else {
                     boolean diaLaboral = isDiaLaboral(fInicio, horario);
                     if (diaLaboral) {
@@ -196,6 +201,9 @@ public class AnalisisAsistencia {
                             } else {
                                 //SE PROCEDE AL ANALISIS DE LA JORNADA
                                 registro = analizarJornada(empleado, horario.getJornada(), fInicio, hInicio, fFin, hFin);
+                                if (registro != null) {
+                                    registro.setHorario(horario);
+                                }
                             }
                         }
                     } else if (isOnomastico(empleado, fInicio)) {
@@ -318,8 +326,9 @@ public class AnalisisAsistencia {
             //AHORA SE PROCEDE A ANALIZAR LA JORNADA
             //ANALIZAMOS EL EVENTO DE ENTRADA AL TURNO
             DetalleRegistroAsistencia detalleEntrada = new DetalleRegistroAsistencia();
-            detalleEntrada.setEvento("E"); //LOS EVENTOS SON ENTRADA O SALIDA (E O S)
-            detalleEntrada.setTipo("T");
+            detalleEntrada.setEvento('E'); //LOS EVENTOS SON ENTRADA O SALIDA (E O S)
+            detalleEntrada.setTipo('T');
+            detalleEntrada.setRegistroAsistencia(registro);
             if (ocupaEntrada) {
                 //detalleEntrada.setTipo("T"); // LOS TIPOS SON T = TURNO, P = PERMISO, R = REFRIGERIO
                 detalleEntrada.setResultado('R'); // LOS RESULTADOS SON R = REGULAR, T = TARDANZA, F = FALTA
@@ -337,9 +346,9 @@ public class AnalisisAsistencia {
                     if (tardanzaEntrada > 0) {
                         //detalleEntrada.setTipo("T");
                         detalleEntrada.setResultado('T');
-                        
+
                         registro.setTipoAsistencia('T');
-                        
+
                         tardanzaTotal += tardanzaEntrada;
                     } else {
                         //detalleEntrada.setTipo("T");
@@ -354,8 +363,9 @@ public class AnalisisAsistencia {
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // ANALIZAMOS LA SALIDA DEL TURNO
             DetalleRegistroAsistencia detalleSalida = new DetalleRegistroAsistencia();
-            detalleSalida.setEvento("S"); //LOS EVENTOS SON ENTRADA O SALIDA (E O S)
-            detalleSalida.setTipo("T");
+            detalleSalida.setEvento('S'); //LOS EVENTOS SON ENTRADA O SALIDA (E O S)
+            detalleSalida.setTipo('T');
+            detalleSalida.setRegistroAsistencia(registro);
             if (ocupaSalida) {
                 //detalleEntrada.setTipo("T"); // LOS TIPOS SON T = TURNO, P = PERMISO, R = REFRIGERIO
                 detalleSalida.setResultado('R'); // LOS RESULTADOS SON R = REGULAR, T = TARDANZA, F = FALTA
@@ -373,7 +383,7 @@ public class AnalisisAsistencia {
                     detalleSalida.setResultado('R');
                     detalleSalida.setHora(marcacionSalida.getHora());
                 }
-                
+
             }
             detalles.add(detalleSalida);
 
@@ -385,11 +395,12 @@ public class AnalisisAsistencia {
             // TODO EL TIEMPO QUE EXISTA ENTRE LA HORA EN LA QUE DEBIO ENTRAR HASTA LA HORA EN LA QUE ENTRO
             // SE CONSIDERA COMO TARDANZA
             DetalleRegistroAsistencia detalleSalidaRefrigerio = new DetalleRegistroAsistencia();
-            detalleSalidaRefrigerio.setEvento("S"); //LOS EVENTOS SON ENTRADA O SALIDA (E O S)
-            detalleSalidaRefrigerio.setTipo("R");
+            detalleSalidaRefrigerio.setEvento('S'); //LOS EVENTOS SON ENTRADA O SALIDA (E O S)
+            detalleSalidaRefrigerio.setTipo('R');
+            detalleSalidaRefrigerio.setRegistroAsistencia(registro);
             Marcacion marcacionSalidaRefrigerio = this.mc.buscarXFechaXhora(empleado.getNroDocumento(), fInicio, jornada.getRefrigerioHS(), jornada.getToleranciaRefrigerioHE());
             if (marcacionSalidaRefrigerio == null) {
-                    //MARCACION COMO FALTA
+                //MARCACION COMO FALTA
                 //detalleEntrada.setTipo("T");
                 detalleSalidaRefrigerio.setResultado('F');
 
@@ -399,48 +410,49 @@ public class AnalisisAsistencia {
                 detalleSalidaRefrigerio.setHora(marcacionSalidaRefrigerio.getHora());
             }
             detalles.add(detalleSalidaRefrigerio);
-            
-            
-            Calendar calDesde = Calendar.getInstance();
-            Calendar calHasta = Calendar.getInstance();
-            
-            calDesde.setTime(marcacionSalidaRefrigerio.getHora());
-            calDesde.add(Calendar.MINUTE, 1);
-            
-            calHasta.setTime(marcacionSalidaRefrigerio.getHora());
-            calHasta.add(Calendar.MINUTE, 60);
-            
-            DetalleRegistroAsistencia detalleEntradaRefrigerio = new DetalleRegistroAsistencia();
-            detalleEntradaRefrigerio.setEvento("E"); //LOS EVENTOS SON ENTRADA O SALIDA (E O S)
-            detalleEntradaRefrigerio.setTipo("R");
-            Marcacion marcacionEntradaRefrigerio = this.mc.buscarXFechaXhora(empleado.getNroDocumento(), fInicio, calDesde.getTime(), calHasta.getTime());
-            if (marcacionEntradaRefrigerio == null) {
-                    //MARCACION COMO FALTA
-                //detalleEntrada.setTipo("T");
-                
-                marcacionEntradaRefrigerio = this.mc.buscarXFechaXhora(empleado.getNroDocumento(), fInicio, calHasta.getTime(), horaMaximaSalida);
-                if(marcacionEntradaRefrigerio == null){
-                    detalleEntradaRefrigerio.setResultado('F');
-                    registro.setTipoAsistencia('F');
-                }else{
-                    tardanzaTotal = tardanzaTotal + this.tardanza(calHasta.getTime(), marcacionEntradaRefrigerio.getHora());
-                    registro.setTipoAsistencia('T');
-                    detalleEntradaRefrigerio.setHora(marcacionEntradaRefrigerio.getHora());
-                    detalleEntradaRefrigerio.setResultado('T');
-                    
-                }
 
-            } else {
-                //detalleEntrada.setTipo("T");
-                detalleEntradaRefrigerio.setResultado('R');
-                detalleEntradaRefrigerio.setHora(marcacionSalidaRefrigerio.getHora());
+            if (marcacionSalidaRefrigerio != null) {
+                Calendar calDesde = Calendar.getInstance();
+                Calendar calHasta = Calendar.getInstance();
+
+                calDesde.setTime(marcacionSalidaRefrigerio.getHora());
+                calDesde.add(Calendar.MINUTE, 1);
+
+                calHasta.setTime(marcacionSalidaRefrigerio.getHora());
+                calHasta.add(Calendar.MINUTE, 60);
+
+                DetalleRegistroAsistencia detalleEntradaRefrigerio = new DetalleRegistroAsistencia();
+                detalleEntradaRefrigerio.setEvento('E'); //LOS EVENTOS SON ENTRADA O SALIDA (E O S)
+                detalleEntradaRefrigerio.setTipo('R');
+                detalleEntradaRefrigerio.setRegistroAsistencia(registro);
+                Marcacion marcacionEntradaRefrigerio = this.mc.buscarXFechaXhora(empleado.getNroDocumento(), fInicio, calDesde.getTime(), calHasta.getTime());
+                if (marcacionEntradaRefrigerio == null) {
+                    //MARCACION COMO FALTA
+                    //detalleEntrada.setTipo("T");
+
+                    marcacionEntradaRefrigerio = this.mc.buscarXFechaXhora(empleado.getNroDocumento(), fInicio, calHasta.getTime(), horaMaximaSalida);
+                    if (marcacionEntradaRefrigerio == null) {
+                        detalleEntradaRefrigerio.setResultado('F');
+                        registro.setTipoAsistencia('F');
+                    } else {
+                        tardanzaTotal = tardanzaTotal + this.tardanza(calHasta.getTime(), marcacionEntradaRefrigerio.getHora());
+                        registro.setTipoAsistencia('T');
+                        detalleEntradaRefrigerio.setHora(marcacionEntradaRefrigerio.getHora());
+                        detalleEntradaRefrigerio.setResultado('T');
+
+                    }
+
+                } else {
+                    //detalleEntrada.setTipo("T");
+                    detalleEntradaRefrigerio.setResultado('R');
+                    detalleEntradaRefrigerio.setHora(marcacionSalidaRefrigerio.getHora());
+                }
+                detalles.add(detalleEntradaRefrigerio);
             }
-            detalles.add(detalleEntradaRefrigerio);
-            
+
             registro.setDetalleRegistroAsistenciaList(detalles);
-            
+
             registro.setMilisegundosTardanza(tardanzaTotal);
-            
 
             return registro;
         } else {
@@ -474,9 +486,9 @@ public class AnalisisAsistencia {
 
         //DETALLE PARA LA MARCACION DE SALIDA
         DetalleRegistroAsistencia detalleSalida = new DetalleRegistroAsistencia();
-        detalleSalida.setEvento("S");
+        detalleSalida.setEvento('S');
         detalleSalida.setRegistroAsistencia(registro);
-        detalleSalida.setTipo("P");
+        detalleSalida.setTipo('P');
         detalleSalida.setPermiso(permiso);
 
         if (marcacionSalida == null) {
@@ -492,10 +504,10 @@ public class AnalisisAsistencia {
 
         //DETALLE PARA LA MARCACION DE ENTRADA
         DetalleRegistroAsistencia detalleEntrada = new DetalleRegistroAsistencia();
-        detalleEntrada.setEvento("E");
+        detalleEntrada.setEvento('E');
         detalleEntrada.setRegistroAsistencia(registro);
         detalleEntrada.setPermiso(permiso);
-        detalleEntrada.setTipo("P");
+        detalleEntrada.setTipo('P');
 
         if (marcacionEntrada == null) {
             detalleEntrada.setHora(horaMaxima);

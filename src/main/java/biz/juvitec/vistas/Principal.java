@@ -16,14 +16,19 @@ import biz.juvitec.vistas.mantenimientos.CRUDHorario;
 import biz.juvitec.vistas.mantenimientos.CRUDJornada;
 import biz.juvitec.vistas.mantenimientos.CRUDPeriodo;
 import biz.juvitec.vistas.mantenimientos.CRUDTipoPermiso;
+import com.personal.utiles.ImagenFondo;
 import java.awt.Component;
 import java.awt.event.MouseMotionListener;
 import java.beans.PropertyVetoException;
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JInternalFrame;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /**
@@ -37,6 +42,15 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        
+        File file = new File("img/fondo-minedu.jpg");
+        ImagenFondo borde;
+        try {
+            borde = new ImagenFondo(ImageIO.read(file));
+            this.desktopPane.setBorder(borde);
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
 //        iniciar();
     }
 
@@ -48,10 +62,17 @@ public class Principal extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jSeparator2 = new javax.swing.JSeparator();
         desktopPane = new javax.swing.JDesktopPane();
         jSeparator1 = new javax.swing.JSeparator();
+        pnlBotnes = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -75,10 +96,92 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL - BIOSIS MINEDU");
+        java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
+        layout.columnWidths = new int[] {0};
+        layout.rowHeights = new int[] {0, 10, 0};
+        getContentPane().setLayout(layout);
 
         desktopPane.setDragMode(javax.swing.JDesktopPane.OUTLINE_DRAG_MODE);
         desktopPane.add(jSeparator1);
         jSeparator1.setBounds(180, 30, 0, 2);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 1014;
+        gridBagConstraints.ipady = 616;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        getContentPane().add(desktopPane, gridBagConstraints);
+
+        java.awt.GridBagLayout pnlBotnesLayout = new java.awt.GridBagLayout();
+        pnlBotnesLayout.columnWidths = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0};
+        pnlBotnesLayout.rowHeights = new int[] {0};
+        pnlBotnes.setLayout(pnlBotnesLayout);
+
+        jButton1.setText("Empleados");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        pnlBotnes.add(jButton1, gridBagConstraints);
+
+        jButton2.setText("Marcaciones");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        pnlBotnes.add(jButton2, gridBagConstraints);
+
+        jButton3.setText("Permisos");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        pnlBotnes.add(jButton3, gridBagConstraints);
+
+        jButton4.setText("Horarios");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        pnlBotnes.add(jButton4, gridBagConstraints);
+
+        jButton5.setText("Registro de asistencia");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 0;
+        pnlBotnes.add(jButton5, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        getContentPane().add(pnlBotnes, gridBagConstraints);
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("Horario");
@@ -223,17 +326,6 @@ public class Principal extends javax.swing.JFrame {
 
         setJMenuBar(menuBar);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1014, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
-        );
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -243,8 +335,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void cutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutMenuItemActionPerformed
         // TODO add your handling code here:
-        VistaEmpleado ve = new VistaEmpleado();
-        agregarAPanel(ve, true);
+        empleados();
     }//GEN-LAST:event_cutMenuItemActionPerformed
 
     private void contentMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentMenuItemActionPerformed
@@ -275,8 +366,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         // TODO add your handling code here:
-        CRUDHorario horarios = new CRUDHorario();
-        agregarAPanel(horarios, true);
+        horarios();
 
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
@@ -294,8 +384,8 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
-        VistaMarcaciones marcaciones = new VistaMarcaciones();
-        agregarAPanel(marcaciones, true);
+        marcaciones();
+        
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -312,8 +402,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
-        AsignarPermiso asignar = new AsignarPermiso();
-        agregarAPanel(asignar, true);
+        permiso();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
@@ -321,6 +410,31 @@ public class Principal extends javax.swing.JFrame {
         AsignarVacacion asignar = new AsignarVacacion();
         agregarAPanel(asignar, true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        empleados();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        marcaciones();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        permiso();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        horarios();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        registroAsistencia();
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -338,7 +452,7 @@ public class Principal extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             // If Nimbus is not available, you can set the GUI to another look and feel.
         }
         //</editor-fold>
@@ -362,6 +476,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
@@ -374,6 +493,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem pasteMenuItem;
+    private javax.swing.JPanel pnlBotnes;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables
@@ -409,5 +529,30 @@ public class Principal extends javax.swing.JFrame {
         DAOMINEDU dao3 = new DAOMINEDU(Empleado.class);
         dao2.getEntityManager();
         dao3.getEntityManager();
+    }
+
+    private void empleados() {
+        VistaEmpleado ve = new VistaEmpleado();
+        agregarAPanel(ve, true);
+    }
+
+    private void marcaciones() {
+        VistaMarcaciones marcaciones = new VistaMarcaciones();
+        agregarAPanel(marcaciones, true);
+    }
+
+    private void permiso() {
+        AsignarPermiso asignar = new AsignarPermiso();
+        agregarAPanel(asignar, true);
+    }
+
+    private void horarios() {
+        CRUDHorario horarios = new CRUDHorario();
+        agregarAPanel(horarios, true);
+    }
+
+    private void registroAsistencia() {
+        VistaRegistroAsistencia registroAsistencia = new VistaRegistroAsistencia();
+        agregarAPanel(registroAsistencia, true);
     }
 }
