@@ -51,7 +51,7 @@ public class Principal extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        iniciar();
+        iniciar();
     }
 
     /**
@@ -447,7 +447,7 @@ public class Principal extends javax.swing.JFrame {
          */
         try {
             for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("windows classic".equalsIgnoreCase(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

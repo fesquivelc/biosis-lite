@@ -51,12 +51,14 @@ public class DAO<T> {
             String url = configuracion.getProperty("url");
             String usuario = configuracion.getProperty("usuario");
             String password = configuracion.getProperty("password");
+            String accion = configuracion.getProperty("accion");
 
             Map<String, String> properties = new HashMap<>();
             properties.put("javax.persistence.jdbc.user", usuario);
             properties.put("javax.persistence.jdbc.password", Encriptador.decrypt(password));
             properties.put("javax.persistence.jdbc.driver", driver);
             properties.put("javax.persistence.jdbc.url", url);
+            properties.put("javax.persistence.schema-generation.database.action", accion);
             
             EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.PU,properties);
             em = emf.createEntityManager();

@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import org.apache.commons.beanutils.BeanUtils;
 import utiles.Encriptador;
@@ -130,6 +131,7 @@ public class Configuracion extends javax.swing.JInternalFrame {
         txtPassword3 = new javax.swing.JPasswordField();
         jLabel51 = new javax.swing.JLabel();
         cboTipoBD3 = new javax.swing.JComboBox();
+        chkCrear = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -340,6 +342,13 @@ public class Configuracion extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         pnlBiosis.add(cboTipoBD3, gridBagConstraints);
 
+        chkCrear.setText("¿Crear tablas?");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlBiosis.add(chkCrear, gridBagConstraints);
+
         getContentPane().add(pnlBiosis);
 
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
@@ -379,7 +388,7 @@ public class Configuracion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         this.guardar(rrhh, urlRRHH, cboTipoBD1, txtConexion1, txtUsuario1, txtPassword1);
         this.guardar(biostar, urlBIOSTAR, cboTipoBD2, txtConexion2, txtUsuario2, txtPassword2);
-        this.guardar(biosis, urlBIOSIS, cboTipoBD3, txtConexion3, txtUsuario3, txtPassword3);
+        this.guardar(biosis, urlBIOSIS, cboTipoBD3, txtConexion3, txtUsuario3, txtPassword3, chkCrear.isSelected());
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
@@ -387,6 +396,7 @@ public class Configuracion extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cboTipoBD1;
     private javax.swing.JComboBox cboTipoBD2;
     private javax.swing.JComboBox cboTipoBD3;
+    private javax.swing.JCheckBox chkCrear;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel40;
@@ -418,6 +428,33 @@ public class Configuracion extends javax.swing.JInternalFrame {
 
     private void inicializar() {
 
+    }
+
+    private void guardar(Properties fichero, String urlFichero, JComboBox combo, JTextField txtConexion, JTextField txtUsuario, JTextField txtPassword, boolean selected) {
+        int tipoBD = combo.getSelectedIndex() + 1;
+
+//        String driver = ParametrosUtil.obtenerDriver(tipoBD);
+        String url = txtConexion.getText();
+        String usuario = txtUsuario.getText();
+        String password = txtPassword.getText();
+
+//        combo.setSelectedIndex(tipoBD - 1);
+        txtConexion.setText(url);
+        txtUsuario.setText(usuario);
+        txtPassword.setText(password);
+        
+        fichero.setProperty("url", url);
+        fichero.setProperty("usuario", usuario);
+        fichero.setProperty("password", Encriptador.encrypt(password));
+        fichero.setProperty("tipo", tipoBD+"");
+        
+        if(selected){
+            fichero.setProperty("action", "create");
+        }else{
+            fichero.setProperty("action", "none");
+        }
+
+        PropertiesUtil.guardarProperties(fichero, urlFichero);
     }
 
 }

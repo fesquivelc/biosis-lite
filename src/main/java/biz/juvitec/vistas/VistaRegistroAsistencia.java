@@ -5,6 +5,23 @@
  */
 package biz.juvitec.vistas;
 
+import biz.juvitec.controladores.RegistroAsistenciaControlador;
+import biz.juvitec.entidades.DetalleRegistroAsistencia;
+import biz.juvitec.entidades.Empleado;
+import biz.juvitec.entidades.Horario;
+import biz.juvitec.entidades.Marcacion;
+import biz.juvitec.entidades.RegistroAsistencia;
+import biz.juvitec.vistas.dialogos.DlgEmpleado;
+import biz.juvitec.vistas.modelos.MTEmpleado;
+import biz.juvitec.vistas.modelos.MTRegistroAsistencia;
+import com.personal.utiles.FormularioUtil;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
+import org.jdesktop.observablecollections.ObservableCollections;
+
 /**
  *
  * @author fesquivelc
@@ -14,8 +31,25 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
     /**
      * Creates new form RegistroAsistencia
      */
+    private List<Empleado> empleadoList;
+    private List<RegistroAsistencia> registroAsistenciaList;
+    private List<DetalleRegistroAsistencia> detalleRegistroAsistenciaList;
+    private List<Horario> horarioList;
+    private List<Marcacion> marcacionList;
+    
+    
+    private final RegistroAsistenciaControlador rc;
+    
     public VistaRegistroAsistencia() {
         initComponents();
+        
+        rc = new RegistroAsistenciaControlador();
+        
+        
+        inicializar();
+        bindeoSalvaje();
+        buscar();
+        actualizarControlesNavegacion();
     }
 
     /**
@@ -32,13 +66,21 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlRegistroDetalleMarcaciones = new javax.swing.JPanel();
         pnlRegistro = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jXTable1 = new org.jdesktop.swingx.JXTable();
+        tblRegistros = new org.jdesktop.swingx.JXTable();
+        pnlNavegacion = new javax.swing.JPanel();
+        btnPrimero = new javax.swing.JButton();
+        btnAnterior = new javax.swing.JButton();
+        spPagina = new javax.swing.JSpinner();
+        txtTotal = new javax.swing.JTextField();
+        btnSiguiente = new javax.swing.JButton();
+        btnUltimo = new javax.swing.JButton();
+        cboTamanio = new javax.swing.JComboBox();
         pnlDetalle = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jXTable5 = new org.jdesktop.swingx.JXTable();
+        tblDetalleAsistencia = new org.jdesktop.swingx.JXTable();
         pnlMarcaciones = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jXTable4 = new org.jdesktop.swingx.JXTable();
+        tblMarcacionesDia = new org.jdesktop.swingx.JXTable();
         jPanel3 = new javax.swing.JPanel();
         spFechaInicio = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
@@ -48,16 +90,18 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        txtEmpleado = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tblEmpleados = new org.jdesktop.swingx.JXTable();
+        jPanel2 = new javax.swing.JPanel();
         pnlHorarioResumen = new javax.swing.JPanel();
         pnlHorario = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jXTable2 = new org.jdesktop.swingx.JXTable();
+        tblHorario = new org.jdesktop.swingx.JXTable();
         pnlResumen = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jXTable3 = new org.jdesktop.swingx.JXTable();
+        tblResumen = new org.jdesktop.swingx.JXTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -65,10 +109,10 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         setToolTipText("Aquí se muestran todas las asistencias de los empleados");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("REGISTRO DE ASISTENCIA"));
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
-        jPanel1Layout.columnWidths = new int[] {0, 5, 0};
-        jPanel1Layout.rowHeights = new int[] {0, 5, 0};
+        jPanel1Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
+        jPanel1Layout.rowHeights = new int[] {0};
         jPanel1.setLayout(jPanel1Layout);
 
         java.awt.GridBagLayout pnlRegistroDetalleMarcacionesLayout = new java.awt.GridBagLayout();
@@ -79,27 +123,87 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlRegistro.setBorder(javax.swing.BorderFactory.createTitledBorder("Listado de asistencia"));
         pnlRegistro.setLayout(new java.awt.GridBagLayout());
 
-        jXTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblRegistros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane1.setViewportView(jXTable1);
+        jScrollPane1.setViewportView(tblRegistros);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 21;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         pnlRegistro.add(jScrollPane1, gridBagConstraints);
+
+        pnlNavegacion.setLayout(new java.awt.GridLayout(1, 0, 2, 0));
+
+        btnPrimero.setText("<<");
+        btnPrimero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrimeroActionPerformed(evt);
+            }
+        });
+        pnlNavegacion.add(btnPrimero);
+
+        btnAnterior.setText("<");
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
+        pnlNavegacion.add(btnAnterior);
+
+        spPagina.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spPagina.setMinimumSize(new java.awt.Dimension(60, 20));
+        spPagina.setPreferredSize(new java.awt.Dimension(60, 20));
+        spPagina.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spPaginaStateChanged(evt);
+            }
+        });
+        pnlNavegacion.add(spPagina);
+
+        txtTotal.setEditable(false);
+        txtTotal.setColumns(3);
+        txtTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtTotal.setText("1");
+        pnlNavegacion.add(txtTotal);
+
+        btnSiguiente.setText(">");
+        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiguienteActionPerformed(evt);
+            }
+        });
+        pnlNavegacion.add(btnSiguiente);
+
+        btnUltimo.setText(">>");
+        btnUltimo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUltimoActionPerformed(evt);
+            }
+        });
+        pnlNavegacion.add(btnUltimo);
+
+        cboTamanio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "5", "10", "15", "20", "25", "40", "50" }));
+        cboTamanio.setMinimumSize(new java.awt.Dimension(53, 24));
+        cboTamanio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTamanioActionPerformed(evt);
+            }
+        });
+        pnlNavegacion.add(cboTamanio);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        pnlRegistro.add(pnlNavegacion, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -111,9 +215,9 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlRegistroDetalleMarcaciones.add(pnlRegistro, gridBagConstraints);
 
         pnlDetalle.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle de la asistencia"));
-        pnlDetalle.setLayout(new java.awt.GridLayout());
+        pnlDetalle.setLayout(new java.awt.GridLayout(1, 0));
 
-        jXTable5.setModel(new javax.swing.table.DefaultTableModel(
+        tblDetalleAsistencia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -124,7 +228,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane5.setViewportView(jXTable5);
+        jScrollPane5.setViewportView(tblDetalleAsistencia);
 
         pnlDetalle.add(jScrollPane5);
 
@@ -137,9 +241,9 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlRegistroDetalleMarcaciones.add(pnlDetalle, gridBagConstraints);
 
         pnlMarcaciones.setBorder(javax.swing.BorderFactory.createTitledBorder("Marcaciones en el día"));
-        pnlMarcaciones.setLayout(new java.awt.GridLayout());
+        pnlMarcaciones.setLayout(new java.awt.GridLayout(1, 0));
 
-        jXTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tblMarcacionesDia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -150,7 +254,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane4.setViewportView(jXTable4);
+        jScrollPane4.setViewportView(tblMarcacionesDia);
 
         pnlMarcaciones.add(jScrollPane4);
 
@@ -163,92 +267,135 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlRegistroDetalleMarcaciones.add(pnlMarcaciones, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.weighty = 0.1;
         jPanel1.add(pnlRegistroDetalleMarcaciones, gridBagConstraints);
 
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Parámetros de búsqueda"));
         java.awt.GridBagLayout jPanel3Layout = new java.awt.GridBagLayout();
-        jPanel3Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
-        jPanel3Layout.rowHeights = new int[] {0};
+        jPanel3Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel3Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel3.setLayout(jPanel3Layout);
 
         spFechaInicio.setModel(new javax.swing.SpinnerDateModel());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 14;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(spFechaInicio, gridBagConstraints);
 
-        jLabel3.setText("FECHAS:");
+        jLabel3.setText("Fechas:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(jLabel3, gridBagConstraints);
 
         spFechaFin.setModel(new javax.swing.SpinnerDateModel());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 18;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(spFechaFin, gridBagConstraints);
 
         jLabel4.setText("-");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 16;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(jLabel4, gridBagConstraints);
 
         cboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
         jPanel3.add(cboArea, gridBagConstraints);
 
-        jButton2.setText("...");
+        jButton2.setText("+");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         jPanel3.add(jButton2, gridBagConstraints);
 
-        jLabel2.setText("ÁREA:");
+        jLabel2.setText("Área:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(jLabel2, gridBagConstraints);
 
         jButton1.setText("LIMPIAR");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(jButton1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 0.1;
-        jPanel3.add(txtEmpleado, gridBagConstraints);
 
-        jLabel1.setText("EMPLEADO:");
+        jLabel1.setText("Empleados:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         jPanel3.add(jLabel1, gridBagConstraints);
 
         jButton3.setText("Buscar");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 20;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(jButton3, gridBagConstraints);
+
+        tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane6.setViewportView(tblEmpleados);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.gridheight = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        jPanel3.add(jScrollPane6, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridwidth = 11;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 0.1;
+        jPanel3.add(jPanel2, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
         jPanel1.add(jPanel3, gridBagConstraints);
 
         java.awt.GridBagLayout pnlHorarioResumenLayout = new java.awt.GridBagLayout();
@@ -257,9 +404,9 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlHorarioResumen.setLayout(pnlHorarioResumenLayout);
 
         pnlHorario.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle del horario"));
-        pnlHorario.setLayout(new java.awt.GridLayout());
+        pnlHorario.setLayout(new java.awt.GridLayout(1, 0));
 
-        jXTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblHorario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -270,7 +417,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jXTable2);
+        jScrollPane2.setViewportView(tblHorario);
 
         pnlHorario.add(jScrollPane2);
 
@@ -283,9 +430,9 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlHorarioResumen.add(pnlHorario, gridBagConstraints);
 
         pnlResumen.setBorder(javax.swing.BorderFactory.createTitledBorder("Resúmen (Solo para un empleado)"));
-        pnlResumen.setLayout(new java.awt.GridLayout());
+        pnlResumen.setLayout(new java.awt.GridLayout(1, 0));
 
-        jXTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblResumen.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -296,7 +443,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jXTable3);
+        jScrollPane3.setViewportView(tblResumen);
 
         pnlResumen.add(jScrollPane3);
 
@@ -309,8 +456,8 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlHorarioResumen.add(pnlResumen, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
@@ -325,9 +472,52 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeroActionPerformed
+        // TODO add your handling code here:
+        primero();
+    }//GEN-LAST:event_btnPrimeroActionPerformed
+
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        // TODO add your handling code here:
+        anterior();
+    }//GEN-LAST:event_btnAnteriorActionPerformed
+
+    private void spPaginaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spPaginaStateChanged
+        // TODO add your handling code here:
+        this.seleccionPagina();
+    }//GEN-LAST:event_spPaginaStateChanged
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        // TODO add your handling code here:
+        siguiente();
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
+        // TODO add your handling code here:
+        ultimo();
+    }//GEN-LAST:event_btnUltimoActionPerformed
+
+    private void cboTamanioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTamanioActionPerformed
+        // TODO add your handling code here:
+        this.paginaActual = 1;
+        buscar();
+        this.actualizarControlesNavegacion();
+    }//GEN-LAST:event_cboTamanioActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        DlgEmpleado dialogoEmpleados = new DlgEmpleado(this);
+        dialogoEmpleados.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAnterior;
+    private javax.swing.JButton btnPrimero;
+    private javax.swing.JButton btnSiguiente;
+    private javax.swing.JButton btnUltimo;
     private javax.swing.JComboBox cboArea;
+    private javax.swing.JComboBox cboTamanio;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -336,26 +526,150 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private org.jdesktop.swingx.JXTable jXTable1;
-    private org.jdesktop.swingx.JXTable jXTable2;
-    private org.jdesktop.swingx.JXTable jXTable3;
-    private org.jdesktop.swingx.JXTable jXTable4;
-    private org.jdesktop.swingx.JXTable jXTable5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JPanel pnlDetalle;
     private javax.swing.JPanel pnlHorario;
     private javax.swing.JPanel pnlHorarioResumen;
     private javax.swing.JPanel pnlMarcaciones;
+    private javax.swing.JPanel pnlNavegacion;
     private javax.swing.JPanel pnlRegistro;
     private javax.swing.JPanel pnlRegistroDetalleMarcaciones;
     private javax.swing.JPanel pnlResumen;
     private javax.swing.JSpinner spFechaFin;
     private javax.swing.JSpinner spFechaInicio;
-    private javax.swing.JTextField txtEmpleado;
+    private javax.swing.JSpinner spPagina;
+    private org.jdesktop.swingx.JXTable tblDetalleAsistencia;
+    private org.jdesktop.swingx.JXTable tblEmpleados;
+    private org.jdesktop.swingx.JXTable tblHorario;
+    private org.jdesktop.swingx.JXTable tblMarcacionesDia;
+    private org.jdesktop.swingx.JXTable tblRegistros;
+    private org.jdesktop.swingx.JXTable tblResumen;
+    private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
+
+    MTRegistroAsistencia mtRegistro;
+    private void bindeoSalvaje() {
+        mtRegistro = new MTRegistroAsistencia(registroAsistenciaList);
+        tblRegistros.setModel(mtRegistro);
+        
+        MTEmpleado mtEmpleado = new MTEmpleado(empleadoList);
+        tblEmpleados.setModel(mtEmpleado);
+    }
+
+    private void inicializar() {        
+        this.marcacionList = ObservableCollections.observableList(new ArrayList<Marcacion>());
+        this.empleadoList = ObservableCollections.observableList(new ArrayList<Empleado>());
+        this.registroAsistenciaList = ObservableCollections.observableList(new ArrayList<RegistroAsistencia>());
+        this.detalleRegistroAsistenciaList = ObservableCollections.observableList(new ArrayList<DetalleRegistroAsistencia>());
+        this.horarioList = ObservableCollections.observableList(new ArrayList<Horario>());
+        
+        
+        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
+        FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
+    }    
+    
+    
+    private int paginaActual = 1;
+    private int totalPaginas = 0;
+    private int tamanioPagina = 0;
+
+    private void buscar() {
+        Date fechaInicio = (Date) spFechaInicio.getValue();
+        Date fechaFin = (Date) spFechaFin.getValue();
+
+        tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
+
+        mtRegistro.setEmpleadoList(empleadoList);
+        registroAsistenciaList.clear();
+        
+        registroAsistenciaList.addAll(this.listar(empleadoList, fechaInicio, fechaFin, paginaActual, tamanioPagina));
+        
+        tblEmpleados.packAll();
+    }
+
+    private List<RegistroAsistencia> listar(List<Empleado> empleado, Date fechaInicio, Date fechaFin, int pagina, int tamanio) {
+        List<String> dnis = obtenerDNI(empleado);
+        int total = rc.contarXEmpleadoXFecha(dnis, fechaInicio, fechaFin);
+        if (total % tamanio == 0) {
+            totalPaginas = total / tamanio;
+        } else {
+            totalPaginas = (total / tamanio) + 1;
+        }
+        
+        if(totalPaginas == 0){
+            totalPaginas = 1;
+        }
+
+        return this.rc.buscarXEmpleadoXFecha(dnis, fechaInicio, fechaFin, (pagina - 1) * tamanio, tamanio);
+
+    }
+
+    private void siguiente() {
+        paginaActual++;
+        buscar();
+        this.actualizarControlesNavegacion();
+    }
+
+    private void ultimo() {
+        paginaActual = totalPaginas;
+        buscar();
+        this.actualizarControlesNavegacion();
+    }
+
+    private void primero() {
+        paginaActual = 1;
+        buscar();
+        this.actualizarControlesNavegacion();
+    }
+
+    private void anterior() {
+        paginaActual--;
+        buscar();
+        this.actualizarControlesNavegacion();
+    }
+
+    private void seleccionPagina() {
+        paginaActual = (int) spPagina.getValue();
+        buscar();
+        this.actualizarControlesNavegacion();
+    }
+
+    private void actualizarControlesNavegacion() {
+        spPagina.setValue(paginaActual);
+        txtTotal.setText(totalPaginas + "");
+
+        SpinnerNumberModel modeloSP = (SpinnerNumberModel) spPagina.getModel();
+        Comparable<Integer> maximo = totalPaginas;
+        modeloSP.setMaximum(maximo);
+
+        this.btnSiguiente.setEnabled(paginaActual != totalPaginas);
+        this.btnUltimo.setEnabled(paginaActual != totalPaginas);
+
+        this.btnAnterior.setEnabled(paginaActual != 1);
+        this.btnPrimero.setEnabled(paginaActual != 1);
+    }
+    
+    private List<String> obtenerDNI(List<Empleado> empleados){
+        List<String> dnis = new ArrayList<>();
+        for(Empleado empleado : empleados){
+            dnis.add(empleado.getNroDocumento());
+        }
+        return dnis;
+    }
+    
+    public void agregarEmpleado(Empleado empleado){
+        if(!empleadoList.contains(empleado)){
+            empleadoList.add(empleado);
+        }else{
+            JOptionPane.showMessageDialog(this, "No puede agregar al mismo empleado dos veces", "Mensaje del Sistema", JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }
 }

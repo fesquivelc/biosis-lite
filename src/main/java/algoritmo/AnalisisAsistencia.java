@@ -193,7 +193,7 @@ public class AnalisisAsistencia {
                         if (feriado != null) {
                             //SE REGISTRA COMO FERIADO
                             registro.setFeriado(feriado);
-                            registro.setTipoAsistencia('F');
+                            registro.setTipoAsistencia('E'); //RECORDAR QUE E PERTENECE A LOS FERIADOS
                         } else {
                             //TOMAMOS EN CUENTA EL ONOMASTICO
                             if (isOnomastico(empleado, fInicio)) {

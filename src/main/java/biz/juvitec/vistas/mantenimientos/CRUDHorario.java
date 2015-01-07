@@ -383,7 +383,10 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         DlgJornada dialogo = new DlgJornada(this);
         jornadaSeleccionada = dialogo.getJornadaSeleccionada();
-        txtJornada.setText(jornadaSeleccionada.getNombre());
+        if(jornadaSeleccionada != null){
+            txtJornada.setText(jornadaSeleccionada.getNombre());
+        }
+        
     }//GEN-LAST:event_btnJornadaActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed

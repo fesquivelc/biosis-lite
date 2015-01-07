@@ -384,14 +384,17 @@ public class DlgJornada extends javax.swing.JDialog {
     private void tblJornadasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblJornadasMouseReleased
         // TODO add your handling code here:
         int fila = tblJornadas.getSelectedRow();
-        Jornada seleccionada = jornadaList.get(fila);
-        if(evt.getClickCount() == 1){
-            mostrar(seleccionada);
-        }else if(evt.getClickCount() == 2){
-            jornadaSeleccionada = seleccionada;
-            this.dispose();
+        if (fila != -1) {
+            Jornada seleccionada = jornadaList.get(fila);
+            if (evt.getClickCount() == 1) {
+                mostrar(seleccionada);
+            } else if (evt.getClickCount() == 2) {
+                jornadaSeleccionada = seleccionada;
+                this.dispose();
+            }
         }
-        
+
+
     }//GEN-LAST:event_tblJornadasMouseReleased
 
     public Jornada getJornadaSeleccionada() {
@@ -466,7 +469,6 @@ public class DlgJornada extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    
     private int accion;
     private final JornadaControlador jornadaControlador;
     private List<Jornada> jornadaList;
