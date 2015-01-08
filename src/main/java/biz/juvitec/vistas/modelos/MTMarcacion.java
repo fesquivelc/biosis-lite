@@ -22,6 +22,14 @@ public class MTMarcacion extends ModeloTabla<Marcacion> {
     private final DateFormat dtFecha;
     private final DateFormat dtHora;
     private final EmpleadoControlador ec;
+    
+    public MTMarcacion(List<Marcacion> datos) {
+        super(datos);
+        this.nombreColumnas = new String[]{"Nro de documento", "Empleado", "Fecha", "Hora", "Ip de Equipo"};
+        dtFecha = new SimpleDateFormat("dd MMM yyyy");
+        dtHora = new SimpleDateFormat("HH:mm:ss");
+        ec = new EmpleadoControlador();
+    }
 
     public MTMarcacion(List<Marcacion> datos, String[] nombreColumnas) {
         super(datos, nombreColumnas);

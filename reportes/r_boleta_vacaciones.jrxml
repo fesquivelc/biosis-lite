@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_consolidado" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_consolidado" pageWidth="595" pageHeight="360" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -17,16 +17,27 @@
 		<defaultValueExpression><![CDATA["fesquivelc"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="ruta" class="java.lang.String"/>
-	<parameter name="lista" class="java.util.List"/>
 	<parameter name="CONEXION_EMPLEADOS" class="java.sql.Connection"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="vacacion_id" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
-     usuario."login" AS usuario_login
+     vacacion."empleado_nro_documento" AS empleado_nro_documento,
+     vacacion."fecha_fin" AS vacacion_fecha_fin,
+     vacacion."fecha_inicio" AS vacacion_fecha_inicio,
+     vacacion."periodo_anio" AS vacacion_periodo_anio
 FROM
-     "public"."usuario" usuario
-WHERE $X{IN,usuario.login,lista}]]>
+     "public"."vacacion" vacacion
+WHERE vacacion.id = $P{vacacion_id}]]>
 	</queryString>
-	<field name="usuario_login" class="java.lang.String"/>
+	<field name="empleado_nro_documento" class="java.lang.String"/>
+	<field name="vacacion_fecha_fin" class="java.sql.Date"/>
+	<field name="vacacion_fecha_inicio" class="java.sql.Date"/>
+	<field name="vacacion_periodo_anio" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -48,7 +59,7 @@ WHERE $X{IN,usuario.login,lista}]]>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[REPORTE CONSOLIDADO DE ASISTENCIA]]></text>
+				<text><![CDATA[USO FÍSICO DE VACACIONES]]></text>
 			</staticText>
 			<image>
 				<reportElement x="322" y="0" width="233" height="47" uuid="13930c06-6956-4319-98ae-275191516703"/>
@@ -60,26 +71,78 @@ WHERE $X{IN,usuario.login,lista}]]>
 		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="67" splitType="Stretch"/>
-	</columnHeader>
-	<detail>
-		<band height="500" splitType="Stretch">
+		<band height="186" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="16" width="555" height="50" uuid="8b9501e0-93f0-4f45-a4f4-5d46c8a0f8ce"/>
+				<subreportParameter name="empleado_nro_documento">
+					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{CONEXION_EMPLEADOS}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_datos_empleado.jasper"]]></subreportExpression>
+			</subreport>
 			<staticText>
-				<reportElement x="0" y="16" width="100" height="20" uuid="22a50771-78ea-4acb-8769-a588c63a1261"/>
-				<text><![CDATA[usuario_login]]></text>
+				<reportElement x="453" y="0" width="60" height="16" uuid="10fdbe5d-8a73-4bff-b142-f3b31e604548"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERÍODO:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="100" y="16" width="100" height="20" uuid="cea7c24b-cb5e-436d-93a1-2c5d5daa7bbf"/>
-				<textFieldExpression><![CDATA[$F{usuario_login}]]></textFieldExpression>
+				<reportElement x="513" y="0" width="42" height="16" uuid="32d65cde-74e5-47e4-8898-06efdb1a3936"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{vacacion_periodo_anio}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="25e03c4f-5988-4f92-89d3-f672827e8098"/>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="66" width="555" height="1" uuid="25e03c4f-5988-4f92-89d3-f672827e8098"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
 			</line>
+			<staticText>
+				<reportElement x="0" y="67" width="157" height="20" uuid="60758ea9-d11d-492c-9f58-a3f4b84ffd60"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESDE - HASTA:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="157" y="67" width="396" height="20" uuid="17f51781-3953-46d7-bc7d-9212a103b23a"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{vacacion_fecha_inicio})
++ " - "
++ new SimpleDateFormat("dd/MM/yyyy").format($F{vacacion_fecha_fin})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="156" width="175" height="30" uuid="b4e9e4fd-eee9-414b-90cd-f0a7335455ea"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FIRMA DEL SOLICITANTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="156" width="175" height="30" uuid="a521a82b-3aa6-437d-b6d8-67151998624a"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FIRMA DEL JEFE DE PERSONAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="156" width="175" height="30" uuid="d888e9f9-c8c1-4425-bc32-9c7443bb445a"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FIRMA DEL JEFE DE PERSONAL]]></text>
+			</staticText>
 		</band>
-	</detail>
+	</columnHeader>
 	<columnFooter>
 		<band height="7" splitType="Stretch">
 			<line>

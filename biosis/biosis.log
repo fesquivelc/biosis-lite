@@ -15588,3 +15588,12 @@ line 1:58: unexpected token: AND
 2015-01-06 22:41:24.393	ERROR	[AWT-EventQueue-0]	CLASE: DAO	 METODO: guardar	LINEA:90	MSJE:ERROR EN EL GUARDADO: org.hibernate.PropertyValueException: not-null property references a null or transient value : biz.juvitec.entidades.Vacacion.periodo org.hibernate.PropertyValueException: not-null property references a null or transient value : biz.juvitec.entidades.Vacacion.periodo
 2015-01-07 05:11:51.127	ERROR	[AWT-EventQueue-0]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:ERROR: no existe la relación «asignacion_permiso»
   Position: 48
+2015-01-07 07:57:04.596	ERROR	[AWT-EventQueue-0]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:ERROR: error de sintaxis en o cerca de «)»
+  Position: 127
+2015-01-07 07:57:04.678	ERROR	[AWT-EventQueue-0]	CLASE: DAO	 METODO: contar	LINEA:187	MSJE:ERROR AL CONTAR: org.hibernate.exception.SQLGrammarException: could not extract ResultSet org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+2015-01-07 07:57:04.702	ERROR	[AWT-EventQueue-0]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:ERROR: error de sintaxis en o cerca de «)»
+  Position: 542
+2015-01-07 07:57:04.702	ERROR	[AWT-EventQueue-0]	CLASE: DAO	 METODO: buscar	LINEA:167	MSJE:ERROR AL BUSCAR: org.hibernate.exception.SQLGrammarException: could not extract ResultSet org.hibernate.exception.SQLGrammarException: could not extract ResultSet
+2015-01-07 08:12:01.946	ERROR	[AWT-EventQueue-0]	CLASE: DAO	 METODO: buscar	LINEA:167	MSJE:ERROR AL BUSCAR: Parameter value [10001020] did not match expected type [java.lang.Integer (n/a)] Parameter value [10001020] did not match expected type [java.lang.Integer (n/a)]
+2015-01-07 11:30:50.874	ERROR	[main]	CLASE: DAO	 METODO: guardar	LINEA:92	MSJE:ERROR EN EL GUARDADO: Unable to execute JPA schema generation create command [create table Acceso (id  bigserial not null, clase varchar(255), nombre varchar(255), primary key (id))] Unable to execute JPA schema generation create command [create table Acceso (id  bigserial not null, clase varchar(255), nombre varchar(255), primary key (id))]
+2015-01-07 11:30:52.839	ERROR	[main]	CLASE: DAO	 METODO: guardar	LINEA:92	MSJE:ERROR EN EL GUARDADO: Unable to execute JPA schema generation create command [create table Acceso (id  bigserial not null, clase varchar(255), nombre varchar(255), primary key (id))] Unable to execute JPA schema generation create command [create table Acceso (id  bigserial not null, clase varchar(255), nombre varchar(255), primary key (id))]

@@ -5,6 +5,7 @@
  */
 package biz.juvitec.vistas;
 
+import biz.juvitec.controladores.MarcacionControlador;
 import biz.juvitec.controladores.RegistroAsistenciaControlador;
 import biz.juvitec.entidades.DetalleRegistroAsistencia;
 import biz.juvitec.entidades.Empleado;
@@ -13,6 +14,7 @@ import biz.juvitec.entidades.Marcacion;
 import biz.juvitec.entidades.RegistroAsistencia;
 import biz.juvitec.vistas.dialogos.DlgEmpleado;
 import biz.juvitec.vistas.modelos.MTEmpleado;
+import biz.juvitec.vistas.modelos.MTMarcacion;
 import biz.juvitec.vistas.modelos.MTRegistroAsistencia;
 import com.personal.utiles.FormularioUtil;
 import java.util.ArrayList;
@@ -36,16 +38,16 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
     private List<DetalleRegistroAsistencia> detalleRegistroAsistenciaList;
     private List<Horario> horarioList;
     private List<Marcacion> marcacionList;
-    
-    
+
     private final RegistroAsistenciaControlador rc;
-    
+    private final MarcacionControlador mc;
+
     public VistaRegistroAsistencia() {
         initComponents();
-        
+
         rc = new RegistroAsistenciaControlador();
-        
-        
+        mc = new MarcacionControlador();
+
         inicializar();
         bindeoSalvaje();
         buscar();
@@ -131,6 +133,11 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
 
             }
         ));
+        tblRegistros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tblRegistrosMouseReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblRegistros);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -355,6 +362,11 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         jPanel3.add(jLabel1, gridBagConstraints);
 
         jButton3.setText("Buscar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 12;
@@ -510,6 +522,18 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         dialogoEmpleados.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void tblRegistrosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRegistrosMouseReleased
+        // TODO add your handling code here:
+        mostrarDetallesRegistro();
+    }//GEN-LAST:event_tblRegistrosMouseReleased
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        paginaActual = 1;
+        buscar();
+        actualizarControlesNavegacion();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
@@ -555,29 +579,31 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     MTRegistroAsistencia mtRegistro;
+
     private void bindeoSalvaje() {
         mtRegistro = new MTRegistroAsistencia(registroAsistenciaList);
         tblRegistros.setModel(mtRegistro);
-        
+
         MTEmpleado mtEmpleado = new MTEmpleado(empleadoList);
         tblEmpleados.setModel(mtEmpleado);
+        
+        MTMarcacion mtMarcacion = new MTMarcacion(marcacionList);
+        tblMarcacionesDia.setModel(mtMarcacion);
     }
 
-    private void inicializar() {        
+    private void inicializar() {
         this.marcacionList = ObservableCollections.observableList(new ArrayList<Marcacion>());
         this.empleadoList = ObservableCollections.observableList(new ArrayList<Empleado>());
         this.registroAsistenciaList = ObservableCollections.observableList(new ArrayList<RegistroAsistencia>());
         this.detalleRegistroAsistenciaList = ObservableCollections.observableList(new ArrayList<DetalleRegistroAsistencia>());
         this.horarioList = ObservableCollections.observableList(new ArrayList<Horario>());
-        
-        
+
         FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
         FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
-    }    
-    
-    
+    }
+
     private int paginaActual = 1;
-    private int totalPaginas = 0;
+    private int totalPaginas = 1;
     private int tamanioPagina = 0;
 
     private void buscar() {
@@ -586,12 +612,15 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
 
         tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
 
-        mtRegistro.setEmpleadoList(empleadoList);
-        registroAsistenciaList.clear();
-        
-        registroAsistenciaList.addAll(this.listar(empleadoList, fechaInicio, fechaFin, paginaActual, tamanioPagina));
-        
-        tblEmpleados.packAll();
+        if (!empleadoList.isEmpty()) {
+            mtRegistro.setEmpleadoList(empleadoList);
+            registroAsistenciaList.clear();
+
+            registroAsistenciaList.addAll(this.listar(empleadoList, fechaInicio, fechaFin, paginaActual, tamanioPagina));
+
+            tblEmpleados.packAll();
+        }
+
     }
 
     private List<RegistroAsistencia> listar(List<Empleado> empleado, Date fechaInicio, Date fechaFin, int pagina, int tamanio) {
@@ -602,8 +631,8 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         } else {
             totalPaginas = (total / tamanio) + 1;
         }
-        
-        if(totalPaginas == 0){
+
+        if (totalPaginas == 0) {
             totalPaginas = 1;
         }
 
@@ -655,21 +684,50 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         this.btnAnterior.setEnabled(paginaActual != 1);
         this.btnPrimero.setEnabled(paginaActual != 1);
     }
-    
-    private List<String> obtenerDNI(List<Empleado> empleados){
+
+    private List<String> obtenerDNI(List<Empleado> empleados) {
         List<String> dnis = new ArrayList<>();
-        for(Empleado empleado : empleados){
+        for (Empleado empleado : empleados) {
             dnis.add(empleado.getNroDocumento());
         }
         return dnis;
     }
-    
-    public void agregarEmpleado(Empleado empleado){
-        if(!empleadoList.contains(empleado)){
+
+    public void agregarEmpleado(Empleado empleado) {
+        if (!empleadoList.contains(empleado)) {
             empleadoList.add(empleado);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "No puede agregar al mismo empleado dos veces", "Mensaje del Sistema", JOptionPane.WARNING_MESSAGE);
         }
-        
+
+    }
+
+    private void mostrarDetallesRegistro() {
+        int fila = tblRegistros.getSelectedRow();
+        if (fila != -1) {
+            RegistroAsistencia registro = this.registroAsistenciaList.get(fila);
+
+            mostrarDetalle(registro);
+            mostrarHorario(registro.getHorario());
+            mostrarMarcaciones(registro.getEmpleado(), registro.getFecha());
+        }
+    }
+
+    private void mostrarDetalle(RegistroAsistencia registro) {
+        detalleRegistroAsistenciaList.clear();
+        if (registro.getDetalleRegistroAsistenciaList() != null) {
+            detalleRegistroAsistenciaList.addAll(registro.getDetalleRegistroAsistenciaList());
+        }
+
+    }
+
+    private void mostrarHorario(Horario horario) {
+        horarioList.clear();
+        horarioList.add(horario);
+    }
+
+    private void mostrarMarcaciones(String empleado, Date fecha) {
+        marcacionList.clear();
+        marcacionList.addAll(mc.buscarXFecha(empleado, fecha));
     }
 }

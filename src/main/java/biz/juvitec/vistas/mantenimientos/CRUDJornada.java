@@ -454,12 +454,27 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         this.accion = Controlador.ELIMINAR;
+        int fila = tblJornadas.getSelectedRow();
+        if (fila != -1 && FormularioUtil.dialogoConfirmar(this, accion)) {
+            if (jornadaControlador.accion(accion)) {
+                FormularioUtil.mensajeExito(this, accion);
+                this.accion = 0;
+                this.actualizarTabla();
+            } else {
+                FormularioUtil.mensajeError(this, accion);
+            }
+
+        }
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void tblJornadasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblJornadasMouseReleased
         // TODO add your handling code here:
         int fila = tblJornadas.getSelectedRow();
-        mostrar(jornadaList.get(fila));
+        if (fila != -1) {
+            mostrar(jornadaList.get(fila));
+        }
+
     }//GEN-LAST:event_tblJornadasMouseReleased
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -480,22 +495,22 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
                 seleccionada.setCodigo(txtCodigo.getText());
             }
             seleccionada.setNombre(txtNombre.getText());
-            seleccionada.setDesdeHE((Date)spDesdeHE.getValue());
-            seleccionada.setRefrigerioHS((Date)spRefrigerioHS.getValue());
-            seleccionada.setRefrigerioHE((Date)spRefrigerioHE.getValue());
-            seleccionada.setTardanzaHE((Date)spTardanzaHE.getValue());
-            seleccionada.setToleranciaRefrigerioHE((Date)spToleranciaRefrigerioHE.getValue());
-            seleccionada.setToleranciaHE((Date)spToleranciaHE.getValue());
-            seleccionada.setTurnoHE((Date)spTurnoHE.getValue());
-            seleccionada.setTurnoHS((Date)spTurnoHS.getValue());
+            seleccionada.setDesdeHE((Date) spDesdeHE.getValue());
+            seleccionada.setRefrigerioHS((Date) spRefrigerioHS.getValue());
+            seleccionada.setRefrigerioHE((Date) spRefrigerioHE.getValue());
+            seleccionada.setTardanzaHE((Date) spTardanzaHE.getValue());
+            seleccionada.setToleranciaRefrigerioHE((Date) spToleranciaRefrigerioHE.getValue());
+            seleccionada.setToleranciaHE((Date) spToleranciaHE.getValue());
+            seleccionada.setTurnoHE((Date) spTurnoHE.getValue());
+            seleccionada.setTurnoHS((Date) spTurnoHS.getValue());
             seleccionada.setRefrigerioEspecial(chkRefrigerioEspecial.isSelected());
 
-            if(jornadaControlador.accion(accion)){
+            if (jornadaControlador.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
                 this.accion = 0;
                 this.controles(accion);
                 this.actualizarTabla();
-            }else{
+            } else {
                 FormularioUtil.mensajeError(this, accion);
             }
 
@@ -608,12 +623,10 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
 
         FormularioUtil.activarComponente(this.pnlListado, !bandera);
         FormularioUtil.activarComponente(this.pnlDatosJornada, bandera);
-        
-        if(accion != Controlador.MODIFICAR){
+
+        if (accion != Controlador.MODIFICAR) {
             FormularioUtil.limpiarComponente(this.pnlDatosJornada);
         }
-        
-        
 
     }
 
@@ -642,14 +655,14 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         chkRefrigerioEspecial.setSelected(seleccionado.isRefrigerioEspecial());
     }
 
-    private void actualizarTabla() {        
+    private void actualizarTabla() {
         jornadaList.clear();
         jornadaList.addAll(jornadaControlador.buscarTodos());
         tblJornadas.packAll();
     }
-    
-    public void chekboxes(){
-        if(accion != 0){
+
+    public void chekboxes() {
+        if (accion != 0) {
             spToleranciaRefrigerioHE.setEnabled(chkRefrigerioEspecial.isSelected());
         }
     }

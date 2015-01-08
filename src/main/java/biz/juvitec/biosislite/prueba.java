@@ -6,8 +6,13 @@
 package biz.juvitec.biosislite;
 
 import biz.juvitec.controladores.EmpleadoControlador;
+import biz.juvitec.controladores.RolControlador;
+import biz.juvitec.controladores.UsuarioControlador;
 import biz.juvitec.dao.DAOMINEDU;
 import biz.juvitec.entidades.Empleado;
+import biz.juvitec.entidades.Rol;
+import biz.juvitec.entidades.Usuario;
+import biz.juvitec.vistas.mantenimientos.CRUDGrupoHorario;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +23,7 @@ import org.hibernate.Session;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.internal.SessionFactoryImpl;
+import utiles.Encriptador;
 
 /**
  *
@@ -54,9 +60,19 @@ public class prueba {
 //        } catch (SQLException e) {
 //            LOG.error("ERROR " + e.getMessage());
 //        }
-        prueba p = new prueba();
-        p.getPrueba();
-        System.exit(0);
+        RolControlador rc = new RolControlador();
+//        UsuarioControlador uc = new UsuarioControlador();
+//        Rol rol = rc.buscarPorId("ADM");
+//        
+//        Usuario usuario = new Usuario();
+//        usuario.setLogin("fesquivelc");
+//        usuario.setPassword(Encriptador.encrypt("Elhacker12"));
+//        usuario.setEmpleado("10001020");
+//        usuario.setRol(rol);
+//        usuario.setActivo(true);
+//        uc.guardar(usuario);
+        System.out.println(CRUDGrupoHorario.class.getClass().getName());
+        System.out.println(CRUDGrupoHorario.class.getSimpleName());
     }
 
 }

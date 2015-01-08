@@ -35,6 +35,9 @@ public class Horario implements Serializable {
     @Column(nullable=false)
     @Basic
     private boolean lunes;
+    @Column(name="documento",nullable=false)
+    @Basic
+    private String documento;
     @Column(nullable=false)
     @Basic
     private boolean domingo;
@@ -105,6 +108,14 @@ public class Horario implements Serializable {
 
     public void setLunes(boolean lunes) {
         this.lunes = lunes;
+    }
+   
+    public String getDocumento() {
+        return this.documento;
+    }
+
+    public void setDocumento(String documento) {
+        this.documento = documento;
     }
     
     public boolean isDomingo() {

@@ -6,6 +6,7 @@
 package principal;
 
 import biz.juvitec.vistas.Principal;
+import biz.juvitec.vistas.dialogos.DlgLogin;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
@@ -30,9 +31,9 @@ public class Main {
         } catch (Exception e) {
 
         }
-        Principal principal = new Principal();
+        DlgLogin principal = new DlgLogin(null, true);
         principal.setVisible(true);
-        principal.setExtendedState(principal.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        
     }
 
 }

@@ -41,6 +41,9 @@ public class Permiso implements Serializable {
     @Column(name="por_fecha",nullable=false)
     @Basic
     private boolean porFecha;
+    @Column(nullable=false)
+    @Basic
+    private String documento;
     @Column(name="fecha_fin",nullable=false)
     @Temporal(TemporalType.DATE)
     @Basic
@@ -110,6 +113,14 @@ public class Permiso implements Serializable {
 
     public void setPorFecha(boolean porFecha) {
         this.porFecha = porFecha;
+    }
+   
+    public String getDocumento() {
+        return this.documento;
+    }
+
+    public void setDocumento(String documento) {
+        this.documento = documento;
     }
    
     public Date getFechaFin() {

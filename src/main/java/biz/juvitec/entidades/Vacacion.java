@@ -26,6 +26,8 @@ public class Vacacion implements Serializable {
     @Column(name="empleado_nro_documento",nullable=false)
     @Basic
     private String empleado;
+    @Basic
+    private String documento;
     @Column(name="hay_interrupcion",nullable=false)
     @Basic
     private boolean hayInterrupcion;
@@ -67,6 +69,14 @@ public class Vacacion implements Serializable {
 
     public void setEmpleado(String empleado) {
         this.empleado = empleado;
+    }
+   
+    public String getDocumento() {
+        return this.documento;
+    }
+
+    public void setDocumento(String documento) {
+        this.documento = documento;
     }
     
     public boolean isHayInterrupcion() {
