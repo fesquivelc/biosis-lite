@@ -9,6 +9,7 @@ import biz.juvitec.controladores.Controlador;
 import biz.juvitec.controladores.EmpleadoControlador;
 import biz.juvitec.controladores.PeriodoControlador;
 import biz.juvitec.controladores.VacacionControlador;
+import biz.juvitec.dao.DAOMINEDU;
 import biz.juvitec.entidades.AsignacionPermiso;
 import biz.juvitec.entidades.Empleado;
 import biz.juvitec.entidades.Periodo;
@@ -19,17 +20,23 @@ import biz.juvitec.vistas.dialogos.DlgInterrupcionVacacion;
 import biz.juvitec.vistas.modelos.MTAsignarVacacion;
 import biz.juvitec.vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
 import java.awt.Component;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import utiles.UsuarioActivo;
 
 /**
  *
@@ -49,9 +56,11 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private Empleado empleadoBusqueda;
     private Empleado empleadoSeleccionado;
     private PeriodoControlador pc;
+    private final ReporteUtil reporteador;
 
     public AsignarVacacion() {
         initComponents();
+        reporteador = new ReporteUtil();
         inicializar();
         bindeoSalvaje();
     }
@@ -71,6 +80,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTabla = new org.jdesktop.swingx.JXTable();
         lblBusqueda = new org.jdesktop.swingx.JXBusyLabel();
@@ -103,6 +113,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         cboPeriodo = new javax.swing.JComboBox();
+        txtDocumento = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -146,6 +158,14 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             }
         });
         jPanel3.add(jButton2);
+
+        jButton3.setText("Imprimir boleta");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton3);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -343,7 +363,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
         jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
-        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0};
+        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel4.setLayout(jPanel4Layout);
 
         jLabel1.setText("Empleado:");
@@ -436,6 +456,17 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(cboPeriodo, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(txtDocumento, gridBagConstraints);
+
+        jLabel3.setText("Documento de vacación:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        jPanel4.add(jLabel3, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -520,13 +551,19 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             seleccionada.setFechaInicio((Date) spFechaInicio.getValue());
             seleccionada.setFechaFin((Date) spFechaFin.getValue());
             seleccionada.setHayInterrupcion(false);
+            seleccionada.setDocumento(txtDocumento.getText());
+            seleccionada.setPeriodo(periodoList.get(cboPeriodo.getSelectedIndex()));
 
             if (controlador.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
+                System.out.println("SELECCION: "+seleccionada.getId());
                 this.accion = 0;
                 FormularioUtil.limpiarComponente(this.pnlDatos);
                 this.controles(accion);
                 this.actualizarTabla();
+                if(FormularioUtil.dialogoConfirmar(this, 4)){
+                    imprimirBoleta(seleccionada);
+                }
             } else {
                 FormularioUtil.mensajeError(this, accion);
             }
@@ -637,6 +674,15 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        int fila = tblTabla.getSelectedRow();
+        if (fila != -1) {
+            Vacacion vacacion = this.listado.get(fila);
+            this.imprimirBoleta(vacacion);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
@@ -653,10 +699,12 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cboTamanio;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
@@ -676,13 +724,14 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private javax.swing.JSpinner spFechaInicio1;
     private javax.swing.JSpinner spPagina;
     private org.jdesktop.swingx.JXTable tblTabla;
+    private javax.swing.JTextField txtDocumento;
     private javax.swing.JTextField txtEmpleado;
     private javax.swing.JTextField txtEmpleadoSeleccionado;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 
     private void mostrar(Vacacion vacacion) {
-        Empleado e = ec.buscarPorId(Integer.parseInt(vacacion.getEmpleado()));
+        Empleado e = ec.buscarPorId(vacacion.getEmpleado());
         txtEmpleadoSeleccionado.setText(e.getApellidoPaterno() + " " + e.getApellidoMaterno() + " " + e.getNombre());
         spFechaInicio.setValue(vacacion.getFechaInicio());
         spFechaFin.setValue(vacacion.getFechaFin());
@@ -698,16 +747,16 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
         integrantes = ObservableCollections.observableList(new ArrayList<Empleado>());
 
-        String[] columnasIntegrantes = {"Nro Documento", "Empleado"};
+//        String[] columnasIntegrantes = {"Nro Documento", "Empleado"};
         
         JComboBoxBinding bindingPeriodo  = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
 
         bindingPeriodo.bind();
         
         MTAsignarVacacion mt = new MTAsignarVacacion(listado);
-        MTEmpleado mtIntegrantes = new MTEmpleado(integrantes, columnasIntegrantes);
+//        MTEmpleado mtIntegrantes = new MTEmpleado(integrantes, columnasIntegrantes);
         tblTabla.setModel(mt);
-        tblTabla.setModel(mtIntegrantes);
+//        tblTabla.setModel(mtIntegrantes);
 
         cboPeriodo.setRenderer(new DefaultListCellRenderer(){
 
@@ -742,7 +791,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
     private void inicializar() {
         this.accion = 0;
-
+        ec = new EmpleadoControlador();
         controlador = new VacacionControlador();
         pc = new PeriodoControlador();
         FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
@@ -873,5 +922,21 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
         this.btnAnterior.setEnabled(paginaActual != 1);
         this.btnPrimero.setEnabled(paginaActual != 1);
+    }
+
+    private void imprimirBoleta(Vacacion seleccionada) {
+        File reporte = new File("reportes/r_boleta_vacaciones.jasper");
+//        DAOMINEDU dao = new DAOMINEDU(Empleado.class);
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("vacacion_id", seleccionada.getId());
+        System.out.println("NULL 1 ");
+        parametros.put("usuario", UsuarioActivo.getUsuario().getLogin());
+        System.out.println("NULL 2 ");
+        parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
+        System.out.println("NULL 3 ");
+        
+        reporteador.setConn(controlador.getDao().getConexion());
+        reporteador.generarReporte(reporte, parametros, JOptionPane.getFrameForComponent(this));
+        
     }
 }

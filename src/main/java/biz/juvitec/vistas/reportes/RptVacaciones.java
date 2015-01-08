@@ -5,7 +5,20 @@
  */
 package biz.juvitec.vistas.reportes;
 
+import biz.juvitec.controladores.PeriodoControlador;
+import biz.juvitec.entidades.Empleado;
+import biz.juvitec.entidades.Periodo;
+import biz.juvitec.vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JList;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.swingbinding.JComboBoxBinding;
+import org.jdesktop.swingbinding.SwingBindings;
 
 /**
  *
@@ -18,8 +31,13 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
      */
     public RptVacaciones() {
         initComponents();
+        pc = new PeriodoControlador();
+        
         FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
         FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
+        inicializar();
+        bindeoSalvaje();
+        controles();
     }
 
     /**
@@ -43,6 +61,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         cboMes = new com.toedter.calendar.JMonthChooser();
         cboPeriodo = new javax.swing.JComboBox();
+        cboPeriodo1 = new javax.swing.JComboBox();
         pnlEmpleados = new javax.swing.JPanel();
         radOficina = new javax.swing.JRadioButton();
         radGrupo = new javax.swing.JRadioButton();
@@ -121,6 +140,14 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlRango.add(cboPeriodo, gridBagConstraints);
+
+        cboPeriodo1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlRango.add(cboPeriodo1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -226,6 +253,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cboGrupoHorario;
     private com.toedter.calendar.JMonthChooser cboMes;
     private javax.swing.JComboBox cboPeriodo;
+    private javax.swing.JComboBox cboPeriodo1;
     private javax.swing.ButtonGroup grpRango;
     private javax.swing.ButtonGroup grpSeleccion;
     private javax.swing.JButton jButton2;
@@ -245,4 +273,52 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
     private org.jdesktop.swingx.JXTable tblTabla;
     private javax.swing.JTextField txtOficina;
     // End of variables declaration//GEN-END:variables
+
+    private List<Empleado> empleadoList;
+    private List<Periodo> periodoList;
+    private final PeriodoControlador pc;
+    
+    private void inicializar() {
+        empleadoList = ObservableCollections.observableList(new ArrayList<Empleado>());
+        periodoList = pc.buscarTodosOrden();
+    }
+
+    private void controles() {               
+        
+        FormularioUtil.activarComponente(spFechaInicio, radPorFecha.isSelected());
+        FormularioUtil.activarComponente(spFechaFin, radPorFecha.isSelected());
+        FormularioUtil.activarComponente(cboMes, radMes.isSelected());
+        FormularioUtil.activarComponente(cboPeriodo1, radMes.isSelected());
+        FormularioUtil.activarComponente(cboPeriodo, radAnio.isSelected());
+
+        FormularioUtil.activarComponente(cboGrupoHorario, radGrupo.isSelected());
+        FormularioUtil.activarComponente(btnOficina, radGrupo.isSelected());
+        FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
+
+    }
+
+    private void bindeoSalvaje() {
+        MTEmpleado mt = new MTEmpleado(empleadoList);
+        tblTabla.setModel(mt);
+
+        
+        JComboBoxBinding binding = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
+        binding.bind();
+
+        DefaultListCellRenderer render = new DefaultListCellRenderer() {
+
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                if (value != null) {
+                    if (value instanceof Periodo) {
+                        value = ((Periodo)value).getNombre();
+                    }
+                }
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            }
+
+        };
+        
+        cboPeriodo.setRenderer(render);
+    }
 }

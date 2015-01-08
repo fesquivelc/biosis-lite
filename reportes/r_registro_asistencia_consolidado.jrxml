@@ -19,6 +19,9 @@
 	<parameter name="ruta" class="java.lang.String"/>
 	<parameter name="lista" class="java.util.List"/>
 	<parameter name="CONEXION_EMPLEADOS" class="java.sql.Connection"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite\\reportes\\"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
      usuario."login" AS usuario_login
@@ -78,6 +81,12 @@ WHERE $X{IN,usuario.login,lista}]]>
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
 			</line>
+			<subreport>
+				<reportElement x="28" y="71" width="200" height="100" uuid="bd91f346-0a84-4a4f-a957-20a78f05a7ec"/>
+				<subreportParameter name="empleado_nro_documento"/>
+				<connectionExpression><![CDATA[$P{CONEXION_EMPLEADOS}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subr_datos_empleado.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</detail>
 	<columnFooter>

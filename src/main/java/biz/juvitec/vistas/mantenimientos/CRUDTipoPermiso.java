@@ -133,7 +133,7 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel2, gridBagConstraints);
 
-        cboCuenta.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CON GOCE", "SIN GOCE", "CTA DE VACACIONES" }));
+        cboCuenta.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CON GOCE", "SIN GOCE" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;

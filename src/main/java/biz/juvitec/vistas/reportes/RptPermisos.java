@@ -5,7 +5,20 @@
  */
 package biz.juvitec.vistas.reportes;
 
+import biz.juvitec.controladores.PeriodoControlador;
+import biz.juvitec.entidades.Empleado;
+import biz.juvitec.entidades.Periodo;
+import biz.juvitec.vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JList;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.swingbinding.JComboBoxBinding;
+import org.jdesktop.swingbinding.SwingBindings;
 
 /**
  *
@@ -16,10 +29,20 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     /**
      * Creates new form RptRegistroAsistencia
      */
+    private List<Empleado> empleadoList;
+    private List<Periodo> periodoList;
+    
+    private final PeriodoControlador pc;
+
     public RptPermisos() {
         initComponents();
+        pc = new PeriodoControlador();
+        
         FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
         FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
+        inicializar();
+        bindeoSalvaje();
+        controles();
     }
 
     /**
@@ -49,6 +72,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         cboMes = new com.toedter.calendar.JMonthChooser();
         cboPeriodo = new javax.swing.JComboBox();
+        cboPeriodo2 = new javax.swing.JComboBox();
         pnlEmpleados = new javax.swing.JPanel();
         radOficina = new javax.swing.JRadioButton();
         radGrupo = new javax.swing.JRadioButton();
@@ -122,11 +146,21 @@ public class RptPermisos extends javax.swing.JInternalFrame {
 
         radPorFecha.setSelected(true);
         radPorFecha.setText("Por fechas:");
+        radPorFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radPorFechaActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlRango.add(radPorFecha, gridBagConstraints);
 
         radMes.setText("Por mes:");
+        radMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radMesActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -134,6 +168,11 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         pnlRango.add(radMes, gridBagConstraints);
 
         radAnio.setText("Por año:");
+        radAnio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radAnioActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -167,11 +206,19 @@ public class RptPermisos extends javax.swing.JInternalFrame {
 
         cboPeriodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlRango.add(cboPeriodo, gridBagConstraints);
+
+        cboPeriodo2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlRango.add(cboPeriodo, gridBagConstraints);
+        pnlRango.add(cboPeriodo2, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -185,6 +232,11 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         pnlEmpleados.setLayout(new java.awt.GridBagLayout());
 
         radOficina.setText("Por oficina:");
+        radOficina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radOficinaActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -192,12 +244,22 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         pnlEmpleados.add(radOficina, gridBagConstraints);
 
         radGrupo.setText("Por grupo horario:");
+        radGrupo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radGrupoActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(radGrupo, gridBagConstraints);
 
         radPersonalizado.setSelected(true);
         radPersonalizado.setText("Personalizado:");
+        radPersonalizado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radPersonalizadoActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -271,12 +333,43 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void radPorFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPorFechaActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radPorFechaActionPerformed
+
+    private void radMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radMesActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radMesActionPerformed
+
+    private void radAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radAnioActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radAnioActionPerformed
+
+    private void radGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radGrupoActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radGrupoActionPerformed
+
+    private void radOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radOficinaActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radOficinaActionPerformed
+
+    private void radPersonalizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPersonalizadoActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radPersonalizadoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOficina;
     private javax.swing.JComboBox cboGrupoHorario;
     private com.toedter.calendar.JMonthChooser cboMes;
     private javax.swing.JComboBox cboPeriodo;
+    private javax.swing.JComboBox cboPeriodo2;
     private javax.swing.ButtonGroup grpRango;
     private javax.swing.ButtonGroup grpSeleccion;
     private javax.swing.ButtonGroup grpTipoReporte;
@@ -302,4 +395,47 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private org.jdesktop.swingx.JXTable tblTabla;
     private javax.swing.JTextField txtOficina;
     // End of variables declaration//GEN-END:variables
+
+    private void inicializar() {
+        empleadoList = ObservableCollections.observableList(new ArrayList<Empleado>());
+        periodoList = pc.buscarTodosOrden();
+    }
+
+    private void controles() {
+        FormularioUtil.activarComponente(spFechaInicio, radPorFecha.isSelected());
+        FormularioUtil.activarComponente(spFechaFin, radPorFecha.isSelected());
+        FormularioUtil.activarComponente(cboMes, radMes.isSelected());
+        FormularioUtil.activarComponente(cboPeriodo, radMes.isSelected());
+        FormularioUtil.activarComponente(cboPeriodo2, radAnio.isSelected());
+
+        FormularioUtil.activarComponente(cboGrupoHorario, radGrupo.isSelected());
+        FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
+        FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
+
+    }
+
+    private void bindeoSalvaje() {
+        MTEmpleado mt = new MTEmpleado(empleadoList);
+        tblTabla.setModel(mt);
+
+        
+        JComboBoxBinding binding = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
+        binding.bind();
+
+        DefaultListCellRenderer render = new DefaultListCellRenderer() {
+
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                if (value != null) {
+                    if (value instanceof Periodo) {
+                        value = ((Periodo)value).getNombre();
+                    }
+                }
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            }
+
+        };
+        
+        cboPeriodo.setRenderer(render);
+    }
 }

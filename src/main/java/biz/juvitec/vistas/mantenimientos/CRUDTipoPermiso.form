@@ -143,10 +143,9 @@
             <Component class="javax.swing.JComboBox" name="cboCuenta">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="3">
+                  <StringArray count="2">
                     <StringItem index="0" value="CON GOCE"/>
                     <StringItem index="1" value="SIN GOCE"/>
-                    <StringItem index="2" value="CTA DE VACACIONES"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -866,8 +865,8 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
             <Property name="columns" type="int" value="0"/>
-            <Property name="horizontalGap" type="int" value="10"/>
             <Property name="rows" type="int" value="1"/>
+            <Property name="horizontalGap" type="int" value="10"/>
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JButton" name="btnGuardar">
@@ -916,8 +915,8 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
             <Property name="columns" type="int" value="0"/>
-            <Property name="horizontalGap" type="int" value="10"/>
             <Property name="rows" type="int" value="1"/>
+            <Property name="horizontalGap" type="int" value="10"/>
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JButton" name="btnNuevo">

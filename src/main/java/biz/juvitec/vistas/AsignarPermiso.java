@@ -9,6 +9,7 @@ import biz.juvitec.controladores.AsignacionPermisoControlador;
 import biz.juvitec.controladores.Controlador;
 import biz.juvitec.controladores.EmpleadoControlador;
 import biz.juvitec.controladores.PermisoControlador;
+import biz.juvitec.entidades.AsignacionHorario;
 import biz.juvitec.entidades.AsignacionPermiso;
 import biz.juvitec.entidades.Empleado;
 import biz.juvitec.entidades.Permiso;
@@ -18,12 +19,20 @@ import biz.juvitec.vistas.dialogos.DlgTipoPermiso;
 import biz.juvitec.vistas.modelos.MTAsignacionPermiso;
 import biz.juvitec.vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import org.jdesktop.observablecollections.ObservableCollections;
+import utiles.UsuarioActivo;
 
 /**
  *
@@ -42,11 +51,13 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
     private TipoPermiso tipoSeleccionado;
     private Empleado empleadoSeleccionado;
     private AsignacionPermisoControlador ac;
+    private final ReporteUtil reporteador;
 
     public AsignarPermiso() {
         initComponents();
         inicializar();
         bindeoSalvaje();
+        reporteador = new ReporteUtil();
     }
 
     /**
@@ -63,6 +74,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTabla = new org.jdesktop.swingx.JXTable();
         lblBusqueda = new org.jdesktop.swingx.JXBusyLabel();
@@ -106,9 +118,12 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         chkPorFecha = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        txtDocumento = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        btnImprimirTodo = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -141,6 +156,14 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             }
         });
         jPanel3.add(btnModificar);
+
+        jButton2.setText("Imprimir boleta");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton2);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -334,28 +357,28 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         pnlDatos.setLayout(jPanel2Layout);
 
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
-        jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
-        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
+        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel4.setLayout(jPanel4Layout);
 
         jLabel1.setText("Tipo de permiso:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel1, gridBagConstraints);
 
         jLabel2.setText("Empleados:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel2, gridBagConstraints);
 
         jLabel3.setText("Motivo:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel3, gridBagConstraints);
 
@@ -375,7 +398,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.gridheight = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
@@ -390,7 +413,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(btnAgregar, gridBagConstraints);
 
@@ -402,7 +425,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
         jPanel4.add(btnQuitar, gridBagConstraints);
@@ -410,7 +433,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         txtTipoPermiso.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
         jPanel4.add(txtTipoPermiso, gridBagConstraints);
@@ -421,7 +444,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 0.1;
@@ -430,7 +453,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         jLabel4.setText("Fecha y hora de fin:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel4, gridBagConstraints);
 
@@ -461,7 +484,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(pnlFHInicio, gridBagConstraints);
 
@@ -492,26 +515,26 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(pnlFHInicio1, gridBagConstraints);
 
         jLabel7.setText("Fecha y hora de inicio:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel7, gridBagConstraints);
 
         jLabel8.setText("Por fecha:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel8, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(chkPorFecha, gridBagConstraints);
 
@@ -523,8 +546,20 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
         jPanel4.add(jButton1, gridBagConstraints);
+
+        jLabel10.setText("Documento:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(jLabel10, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(txtDocumento, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -553,6 +588,14 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             }
         });
         jPanel5.add(btnCancelar);
+
+        btnImprimirTodo.setText("Imprimir todo");
+        btnImprimirTodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirTodoActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnImprimirTodo);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -613,11 +656,13 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             seleccionada.setTipoPermiso(tipoSeleccionado);
             seleccionada.setFechaInicio((Date) spFechaInicio.getValue());
             seleccionada.setPorFecha(chkPorFecha.isSelected());
+            seleccionada.setDocumento(txtDocumento.getText());
             if (chkPorFecha.isSelected()) {
                 seleccionada.setFechaFin((Date) spFechaFin.getValue());
             } else {
                 seleccionada.setHoraInicio((Date) spHoraInicio.getValue());
                 seleccionada.setHoraFin((Date) spHoraFin.getValue());
+                seleccionada.setFechaFin((Date) spFechaInicio.getValue());
             }
 
             if (controlador.accion(accion)) {
@@ -627,6 +672,10 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
                 this.integrantes.clear();
                 this.controles(accion);
                 this.actualizarTabla();
+                
+                if(FormularioUtil.dialogoConfirmar(this, 4)){
+                    this.imprimirBoleta(seleccionada);
+                }
             } else {
                 FormularioUtil.mensajeError(this, accion);
             }
@@ -645,8 +694,8 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         int fila = tblTabla.getSelectedRow();
         if (fila != -1) {
             Permiso permiso = listado.get(fila).getPermiso();
-
             mostrar(permiso);
+            FormularioUtil.activarComponente(this.btnImprimirTodo, true);
         }
     }//GEN-LAST:event_tblTablaMouseReleased
 
@@ -741,6 +790,28 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         this.actualizarControlesNavegacion();
     }//GEN-LAST:event_cboTamanioActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int fila = this.tblTabla.getSelectedRow();
+        if (fila != -1) {
+//            List<AsignacionPermiso> lista = new ArrayList<>();
+            AsignacionPermiso asignacion = this.listado.get(fila);
+//            lista.add(asignacion);
+            imprimirBoleta(asignacion);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnImprimirTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirTodoActionPerformed
+        // TODO add your handling code here:
+        int fila = this.tblTabla.getSelectedRow();
+        if (fila != -1) {
+//            List<AsignacionPermiso> lista = new ArrayList<>();
+            AsignacionPermiso asignacion = this.listado.get(fila);
+//            lista.add(asignacion);
+            imprimirBoleta(asignacion.getPermiso());
+        }
+    }//GEN-LAST:event_btnImprimirTodoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -748,6 +819,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnImprimirTodo;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
@@ -758,8 +830,10 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cboTamanio;
     private javax.swing.JCheckBox chkPorFecha;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -789,6 +863,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
     private javax.swing.JSpinner spPagina;
     private org.jdesktop.swingx.JXTable tblEmpleados;
     private org.jdesktop.swingx.JXTable tblTabla;
+    private javax.swing.JTextField txtDocumento;
     private javax.swing.JTextField txtEmpleado;
     private javax.swing.JTextArea txtMotivo;
     private javax.swing.JTextField txtTipoPermiso;
@@ -800,15 +875,15 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         txtTipoPermiso.setText(permiso.getTipoPermiso().getNombre());
         this.chkPorFecha.setSelected(permiso.isPorFecha());
         spFechaInicio.setValue(permiso.getFechaInicio());
-        if(permiso.isPorFecha()){
+        if (permiso.isPorFecha()) {
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.HOUR_OF_DAY, 0);
             cal.set(Calendar.MINUTE, 0);
             cal.set(Calendar.SECOND, 0);
-            spFechaFin.setValue(permiso.getFechaFin());   
+            spFechaFin.setValue(permiso.getFechaFin());
             spHoraInicio.setValue(cal.getTime());
             spHoraFin.setValue(cal.getTime());
-        }else{
+        } else {
             spFechaFin.setValue(permiso.getFechaInicio());
             spHoraInicio.setValue(permiso.getHoraInicio());
             spHoraFin.setValue(permiso.getHoraFin());
@@ -873,6 +948,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
         FormularioUtil.activarComponente(this.pnlListado, !bandera);
         FormularioUtil.activarComponente(this.pnlDatos, bandera);
+        FormularioUtil.activarComponente(this.btnImprimirTodo, false);
 
         if (accion != Controlador.MODIFICAR) {
             FormularioUtil.limpiarComponente(this.pnlDatos);
@@ -991,5 +1067,114 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
         this.btnAnterior.setEnabled(paginaActual != 1);
         this.btnPrimero.setEnabled(paginaActual != 1);
+    }
+    private final DateFormat dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+    private final DateFormat dfHora = new SimpleDateFormat("HH:mm:ss");
+
+    private void imprimirBoleta(Permiso seleccionada) {
+
+        File reporte = new File("reportes/r_papeleta_permiso_lote.jasper");
+//        List<Long> lista = new ArrayList<>();
+        String tipoPermiso = "";
+        String conGoce = "";
+        String fechas = "";
+        switch (seleccionada.getTipoPermiso().getTipoDescuento()) {
+            case 'C':
+                conGoce += "SI";
+                break;
+            case 'S':
+                conGoce += "N";
+                break;
+        }
+
+        switch (seleccionada.getTipoPermiso().getClase()) {
+            case 'L':
+                tipoPermiso = "LICENCIA - " + seleccionada.getTipoPermiso().getNombre();
+                break;
+            case 'P':
+                tipoPermiso = "PERMISO - " + seleccionada.getTipoPermiso().getNombre();
+                break;
+            case 'C':
+                tipoPermiso = "COMISIÓN DE SERVICIOS";
+                break;
+        }
+
+        if (seleccionada.isPorFecha()) {
+            fechas = dfFecha.format(seleccionada.getFechaInicio()) + " - " + dfFecha.format(seleccionada.getFechaFin());
+        } else {
+            fechas = dfFecha.format(seleccionada.getFechaInicio()) + " " + dfHora.format(seleccionada.getHoraInicio()) + " - " + dfFecha.format(seleccionada.getFechaFin()) + " " + dfHora.format(seleccionada.getHoraInicio());
+        }
+
+//        for (AsignacionPermiso asignacion : seleccionada.getAsignacionPermisoList()) {
+//            lista.add(asignacion.getId());
+//        }
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("permiso_id", seleccionada.getId());
+        parametros.put("tipoPermiso", tipoPermiso);
+        parametros.put("conGoce", conGoce);
+        System.out.println("NULL 1 ");
+        parametros.put("usuario", UsuarioActivo.getUsuario().getLogin());
+        System.out.println("NULL 2 ");
+        parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
+        parametros.put("fechas", fechas);
+        System.out.println("NULL 3 ");
+
+        reporteador.setConn(controlador.getDao().getConexion());
+        reporteador.generarReporte(reporte, parametros, JOptionPane.getFrameForComponent(this));
+
+    }
+
+    private void imprimirBoleta(AsignacionPermiso seleccionada) {
+
+        File reporte = new File("reportes/r_papeleta_permiso.jasper");
+//        List<Long> lista = new ArrayList<>();
+        String tipoPermiso = "";
+        String conGoce = "";
+        String fechas = "";
+        switch (seleccionada.getPermiso().getTipoPermiso().getTipoDescuento()) {
+            case 'C':
+                conGoce += "SI";
+                break;
+            case 'S':
+                conGoce += "N";
+                break;
+        }
+
+        switch (seleccionada.getPermiso().getTipoPermiso().getClase()) {
+            case 'L':
+                tipoPermiso = "LICENCIA - " + seleccionada.getPermiso().getTipoPermiso().getNombre();
+                break;
+            case 'P':
+                tipoPermiso = "PERMISO - " + seleccionada.getPermiso().getTipoPermiso().getNombre();
+                break;
+            case 'C':
+                tipoPermiso = "COMISIÓN DE SERVICIOS";
+                break;
+        }
+
+        if (seleccionada.getPermiso().isPorFecha()) {
+            fechas = dfFecha.format(seleccionada.getPermiso().getFechaInicio()) + " - " + dfFecha.format(seleccionada.getPermiso().getFechaFin());
+        } else {
+            fechas = dfFecha.format(seleccionada.getPermiso().getFechaInicio()) + " " + dfHora.format(seleccionada.getPermiso().getHoraInicio()) + " - " + dfFecha.format(seleccionada.getPermiso().getFechaFin()) + " " + dfHora.format(seleccionada.getPermiso().getHoraInicio());
+        }
+
+//        for(AsignacionPermiso asignacion : seleccionada.getAsignacionPermisoList()){
+//        lista.add(seleccionada.getId());
+//        }
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("permiso_id", seleccionada.getPermiso().getId());
+        parametros.put("empleado_nro_documento", seleccionada.getEmpleado());
+        parametros.put("tipoPermiso", tipoPermiso);
+        parametros.put("conGoce", conGoce);
+        System.out.println("NULL 1 ");
+        parametros.put("usuario", UsuarioActivo.getUsuario().getLogin());
+        System.out.println("NULL 2 ");
+        parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
+        System.out.println("NULL 3 ");
+        parametros.put("fechas", fechas);
+
+        reporteador.setConn(controlador.getDao().getConexion());
+        reporteador.generarReporte(reporte, parametros, JOptionPane.getFrameForComponent(this));
+
     }
 }

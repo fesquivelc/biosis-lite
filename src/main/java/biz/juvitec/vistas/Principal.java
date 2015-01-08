@@ -20,8 +20,8 @@ import biz.juvitec.vistas.mantenimientos.CRUDTipoPermiso;
 import biz.juvitec.vistas.reportes.RptPermisos;
 import biz.juvitec.vistas.reportes.RptRegistroAsistencia;
 import biz.juvitec.vistas.reportes.RptVacaciones;
-import com.personal.reporteutil.ReporteUtil;
 import com.personal.utiles.ImagenFondo;
+import com.personal.utiles.ReporteUtil;
 import java.awt.Component;
 import java.awt.event.MouseMotionListener;
 import java.beans.PropertyVetoException;
@@ -39,7 +39,6 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
-import net.sf.jasperreports.engine.JRException;
 import utiles.UsuarioActivo;
 
 /**
@@ -519,11 +518,7 @@ public class Principal extends javax.swing.JFrame {
         mapa.put("usuario", UsuarioActivo.getUsuario().getLogin());
         mapa.put("CONEXION_EMPLEADOS", dao3.getConexion());
         File reporte = new File("reportes/r_boleta_vacaciones.jasper");
-        try {
-            util.generarReporte(reporte, mapa, this);
-        } catch (JRException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        util.generarReporte(reporte, mapa, this);
     }//GEN-LAST:event_copyMenuItemActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
