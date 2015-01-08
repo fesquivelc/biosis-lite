@@ -492,10 +492,10 @@ public class AnalisisAsistencia {
         detalleSalida.setPermiso(permiso);
 
         if (marcacionSalida == null) {
-            detalleSalida.setResultado('N'); //NOR HAY MARCACION
+            detalleSalida.setResultado('F'); //NOR HAY MARCACION
             detalleSalida.setHora(permiso.getHoraInicio());
         } else {
-            detalleSalida.setResultado('M'); //EXISTE MARCACION
+            detalleSalida.setResultado('R'); //EXISTE MARCACION
             detalleSalida.setHora(marcacionSalida.getHora());
 
         }
@@ -511,10 +511,10 @@ public class AnalisisAsistencia {
 
         if (marcacionEntrada == null) {
             detalleEntrada.setHora(horaMaxima);
-            detalleEntrada.setResultado('N');
+            detalleEntrada.setResultado('F');
         } else {
             detalleEntrada.setHora(marcacionEntrada.getHora());
-            detalleEntrada.setResultado('M');
+            detalleEntrada.setResultado('R');
         }
 
         detalles.add(detalleEntrada);

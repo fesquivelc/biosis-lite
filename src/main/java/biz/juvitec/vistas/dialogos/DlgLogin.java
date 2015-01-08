@@ -6,6 +6,11 @@
 package biz.juvitec.vistas.dialogos;
 
 import biz.juvitec.controladores.UsuarioControlador;
+import biz.juvitec.dao.DAO;
+import biz.juvitec.dao.DAOBIOSTAR;
+import biz.juvitec.dao.DAOMINEDU;
+import biz.juvitec.entidades.Empleado;
+import biz.juvitec.entidades.Marcacion;
 import biz.juvitec.entidades.Usuario;
 import biz.juvitec.vistas.Principal;
 import com.personal.utiles.FormularioUtil;
@@ -29,6 +34,7 @@ public class DlgLogin extends javax.swing.JDialog {
         uc = new UsuarioControlador();
         initComponents();
         FormularioUtil.imagenALabel("reportes/logo.png", lblLogo);
+        iniciar();
         this.setLocationRelativeTo(null);
     }
 
@@ -276,5 +282,14 @@ public class DlgLogin extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(this, "Ingrese usuario y contraseña", "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
         }
 
+    }
+    
+    private void iniciar() {
+        DAO dao = new DAO();
+        dao.getEntityManager();
+        DAOBIOSTAR dao2 = new DAOBIOSTAR(Marcacion.class);
+        DAOMINEDU dao3 = new DAOMINEDU(Empleado.class);
+        dao2.getEntityManager();
+        dao3.getEntityManager();
     }
 }

@@ -13,7 +13,9 @@ import biz.juvitec.entidades.Horario;
 import biz.juvitec.entidades.Marcacion;
 import biz.juvitec.entidades.RegistroAsistencia;
 import biz.juvitec.vistas.dialogos.DlgEmpleado;
+import biz.juvitec.vistas.modelos.MTDetalleRegistroAsistencia;
 import biz.juvitec.vistas.modelos.MTEmpleado;
+import biz.juvitec.vistas.modelos.MTHorarioRA;
 import biz.juvitec.vistas.modelos.MTMarcacion;
 import biz.juvitec.vistas.modelos.MTRegistroAsistencia;
 import com.personal.utiles.FormularioUtil;
@@ -97,6 +99,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         tblEmpleados = new org.jdesktop.swingx.JXTable();
         jPanel2 = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
         pnlHorarioResumen = new javax.swing.JPanel();
         pnlHorario = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -284,48 +287,47 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Parámetros de búsqueda"));
         java.awt.GridBagLayout jPanel3Layout = new java.awt.GridBagLayout();
         jPanel3Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
-        jPanel3Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel3Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel3.setLayout(jPanel3Layout);
 
         spFechaInicio.setModel(new javax.swing.SpinnerDateModel());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(spFechaInicio, gridBagConstraints);
 
         jLabel3.setText("Fechas:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(jLabel3, gridBagConstraints);
 
         spFechaFin.setModel(new javax.swing.SpinnerDateModel());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(spFechaFin, gridBagConstraints);
 
         jLabel4.setText("-");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.gridy = 12;
         jPanel3.add(jLabel4, gridBagConstraints);
 
         cboArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
         jPanel3.add(cboArea, gridBagConstraints);
 
-        jButton2.setText("+");
+        jButton2.setText("-");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -333,23 +335,22 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         jPanel3.add(jButton2, gridBagConstraints);
 
         jLabel2.setText("Área:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(jLabel2, gridBagConstraints);
 
         jButton1.setText("LIMPIAR");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(jButton1, gridBagConstraints);
 
@@ -358,10 +359,10 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         jPanel3.add(jLabel1, gridBagConstraints);
 
-        jButton3.setText("Buscar");
+        jButton3.setText("CARGAR REGISTROS ");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -369,8 +370,10 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridwidth = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(7, 0, 7, 0);
         jPanel3.add(jButton3, gridBagConstraints);
 
         tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(
@@ -387,20 +390,33 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.gridwidth = 7;
-        gridBagConstraints.gridheight = 7;
+        gridBagConstraints.gridheight = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         jPanel3.add(jScrollPane6, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.gridwidth = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 0.1;
         jPanel3.add(jPanel2, gridBagConstraints);
+
+        jButton4.setText("+");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel3.add(jButton4, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -534,6 +550,10 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         actualizarControlesNavegacion();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
@@ -545,6 +565,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -589,6 +610,12 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         
         MTMarcacion mtMarcacion = new MTMarcacion(marcacionList);
         tblMarcacionesDia.setModel(mtMarcacion);
+        
+        MTDetalleRegistroAsistencia mtDetalleRegistro = new MTDetalleRegistroAsistencia(detalleRegistroAsistenciaList);
+        tblDetalleAsistencia.setModel(mtDetalleRegistro);
+        
+        MTHorarioRA mtHorario = new MTHorarioRA(horarioList);
+        tblHorario.setModel(mtHorario);
     }
 
     private void inicializar() {

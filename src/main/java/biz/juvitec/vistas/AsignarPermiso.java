@@ -875,6 +875,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         txtTipoPermiso.setText(permiso.getTipoPermiso().getNombre());
         this.chkPorFecha.setSelected(permiso.isPorFecha());
         spFechaInicio.setValue(permiso.getFechaInicio());
+        txtDocumento.setText(permiso.getDocumento());
         if (permiso.isPorFecha()) {
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -1083,7 +1084,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
                 conGoce += "SI";
                 break;
             case 'S':
-                conGoce += "N";
+                conGoce += "NO";
                 break;
         }
 
