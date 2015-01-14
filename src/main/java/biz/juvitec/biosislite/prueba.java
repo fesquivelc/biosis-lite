@@ -13,10 +13,18 @@ import biz.juvitec.entidades.Empleado;
 import biz.juvitec.entidades.Rol;
 import biz.juvitec.entidades.Usuario;
 import biz.juvitec.vistas.mantenimientos.CRUDGrupoHorario;
+import com.personal.utiles.ReporteUtil;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -60,7 +68,7 @@ public class prueba {
 //        } catch (SQLException e) {
 //            LOG.error("ERROR " + e.getMessage());
 //        }
-        RolControlador rc = new RolControlador();
+//        RolControlador rc = new RolControlador();
 //        UsuarioControlador uc = new UsuarioControlador();
 //        Rol rol = rc.buscarPorId("ADM");
 //        
@@ -71,8 +79,31 @@ public class prueba {
 //        usuario.setRol(rol);
 //        usuario.setActivo(true);
 //        uc.guardar(usuario);
-        System.out.println(CRUDGrupoHorario.class.getClass().getName());
-        System.out.println(CRUDGrupoHorario.class.getSimpleName());
+//        ReporteUtil reporteador = new ReporteUtil();
+//        
+//        File reporte=  new File("reportes/r_registro_asistencia_consolidado.jasper");
+//        List<String> lista = new ArrayList<>();
+//        lista.add("10001020");
+//        String usuario = "fesquivelc";
+//        Map<String, Object> parametros = new HashMap<>();
+//        parametros.put("lista", lista);
+//        parametros.put("usuario", usuario);
+//        parametros.put("CONEXION_EMPLEADOS", dao.getConexion());
+//        
+//        reporteador.setConn(rc.getDao().getConexion());
+//        reporteador.generarReporte(reporte, parametros, null);
+        Date fecha1 = new Date();
+        System.out.println("FECHA 1 "+fecha1.toString());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fecha1);
+        cal.add(Calendar.MINUTE, 34);
+        Date fecha2 = cal.getTime();
+        System.out.println("FECHA 2 "+fecha2.toString());
+        Long dif = fecha2.getTime() - fecha1.getTime();
+        
+        cal.setTime(fecha1);
+        cal.add(Calendar.MILLISECOND, dif.intValue());
+        System.out.println("FECHA 3 "+cal.getTime().toString());
     }
 
 }

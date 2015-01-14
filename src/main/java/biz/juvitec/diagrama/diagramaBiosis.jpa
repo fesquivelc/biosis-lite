@@ -207,6 +207,15 @@
             <jpa:basic name="documento" attribute-type="String" visibile="true" id="_142070957763941">
                 <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255"/>
             </jpa:basic>
+            <jpa:basic name="cubreEntrada" attribute-type="boolean" visibile="true" id="_142124022374343">
+                <jpa:column name="cubre_entrada" unique="false" nullable="false" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+            <jpa:basic name="cubreSalida" attribute-type="boolean" visibile="true" id="_142124023744644">
+                <jpa:column name="cubre_salida" unique="false" nullable="false" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+            <jpa:basic name="aCompensar" attribute-type="boolean" visibile="true" id="_142124055363045">
+                <jpa:column name="a_compensar" unique="false" nullable="false" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
             <jpa:many-to-one name="tipoPermiso" target-entity="TipoPermiso" optional="false" primaryKey="false" connected-entity-id="_1419857416453" connected-attribute-id="_141985977578652" visibile="true" id="_141985977578451">
                 <jpa:join-column name="tipo_permiso_codigo" referenced-column-name="codigo" unique="false" nullable="false" insertable="true" updatable="true" column-definition="" table=""/>
                 <jpa:join-table/>
@@ -328,7 +337,7 @@
                 <jpa:generated-value strategy="IDENTITY"/>
             </jpa:id>
             <jpa:basic name="empleado" attribute-type="String" visibile="true" id="_141987276873599">
-                <jpa:column name="emleado_nro_documento" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:column name="empleado_nro_documento" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
             </jpa:basic>
             <jpa:basic name="fecha" attribute-type="java.util.Date" visibile="true" id="_1419872780485100">
                 <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
@@ -337,11 +346,17 @@
             <jpa:basic name="tipoAsistencia" attribute-type="char" visibile="true" id="_1419872865965102">
                 <jpa:column name="tipo_asistencia" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
             </jpa:basic>
-            <jpa:basic name="milisegundosTrabajados" attribute-type="long" visibile="true" id="_1419874039415116">
-                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            <jpa:basic name="minTrabajados" optional="true" attribute-type="java.math.BigDecimal" visibile="true" id="_1419874039415116">
+                <jpa:column name="minutos_trabajados" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
             </jpa:basic>
-            <jpa:basic name="milisegundosTardanza" attribute-type="long" visibile="true" id="_1419874049359117">
-                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            <jpa:basic name="minTardanza" optional="true" attribute-type="java.math.BigDecimal" visibile="true" id="_1419874049359117">
+                <jpa:column name="minutos_tardanza" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="compensacion" attribute-type="boolean" visibile="true" id="_142095281099245">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+            <jpa:basic name="minCompensados" attribute-type="java.math.BigDecimal" visibile="true" id="_142095284950346">
+                <jpa:column name="minutos_compensados" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
             </jpa:basic>
             <jpa:many-to-one name="horario" target-entity="Horario" optional="true" primaryKey="false" connected-entity-id="_1419797437526" visibile="true" id="_1419872792209101">
                 <jpa:join-column name="horario_codigo" referenced-column-name="codigo" unique="false" nullable="true" insertable="true" updatable="true" column-definition="" table=""/>
@@ -373,18 +388,28 @@
                 <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
                 <jpa:generated-value strategy="IDENTITY"/>
             </jpa:id>
-            <jpa:basic name="evento" attribute-type="char" visibile="true" id="_1419873199150109">
-                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
-            </jpa:basic>
-            <jpa:basic name="tipo" attribute-type="char" visibile="true" id="_1419873305046110">
-                <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
-            </jpa:basic>
-            <jpa:basic name="hora" attribute-type="java.util.Date" visibile="true" id="_1419873646270111">
-                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
-                <jpa:temporal>TIME</jpa:temporal>
+            <jpa:basic name="tipoRegistro" attribute-type="char" visibile="true" id="_1419873305046110">
+                <jpa:column name="tipo_registro" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
             </jpa:basic>
             <jpa:basic name="resultado" attribute-type="char" visibile="true" id="_1419881852256125">
                 <jpa:column unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="horaInicio" attribute-type="java.util.Date" visibile="true" id="_142093744833140">
+                <jpa:column name="hora_inicio" unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
+                <jpa:temporal>TIME</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="horaFin" attribute-type="java.util.Date" visibile="true" id="_142093745610741">
+                <jpa:column name="hora_fin" unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
+                <jpa:temporal>TIME</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="minTardanza" optional="true" attribute-type="java.math.BigDecimal" visibile="true" id="_142093748981242">
+                <jpa:column name="minutos_tardanza" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="orden" attribute-type="int" visibile="true" id="_142093754529944">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+            <jpa:basic name="minExtra" optional="true" attribute-type="java.math.BigDecimal" visibile="true" id="_142098401076849">
+                <jpa:column name="minutos_extra" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
             </jpa:basic>
             <jpa:many-to-one name="registroAsistencia" target-entity="RegistroAsistencia" optional="false" primaryKey="false" connected-entity-id="_1419872745030" connected-attribute-id="_1419873689395113" visibile="true" id="_1419873689392112">
                 <jpa:join-column name="registro_asistencia_id" referenced-column-name="id" unique="false" nullable="false" insertable="true" updatable="true" column-definition="" table=""/>
@@ -461,6 +486,9 @@
             <jpa:basic name="empleado" attribute-type="String" visibile="true" id="_142062680001040">
                 <jpa:column name="empleado_nro_documento" unique="false" nullable="false" insertable="true" updatable="true" length="255"/>
             </jpa:basic>
+            <jpa:basic name="cambiarPassword" attribute-type="boolean" visibile="true" id="_142080555527840">
+                <jpa:column name="cambiar_password" unique="false" nullable="false" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
             <jpa:many-to-one name="rol" target-entity="Rol" optional="false" primaryKey="false" connected-entity-id="_1420626865035" connected-attribute-id="_142062694041045" visibile="true" id="_142062694040544">
                 <jpa:join-column name="rol_codigo" referenced-column-name="codigo" unique="false" nullable="false" insertable="true" updatable="true" column-definition="" table=""/>
                 <jpa:join-table/>
@@ -477,9 +505,7 @@
                 <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
             </jpa:basic>
             <jpa:one-to-many name="usuarioList" target-entity="Usuario" fetch="LAZY" mapped-by="rol" collection-type="java.util.List" connected-entity-id="_1420626757584" connected-attribute-id="_142062694040544" visibile="true" id="_142062694041045"/>
-            <jpa:many-to-many name="accesoList" target-entity="Acceso" collection-type="java.util.List" connected-entity-id="_1420645933794" connected-attribute-id="_142064613117145" visibile="true" id="_142064613115544">
-                <jpa:join-table/>
-            </jpa:many-to-many>
+            <jpa:one-to-many name="rolAccesoList" target-entity="RolAcceso" mapped-by="rol" collection-type="java.util.List" connected-entity-id="_1421075359384" connected-attribute-id="_142107540469253" visibile="true" id="_142107540469454"/>
         </jpa:attributes>
     </jpa:entity>
     <jpa:entity class="Acceso" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1420645933794">
@@ -494,67 +520,121 @@
             <jpa:basic name="clase" attribute-type="String" visibile="true" id="_142064597827541">
                 <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
             </jpa:basic>
-            <jpa:many-to-many name="rolList" target-entity="Rol" fetch="LAZY" mapped-by="accesoList" collection-type="java.util.List" connected-entity-id="_1420626865035" connected-attribute-id="_142064613115544" visibile="true" id="_142064613117145"/>
+            <jpa:one-to-many name="rolAccesoList" target-entity="RolAcceso" fetch="LAZY" mapped-by="acceso" collection-type="java.util.List" connected-entity-id="_1421075359384" connected-attribute-id="_142107552267755" visibile="true" id="_142107552268256"/>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="Bitacora" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1421040960477">
+        <jpa:attributes>
+            <jpa:id name="id" attribute-type="Long" visibile="true" id="_142104097542942">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true"/>
+                <jpa:generated-value/>
+            </jpa:id>
+            <jpa:basic name="usuario" attribute-type="String" visibile="true" id="_142104097218341">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+            <jpa:basic name="accion" attribute-type="char" visibile="true" id="_142104099262043">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+            <jpa:basic name="fechaHora" attribute-type="java.util.Date" visibile="true" id="_142104099882044">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
+                <jpa:temporal>TIMESTAMP</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="ip" attribute-type="String" visibile="true" id="_142104100679745">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+            <jpa:basic name="tabla" attribute-type="String" visibile="true" id="_142104102900446">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+            <jpa:basic name="campo" attribute-type="String" visibile="true" id="_142104103558947">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+            <jpa:basic name="valorAnterior" attribute-type="String" visibile="true" id="_142104104162948">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+            <jpa:basic name="valorPosterior" attribute-type="String" visibile="true" id="_142104104813349">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="RolAcceso" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1421075359384">
+        <jpa:table name="rol_acceso"/>
+        <jpa:attributes>
+            <jpa:id name="id" attribute-type="Long" visibile="true" id="_142107537658751">
+                <jpa:column unique="false" nullable="true" insertable="true" updatable="true"/>
+                <jpa:generated-value strategy="IDENTITY"/>
+            </jpa:id>
+            <jpa:many-to-one name="rol" target-entity="Rol" optional="true" primaryKey="false" connected-entity-id="_1420626865035" connected-attribute-id="_142107540469454" visibile="true" id="_142107540469253">
+                <jpa:join-table/>
+            </jpa:many-to-one>
+            <jpa:many-to-one name="acceso" target-entity="Acceso" optional="true" primaryKey="false" connected-entity-id="_1420645933794" connected-attribute-id="_142107552268256" visibile="true" id="_142107552267755">
+                <jpa:join-table/>
+            </jpa:many-to-one>
         </jpa:attributes>
     </jpa:entity>
     <jpa:diagram id="_14197969282182">
         <plane elementRef="_14197969282181" id="_14197969282193_p">
             <shape elementRef="_1419797094305" id="_1419797094305_gui">
-                <Bounds x="1211.0" y="-54.0" width="177.0" height="320.0"/>
+                <Bounds x="1201.0" y="-64.0" width="177.0" height="320.0"/>
             </shape>
             <shape elementRef="_1419797437526" id="_1419797437526_gui">
-                <Bounds x="954.0" y="3.0" width="181.0" height="320.0"/>
+                <Bounds x="944.0" y="-7.0" width="181.0" height="320.0"/>
             </shape>
             <shape elementRef="_1419816874537" id="_1419816874537_gui">
-                <Bounds x="37.0" y="-35.0" width="191.0" height="152.0"/>
+                <Bounds x="-42.0" y="20.0" width="191.0" height="152.0"/>
             </shape>
             <shape elementRef="_1419816954830" id="_1419816954830_gui">
-                <Bounds x="476.0" y="-169.0" width="213.0" height="131.0"/>
+                <Bounds x="456.0" y="-111.0" width="213.0" height="131.0"/>
             </shape>
             <shape elementRef="_1419817066614" id="_1419817066614_gui">
-                <Bounds x="476.0" y="56.0" width="203.0" height="173.0"/>
+                <Bounds x="466.0" y="46.0" width="203.0" height="173.0"/>
             </shape>
             <shape elementRef="_1419857416453" id="_1419857416453_gui">
-                <Bounds x="-53.0" y="266.0" width="170.0" height="194.0"/>
+                <Bounds x="-63.0" y="256.0" width="170.0" height="194.0"/>
             </shape>
             <shape elementRef="_1419859527825" id="_1419859527825_gui">
-                <Bounds x="202.0" y="206.0" width="220.0" height="299.0"/>
+                <Bounds x="192.0" y="196.0" width="220.0" height="362.0"/>
             </shape>
             <shape elementRef="_1419860919430" id="_1419860919430_gui">
-                <Bounds x="830.0" y="700.0" width="151.0" height="236.0"/>
+                <Bounds x="820.0" y="690.0" width="151.0" height="236.0"/>
             </shape>
             <shape elementRef="_1419869578736" id="_1419869578736_gui">
-                <Bounds x="1079.0" y="754.0" width="170.0" height="194.0"/>
+                <Bounds x="1069.0" y="744.0" width="170.0" height="194.0"/>
             </shape>
             <shape elementRef="_1419869918591" id="_1419869918591_gui">
-                <Bounds x="1234.0" y="526.0" width="140.0" height="152.0"/>
+                <Bounds x="1224.0" y="516.0" width="140.0" height="152.0"/>
             </shape>
             <shape elementRef="_1419872241459" id="_1419872241459_gui">
-                <Bounds x="1203.0" y="306.0" width="193.0" height="152.0"/>
+                <Bounds x="1193.0" y="296.0" width="193.0" height="152.0"/>
             </shape>
             <shape elementRef="_1419872745030" id="_1419872745030_gui">
-                <Bounds x="721.0" y="323.0" width="220.0" height="299.0"/>
+                <Bounds x="711.0" y="313.0" width="220.0" height="341.0"/>
             </shape>
             <shape elementRef="_1419873178531" id="_1419873178531_gui">
-                <Bounds x="439.0" y="683.0" width="245.0" height="215.0"/>
+                <Bounds x="384.0" y="631.0" width="245.0" height="278.0"/>
             </shape>
             <shape elementRef="_1419881765499" id="_1419881765499_gui">
-                <Bounds x="55.0" y="683.0" width="158.0" height="117.0"/>
+                <Bounds x="45.0" y="673.0" width="158.0" height="117.0"/>
             </shape>
             <shape elementRef="_1420208587542" id="_1420208587542_gui">
-                <Bounds x="476.0" y="266.0" width="209.0" height="131.0"/>
+                <Bounds x="466.0" y="256.0" width="209.0" height="131.0"/>
             </shape>
             <shape elementRef="_1420431112337" id="_1420431112337_gui">
-                <Bounds x="-17.0" y="496.0" width="160.0" height="117.0"/>
+                <Bounds x="-27.0" y="486.0" width="160.0" height="117.0"/>
             </shape>
             <shape elementRef="_1420626757584" id="_1420626757584_gui">
-                <Bounds x="760.0" y="-270.0" width="142.0" height="173.0"/>
+                <Bounds x="558.0" y="-455.0" width="153.0" height="194.0"/>
             </shape>
             <shape elementRef="_1420626865035" id="_1420626865035_gui">
-                <Bounds x="967.0" y="-228.0" width="128.0" height="152.0"/>
+                <Bounds x="811.0" y="-389.0" width="133.0" height="152.0"/>
             </shape>
             <shape elementRef="_1420645933794" id="_1420645933794_gui">
-                <Bounds x="1249.0" y="-228.0" width="141.0" height="152.0"/>
+                <Bounds x="1223.0" y="-369.0" width="141.0" height="152.0"/>
+            </shape>
+            <shape elementRef="_1421040960477" id="_1421040960477_gui">
+                <Bounds x="46.0" y="-344.0" width="146.0" height="243.0"/>
+            </shape>
+            <shape elementRef="_1421075359384" id="_1421075359384_gui">
+                <Bounds x="1009.0" y="-334.0" width="159.0" height="117.0"/>
             </shape>
         </plane>
     </jpa:diagram>

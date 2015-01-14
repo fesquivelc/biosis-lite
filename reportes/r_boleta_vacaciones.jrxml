@@ -32,7 +32,7 @@
      vacacion.periodo_anio AS vacacion_periodo_anio,
 vacacion.documento AS vacacion_documento
 FROM
-     public.vacacion vacacion
+     vacacion 
 WHERE vacacion.id = $P{vacacion_id}]]>
 	</queryString>
 	<field name="empleado_nro_documento" class="java.lang.String"/>

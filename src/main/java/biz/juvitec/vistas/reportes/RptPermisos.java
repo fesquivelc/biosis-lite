@@ -5,20 +5,34 @@
  */
 package biz.juvitec.vistas.reportes;
 
+import biz.juvitec.controladores.EmpleadoControlador;
+import biz.juvitec.controladores.GrupoHorarioControlador;
 import biz.juvitec.controladores.PeriodoControlador;
 import biz.juvitec.entidades.Empleado;
+import biz.juvitec.entidades.GrupoHorario;
 import biz.juvitec.entidades.Periodo;
+import biz.juvitec.vistas.dialogos.DlgEmpleado;
 import biz.juvitec.vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import utiles.UsuarioActivo;
 
 /**
  *
@@ -31,13 +45,23 @@ public class RptPermisos extends javax.swing.JInternalFrame {
      */
     private List<Empleado> empleadoList;
     private List<Periodo> periodoList;
-    
+    private List<GrupoHorario> grupoList;
+
     private final PeriodoControlador pc;
+    private final GrupoHorarioControlador gc;
+    private final EmpleadoControlador ec;
+
+    private final ReporteUtil reporteador;
+    
 
     public RptPermisos() {
         initComponents();
         pc = new PeriodoControlador();
-        
+        gc = new GrupoHorarioControlador();
+        ec = new EmpleadoControlador();
+
+        reporteador = new ReporteUtil();
+
         FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
         FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
         inicializar();
@@ -82,8 +106,11 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         btnOficina = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTabla = new org.jdesktop.swingx.JXTable();
+        jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         pnlBotones = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
+        pnlTab = new javax.swing.JTabbedPane();
         grpTipoReporte.add(radTodo);
         grpTipoReporte.add(radPermiso);
         grpTipoReporte.add(radLicencia);
@@ -111,7 +138,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         pnlOpciones.add(radTodo, gridBagConstraints);
 
-        radPermiso.setText("Permiso");
+        radPermiso.setText("Permisos");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -119,7 +146,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         pnlOpciones.add(radPermiso, gridBagConstraints);
 
-        radLicencia.setText("Licencia");
+        radLicencia.setText("Licencias");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -284,17 +311,6 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 1;
         pnlEmpleados.add(btnOficina, gridBagConstraints);
 
-        tblTabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane1.setViewportView(tblTabla);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -305,6 +321,25 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         pnlEmpleados.add(jScrollPane1, gridBagConstraints);
+
+        jButton1.setText("+");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlEmpleados.add(jButton1, gridBagConstraints);
+
+        jButton3.setText("-");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlEmpleados.add(jButton3, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -319,6 +354,11 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         pnlBotones.setLayout(new java.awt.GridBagLayout());
 
         jButton2.setText("GENERAR REPORTE");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -329,6 +369,14 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         getContentPane().add(pnlBotones, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.weighty = 0.1;
+        getContentPane().add(pnlTab, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -363,6 +411,17 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         controles();
     }//GEN-LAST:event_radPersonalizadoActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        imprimir();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        DlgEmpleado dialogo = new DlgEmpleado(this);
+        dialogo.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOficina;
@@ -373,13 +432,16 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup grpRango;
     private javax.swing.ButtonGroup grpSeleccion;
     private javax.swing.ButtonGroup grpTipoReporte;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlBotones;
     private javax.swing.JPanel pnlEmpleados;
     private javax.swing.JPanel pnlOpciones;
     private javax.swing.JPanel pnlRango;
+    private javax.swing.JTabbedPane pnlTab;
     private javax.swing.JRadioButton radAnio;
     private javax.swing.JRadioButton radComision;
     private javax.swing.JRadioButton radGrupo;
@@ -399,6 +461,8 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private void inicializar() {
         empleadoList = ObservableCollections.observableList(new ArrayList<Empleado>());
         periodoList = pc.buscarTodosOrden();
+        grupoList = gc.buscarTodos();
+
     }
 
     private void controles() {
@@ -418,24 +482,119 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         MTEmpleado mt = new MTEmpleado(empleadoList);
         tblTabla.setModel(mt);
 
-        
-        JComboBoxBinding binding = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
-        binding.bind();
+        BindingGroup bindeo = new BindingGroup();
+        JComboBoxBinding bindGrupo = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, grupoList, cboGrupoHorario);
+        JComboBoxBinding bindPeriodo = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
+        bindeo.addBinding(bindPeriodo);
+        bindeo.addBinding(bindGrupo);
 
-        DefaultListCellRenderer render = new DefaultListCellRenderer() {
+        bindeo.bind();
+
+        DefaultListCellRenderer renderGrupo = new DefaultListCellRenderer() {
 
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+
                 if (value != null) {
-                    if (value instanceof Periodo) {
-                        value = ((Periodo)value).getNombre();
+                    if (value instanceof GrupoHorario) {
+                        value = ((GrupoHorario) value).getNombre();
                     }
                 }
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             }
 
         };
+
+        DefaultListCellRenderer renderPeriodo = new DefaultListCellRenderer() {
+
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                if (value != null) {
+                    if (value instanceof Periodo) {
+                        value = ((Periodo) value).getNombre();
+                    }
+                }
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            }
+
+        };
+
+        cboPeriodo.setRenderer(renderPeriodo);
+        cboGrupoHorario.setRenderer(renderGrupo);
+    }
+
+    boolean bandera = false;
+    int i = 1;
+    private void imprimir() {
+        String reporte = "reportes/r_permisos_licencia_comisiones.jasper";
+        List<String> listaTipo = obtenerTipos();
+        List<Empleado> empleados = obtenerEmpleados();
+        List<String> listaDNI = obtenerDNI(empleados);
+        File archivo = new File(reporte);
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("usuario", UsuarioActivo.getUsuario().getLogin());
+        parametros.put("lista", listaDNI);
+        parametros.put("listaTipo", listaTipo);
+        parametros.put("titulo", "REPORTE DE PERMISOS");
+        parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
         
-        cboPeriodo.setRenderer(render);
+        reporteador.setConn(gc.getDao().getConexion());
+        JPanel panelReporte = new JPanel();
+        
+//        pnlVistaPrevia.removeAll();
+        Component report = reporteador.obtenerReporte(archivo, parametros);
+        panelReporte.add(report);
+//        pnlVistaPrevia.add(report, BorderLayout.CENTER);
+//        pnlVistaPrevia.repaint();
+//        pnlVistaPrevia.revalidate();
+//        pnlTab.add("REPORTE 1", panelReporte);
+        if(bandera){
+            pnlTab.removeTabAt(0);
+        }
+        pnlTab.add("VISTA PREVIA "+i, report);
+        i++;
+        bandera = true;
+        
+        
+        
+//        reporteador.generarReporte(archivo, parametros, JOptionPane.getFrameForComponent(this));
+    }
+
+    private List<String> obtenerTipos() {
+        List<String> tipos = new ArrayList<>();
+        if(radTodo.isSelected()){
+            tipos.add("P");
+            tipos.add("L");
+            tipos.add("C");
+        }else if(radPermiso.isSelected()){
+            tipos.add("P");
+        }else if(radLicencia.isSelected()){
+            tipos.add("L");
+        }else if(radComision.isSelected()){
+            tipos.add("C");
+        }
+        return tipos;
+    }
+
+    private List<Empleado> obtenerEmpleados() {
+        List<Empleado> empleado = new ArrayList<>();
+        if(radGrupo.isSelected()){
+            
+        }else if(radPersonalizado.isSelected()){
+            empleado = empleadoList;
+        }
+        return empleado;
+    }
+
+    private List<String> obtenerDNI(List<Empleado> empleados) {
+        List<String> lista = new ArrayList<>();
+        for(Empleado e : empleados){
+            lista.add(e.getNroDocumento());
+        }
+        return lista;
+    }
+    
+    public void agregarEmpleado(Empleado empleado){
+        empleadoList.add(empleado);
     }
 }

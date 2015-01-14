@@ -5,7 +5,6 @@
  */
 package biz.juvitec.controladores;
 
-import algoritmo.AnalisisAsistencia;
 import biz.juvitec.entidades.Empleado;
 import com.personal.utiles.FechaUtil;
 import java.text.DateFormat;
@@ -54,8 +53,8 @@ public class prueba {
 //        }
 //        
 //        System.exit(0);
-        MarcacionControlador mc = new MarcacionControlador();
-        System.out.println("TAMAÑO: "+mc.buscarXFecha(FechaUtil.soloFecha(new Date())).size());
+//        MarcacionControlador mc = new MarcacionControlador();
+//        System.out.println("TAMAÑO: "+mc.buscarXFecha(FechaUtil.soloFecha(new Date())).size());
         
     }
     

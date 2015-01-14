@@ -6,13 +6,13 @@
 	<parameter name="empleado_nro_documento" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
-     v_empleado."nro_documento" AS v_empleado_nro_documento,
-     v_empleado."apellido_paterno" AS v_empleado_apellido_paterno,
-     v_empleado."apellido_materno" AS v_empleado_apellido_materno,
-     v_empleado."nombre" AS v_empleado_nombre,
-     v_empleado."tipo_documento" AS v_empleado_tipo_documento
+     v_empleado.nro_documento AS v_empleado_nro_documento,
+     v_empleado.apellido_paterno AS v_empleado_apellido_paterno,
+     v_empleado.apellido_materno AS v_empleado_apellido_materno,
+     v_empleado.nombre AS v_empleado_nombre,
+     v_empleado.tipo_documento AS v_empleado_tipo_documento
 FROM
-     "public"."v_empleado" v_empleado
+     v_empleado
 WHERE
      nro_documento = $P{empleado_nro_documento}]]>
 	</queryString>
@@ -63,7 +63,7 @@ WHERE
 				<textElement verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[TIPO DE DOC. DE IDENTIF. :]]></text>
+				<text><![CDATA[TIPO DE DOC. DE IDENTIF:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="20" width="157" height="20" uuid="f264a416-9d6e-4e4a-a2fe-1e6e08c8a634"/>

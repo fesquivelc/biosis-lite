@@ -23,6 +23,7 @@ import biz.juvitec.vistas.reportes.RptVacaciones;
 import com.personal.utiles.ImagenFondo;
 import com.personal.utiles.ReporteUtil;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.MouseMotionListener;
 import java.beans.PropertyVetoException;
 import java.io.File;
@@ -61,7 +62,7 @@ public class Principal extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        iniciar();
+//        iniciar();
     }
 
     /**
@@ -536,34 +537,6 @@ public class Principal extends javax.swing.JFrame {
         reporteVacaciones();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("windows classic".equalsIgnoreCase(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            // If Nimbus is not available, you can set the GUI to another look and feel.
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Principal().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem copyMenuItem;
@@ -626,6 +599,10 @@ public class Principal extends javax.swing.JFrame {
             this.desktopPane.add(internal);
             internal.setSize(ancho, largo);
             internal.setVisible(true);
+            Dimension desktopSize = desktopPane.getSize();
+            Dimension jInternalFrameSize = internal.getSize();
+            internal.setLocation((desktopSize.width - jInternalFrameSize.width) / 2,
+                    (desktopSize.height - jInternalFrameSize.height) / 2);
         }
     }
     DAO dao;
@@ -686,6 +663,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void reportePermiso() {
         RptPermisos permisos = new RptPermisos();
+//        agregarAPanel(permisos, 1024, 864);
         agregarAPanel(permisos, true);
     }
 

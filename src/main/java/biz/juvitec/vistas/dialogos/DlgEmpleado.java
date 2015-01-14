@@ -10,6 +10,8 @@ import biz.juvitec.controladores.EmpleadoControlador;
 import biz.juvitec.entidades.Empleado;
 import biz.juvitec.entidades.RegistroAsistencia;
 import biz.juvitec.vistas.mantenimientos.CRUDGrupoHorario;
+import biz.juvitec.vistas.reportes.RptPermisos;
+import biz.juvitec.vistas.reportes.RptRegistroAsistencia;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JInternalFrame;
@@ -299,7 +301,14 @@ public class DlgEmpleado extends javax.swing.JDialog {
 
                 } else if(this.padre instanceof VistaRegistroAsistencia && agregar){
                     ((VistaRegistroAsistencia)padre).agregarEmpleado(lista.get(fila));
-                }else {
+                } 
+                else if(this.padre instanceof RptPermisos && agregar){
+                    ((RptPermisos)this.padre).agregarEmpleado(lista.get(fila));
+                }
+                else if(this.padre instanceof RptRegistroAsistencia && agregar){
+                    ((RptRegistroAsistencia)this.padre).agregarEmpleado(lista.get(fila));
+                }
+                else {
                     empleadoSeleccionado = lista.get(fila);
                     this.dispose();
                 }

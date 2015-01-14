@@ -21,6 +21,8 @@
     <class>biz.juvitec.entidades.Usuario</class>
     <class>biz.juvitec.entidades.Rol</class>
     <class>biz.juvitec.entidades.Acceso</class>
+    <class>biz.juvitec.entidades.Bitacora</class>
+    <class>biz.juvitec.entidades.RolAcceso</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/minedu-biosis"/>
       <property name="javax.persistence.jdbc.password" value="root"/>

@@ -5,20 +5,35 @@
  */
 package biz.juvitec.vistas.reportes;
 
+import biz.juvitec.controladores.EmpleadoControlador;
 import biz.juvitec.controladores.PeriodoControlador;
 import biz.juvitec.entidades.Empleado;
 import biz.juvitec.entidades.Periodo;
+import biz.juvitec.vistas.dialogos.DlgEmpleado;
 import biz.juvitec.vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
 import java.awt.Component;
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.view.JasperViewer;
 import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import utiles.UsuarioActivo;
 
 /**
  *
@@ -29,10 +44,17 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     /**
      * Creates new form RptRegistroAsistencia
      */
+    private final ReporteUtil reporteador;
+    private final DateFormat dfFecha;
+    private final EmpleadoControlador ec;
+
     public RptRegistroAsistencia() {
         initComponents();
+
+        ec = new EmpleadoControlador();
         pc = new PeriodoControlador();
-        
+        dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+        reporteador = new ReporteUtil();
         FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
         FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
         inicializar();
@@ -76,8 +98,11 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         btnOficina = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTabla = new org.jdesktop.swingx.JXTable();
+        btnAgregar = new javax.swing.JButton();
+        btnQuitar = new javax.swing.JButton();
         pnlBotones = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
+        pnlTab = new javax.swing.JTabbedPane();
         grpTipoReporte.add(radConsolidado);
         grpTipoReporte.add(radDetallado);
 
@@ -97,7 +122,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlOpciones.setLayout(new java.awt.GridBagLayout());
 
         radConsolidado.setSelected(true);
-        radConsolidado.setText("Reporte consolidado");
+        radConsolidado.setText("Reporte resumen");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlOpciones.add(radConsolidado, gridBagConstraints);
@@ -128,11 +153,21 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
 
         radPorFecha.setSelected(true);
         radPorFecha.setText("Por fechas:");
+        radPorFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radPorFechaActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlRango.add(radPorFecha, gridBagConstraints);
 
         radMes.setText("Por mes:");
+        radMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radMesActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -140,6 +175,11 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlRango.add(radMes, gridBagConstraints);
 
         radAnio.setText("Por año:");
+        radAnio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radAnioActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -199,6 +239,11 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlEmpleados.setLayout(new java.awt.GridBagLayout());
 
         radOficina.setText("Por oficina:");
+        radOficina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radOficinaActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -236,17 +281,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 1;
         pnlEmpleados.add(btnOficina, gridBagConstraints);
 
-        tblTabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane1.setViewportView(tblTabla);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -257,6 +291,25 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         pnlEmpleados.add(jScrollPane1, gridBagConstraints);
+
+        btnAgregar.setText("+");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlEmpleados.add(btnAgregar, gridBagConstraints);
+
+        btnQuitar.setText("-");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlEmpleados.add(btnQuitar, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -271,6 +324,11 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlBotones.setLayout(new java.awt.GridBagLayout());
 
         jButton2.setText("GENERAR REPORTE");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -281,13 +339,54 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         getContentPane().add(pnlBotones, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.weighty = 0.1;
+        getContentPane().add(pnlTab, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        imprimir();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        DlgEmpleado dialogo = new DlgEmpleado(this);
+        dialogo.setVisible(true);
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void radAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radAnioActionPerformed
+        // TODO add your handling code here:control
+        controles();
+    }//GEN-LAST:event_radAnioActionPerformed
+
+    private void radMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radMesActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radMesActionPerformed
+
+    private void radOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radOficinaActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radOficinaActionPerformed
+
+    private void radPorFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPorFechaActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radPorFechaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnOficina;
+    private javax.swing.JButton btnQuitar;
     private javax.swing.JComboBox cboGrupoHorario;
     private com.toedter.calendar.JMonthChooser cboMes;
     private javax.swing.JComboBox cboPeriodo;
@@ -303,6 +402,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlEmpleados;
     private javax.swing.JPanel pnlOpciones;
     private javax.swing.JPanel pnlRango;
+    private javax.swing.JTabbedPane pnlTab;
     private javax.swing.JRadioButton radAnio;
     private javax.swing.JRadioButton radConsolidado;
     private javax.swing.JRadioButton radDetallado;
@@ -320,15 +420,17 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private List<Empleado> empleadoList;
     private List<Periodo> periodoList;
     private final PeriodoControlador pc;
-    
+
     private void inicializar() {
+        JasperViewer jv = new JasperViewer(null);
+        pnlTab.add("Vista previa", jv.getContentPane());
         empleadoList = ObservableCollections.observableList(new ArrayList<Empleado>());
         periodoList = pc.buscarTodosOrden();
     }
 
-    private void controles() {               
+    private void controles() {
         FormularioUtil.activarComponente(chkMarcaciones, radDetallado.isSelected());
-        
+
         FormularioUtil.activarComponente(spFechaInicio, radPorFecha.isSelected());
         FormularioUtil.activarComponente(spFechaFin, radPorFecha.isSelected());
         FormularioUtil.activarComponente(cboMes, radMes.isSelected());
@@ -338,6 +440,8 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         FormularioUtil.activarComponente(cboGrupoHorario, radGrupo.isSelected());
         FormularioUtil.activarComponente(btnOficina, radGrupo.isSelected());
         FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
+        FormularioUtil.activarComponente(btnAgregar, radPersonalizado.isSelected());
+        FormularioUtil.activarComponente(btnQuitar, radPersonalizado.isSelected());
 
     }
 
@@ -345,9 +449,14 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         MTEmpleado mt = new MTEmpleado(empleadoList);
         tblTabla.setModel(mt);
 
-        
+        BindingGroup bindeo = new BindingGroup();
+
         JComboBoxBinding binding = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
-        binding.bind();
+        JComboBoxBinding binding2 = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo1);
+
+        bindeo.addBinding(binding);
+        bindeo.addBinding(binding2);
+        bindeo.bind();
 
         DefaultListCellRenderer render = new DefaultListCellRenderer() {
 
@@ -355,14 +464,93 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 if (value != null) {
                     if (value instanceof Periodo) {
-                        value = ((Periodo)value).getNombre();
+                        value = ((Periodo) value).getNombre();
                     }
                 }
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             }
 
         };
-        
+
         cboPeriodo.setRenderer(render);
+        cboPeriodo1.setRenderer(render);
+    }
+
+    private void imprimir() {
+        Calendar cal = Calendar.getInstance();
+        Date fechaInicio = new Date();
+        Date fechaFin = new Date();
+        String rangoTitulo = "";
+        String rangoValor = "";
+        String usuario = UsuarioActivo.getUsuario().getLogin();
+        List<String> dnis = obtenerDNI();
+        String reporte = "";
+        int anio;
+        int mes;
+
+        if (radConsolidado.isSelected()) {
+            reporte = "reportes/r_registro_asistencia_consolidado.jasper";
+        }
+
+        if (radPorFecha.isSelected()) {
+            rangoTitulo = "ENTRE: ";
+            fechaInicio = (Date) spFechaInicio.getValue();
+            fechaFin = (Date) spFechaFin.getValue();
+            rangoValor = dfFecha.format(fechaInicio) + " - " + dfFecha.format(fechaFin);
+        } else if (radMes.isSelected()) {
+            rangoTitulo = "MES: ";
+            anio = periodoList.get(cboPeriodo1.getSelectedIndex()).getAnio();
+            mes = cboMes.getMonth();
+            cal.set(anio, mes, 1);
+            fechaInicio = cal.getTime();
+            cal.set(Calendar.DAY_OF_MONTH, cal.getMaximum(Calendar.DAY_OF_MONTH));
+            fechaFin = cal.getTime();
+            rangoValor = (cboMes.getMonth() + 1) + " / " + anio;
+        } else if (radAnio.isSelected()) {
+            rangoTitulo = "AÑO: ";
+            anio = periodoList.get(cboPeriodo.getSelectedIndex()).getAnio();
+            cal.set(anio, 0, 1);
+            fechaInicio = cal.getTime();
+            cal.set(anio, 11, 31);
+            fechaFin = cal.getTime();
+            rangoValor = periodoList.get(cboPeriodo.getSelectedIndex()).getAnio() + "";
+        }
+
+        File archivo = new File(reporte);
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("usuario", usuario);
+        parametros.put("lista", dnis);
+        parametros.put("fechaInicio", fechaInicio);
+        parametros.put("fechaFin", fechaFin);
+        parametros.put("rangoTitulo", rangoTitulo);
+        parametros.put("rangoValor", rangoValor);
+//        parametros.put("titulo", "REPORTE DE PERMISOS");
+        parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
+
+        reporteador.setConn(pc.getDao().getConexion());
+        Component report = reporteador.obtenerReporte(archivo, parametros);
+        report.getParent().add(new JButton("HOLI"));
+
+//        if(bandera){
+        pnlTab.removeTabAt(0);
+//        }
+        pnlTab.add("Vista previa", report);
+        bandera = true;
+
+    }
+
+    boolean bandera = false;
+
+    private List<String> obtenerDNI() {
+        List<String> lista = new ArrayList<>();
+        for (Empleado empleado : empleadoList) {
+            lista.add(empleado.getNroDocumento());
+        }
+        return lista;
+    }
+
+    public void agregarEmpleado(Empleado empleado) {
+        empleadoList.add(empleado);
+        tblTabla.packAll();
     }
 }

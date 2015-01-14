@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subr_permisos_empleado" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d1b4836b-49d1-410f-a535-ddbfdd430c12">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="listaTipo" class="java.util.List">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="empleado_nro_documento" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     permiso.fecha_fin AS fecha_fin,
+     permiso.fecha_inicio AS fecha_inicio,
+     permiso.hora_fin AS hora_fin,
+     permiso.hora_inicio AS hora_inicio,
+     permiso.motivo AS motivo,
+     permiso.documento AS documento,
+     CASE tipo_permiso.clase WHEN 'C' THEN 'COMISION DE SERVICIOS' WHEN 'L' THEN 'LICENCIA' WHEN 'P' THEN 'PERMISO' END as tipo_permiso,
+     tipo_permiso.nombre AS tipo_permiso_nombre,
+     CASE tipo_permiso.tipo_descuento WHEN 'C' THEN 'CON GOCE' WHEN 'S' THEN 'SIN GOCE' END AS tipo_descuento,
+     asignacion_permiso.empleado_nro_documento AS empleado_nro_documento
+FROM
+     public.tipo_permiso tipo_permiso INNER JOIN public.permiso permiso ON tipo_permiso.codigo = permiso.tipo_permiso_codigo
+     INNER JOIN public.asignacion_permiso asignacion_permiso ON permiso.id = asignacion_permiso.permiso_id
+WHERE
+$X{IN,tipo_permiso.clase,listaTipo} AND asignacion_permiso.empleado_nro_documento = $P{empleado_nro_documento}]]>
+	</queryString>
+	<field name="fecha_fin" class="java.sql.Date"/>
+	<field name="fecha_inicio" class="java.sql.Date"/>
+	<field name="hora_fin" class="java.sql.Time"/>
+	<field name="hora_inicio" class="java.sql.Time"/>
+	<field name="motivo" class="java.lang.String"/>
+	<field name="documento" class="java.lang.String"/>
+	<field name="tipo_permiso" class="java.lang.String"/>
+	<field name="tipo_permiso_nombre" class="java.lang.String"/>
+	<field name="tipo_descuento" class="java.lang.String"/>
+	<field name="empleado_nro_documento" class="java.lang.String"/>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="283" y="20" width="55" height="20" uuid="a6909d8a-54e6-480b-9b5d-61c9928d89c5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_fin}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="157" y="20" width="55" height="20" uuid="7c95c4bb-a962-4d79-af88-fc95c9bf1063"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_inicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="338" y="20" width="55" height="20" uuid="6e076348-5e3a-40fe-8bec-6523e8e59054"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hora_fin}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="212" y="20" width="55" height="20" uuid="2a54e4b3-7e9c-47f6-b7b4-084df4628d4f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hora_inicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="80" width="398" height="45" uuid="e13d0d5a-8c22-4af9-bc5b-b8be90acb40b"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{motivo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="60" width="398" height="20" uuid="d6836c99-881c-47b8-8471-c03df333b40a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{documento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="0" width="140" height="20" uuid="a2a4d6e9-d476-4d05-9a40-6ca14fbc982a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_permiso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="157" y="40" width="110" height="20" uuid="092a1415-d774-4f34-af25-18690e020478"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_descuento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="157" height="20" uuid="7d79eafd-251e-4ea6-a714-1701213824cb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESDE - HASTA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="157" height="20" uuid="e7c125da-c1e7-46ea-b028-cba988253a94"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO DE PERMISO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="297" y="0" width="258" height="20" uuid="7de441cf-19ca-4b39-84bc-331a159e7596"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_permiso_nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="157" height="20" uuid="80a5e52e-daec-4941-ba26-fd90fcae5b13"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CON GOCE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="157" height="20" uuid="a842d4ec-d7ed-4091-97c1-4ddf8e9b9dfb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOCUMENTO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="80" width="157" height="20" uuid="86a41ba2-c586-4a30-b9c4-fc046cb76f3c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MOTIVO:]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

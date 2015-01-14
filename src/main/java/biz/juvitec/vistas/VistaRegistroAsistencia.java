@@ -85,6 +85,9 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlMarcaciones = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblMarcacionesDia = new org.jdesktop.swingx.JXTable();
+        pnlHorario = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblHorario = new org.jdesktop.swingx.JXTable();
         jPanel3 = new javax.swing.JPanel();
         spFechaInicio = new javax.swing.JSpinner();
         jLabel3 = new javax.swing.JLabel();
@@ -100,13 +103,6 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         tblEmpleados = new org.jdesktop.swingx.JXTable();
         jPanel2 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
-        pnlHorarioResumen = new javax.swing.JPanel();
-        pnlHorario = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblHorario = new org.jdesktop.swingx.JXTable();
-        pnlResumen = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        tblResumen = new org.jdesktop.swingx.JXTable();
 
         setClosable(true);
         setIconifiable(true);
@@ -121,7 +117,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         jPanel1.setLayout(jPanel1Layout);
 
         java.awt.GridBagLayout pnlRegistroDetalleMarcacionesLayout = new java.awt.GridBagLayout();
-        pnlRegistroDetalleMarcacionesLayout.columnWidths = new int[] {0, 10, 0};
+        pnlRegistroDetalleMarcacionesLayout.columnWidths = new int[] {0, 10, 0, 10, 0};
         pnlRegistroDetalleMarcacionesLayout.rowHeights = new int[] {0, 10, 0};
         pnlRegistroDetalleMarcaciones.setLayout(pnlRegistroDetalleMarcacionesLayout);
 
@@ -218,7 +214,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.weighty = 0.3;
@@ -276,11 +272,38 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.weighty = 0.1;
         pnlRegistroDetalleMarcaciones.add(pnlMarcaciones, gridBagConstraints);
 
+        pnlHorario.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle del horario"));
+        pnlHorario.setLayout(new java.awt.GridLayout(1, 0));
+
+        tblHorario.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblHorario.setHorizontalScrollEnabled(true);
+        jScrollPane2.setViewportView(tblHorario);
+
+        pnlHorario.add(jScrollPane2);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        pnlRegistroDetalleMarcaciones.add(pnlHorario, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.2;
+        gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         jPanel1.add(pnlRegistroDetalleMarcaciones, gridBagConstraints);
 
@@ -422,74 +445,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
         jPanel1.add(jPanel3, gridBagConstraints);
-
-        java.awt.GridBagLayout pnlHorarioResumenLayout = new java.awt.GridBagLayout();
-        pnlHorarioResumenLayout.columnWidths = new int[] {0};
-        pnlHorarioResumenLayout.rowHeights = new int[] {0, 10, 0};
-        pnlHorarioResumen.setLayout(pnlHorarioResumenLayout);
-
-        pnlHorario.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle del horario"));
-        pnlHorario.setLayout(new java.awt.GridLayout(1, 0));
-
-        tblHorario.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(tblHorario);
-
-        pnlHorario.add(jScrollPane2);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        pnlHorarioResumen.add(pnlHorario, gridBagConstraints);
-
-        pnlResumen.setBorder(javax.swing.BorderFactory.createTitledBorder("Resúmen (Solo para un empleado)"));
-        pnlResumen.setLayout(new java.awt.GridLayout(1, 0));
-
-        tblResumen.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane3.setViewportView(tblResumen);
-
-        pnlResumen.add(jScrollPane3);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        pnlHorarioResumen.add(pnlResumen, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        jPanel1.add(pnlHorarioResumen, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -552,6 +508,8 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        DlgEmpleado dialogo = new DlgEmpleado(this);
+        dialogo.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
 
@@ -575,18 +533,15 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JPanel pnlDetalle;
     private javax.swing.JPanel pnlHorario;
-    private javax.swing.JPanel pnlHorarioResumen;
     private javax.swing.JPanel pnlMarcaciones;
     private javax.swing.JPanel pnlNavegacion;
     private javax.swing.JPanel pnlRegistro;
     private javax.swing.JPanel pnlRegistroDetalleMarcaciones;
-    private javax.swing.JPanel pnlResumen;
     private javax.swing.JSpinner spFechaFin;
     private javax.swing.JSpinner spFechaInicio;
     private javax.swing.JSpinner spPagina;
@@ -595,7 +550,6 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
     private org.jdesktop.swingx.JXTable tblHorario;
     private org.jdesktop.swingx.JXTable tblMarcacionesDia;
     private org.jdesktop.swingx.JXTable tblRegistros;
-    private org.jdesktop.swingx.JXTable tblResumen;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 
@@ -745,16 +699,19 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         if (registro.getDetalleRegistroAsistenciaList() != null) {
             detalleRegistroAsistenciaList.addAll(registro.getDetalleRegistroAsistenciaList());
         }
+        tblDetalleAsistencia.packAll();
 
     }
 
     private void mostrarHorario(Horario horario) {
         horarioList.clear();
         horarioList.add(horario);
+        tblHorario.packAll();
     }
 
     private void mostrarMarcaciones(String empleado, Date fecha) {
         marcacionList.clear();
         marcacionList.addAll(mc.buscarXFecha(empleado, fecha));
+        tblMarcacionesDia.packAll();
     }
 }

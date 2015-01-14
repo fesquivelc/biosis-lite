@@ -19,7 +19,7 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<DetalleRegistroAsis
     private final DateFormat dfHora = new SimpleDateFormat("HH:mm:ss");
     public MTDetalleRegistroAsistencia(List<DetalleRegistroAsistencia> datos) {
         super(datos);
-        this.nombreColumnas = new String[]{"Tipo","Evento","Hora",""};
+        this.nombreColumnas = new String[]{"Tipo","Inicio","Fin",""};
     }
 
     @Override
@@ -27,13 +27,11 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<DetalleRegistroAsis
         DetalleRegistroAsistencia detalle = this.datos.get(rowIndex);
         switch(columnIndex){
             case 0:
-                return tipo(detalle.getTipo());
+                return tipo(detalle.getTipoRegistro());
             case 1:
-                return evento(detalle.getEvento());
+                return dfHora.format(detalle.getHoraInicio());
             case 2:
-                return dfHora.format(detalle.getHora());
-            case 3:
-                return resultado(detalle.getResultado());
+                return dfHora.format(detalle.getHoraFin());
             default:
                 return "";
             

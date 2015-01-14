@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subr_resumen_asistencia" language="groovy" pageWidth="555" pageHeight="127" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e0961fc3-223b-458a-8948-7b2badd2bf73">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="empleado_nro_documento" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ruta" class="java.lang.String">
+		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     CAST(SUM(registro_asistencia.milisegundostardanza)/(1000*60) as decimal(10,2)) AS milisegundos_tardanza,
+     CAST(SUM(registro_asistencia.milisegundostrabajados)/(1000*60*60) as decimal(10,2)) AS milisegundos_trabajados,
+     registro_asistencia.horario_codigo AS horario_codigo,
+     horario.nombre AS horario_nombre,
+     horario.documento AS horario_documento
+FROM
+     public.registro_asistencia registro_asistencia LEFT JOIN public.detalle_registro_asistencia detalle_registro_asistencia ON registro_asistencia.id = detalle_registro_asistencia.registro_asistencia_id
+     INNER JOIN public.horario horario ON registro_asistencia.horario_codigo = horario.codigo
+WHERE registro_asistencia.empleado_nro_documento = $P{empleado_nro_documento} AND registro_asistencia.fecha BETWEEN $P{fechaInicio} AND $P{fechaFin}
+GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]>
+	</queryString>
+	<field name="milisegundos_tardanza" class="java.math.BigDecimal"/>
+	<field name="milisegundos_trabajados" class="java.math.BigDecimal"/>
+	<field name="horario_codigo" class="java.lang.String"/>
+	<field name="horario_nombre" class="java.lang.String"/>
+	<field name="horario_documento" class="java.lang.String"/>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="555" height="125" uuid="87b70f03-4550-4ab7-a604-fc5558c077ea"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<staticText>
+					<reportElement x="184" y="81" width="117" height="20" uuid="8815e569-9015-4ab6-aa0f-5ce61fbca6c2"/>
+					<box leftPadding="5"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[NRO DE FALTAS:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="184" y="101" width="117" height="20" uuid="1abb69b2-b6ae-45b6-90d6-a2044d583f80"/>
+					<box leftPadding="5"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[NRO DE VACACIONES:]]></text>
+				</staticText>
+				<subreport>
+					<reportElement x="301" y="81" width="40" height="20" uuid="a6b9e622-afdc-471a-b5ba-d81cd77080dd"/>
+					<subreportParameter name="horario_codigo">
+						<subreportParameterExpression><![CDATA[$F{horario_codigo}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="tipo_asistencia">
+						<subreportParameterExpression><![CDATA["F"]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="fechaFin">
+						<subreportParameterExpression><![CDATA[$P{fechaFin}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="fechaInicio">
+						<subreportParameterExpression><![CDATA[$P{fechaInicio}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="empleado_nro_documento">
+						<subreportParameterExpression><![CDATA[$P{empleado_nro_documento}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_conteo_tipo.jasper"]]></subreportExpression>
+				</subreport>
+				<subreport>
+					<reportElement x="301" y="101" width="40" height="20" uuid="dfd8ba2c-c44b-451e-b8fb-bf3292e232a5"/>
+					<subreportParameter name="horario_codigo">
+						<subreportParameterExpression><![CDATA[$F{horario_codigo}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="tipo_asistencia">
+						<subreportParameterExpression><![CDATA["V"]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter name="empleado_nro_documento">
+						<subreportParameterExpression><![CDATA[$P{empleado_nro_documento}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_conteo_tipo.jasper"]]></subreportExpression>
+				</subreport>
+			</frame>
+			<textField>
+				<reportElement x="144" y="81" width="40" height="20" uuid="70780476-a5ec-45cb-bd6e-663dc07f5f50"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{milisegundos_tardanza}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="144" y="101" width="40" height="20" uuid="85baaf07-e4a2-426c-aef9-93823d78cdb3"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{milisegundos_trabajados}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="158" y="21" width="390" height="20" uuid="cfefb609-f35b-424d-9c53-a2ef19dd1703"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{horario_nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="158" y="41" width="390" height="20" uuid="8d04da76-126c-48e0-a27c-1510de5e7dc8"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{horario_documento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="81" width="134" height="20" uuid="9c781ef9-8a67-48e0-bee1-3447acd9b247"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TARDANZA TOTAL (MIN):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="101" width="134" height="20" uuid="5e037d8c-7546-4da6-9bf8-9d4bd827ed18"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[H. TRAB. TOTAL (HORAS):]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="21" width="157" height="20" uuid="a4d610c0-515e-4d04-b20d-355cb6e19e73"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[HORARIO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="41" width="157" height="20" uuid="1dc5d6a4-7057-456e-975f-68541001370c"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOC. LEGAL DE HORARIO:]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

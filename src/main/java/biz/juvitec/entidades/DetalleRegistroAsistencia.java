@@ -1,6 +1,7 @@
 package biz.juvitec.entidades;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,30 +19,48 @@ import javax.persistence.TemporalType;
 @Table(name="detalle_registro_asistencia")
 public class DetalleRegistroAsistencia implements Serializable {
 
+    @Basic
+    private int orden;
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @Temporal(TemporalType.TIME)
+    @Column(name="minutos_extra")
     @Basic
-    private Date hora;
+    private BigDecimal minExtra;
+    @Column(name="minutos_tardanza")
+    @Basic
+    private BigDecimal minTardanza;
     @ManyToOne(targetEntity = Permiso.class)
     @JoinColumn(name="permiso_id",referencedColumnName="id")
     private Permiso permiso;
-    @Column(nullable=false)
+    @Column(name="hora_inicio")
+    @Temporal(TemporalType.TIME)
     @Basic
-    private char tipo;
+    private Date horaInicio;
+    @Column(name="hora_fin")
+    @Temporal(TemporalType.TIME)
+    @Basic
+    private Date horaFin;
+    @Column(name="tipo_registro",nullable=false)
+    @Basic
+    private char tipoRegistro;
     @Column(nullable=false)
     @Basic
     private char resultado;
-    @Column(nullable=false)
-    @Basic
-    private char evento;
     @ManyToOne(optional=false,targetEntity = RegistroAsistencia.class)
     @JoinColumn(name="registro_asistencia_id",referencedColumnName="id",nullable=false)
     private RegistroAsistencia registroAsistencia;
 
     public DetalleRegistroAsistencia() {
 
+    }
+   
+    public int getOrden() {
+        return this.orden;
+    }
+
+    public void setOrden(int orden) {
+        this.orden = orden;
     }
    
     public Long getId() {
@@ -52,12 +71,20 @@ public class DetalleRegistroAsistencia implements Serializable {
         this.id = id;
     }
    
-    public Date getHora() {
-        return this.hora;
+    public BigDecimal getMinExtra() {
+        return this.minExtra;
     }
 
-    public void setHora(Date hora) {
-        this.hora = hora;
+    public void setMinExtra(BigDecimal minExtra) {
+        this.minExtra = minExtra;
+    }
+   
+    public BigDecimal getMinTardanza() {
+        return this.minTardanza;
+    }
+
+    public void setMinTardanza(BigDecimal minTardanza) {
+        this.minTardanza = minTardanza;
     }
    
     public Permiso getPermiso() {
@@ -68,12 +95,28 @@ public class DetalleRegistroAsistencia implements Serializable {
         this.permiso = permiso;
     }
    
-    public char getTipo() {
-        return this.tipo;
+    public Date getHoraInicio() {
+        return this.horaInicio;
     }
 
-    public void setTipo(char tipo) {
-        this.tipo = tipo;
+    public void setHoraInicio(Date horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+   
+    public Date getHoraFin() {
+        return this.horaFin;
+    }
+
+    public void setHoraFin(Date horaFin) {
+        this.horaFin = horaFin;
+    }
+   
+    public char getTipoRegistro() {
+        return this.tipoRegistro;
+    }
+
+    public void setTipoRegistro(char tipoRegistro) {
+        this.tipoRegistro = tipoRegistro;
     }
    
     public char getResultado() {
@@ -82,14 +125,6 @@ public class DetalleRegistroAsistencia implements Serializable {
 
     public void setResultado(char resultado) {
         this.resultado = resultado;
-    }
-   
-    public char getEvento() {
-        return this.evento;
-    }
-
-    public void setEvento(char evento) {
-        this.evento = evento;
     }
    
     public RegistroAsistencia getRegistroAsistencia() {

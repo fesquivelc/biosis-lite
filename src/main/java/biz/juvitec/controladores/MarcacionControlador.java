@@ -59,7 +59,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
     }
 
     public List<Marcacion> buscarXFecha(String dni, Date fecha) {
-        String jpql = "SELECT m FROM Marcacion m WHERE CONCAT(:ceros,m.empleado) = :dni AND m.fecha = :fecha";
+        String jpql = "SELECT m FROM Marcacion m WHERE CONCAT(:ceros,m.empleado) = :dni AND m.fecha = :fecha ORDER BY m.hora ASC";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("fecha", fecha);
         mapa.put("dni", dni);

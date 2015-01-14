@@ -1,6 +1,7 @@
 package biz.juvitec.entidades;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -22,58 +23,63 @@ import javax.persistence.TemporalType;
 @Table(name="registro_asistencia")
 public class RegistroAsistencia implements Serializable {
 
-    @Column(nullable=false)
+    @Column(name="minutos_compensados")
     @Basic
-    private long milisegundosTrabajados;
-    @Column(nullable=false)
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
+    private BigDecimal minCompensados;
+    @Column(name="minutos_tardanza")
+    @Basic
+    private BigDecimal minTardanza;
     @ManyToOne(targetEntity = Horario.class)
     @JoinColumn(name="horario_codigo",referencedColumnName="codigo")
     private Horario horario;
     @OneToMany(cascade={CascadeType.ALL},fetch = FetchType.LAZY,targetEntity = DetalleRegistroAsistencia.class,mappedBy = "registroAsistencia")
     private List<DetalleRegistroAsistencia> detalleRegistroAsistenciaList;
-    @ManyToOne(targetEntity = Permiso.class)
-    private Permiso permiso;
     @Column(nullable=false)
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fecha;
-    @Column(name="emleado_nro_documento")
+    @Column(name="empleado_nro_documento")
     @Basic
     private String empleado;
-    @ManyToOne(targetEntity = Feriado.class)
-    @JoinColumn(name="feriado_fecha_inicio",referencedColumnName="fecha_inicio")
-    private Feriado feriado;
-    @Column(nullable=false)
-    @Basic
-    private long milisegundosTardanza;
-    @ManyToOne(targetEntity = Vacacion.class)
-    @JoinColumn(name="vacacion_id",referencedColumnName="id")
-    private Vacacion vacacion;
     @Column(name="tipo_asistencia",nullable=false)
     @Basic
     private char tipoAsistencia;
+    @Column(nullable=false)
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
+    @ManyToOne(targetEntity = Permiso.class)
+    private Permiso permiso;
+    @ManyToOne(targetEntity = Feriado.class)
+    @JoinColumn(name="feriado_fecha_inicio",referencedColumnName="fecha_inicio")
+    private Feriado feriado;
+    @Basic
+    private boolean compensacion;
+    @Column(name="minutos_trabajados")
+    @Basic
+    private BigDecimal minTrabajados;
+    @ManyToOne(targetEntity = Vacacion.class)
+    @JoinColumn(name="vacacion_id",referencedColumnName="id")
+    private Vacacion vacacion;
 
     public RegistroAsistencia() {
 
     }
    
-    public long getMilisegundosTrabajados() {
-        return this.milisegundosTrabajados;
+    public BigDecimal getMinCompensados() {
+        return this.minCompensados;
     }
 
-    public void setMilisegundosTrabajados(long milisegundosTrabajados) {
-        this.milisegundosTrabajados = milisegundosTrabajados;
+    public void setMinCompensados(BigDecimal minCompensados) {
+        this.minCompensados = minCompensados;
     }
    
-    public Long getId() {
-        return this.id;
+    public BigDecimal getMinTardanza() {
+        return this.minTardanza;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setMinTardanza(BigDecimal minTardanza) {
+        this.minTardanza = minTardanza;
     }
    
     public Horario getHorario() {
@@ -92,14 +98,6 @@ public class RegistroAsistencia implements Serializable {
         this.detalleRegistroAsistenciaList = detalleRegistroAsistenciaList;
     }
    
-    public Permiso getPermiso() {
-        return this.permiso;
-    }
-
-    public void setPermiso(Permiso permiso) {
-        this.permiso = permiso;
-    }
-   
     public Date getFecha() {
         return this.fecha;
     }
@@ -116,6 +114,30 @@ public class RegistroAsistencia implements Serializable {
         this.empleado = empleado;
     }
    
+    public char getTipoAsistencia() {
+        return this.tipoAsistencia;
+    }
+
+    public void setTipoAsistencia(char tipoAsistencia) {
+        this.tipoAsistencia = tipoAsistencia;
+    }
+   
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+   
+    public Permiso getPermiso() {
+        return this.permiso;
+    }
+
+    public void setPermiso(Permiso permiso) {
+        this.permiso = permiso;
+    }
+   
     public Feriado getFeriado() {
         return this.feriado;
     }
@@ -123,13 +145,21 @@ public class RegistroAsistencia implements Serializable {
     public void setFeriado(Feriado feriado) {
         this.feriado = feriado;
     }
-   
-    public long getMilisegundosTardanza() {
-        return this.milisegundosTardanza;
+    
+    public boolean isCompensacion() {
+        return this.compensacion;
     }
 
-    public void setMilisegundosTardanza(long milisegundosTardanza) {
-        this.milisegundosTardanza = milisegundosTardanza;
+    public void setCompensacion(boolean compensacion) {
+        this.compensacion = compensacion;
+    }
+   
+    public BigDecimal getMinTrabajados() {
+        return this.minTrabajados;
+    }
+
+    public void setMinTrabajados(BigDecimal minTrabajados) {
+        this.minTrabajados = minTrabajados;
     }
    
     public Vacacion getVacacion() {
@@ -138,13 +168,5 @@ public class RegistroAsistencia implements Serializable {
 
     public void setVacacion(Vacacion vacacion) {
         this.vacacion = vacacion;
-    }
-   
-    public char getTipoAsistencia() {
-        return this.tipoAsistencia;
-    }
-
-    public void setTipoAsistencia(char tipoAsistencia) {
-        this.tipoAsistencia = tipoAsistencia;
     }
 }

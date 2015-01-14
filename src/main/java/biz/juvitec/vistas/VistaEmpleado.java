@@ -59,7 +59,6 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         pnlNavegacion = new javax.swing.JPanel();
         btnPrimero = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
@@ -147,9 +146,6 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
             }
         });
         jPanel2.add(jButton2);
-
-        jButton3.setText("VER REGISTRO DE ASISTENCIA");
-        jPanel2.add(jButton3);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -320,7 +316,6 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cboTamanio;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

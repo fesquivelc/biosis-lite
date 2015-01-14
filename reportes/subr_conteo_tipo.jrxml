@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subr_conteo_tipo" language="groovy" pageWidth="40" pageHeight="20" columnWidth="40" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a54e8b56-f366-4e3c-a1b5-2640520b772a">
+	<property name="ireport.zoom" value="7.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="empleado_nro_documento" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="horario_codigo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tipo_asistencia" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     COUNT(r.tipo_asistencia) AS conteo
+FROM
+     public.registro_asistencia r
+WHERE
+	r.empleado_nro_documento = $P{empleado_nro_documento} AND r.horario_codigo = $P{horario_codigo} AND r.tipo_asistencia = $P{tipo_asistencia} AND r.fecha BETWEEN $P{fechaInicio} AND $P{fechaFin}]]>
+	</queryString>
+	<field name="conteo" class="java.lang.Long"/>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="40" height="20" uuid="d3dc05a7-6eb4-419a-9301-27ee697d2eba"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{conteo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -495,6 +495,7 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
     }
 
     private void mostrar(Horario seleccionado) {
+        txtDocumento.setText(seleccionado.getDocumento());
         txtCodigo.setText(seleccionado.getCodigo());
         txtNombre.setText(seleccionado.getNombre());
         txtJornada.setText(seleccionado.getJornada().getNombre());

@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Usuario implements Serializable {
 
+    @Column(name="cambiar_password",nullable=false)
+    @Basic
+    private boolean cambiarPassword;
     @Column(name="empleado_nro_documento",nullable=false)
     @Basic
     private String empleado;
@@ -28,6 +31,14 @@ public class Usuario implements Serializable {
 
     public Usuario() {
 
+    }
+    
+    public boolean isCambiarPassword() {
+        return this.cambiarPassword;
+    }
+
+    public void setCambiarPassword(boolean cambiarPassword) {
+        this.cambiarPassword = cambiarPassword;
     }
    
     public String getEmpleado() {

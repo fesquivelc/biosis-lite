@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_consolidado" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_consolidado" pageWidth="595" pageHeight="600" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -22,19 +22,31 @@
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite\\reportes\\"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="rangoTitulo" class="java.lang.String"/>
+	<parameter name="rangoValor" class="java.lang.String"/>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
-     usuario."login" AS usuario_login
+empleado_nro_documento
 FROM
-     "public"."usuario" usuario
-WHERE $X{IN,usuario.login,lista}]]>
+registro_asistencia
+WHERE
+$X{IN,registro_asistencia.empleado_nro_documento,lista} AND registro_asistencia.fecha BETWEEN $P{fechaInicio} AND $P{fechaFin}]]>
 	</queryString>
-	<field name="usuario_login" class="java.lang.String"/>
+	<field name="empleado_nro_documento" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<title>
-		<band height="72" splitType="Stretch">
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="74" splitType="Stretch">
 			<frame>
 				<reportElement mode="Opaque" x="0" y="52" width="555" height="20" forecolor="#000000" backcolor="#640000" uuid="db5417aa-d176-4f3f-bfaf-8a1541262932"/>
 				<textField>
@@ -46,35 +58,37 @@ WHERE $X{IN,usuario.login,lista}]]>
 				</textField>
 			</frame>
 			<staticText>
-				<reportElement style="Title" x="0" y="0" width="322" height="47" forecolor="#545454" uuid="3a4666ea-ca5c-4111-91ce-59fe595a3841"/>
+				<reportElement style="Title" x="0" y="0" width="322" height="27" forecolor="#545454" uuid="3a4666ea-ca5c-4111-91ce-59fe595a3841"/>
 				<box leftPadding="5"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[REPORTE CONSOLIDADO DE ASISTENCIA]]></text>
+				<text><![CDATA[RESUMEN DE ASISTENCIA]]></text>
 			</staticText>
 			<image>
-				<reportElement x="322" y="0" width="233" height="47" uuid="13930c06-6956-4319-98ae-275191516703"/>
+				<reportElement x="322" y="0" width="233" height="52" uuid="13930c06-6956-4319-98ae-275191516703"/>
 				<imageExpression><![CDATA[$P{ruta}+"/reportes/logo.png"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="0" y="27" width="114" height="25" forecolor="#545454" backcolor="#545454" uuid="63bdbb4a-dc1b-478c-b0b3-48fd3b099c18"/>
+				<box leftPadding="0" rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rangoTitulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="27" width="208" height="25" forecolor="#545454" backcolor="#545454" uuid="86939c8e-2d0d-4fbc-bcc4-91744354c0db"/>
+				<box leftPadding="6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rangoValor}]]></textFieldExpression>
+			</textField>
 		</band>
-	</title>
-	<pageHeader>
-		<band splitType="Stretch"/>
-	</pageHeader>
-	<columnHeader>
-		<band height="67" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="500" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="16" width="100" height="20" uuid="22a50771-78ea-4acb-8769-a588c63a1261"/>
-				<text><![CDATA[usuario_login]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="100" y="16" width="100" height="20" uuid="cea7c24b-cb5e-436d-93a1-2c5d5daa7bbf"/>
-				<textFieldExpression><![CDATA[$F{usuario_login}]]></textFieldExpression>
-			</textField>
+		<band height="100" splitType="Stretch">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="25e03c4f-5988-4f92-89d3-f672827e8098"/>
 				<graphicElement>
@@ -82,27 +96,41 @@ WHERE $X{IN,usuario.login,lista}]]>
 				</graphicElement>
 			</line>
 			<subreport>
-				<reportElement x="28" y="71" width="200" height="100" uuid="bd91f346-0a84-4a4f-a957-20a78f05a7ec"/>
-				<subreportParameter name="empleado_nro_documento"/>
+				<reportElement x="0" y="0" width="555" height="100" uuid="bd91f346-0a84-4a4f-a957-20a78f05a7ec"/>
+				<subreportParameter name="empleado_nro_documento">
+					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>
+				</subreportParameter>
 				<connectionExpression><![CDATA[$P{CONEXION_EMPLEADOS}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subr_datos_empleado.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_datos_empleado.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="109">
+			<subreport>
+				<reportElement x="0" y="10" width="556" height="89" uuid="afbf6734-a4f7-468e-bbe3-0ac2dd03d1a0"/>
+				<subreportParameter name="ruta">
+					<subreportParameterExpression><![CDATA[$P{ruta}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fechaFin">
+					<subreportParameterExpression><![CDATA[$P{fechaFin}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fechaInicio">
+					<subreportParameterExpression><![CDATA[$P{fechaInicio}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="empleado_nro_documento">
+					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subr_resumen_asistencia.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="7" splitType="Stretch">
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="ebc42359-70f3-4cb9-8399-c8455f6a9d38"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</graphicElement>
-			</line>
-		</band>
+		<band height="14" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="25" splitType="Stretch">
+		<band height="31" splitType="Stretch">
 			<frame>
-				<reportElement mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#D0B48E" backcolor="#545454" uuid="066f2ba3-3c52-4168-9910-2121c159d922"/>
+				<reportElement mode="Opaque" x="0" y="7" width="555" height="24" forecolor="#D0B48E" backcolor="#545454" uuid="066f2ba3-3c52-4168-9910-2121c159d922"/>
 				<textField evaluationTime="Report">
 					<reportElement style="Column header" x="513" y="0" width="40" height="20" forecolor="#FFFFFF" uuid="3ed62912-fda8-48bc-be07-ec21af053300"/>
 					<textElement verticalAlignment="Middle">
@@ -125,6 +153,12 @@ WHERE $X{IN,usuario.login,lista}]]>
 					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>
 			</frame>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="ebc42359-70f3-4cb9-8399-c8455f6a9d38"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
 		</band>
 	</pageFooter>
 	<summary>

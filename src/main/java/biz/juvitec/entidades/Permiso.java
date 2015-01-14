@@ -20,34 +20,43 @@ import javax.persistence.TemporalType;
 @Entity
 public class Permiso implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
-    @ManyToOne(optional=false,targetEntity = TipoPermiso.class)
-    @JoinColumn(name="tipo_permiso_codigo",referencedColumnName="codigo",nullable=false)
-    private TipoPermiso tipoPermiso;
+    @Column(name="cubre_salida",nullable=false)
     @Basic
-    private String motivo;
+    private boolean cubreSalida;
     @OneToMany(fetch = FetchType.LAZY,targetEntity = DetalleRegistroAsistencia.class,mappedBy = "permiso")
     private List<DetalleRegistroAsistencia> detalleRegistroAsistenciaList;
     @Column(name="hora_inicio")
     @Temporal(TemporalType.TIME)
     @Basic
     private Date horaInicio;
-    @Column(name="hora_fin")
-    @Temporal(TemporalType.TIME)
+    @Column(name="a_compensar",nullable=false)
     @Basic
-    private Date horaFin;
+    private boolean aCompensar;
     @Column(name="por_fecha",nullable=false)
     @Basic
     private boolean porFecha;
-    @Column(nullable=false)
-    @Basic
-    private String documento;
     @Column(name="fecha_fin",nullable=false)
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaFin;
+    @Column(nullable=false)
+    @Basic
+    private String documento;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
+    @Basic
+    private String motivo;
+    @ManyToOne(optional=false,targetEntity = TipoPermiso.class)
+    @JoinColumn(name="tipo_permiso_codigo",referencedColumnName="codigo",nullable=false)
+    private TipoPermiso tipoPermiso;
+    @Column(name="hora_fin")
+    @Temporal(TemporalType.TIME)
+    @Basic
+    private Date horaFin;
+    @Column(name="cubre_entrada",nullable=false)
+    @Basic
+    private boolean cubreEntrada;
     @OneToMany(cascade={CascadeType.ALL},fetch = FetchType.LAZY,targetEntity = AsignacionPermiso.class,mappedBy = "permiso")
     private List<AsignacionPermiso> asignacionPermisoList;
     @Column(name="fecha_inicio",nullable=false)
@@ -58,29 +67,13 @@ public class Permiso implements Serializable {
     public Permiso() {
 
     }
-   
-    public Long getId() {
-        return this.id;
+    
+    public boolean isCubreSalida() {
+        return this.cubreSalida;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-   
-    public TipoPermiso getTipoPermiso() {
-        return this.tipoPermiso;
-    }
-
-    public void setTipoPermiso(TipoPermiso tipoPermiso) {
-        this.tipoPermiso = tipoPermiso;
-    }
-   
-    public String getMotivo() {
-        return this.motivo;
-    }
-
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
+    public void setCubreSalida(boolean cubreSalida) {
+        this.cubreSalida = cubreSalida;
     }
    
     public List<DetalleRegistroAsistencia> getDetalleRegistroAsistenciaList() {
@@ -98,13 +91,13 @@ public class Permiso implements Serializable {
     public void setHoraInicio(Date horaInicio) {
         this.horaInicio = horaInicio;
     }
-   
-    public Date getHoraFin() {
-        return this.horaFin;
+    
+    public boolean isACompensar() {
+        return this.aCompensar;
     }
 
-    public void setHoraFin(Date horaFin) {
-        this.horaFin = horaFin;
+    public void setACompensar(boolean aCompensar) {
+        this.aCompensar = aCompensar;
     }
     
     public boolean isPorFecha() {
@@ -115,6 +108,14 @@ public class Permiso implements Serializable {
         this.porFecha = porFecha;
     }
    
+    public Date getFechaFin() {
+        return this.fechaFin;
+    }
+
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+   
     public String getDocumento() {
         return this.documento;
     }
@@ -123,12 +124,44 @@ public class Permiso implements Serializable {
         this.documento = documento;
     }
    
-    public Date getFechaFin() {
-        return this.fechaFin;
+    public Long getId() {
+        return this.id;
     }
 
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
+    public void setId(Long id) {
+        this.id = id;
+    }
+   
+    public String getMotivo() {
+        return this.motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
+    }
+   
+    public TipoPermiso getTipoPermiso() {
+        return this.tipoPermiso;
+    }
+
+    public void setTipoPermiso(TipoPermiso tipoPermiso) {
+        this.tipoPermiso = tipoPermiso;
+    }
+   
+    public Date getHoraFin() {
+        return this.horaFin;
+    }
+
+    public void setHoraFin(Date horaFin) {
+        this.horaFin = horaFin;
+    }
+    
+    public boolean isCubreEntrada() {
+        return this.cubreEntrada;
+    }
+
+    public void setCubreEntrada(boolean cubreEntrada) {
+        this.cubreEntrada = cubreEntrada;
     }
    
     public List<AsignacionPermiso> getAsignacionPermisoList() {

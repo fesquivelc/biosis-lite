@@ -52,8 +52,7 @@ public class MTRegistroAsistencia extends ModeloTabla<RegistroAsistencia>{
             case 3:
                 return this.tipoAsistencia(registro.getTipoAsistencia());
             case 4:
-                cal.setTimeInMillis(registro.getMilisegundosTardanza());
-                return this.dfMinutos.format(cal.getTime());
+                return registro.getMinTardanza();
             default:
                 return null;
         }

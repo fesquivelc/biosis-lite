@@ -20,7 +20,7 @@ public class MTHorarioRA extends ModeloTabla<Horario>{
     private final DateFormat dfHora;
     public MTHorarioRA(List<Horario> datos) {
         super(datos);
-        dfHora = new SimpleDateFormat("HH:mm:ss");
+        dfHora = new SimpleDateFormat("HH:mm");
         this.nombreColumnas = new String[]{"HE","HSR","HER","HS","L","M","M","J","V","S","D"};
     }
 

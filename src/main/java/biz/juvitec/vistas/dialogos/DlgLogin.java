@@ -17,6 +17,7 @@ import com.personal.utiles.FormularioUtil;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -127,7 +128,7 @@ public class DlgLogin extends javax.swing.JDialog {
         });
         jPanel1.add(btnIngresar);
 
-        btnCancelar.setText("Cancelar");
+        btnCancelar.setText("Salir");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
@@ -283,13 +284,43 @@ public class DlgLogin extends javax.swing.JDialog {
         }
 
     }
-    
+    private static final Logger LOG = Logger.getLogger(DlgLogin.class.getName());
+
     private void iniciar() {
-        DAO dao = new DAO();
-        dao.getEntityManager();
-        DAOBIOSTAR dao2 = new DAOBIOSTAR(Marcacion.class);
-        DAOMINEDU dao3 = new DAOMINEDU(Empleado.class);
-        dao2.getEntityManager();
-        dao3.getEntityManager();
+        int error = 0;
+        String mensaje = "";
+        try {
+            DAO dao = new DAO();
+            dao.getEntityManager();
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+            error ++;
+            mensaje += "LA CONEXION CON LA BD BIOSIS FALLA\n";
+        }
+        try {
+            DAOBIOSTAR dao2 = new DAOBIOSTAR(Marcacion.class);
+            dao2.getEntityManager();
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+            error++;
+            mensaje += "LA CONEXION CON LA BD BIOSTAR FALLA\n";
+        }
+        try {
+            DAOMINEDU dao3 = new DAOMINEDU(Empleado.class);
+            dao3.getEntityManager();
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
+            error++;
+            mensaje += "LA CONEXION CON LA BD DE RRHH FALLA";
+        }
+        
+        if(error > 0){
+            JOptionPane.showMessageDialog(this, "EXISTEN "+error+" ERROR(ES):\n"+mensaje, mensaje, error);
+            if(JOptionPane.showConfirmDialog(this, "¿DESEA REVISAR LA CONFIGURACIÓN DE LA BD", "MENSAJE DEL SISTEMA", JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_OPTION){
+                DlgConfiguracion dialogo = new DlgConfiguracion(null);
+                dialogo.setVisible(true);
+            }
+        }
+
     }
 }
