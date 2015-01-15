@@ -34,7 +34,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>biz.juvitec.vistas.Principal</mainClass>
+                            <mainClass>principal.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
