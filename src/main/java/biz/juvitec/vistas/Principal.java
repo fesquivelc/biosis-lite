@@ -11,12 +11,14 @@ import biz.juvitec.dao.DAOMINEDU;
 import biz.juvitec.entidades.Empleado;
 import biz.juvitec.entidades.Marcacion;
 import biz.juvitec.entidades.Usuario;
+import biz.juvitec.vistas.dialogos.DlgRol;
 import biz.juvitec.vistas.mantenimientos.CRUDAnioFeriados;
 import biz.juvitec.vistas.mantenimientos.CRUDGrupoHorario;
 import biz.juvitec.vistas.mantenimientos.CRUDHorario;
 import biz.juvitec.vistas.mantenimientos.CRUDJornada;
 import biz.juvitec.vistas.mantenimientos.CRUDPeriodo;
 import biz.juvitec.vistas.mantenimientos.CRUDTipoPermiso;
+import biz.juvitec.vistas.mantenimientos.CRUDUsuario;
 import biz.juvitec.vistas.reportes.RptPermisos;
 import biz.juvitec.vistas.reportes.RptRegistroAsistencia;
 import biz.juvitec.vistas.reportes.RptVacaciones;
@@ -111,6 +113,7 @@ public class Principal extends javax.swing.JFrame {
         mnuPeriodos = new javax.swing.JMenuItem();
         mnuUsuarios = new javax.swing.JMenuItem();
         mnuRolesUsuario = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         mnuConfiguracionBD = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -384,7 +387,20 @@ public class Principal extends javax.swing.JFrame {
         helpMenu.add(mnuUsuarios);
 
         mnuRolesUsuario.setText("Roles de usuario");
+        mnuRolesUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRolesUsuarioActionPerformed(evt);
+            }
+        });
         helpMenu.add(mnuRolesUsuario);
+
+        jMenuItem4.setText("Control de usuarios");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        helpMenu.add(jMenuItem4);
 
         mnuConfiguracionBD.setText("Configuración de BD");
         mnuConfiguracionBD.addActionListener(new java.awt.event.ActionListener() {
@@ -537,6 +553,18 @@ public class Principal extends javax.swing.JFrame {
         reporteVacaciones();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void mnuRolesUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRolesUsuarioActionPerformed
+        // TODO add your handling code here:
+        DlgRol roles = new DlgRol(null);
+        roles.setVisible(true);
+    }//GEN-LAST:event_mnuRolesUsuarioActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        CRUDUsuario usuarios = new CRUDUsuario();
+        agregarAPanel(usuarios);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem copyMenuItem;
@@ -555,6 +583,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblJuvitec;

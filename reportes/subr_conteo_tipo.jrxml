@@ -22,11 +22,11 @@
 		<![CDATA[SELECT
      COUNT(r.tipo_asistencia) AS conteo
 FROM
-     public.registro_asistencia r
+     registro_asistencia r
 WHERE
 	r.empleado_nro_documento = $P{empleado_nro_documento} AND r.horario_codigo = $P{horario_codigo} AND r.tipo_asistencia = $P{tipo_asistencia} AND r.fecha BETWEEN $P{fechaInicio} AND $P{fechaFin}]]>
 	</queryString>
-	<field name="conteo" class="java.lang.Long"/>
+	<field name="conteo" class="java.lang.Integer"/>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>

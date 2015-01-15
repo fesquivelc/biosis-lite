@@ -9,6 +9,7 @@ import biz.juvitec.controladores.AsignacionPermisoControlador;
 import biz.juvitec.controladores.Controlador;
 import biz.juvitec.controladores.EmpleadoControlador;
 import biz.juvitec.controladores.PermisoControlador;
+import biz.juvitec.controladores.TCAnalisisControlador;
 import biz.juvitec.entidades.AsignacionHorario;
 import biz.juvitec.entidades.AsignacionPermiso;
 import biz.juvitec.entidades.Empleado;
@@ -120,6 +121,8 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         txtDocumento = new javax.swing.JTextField();
+        chkCubrirHoraEntrada = new javax.swing.JCheckBox();
+        chkCubrirSalida = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -171,17 +174,6 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.gridwidth = 15;
         pnlListado.add(jPanel3, gridBagConstraints);
 
-        tblTabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         tblTabla.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tblTablaMouseReleased(evt);
@@ -357,7 +349,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         pnlDatos.setLayout(jPanel2Layout);
 
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
-        jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
+        jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
         jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel4.setLayout(jPanel4Layout);
 
@@ -382,23 +374,12 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel3, gridBagConstraints);
 
-        tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tblEmpleados.setHorizontalScrollEnabled(true);
         jScrollPane3.setViewportView(tblEmpleados);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
@@ -412,7 +393,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 14;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(btnAgregar, gridBagConstraints);
@@ -424,7 +405,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 16;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
@@ -434,17 +415,20 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
         jPanel4.add(txtTipoPermiso, gridBagConstraints);
 
         txtMotivo.setColumns(20);
         txtMotivo.setRows(5);
+        txtMotivo.setTabSize(4);
         jScrollPane2.setViewportView(txtMotivo);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 0.1;
@@ -545,7 +529,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 2;
         jPanel4.add(jButton1, gridBagConstraints);
 
@@ -558,8 +542,23 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(txtDocumento, gridBagConstraints);
+
+        chkCubrirHoraEntrada.setText("Cubrir hora de entrada");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(chkCubrirHoraEntrada, gridBagConstraints);
+
+        chkCubrirSalida.setText("Cubrir hora de salida");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(chkCubrirSalida, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -660,10 +659,19 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             if (chkPorFecha.isSelected()) {
                 seleccionada.setFechaFin((Date) spFechaFin.getValue());
             } else {
-                seleccionada.setHoraInicio((Date) spHoraInicio.getValue());
-                seleccionada.setHoraFin((Date) spHoraFin.getValue());
+                seleccionada.setCubreEntrada(chkCubrirHoraEntrada.isSelected());
+                seleccionada.setCubreSalida(chkCubrirSalida.isSelected());                
+                seleccionada.setHoraInicio((seleccionada.isCubreEntrada()) ? (Date) spHoraInicio.getValue() : null);
+                seleccionada.setHoraFin((seleccionada.isCubreSalida()) ?(Date) spHoraFin.getValue() : null);
                 seleccionada.setFechaFin((Date) spFechaInicio.getValue());
             }
+            
+            List<String> dnis = new ArrayList<>();
+            for(AsignacionPermiso asignacion : seleccionada.getAsignacionPermisoList()){
+                dnis.add(asignacion.getEmpleado());
+            }
+            
+            retrocederTiempo(dnis, seleccionada.getFechaInicio());
 
             if (controlador.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
@@ -671,7 +679,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
                 FormularioUtil.limpiarComponente(this.pnlDatos);
                 this.integrantes.clear();
                 this.controles(accion);
-                this.actualizarTabla();
+                this.actualizarTabla();                                
                 
                 if(FormularioUtil.dialogoConfirmar(this, 4)){
                     this.imprimirBoleta(seleccionada);
@@ -828,6 +836,8 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
     private javax.swing.JComboBox cboTamanio;
+    private javax.swing.JCheckBox chkCubrirHoraEntrada;
+    private javax.swing.JCheckBox chkCubrirSalida;
     private javax.swing.JCheckBox chkPorFecha;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -1137,7 +1147,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
                 conGoce += "SI";
                 break;
             case 'S':
-                conGoce += "N";
+                conGoce += "NO";
                 break;
         }
 
@@ -1177,5 +1187,10 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         reporteador.setConn(controlador.getDao().getConexion());
         reporteador.generarReporte(reporte, parametros, JOptionPane.getFrameForComponent(this));
 
+    }
+
+    private final TCAnalisisControlador  tcac = new TCAnalisisControlador();
+    private void retrocederTiempo(List<String> dnis, Date fechaInicio) {
+        tcac.retrocederTiempo(dnis,fechaInicio);
     }
 }

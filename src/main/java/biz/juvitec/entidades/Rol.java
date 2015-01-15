@@ -3,6 +3,7 @@ package biz.juvitec.entidades;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -15,7 +16,7 @@ public class Rol implements Serializable {
     private String nombre;
     @Id
     private String codigo;
-    @OneToMany(targetEntity = RolAcceso.class,mappedBy = "rol")
+    @OneToMany(cascade={CascadeType.ALL},targetEntity = RolAcceso.class,mappedBy = "rol",orphanRemoval = true)
     private List<RolAcceso> rolAccesoList;
     @OneToMany(fetch = FetchType.LAZY,targetEntity = Usuario.class,mappedBy = "rol")
     private List<Usuario> usuarioList;

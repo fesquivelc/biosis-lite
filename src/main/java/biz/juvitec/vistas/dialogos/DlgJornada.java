@@ -83,6 +83,10 @@ public class DlgJornada extends javax.swing.JDialog {
         jLabel10 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
+        spMinutosRefrigerio = new javax.swing.JSpinner();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        chkRefrigerioEspecial = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -108,17 +112,6 @@ public class DlgJornada extends javax.swing.JDialog {
         gridBagConstraints.gridy = 1;
         pnlListado.add(jPanel4, gridBagConstraints);
 
-        tblJornadas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         tblJornadas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tblJornadasMouseReleased(evt);
@@ -314,6 +307,43 @@ public class DlgJornada extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtNombre, gridBagConstraints);
 
+        spMinutosRefrigerio.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(15), Integer.valueOf(15), null, Integer.valueOf(1)));
+        spMinutosRefrigerio.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spMinutosRefrigerioStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 22;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(spMinutosRefrigerio, gridBagConstraints);
+
+        jLabel12.setText("Minutos de refrigerio:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 22;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(jLabel12, gridBagConstraints);
+
+        jLabel11.setText("¿Refrigerio en intervalo?");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(jLabel11, gridBagConstraints);
+
+        chkRefrigerioEspecial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkRefrigerioEspecialActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(chkRefrigerioEspecial, gridBagConstraints);
+
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
         btnGuardar.setText("Guardar");
@@ -469,6 +499,15 @@ public class DlgJornada extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void spMinutosRefrigerioStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spMinutosRefrigerioStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spMinutosRefrigerioStateChanged
+
+    private void chkRefrigerioEspecialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkRefrigerioEspecialActionPerformed
+        // TODO add your handling code here:
+        checkbox();
+    }//GEN-LAST:event_chkRefrigerioEspecialActionPerformed
+
     private int accion;
     private final JornadaControlador jornadaControlador;
     private List<Jornada> jornadaList;
@@ -478,8 +517,11 @@ public class DlgJornada extends javax.swing.JDialog {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JCheckBox chkRefrigerioEspecial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -495,6 +537,7 @@ public class DlgJornada extends javax.swing.JDialog {
     private javax.swing.JPanel pnlDatosJornada;
     private javax.swing.JPanel pnlListado;
     private javax.swing.JSpinner spDesdeHE;
+    private javax.swing.JSpinner spMinutosRefrigerio;
     private javax.swing.JSpinner spRefrigerioHE;
     private javax.swing.JSpinner spRefrigerioHS;
     private javax.swing.JSpinner spTardanzaHE;
@@ -558,7 +601,12 @@ public class DlgJornada extends javax.swing.JDialog {
         spRefrigerioHS.setValue(seleccionado.getRefrigerioHS());
         spRefrigerioHE.setValue(seleccionado.getRefrigerioHE());
         spTardanzaHE.setValue(seleccionado.getTardanzaHE());
-        spToleranciaRefrigerioHE.setValue(seleccionado.getToleranciaRefrigerioHE());
+        if(seleccionado.isRefrigerioEspecial()){
+            spMinutosRefrigerio.setValue(seleccionado.getMinRefrigerio());
+        }else{
+            spToleranciaRefrigerioHE.setValue(seleccionado.getToleranciaRefrigerioHE());
+        }
+        
         spToleranciaHE.setValue(seleccionado.getToleranciaHE());
         spTurnoHE.setValue(seleccionado.getTurnoHE());
         spTurnoHS.setValue(seleccionado.getTurnoHS());
@@ -567,5 +615,12 @@ public class DlgJornada extends javax.swing.JDialog {
     private void actualizarTabla() {
         jornadaList.clear();
         jornadaList.addAll(jornadaControlador.buscarTodos());
+    }
+
+    private void checkbox() {
+        if (accion != 0) {
+            FormularioUtil.activarComponente(spToleranciaRefrigerioHE, !chkRefrigerioEspecial.isSelected());
+            FormularioUtil.activarComponente(spMinutosRefrigerio, chkRefrigerioEspecial.isSelected());
+        }
     }
 }

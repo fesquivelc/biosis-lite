@@ -5,6 +5,8 @@
  */
 package biz.juvitec.vistas;
 
+import biz.juvitec.controladores.Controlador;
+import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ParametrosUtil;
 import com.personal.utiles.PropertiesUtil;
 import java.lang.reflect.InvocationTargetException;
@@ -357,6 +359,11 @@ public class Configuracion extends javax.swing.JInternalFrame {
         jPanel4.setLayout(jPanel4Layout);
 
         jButton1.setText("Cancelar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -389,7 +396,14 @@ public class Configuracion extends javax.swing.JInternalFrame {
         this.guardar(rrhh, urlRRHH, cboTipoBD1, txtConexion1, txtUsuario1, txtPassword1);
         this.guardar(biostar, urlBIOSTAR, cboTipoBD2, txtConexion2, txtUsuario2, txtPassword2);
         this.guardar(biosis, urlBIOSIS, cboTipoBD3, txtConexion3, txtUsuario3, txtPassword3, chkCrear.isSelected());
+        FormularioUtil.mensajeExito(this, Controlador.NUEVO);
+        System.exit(0);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

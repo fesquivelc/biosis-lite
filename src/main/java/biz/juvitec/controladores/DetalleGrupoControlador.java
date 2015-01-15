@@ -8,6 +8,7 @@ package biz.juvitec.controladores;
 import biz.juvitec.entidades.DetalleGrupoHorario;
 import biz.juvitec.entidades.Empleado;
 import biz.juvitec.entidades.GrupoHorario;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,17 @@ public class DetalleGrupoControlador extends Controlador<DetalleGrupoHorario>{
                 + "a.grupoHorario = :grupo";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("grupo", grupo);
+        return this.getDao().buscar(jpql, mapa);
+    }
+
+    public List<DetalleGrupoHorario> buscarXEmpleado(Empleado empleado, Date fechaInicio, Date fechaFin) {
+        String jpql = "SELECT a FROM DetalleGrupoHorario a WHERE "
+                + "a.empleado = :empleado AND a.horario.fechaInicio ";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("empleado", empleado.getNroDocumento());
+        mapa.put("fechaInicio", fechaInicio);
+        mapa.put("fechaFin", fechaFin);
+        
         return this.getDao().buscar(jpql, mapa);
     }
 }

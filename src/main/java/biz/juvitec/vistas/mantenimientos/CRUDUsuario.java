@@ -6,46 +6,50 @@
 package biz.juvitec.vistas.mantenimientos;
 
 import biz.juvitec.controladores.Controlador;
-import biz.juvitec.controladores.HorarioControlador;
-import biz.juvitec.controladores.JornadaControlador;
-import biz.juvitec.entidades.Horario;
-import biz.juvitec.entidades.Jornada;
-import biz.juvitec.vistas.dialogos.DlgJornada;
-import biz.juvitec.vistas.modelos.MTHorario;
+import biz.juvitec.controladores.EmpleadoControlador;
+import biz.juvitec.controladores.UsuarioControlador;
+import biz.juvitec.entidades.Empleado;
+import biz.juvitec.entidades.Rol;
+import biz.juvitec.entidades.Usuario;
+import biz.juvitec.vistas.dialogos.DlgEmpleado;
+import biz.juvitec.vistas.dialogos.DlgRol;
 import biz.juvitec.vistas.modelos.MTJornada;
 import com.personal.utiles.FormularioUtil;
-import java.beans.PropertyVetoException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JSpinner;
 import javax.swing.text.DateFormatter;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.swingbinding.JTableBinding;
+import org.jdesktop.swingbinding.SwingBindings;
+import utiles.Encriptador;
 
 /**
  *
  * @author fesquivelc
  */
-public class CRUDHorario extends javax.swing.JInternalFrame {
+public class CRUDUsuario extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form CRUDJornada
      */
     private int accion;
-    private final HorarioControlador horarioControlador;
-    private List<Horario> horarioList;
-    private Jornada jornadaSeleccionada;
+    private final UsuarioControlador usuarioControlador;
+    private final EmpleadoControlador empleadoControlador;
+    private List<Usuario> usuarioList;
+    private Empleado empleadoSeleccionado;
+    private Rol rolSeleccionado;
 
-    public CRUDHorario() {
+    public CRUDUsuario() {
         initComponents();
-        horarioControlador = new HorarioControlador();
+        usuarioControlador = new UsuarioControlador();
+        empleadoControlador = new EmpleadoControlador();
         bindeoSalvaje();
         accion = 0;
-        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
-        FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
         this.controles(accion);
     }
 
@@ -59,30 +63,22 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        pnlDatos = new javax.swing.JPanel();
+        pnlDatosJornada = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        txtCodigo = new javax.swing.JTextField();
-        txtNombre = new javax.swing.JTextField();
-        txtJornada = new javax.swing.JTextField();
-        btnJornada = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        chkLunes = new javax.swing.JCheckBox();
-        chkMartes = new javax.swing.JCheckBox();
-        chkMiercoles = new javax.swing.JCheckBox();
-        chkJueves = new javax.swing.JCheckBox();
-        chkViernes = new javax.swing.JCheckBox();
-        chkSabado = new javax.swing.JCheckBox();
-        chkDomingo = new javax.swing.JCheckBox();
+        txtLogin = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        chkCambiarContraseña = new javax.swing.JCheckBox();
+        txtRol = new javax.swing.JTextField();
+        txtEmpleado = new javax.swing.JTextField();
+        btnRol = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        txtDocumento = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        spFechaInicio = new javax.swing.JSpinner();
-        spFechaFin = new javax.swing.JSpinner();
+        chkActivo = new javax.swing.JCheckBox();
+        btnEmpleado = new javax.swing.JButton();
+        txtPassword = new javax.swing.JPasswordField();
         jPanel2 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -92,152 +88,132 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblHorario = new org.jdesktop.swingx.JXTable();
+        tblUsuarios = new org.jdesktop.swingx.JXTable();
 
         setClosable(true);
-        setIconifiable(true);
         setMaximizable(true);
-        setTitle("Mantenimiento Horario");
+        setTitle("Mantenimiento usuarios");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        pnlDatos.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de jornada"));
+        pnlDatosJornada.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de usuario"));
 
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
-        jPanel1Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
-        jPanel1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel1Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
+        jPanel1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel1.setLayout(jPanel1Layout);
 
-        jLabel1.setText("Jornada:");
+        jLabel1.setText("Rol:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel1, gridBagConstraints);
 
-        jLabel3.setText("Días laborales:");
+        jLabel3.setText("Empleado:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel3, gridBagConstraints);
 
-        jLabel9.setText("Código:");
+        jLabel9.setText("Nombre de usuario:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel9, gridBagConstraints);
 
-        jLabel10.setText("Nombre:");
+        jLabel10.setText("Contraseña:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel10, gridBagConstraints);
+
+        txtLogin.setColumns(30);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        jPanel1.add(txtCodigo, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        jPanel1.add(txtNombre, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 0.1;
-        jPanel1.add(txtJornada, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(txtLogin, gridBagConstraints);
 
-        btnJornada.setText("...");
-        btnJornada.addActionListener(new java.awt.event.ActionListener() {
+        jLabel11.setText("¿Cambiar contraseña al iniciar?:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(jLabel11, gridBagConstraints);
+
+        chkCambiarContraseña.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnJornadaActionPerformed(evt);
+                chkCambiarContraseñaActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 4;
-        jPanel1.add(btnJornada, gridBagConstraints);
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(chkCambiarContraseña, gridBagConstraints);
 
-        jPanel3.setLayout(new java.awt.GridLayout(0, 1, 5, 5));
-
-        chkLunes.setText("Lunes");
-        jPanel3.add(chkLunes);
-
-        chkMartes.setText("Martes");
-        jPanel3.add(chkMartes);
-
-        chkMiercoles.setText("Miércoles");
-        jPanel3.add(chkMiercoles);
-
-        chkJueves.setText("Jueves");
-        jPanel3.add(chkJueves);
-
-        chkViernes.setText("Viernes");
-        jPanel3.add(chkViernes);
-
-        chkSabado.setText("Sábado");
-        jPanel3.add(chkSabado);
-
-        chkDomingo.setText("Domingo");
-        jPanel3.add(chkDomingo);
-
+        txtRol.setColumns(30);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jPanel3, gridBagConstraints);
+        jPanel1.add(txtRol, gridBagConstraints);
 
-        jLabel2.setText("Documento de creación:");
+        txtEmpleado.setColumns(30);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(txtEmpleado, gridBagConstraints);
+
+        btnRol.setText("...");
+        btnRol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRolActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        jPanel1.add(btnRol, gridBagConstraints);
+
+        jLabel2.setText("¿Activo?");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel2, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(chkActivo, gridBagConstraints);
+
+        btnEmpleado.setText("...");
+        btnEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEmpleadoActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
-        jPanel1.add(txtDocumento, gridBagConstraints);
+        jPanel1.add(btnEmpleado, gridBagConstraints);
 
-        jLabel4.setText("Fecha de inicio:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel4, gridBagConstraints);
-
-        jLabel5.setText("Fecha de fin:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(jLabel5, gridBagConstraints);
-
-        spFechaInicio.setModel(new javax.swing.SpinnerDateModel());
+        txtPassword.setColumns(30);
+        txtPassword.setText("jPasswordField1");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(spFechaInicio, gridBagConstraints);
-
-        spFechaFin.setModel(new javax.swing.SpinnerDateModel());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(spFechaFin, gridBagConstraints);
+        jPanel1.add(txtPassword, gridBagConstraints);
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
@@ -257,25 +233,25 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
         });
         jPanel2.add(btnCancelar);
 
-        javax.swing.GroupLayout pnlDatosLayout = new javax.swing.GroupLayout(pnlDatos);
-        pnlDatos.setLayout(pnlDatosLayout);
-        pnlDatosLayout.setHorizontalGroup(
-            pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDatosLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnlDatosJornadaLayout = new javax.swing.GroupLayout(pnlDatosJornada);
+        pnlDatosJornada.setLayout(pnlDatosJornadaLayout);
+        pnlDatosJornadaLayout.setHorizontalGroup(
+            pnlDatosJornadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDatosJornadaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlDatosLayout.createSequentialGroup()
+                .addGroup(pnlDatosJornadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+                    .addGroup(pnlDatosJornadaLayout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        pnlDatosLayout.setVerticalGroup(
-            pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDatosLayout.createSequentialGroup()
+        pnlDatosJornadaLayout.setVerticalGroup(
+            pnlDatosJornadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDatosJornadaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 371, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -284,14 +260,19 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipady = 127;
+        gridBagConstraints.ipadx = 151;
+        gridBagConstraints.ipady = 148;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(12, 6, 12, 12);
-        getContentPane().add(pnlDatos, gridBagConstraints);
+        getContentPane().add(pnlDatosJornada, gridBagConstraints);
 
-        pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder("Horarios"));
-        pnlListado.setLayout(new java.awt.GridBagLayout());
+        pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder("Usuarios"));
+        java.awt.GridBagLayout pnlListadoLayout = new java.awt.GridBagLayout();
+        pnlListadoLayout.columnWidths = new int[] {0};
+        pnlListadoLayout.rowHeights = new int[] {0, 5, 0};
+        pnlListado.setLayout(pnlListadoLayout);
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
@@ -321,17 +302,19 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         pnlListado.add(jPanel4, gridBagConstraints);
 
-        tblHorario.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tblHorarioMouseReleased(evt);
+                tblUsuariosMouseReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(tblHorario);
+        jScrollPane1.setViewportView(tblUsuarios);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
@@ -342,7 +325,7 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 310;
-        gridBagConstraints.ipady = 430;
+        gridBagConstraints.ipady = 395;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.weighty = 0.1;
@@ -355,19 +338,19 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
         this.accion = Controlador.NUEVO;
-        horarioControlador.prepararCrear();
+        usuarioControlador.prepararCrear();
         this.controles(accion);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        int fila = this.tblHorario.getSelectedRow();
+        int fila = this.tblUsuarios.getSelectedRow();
         if (fila != -1) {
             this.accion = Controlador.MODIFICAR;
-            this.horarioControlador.setSeleccionado(this.horarioList.get(fila));
-            this.mostrar(horarioControlador.getSeleccionado());
+            this.usuarioControlador.setSeleccionado(this.usuarioList.get(fila));
+            this.mostrar(usuarioControlador.getSeleccionado());
             this.controles(accion);
-            FormularioUtil.activarComponente(txtCodigo, false);
+            FormularioUtil.activarComponente(txtLogin, false);
         }
 
     }//GEN-LAST:event_btnModificarActionPerformed
@@ -375,31 +358,56 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         this.accion = Controlador.ELIMINAR;
+        int fila = tblUsuarios.getSelectedRow();
+        if (fila != -1 && FormularioUtil.dialogoConfirmar(this, accion)) {
+            if (usuarioControlador.accion(accion)) {
+                FormularioUtil.mensajeExito(this, accion);
+                this.accion = 0;
+                this.actualizarTabla();
+            } else {
+                FormularioUtil.mensajeError(this, accion);
+            }
+
+        }
+
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void tblUsuariosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUsuariosMouseReleased
+        // TODO add your handling code here:
+        int fila = tblUsuarios.getSelectedRow();
+        if (fila != -1) {
+            mostrar(usuarioList.get(fila));
+        }
+
+    }//GEN-LAST:event_tblUsuariosMouseReleased
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.accion = 0;
+        this.controles(accion);
+        FormularioUtil.limpiarComponente(this.pnlDatosJornada);
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
-            Horario seleccionada = horarioControlador.getSeleccionado();
-            FormularioUtil.convertirMayusculas(this.pnlDatos);
+            Usuario seleccionado = usuarioControlador.getSeleccionado();
+
+            FormularioUtil.convertirMayusculas(this.pnlDatosJornada);
+
             if (accion == Controlador.NUEVO) {
-                seleccionada.setCodigo(txtCodigo.getText());
+                seleccionado.setLogin(txtLogin.getText());
             }
-            seleccionada.setNombre(txtNombre.getText());
-            seleccionada.setJornada(jornadaSeleccionada);
-            seleccionada.setLunes(chkLunes.isSelected());
-            seleccionada.setMartes(chkMartes.isSelected());
-            seleccionada.setMiercoles(chkMiercoles.isSelected());
-            seleccionada.setJueves(chkJueves.isSelected());
-            seleccionada.setViernes(chkViernes.isSelected());
-            seleccionada.setSabado(chkSabado.isSelected());
-            seleccionada.setDomingo(chkDomingo.isSelected());
-            seleccionada.setDocumento(txtDocumento.getText());
-            seleccionada.setFechaInicio((Date)spFechaInicio.getValue());
-            seleccionada.setFechaFin((Date)spFechaFin.getValue());
+            String password = new String(txtPassword.getPassword());
+            seleccionado.setPassword(Encriptador.encrypt(password));
+            seleccionado.setActivo(chkActivo.isSelected());
+            seleccionado.setCambiarPassword(chkCambiarContraseña.isSelected());
+            seleccionado.setEmpleado(empleadoSeleccionado.getNroDocumento());
+            seleccionado.setRol(rolSeleccionado);
+            
             
 
-            if (horarioControlador.accion(accion)) {
+            if (usuarioControlador.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
                 this.accion = 0;
                 this.controles(accion);
@@ -413,68 +421,56 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    private void tblHorarioMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHorarioMouseReleased
+    private void chkCambiarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCambiarContraseñaActionPerformed
         // TODO add your handling code here:
-        int fila = tblHorario.getSelectedRow();
-        if (fila != -1) {
-            mostrar(horarioList.get(fila));
+    }//GEN-LAST:event_chkCambiarContraseñaActionPerformed
+
+    private void btnEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadoActionPerformed
+        // TODO add your handling code here:
+        DlgEmpleado dlg = new DlgEmpleado(this);        
+        empleadoSeleccionado = dlg.getSeleccionado();
+        if(empleadoSeleccionado != null){
+            txtEmpleado.setText(empleadoSeleccionado.getApellidoPaterno() + " " + empleadoSeleccionado.getApellidoMaterno() + " " +empleadoSeleccionado.getNombre());
         }
+    }//GEN-LAST:event_btnEmpleadoActionPerformed
 
-    }//GEN-LAST:event_tblHorarioMouseReleased
-
-    private void btnJornadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJornadaActionPerformed
+    private void btnRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRolActionPerformed
         // TODO add your handling code here:
-        DlgJornada dialogo = new DlgJornada(this);
-        jornadaSeleccionada = dialogo.getJornadaSeleccionada();
-        if(jornadaSeleccionada != null){
-            txtJornada.setText(jornadaSeleccionada.getNombre());
+        DlgRol roles = new DlgRol(this);
+        rolSeleccionado = roles.getRolSeleccionado();
+        if(rolSeleccionado != null){
+            txtRol.setText(rolSeleccionado.getNombre());
         }
-        
-    }//GEN-LAST:event_btnJornadaActionPerformed
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
-        this.accion = 0;
-        this.controles(accion);
-        FormularioUtil.limpiarComponente(this.pnlDatos);
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    }//GEN-LAST:event_btnRolActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnEmpleado;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnJornada;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
-    private javax.swing.JCheckBox chkDomingo;
-    private javax.swing.JCheckBox chkJueves;
-    private javax.swing.JCheckBox chkLunes;
-    private javax.swing.JCheckBox chkMartes;
-    private javax.swing.JCheckBox chkMiercoles;
-    private javax.swing.JCheckBox chkSabado;
-    private javax.swing.JCheckBox chkViernes;
+    private javax.swing.JButton btnRol;
+    private javax.swing.JCheckBox chkActivo;
+    private javax.swing.JCheckBox chkCambiarContraseña;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPanel pnlDatos;
+    private javax.swing.JPanel pnlDatosJornada;
     private javax.swing.JPanel pnlListado;
-    private javax.swing.JSpinner spFechaFin;
-    private javax.swing.JSpinner spFechaInicio;
-    private org.jdesktop.swingx.JXTable tblHorario;
-    private javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextField txtDocumento;
-    private javax.swing.JTextField txtJornada;
-    private javax.swing.JTextField txtNombre;
+    private org.jdesktop.swingx.JXTable tblUsuarios;
+    private javax.swing.JTextField txtEmpleado;
+    private javax.swing.JTextField txtLogin;
+    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtRol;
     // End of variables declaration//GEN-END:variables
 
     private void modeloHoraSpinner(JSpinner spinner) {
@@ -503,45 +499,54 @@ public class CRUDHorario extends javax.swing.JInternalFrame {
         boolean bandera = accion == Controlador.NUEVO || accion == Controlador.MODIFICAR;
 
         FormularioUtil.activarComponente(this.pnlListado, !bandera);
-        FormularioUtil.activarComponente(this.pnlDatos, bandera);
-        FormularioUtil.activarComponente(this.txtJornada, false);
+        FormularioUtil.activarComponente(this.pnlDatosJornada, bandera);
+        this.txtEmpleado.setEditable(false);
+        this.txtRol.setEditable(false);
 
         if (accion != Controlador.MODIFICAR) {
-            FormularioUtil.limpiarComponente(this.pnlDatos);
+            FormularioUtil.limpiarComponente(this.pnlDatosJornada);
         }
 
     }
 
     private void bindeoSalvaje() {
-        horarioList = new ArrayList<>();
-        horarioList = ObservableCollections.observableList(horarioList);
+        usuarioList = new ArrayList<>();
+        usuarioList = ObservableCollections.observableList(usuarioList);
+        
+        JTableBinding tablaBinding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, usuarioList, tblUsuarios);
 
-        String[] columnas = {"Horario", "Jornada", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"};
-
-        MTHorario mt = new MTHorario(horarioList, columnas);
-        tblHorario.setModel(mt);
-        actualizarTabla();
+        BeanProperty pLogin = BeanProperty.create("login");
+        BeanProperty pRol = BeanProperty.create("rol.nombre");
+        BeanProperty pActivo = BeanProperty.create("activo");
+        BeanProperty pEmpleado = BeanProperty.create("empleado");
+        
+        tablaBinding.addColumnBinding(pEmpleado).setColumnName("Nro de documento").setEditable(false).setColumnClass(String.class);
+        tablaBinding.addColumnBinding(pLogin).setColumnName("Nombre de usuario").setEditable(false).setColumnClass(String.class);
+        tablaBinding.addColumnBinding(pRol).setColumnName("Rol").setEditable(false).setColumnClass(String.class);
+        tablaBinding.addColumnBinding(pActivo).setColumnName("Rol").setEditable(false).setColumnClass(Boolean.class);
+        
+        tablaBinding.bind();
+        this.actualizarTabla();
     }
 
-    private void mostrar(Horario seleccionado) {
-        txtDocumento.setText(seleccionado.getDocumento());
-        txtCodigo.setText(seleccionado.getCodigo());
-        txtNombre.setText(seleccionado.getNombre());
-        txtJornada.setText(seleccionado.getJornada().getNombre());
-        chkLunes.setSelected(seleccionado.isLunes());
-        chkMartes.setSelected(seleccionado.isMartes());
-        chkMiercoles.setSelected(seleccionado.isMiercoles());
-        chkJueves.setSelected(seleccionado.isJueves());
-        chkViernes.setSelected(seleccionado.isViernes());
-        chkSabado.setSelected(seleccionado.isSabado());
-        chkDomingo.setSelected(seleccionado.isDomingo());
-        spFechaInicio.setValue(seleccionado.getFechaInicio());
-        spFechaFin.setValue(seleccionado.getFechaFin());
+    private void mostrar(Usuario seleccionado) {
+        txtLogin.setText(seleccionado.getLogin());
+        txtPassword.setText(Encriptador.decrypt(seleccionado.getPassword()));
+        chkActivo.setSelected(seleccionado.isActivo());
+        
+        chkCambiarContraseña.setSelected(seleccionado.isCambiarPassword());
+        empleadoSeleccionado = empleadoControlador.buscarPorId(seleccionado.getEmpleado());
+        if(empleadoSeleccionado != null){
+            txtEmpleado.setText(empleadoSeleccionado.getApellidoPaterno() + " " + empleadoSeleccionado.getApellidoMaterno() + " "+empleadoSeleccionado.getNombre());
+        }
+        txtRol.setText(seleccionado.getRol().getNombre());
+        
     }
 
     private void actualizarTabla() {
-        horarioList.clear();
-        horarioList.addAll(horarioControlador.buscarTodos());
-        tblHorario.packAll();
+        usuarioList.clear();
+        usuarioList.addAll(usuarioControlador.buscarTodos());
+        tblUsuarios.packAll();
     }
+
 }

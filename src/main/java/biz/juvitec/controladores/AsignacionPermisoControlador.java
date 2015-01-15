@@ -77,7 +77,7 @@ public class AsignacionPermisoControlador extends Controlador<AsignacionPermiso>
         String jpql = "SELECT a FROM AsignacionPermiso a WHERE "
                 + "a.empleado = :dni AND "
                 + "a.permiso.porFecha = FALSE AND "
-                + "a.permiso.fechaInicio = :fecha AND "
+                + "(a.permiso.fechaInicio BETWEEN :fecha AND :fecha) AND "
                 + "a.permiso.horaInicio BETWEEN :horaI AND :horaF";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("dni", dni);

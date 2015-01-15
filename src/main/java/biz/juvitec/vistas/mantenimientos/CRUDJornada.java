@@ -81,6 +81,8 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         txtNombre = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         chkRefrigerioEspecial = new javax.swing.JCheckBox();
+        jLabel12 = new javax.swing.JLabel();
+        spMinutosRefrigerio = new javax.swing.JSpinner();
         jPanel2 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -100,8 +102,8 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         pnlDatosJornada.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de jornada"));
 
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
-        jPanel1Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
-        jPanel1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel1Layout.columnWidths = new int[] {0, 5, 0};
+        jPanel1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel1.setLayout(jPanel1Layout);
 
         jLabel1.setText("Hora de entrada (HH:mm):");
@@ -282,7 +284,7 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtNombre, gridBagConstraints);
 
-        jLabel11.setText("¿Refrigerio de una hora?");
+        jLabel11.setText("¿Refrigerio en intervalo?");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 20;
@@ -299,6 +301,25 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 20;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(chkRefrigerioEspecial, gridBagConstraints);
+
+        jLabel12.setText("Minutos de refrigerio:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 22;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(jLabel12, gridBagConstraints);
+
+        spMinutosRefrigerio.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(15), Integer.valueOf(15), null, Integer.valueOf(1)));
+        spMinutosRefrigerio.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spMinutosRefrigerioStateChanged(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 22;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel1.add(spMinutosRefrigerio, gridBagConstraints);
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
@@ -324,19 +345,16 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
             pnlDatosJornadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDatosJornadaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlDatosJornadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
-                    .addGroup(pnlDatosJornadaLayout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(432, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
         );
         pnlDatosJornadaLayout.setVerticalGroup(
             pnlDatosJornadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlDatosJornadaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 246, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -390,17 +408,6 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 2;
         pnlListado.add(jPanel4, gridBagConstraints);
 
-        tblJornadas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         tblJornadas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tblJornadasMouseReleased(evt);
@@ -499,11 +506,17 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
             seleccionada.setRefrigerioHS((Date) spRefrigerioHS.getValue());
             seleccionada.setRefrigerioHE((Date) spRefrigerioHE.getValue());
             seleccionada.setTardanzaHE((Date) spTardanzaHE.getValue());
-            seleccionada.setToleranciaRefrigerioHE((Date) spToleranciaRefrigerioHE.getValue());
+//            seleccionada.setToleranciaRefrigerioHE((Date) spToleranciaRefrigerioHE.getValue());
             seleccionada.setToleranciaHE((Date) spToleranciaHE.getValue());
             seleccionada.setTurnoHE((Date) spTurnoHE.getValue());
             seleccionada.setTurnoHS((Date) spTurnoHS.getValue());
             seleccionada.setRefrigerioEspecial(chkRefrigerioEspecial.isSelected());
+
+            if (chkRefrigerioEspecial.isSelected()) {
+                seleccionada.setMinRefrigerio(Integer.parseInt(spMinutosRefrigerio.getValue().toString()));
+            } else {
+                seleccionada.setToleranciaRefrigerioHE((Date) spToleranciaRefrigerioHE.getValue());
+            }
 
             if (jornadaControlador.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
@@ -521,6 +534,7 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
 
     private void chkRefrigerioEspecialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkRefrigerioEspecialActionPerformed
         // TODO add your handling code here:
+        checkbox();
     }//GEN-LAST:event_chkRefrigerioEspecialActionPerformed
 
     private void spRefrigerioHEStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spRefrigerioHEStateChanged
@@ -558,6 +572,10 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         System.out.println("HORA: " + hora.toString());
     }//GEN-LAST:event_spTurnoHEStateChanged
 
+    private void spMinutosRefrigerioStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spMinutosRefrigerioStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_spMinutosRefrigerioStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -569,6 +587,7 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -584,6 +603,7 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlDatosJornada;
     private javax.swing.JPanel pnlListado;
     private javax.swing.JSpinner spDesdeHE;
+    private javax.swing.JSpinner spMinutosRefrigerio;
     private javax.swing.JSpinner spRefrigerioHE;
     private javax.swing.JSpinner spRefrigerioHS;
     private javax.swing.JSpinner spTardanzaHE;
@@ -623,6 +643,8 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
 
         FormularioUtil.activarComponente(this.pnlListado, !bandera);
         FormularioUtil.activarComponente(this.pnlDatosJornada, bandera);
+        
+        checkbox();
 
         if (accion != Controlador.MODIFICAR) {
             FormularioUtil.limpiarComponente(this.pnlDatosJornada);
@@ -647,12 +669,16 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         spDesdeHE.setValue(seleccionado.getDesdeHE());
         spRefrigerioHS.setValue(seleccionado.getRefrigerioHS());
         spRefrigerioHE.setValue(seleccionado.getRefrigerioHE());
-        spTardanzaHE.setValue(seleccionado.getTardanzaHE());
-        spToleranciaRefrigerioHE.setValue(seleccionado.getToleranciaRefrigerioHE());
+        spTardanzaHE.setValue(seleccionado.getTardanzaHE());        
         spToleranciaHE.setValue(seleccionado.getToleranciaHE());
         spTurnoHE.setValue(seleccionado.getTurnoHE());
         spTurnoHS.setValue(seleccionado.getTurnoHS());
         chkRefrigerioEspecial.setSelected(seleccionado.isRefrigerioEspecial());
+        if(seleccionado.isRefrigerioEspecial()){
+            spMinutosRefrigerio.setValue(seleccionado.getMinRefrigerio());
+        }else{
+            spToleranciaRefrigerioHE.setValue(seleccionado.getToleranciaRefrigerioHE());
+        }
     }
 
     private void actualizarTabla() {
@@ -661,9 +687,11 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
         tblJornadas.packAll();
     }
 
-    public void chekboxes() {
+    private void checkbox() {
         if (accion != 0) {
-            spToleranciaRefrigerioHE.setEnabled(chkRefrigerioEspecial.isSelected());
+            FormularioUtil.activarComponente(spToleranciaRefrigerioHE, !chkRefrigerioEspecial.isSelected());
+            FormularioUtil.activarComponente(spMinutosRefrigerio, chkRefrigerioEspecial.isSelected());
         }
+
     }
 }

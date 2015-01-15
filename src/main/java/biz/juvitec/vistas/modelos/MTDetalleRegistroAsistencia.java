@@ -29,9 +29,19 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<DetalleRegistroAsis
             case 0:
                 return tipo(detalle.getTipoRegistro());
             case 1:
-                return dfHora.format(detalle.getHoraInicio());
+                if(detalle.getHoraInicio() == null){
+                    return "FALTA";
+                }else{
+                    return dfHora.format(detalle.getHoraInicio());
+                }
+                
             case 2:
-                return dfHora.format(detalle.getHoraFin());
+                if(detalle.getHoraInicio() == null){
+                    return "FALTA";
+                }else{
+                    return dfHora.format(detalle.getHoraFin());
+                }
+                
             default:
                 return "";
             

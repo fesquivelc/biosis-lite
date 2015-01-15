@@ -19,6 +19,7 @@ import biz.juvitec.vistas.dialogos.DlgEmpleado;
 import biz.juvitec.vistas.dialogos.DlgInterrupcionVacacion;
 import biz.juvitec.vistas.modelos.MTAsignarVacacion;
 import biz.juvitec.vistas.modelos.MTEmpleado;
+import biz.juvitec.vistas.modelos.MTVacacion;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
 import java.awt.Component;
@@ -99,7 +100,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         btnSiguiente = new javax.swing.JButton();
         btnUltimo = new javax.swing.JButton();
         cboTamanio = new javax.swing.JComboBox();
-        jCheckBox1 = new javax.swing.JCheckBox();
         pnlDatos = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -115,6 +115,9 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         cboPeriodo = new javax.swing.JComboBox();
         txtDocumento = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblVacaciones = new org.jdesktop.swingx.JXTable();
         jPanel5 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -127,7 +130,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         layout.rowHeights = new int[] {0};
         getContentPane().setLayout(layout);
 
-        pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder("Permisos"));
+        pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder("Vacaciones asignadas"));
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
         jPanel1Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0};
@@ -173,17 +176,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.gridwidth = 15;
         pnlListado.add(jPanel3, gridBagConstraints);
 
-        tblTabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         tblTabla.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tblTablaMouseReleased(evt);
@@ -343,9 +335,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.gridwidth = 15;
         pnlListado.add(pnlNavegacion, gridBagConstraints);
 
-        jCheckBox1.setText("Empleado:");
-        pnlListado.add(jCheckBox1, new java.awt.GridBagConstraints());
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -355,7 +344,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(pnlListado, gridBagConstraints);
 
-        pnlDatos.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de permiso"));
+        pnlDatos.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de vacación"));
         java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
         jPanel2Layout.columnWidths = new int[] {0, 0, 0, 0, 0};
         jPanel2Layout.rowHeights = new int[] {0, 5, 0};
@@ -363,7 +352,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
         jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
-        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel4.setLayout(jPanel4Layout);
 
         jLabel1.setText("Empleado:");
@@ -451,6 +440,11 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         jPanel4.add(jLabel2, gridBagConstraints);
 
         cboPeriodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboPeriodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboPeriodoActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -462,11 +456,30 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(txtDocumento, gridBagConstraints);
 
-        jLabel3.setText("Documento de vacación:");
+        jLabel3.setText("Vacaciones pedidas:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(jLabel3, gridBagConstraints);
+
+        jLabel5.setText("Documento de vacación:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
-        jPanel4.add(jLabel3, gridBagConstraints);
+        jPanel4.add(jLabel5, gridBagConstraints);
+
+        jScrollPane2.setViewportView(tblVacaciones);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        jPanel4.add(jScrollPane2, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -589,6 +602,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
                     empleadoSeleccionado.getApellidoPaterno()
                     + " " + empleadoSeleccionado.getApellidoMaterno()
                     + " " + empleadoSeleccionado.getNombre());
+            actualizarResumenVacaciones(empleadoSeleccionado);
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -683,6 +697,11 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void cboPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboPeriodoActionPerformed
+        // TODO add your handling code here:
+        actualizarResumenVacaciones(empleadoSeleccionado);
+    }//GEN-LAST:event_cboPeriodoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
@@ -701,17 +720,18 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private org.jdesktop.swingx.JXBusyLabel lblBusqueda;
     private javax.swing.JPanel pnlDatos;
     private javax.swing.JPanel pnlFHInicio;
@@ -724,6 +744,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private javax.swing.JSpinner spFechaInicio1;
     private javax.swing.JSpinner spPagina;
     private org.jdesktop.swingx.JXTable tblTabla;
+    private org.jdesktop.swingx.JXTable tblVacaciones;
     private javax.swing.JTextField txtDocumento;
     private javax.swing.JTextField txtEmpleado;
     private javax.swing.JTextField txtEmpleadoSeleccionado;
@@ -735,6 +756,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         txtEmpleadoSeleccionado.setText(e.getApellidoPaterno() + " " + e.getApellidoMaterno() + " " + e.getNombre());
         spFechaInicio.setValue(vacacion.getFechaInicio());
         spFechaFin.setValue(vacacion.getFechaFin());
+        cboPeriodo.setSelectedItem(vacacion.getPeriodo());
+        actualizarResumenVacaciones(e);
 
     }
     
@@ -799,6 +822,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         FormularioUtil.modeloSpinnerFechaHora(spFechaInicio1, "dd/MM/yyyy");
         FormularioUtil.modeloSpinnerFechaHora(spFechaFin1, "dd/MM/yyyy");
         this.controles(accion);
+        mtVac = new MTVacacion(new ArrayList<Vacacion>());
+        tblVacaciones.setModel(mtVac);
     }
 
     private void controles(int accion) {
@@ -820,6 +845,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         }
         return listadoDNI;
     }
+    
+    private MTVacacion mtVac;
 
 //    public void agregarEmpleado(Empleado empleado) {
 //        integrantes.add(empleado);
@@ -837,6 +864,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private int paginaActual = 1;
     private int totalPaginas = 0;
     private int tamanioPagina = 0;
+   
 
     private void buscar() {
         String busqueda = txtEmpleado.getText();
@@ -938,5 +966,12 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         reporteador.setConn(controlador.getDao().getConexion());
         reporteador.generarReporte(reporte, parametros, JOptionPane.getFrameForComponent(this));
         
+    }
+
+    private void actualizarResumenVacaciones(Empleado empleado) {
+        if(empleado != null && cboPeriodo.getSelectedIndex() != -1){
+            
+            this.mtVac.setVacaciones(this.controlador.buscarXEmpleadoXPeriodo(empleado.getNroDocumento(),periodoList.get(cboPeriodo.getSelectedIndex())));
+        }
     }
 }

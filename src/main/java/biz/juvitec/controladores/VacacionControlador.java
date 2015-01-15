@@ -5,6 +5,7 @@
  */
 package biz.juvitec.controladores;
 
+import biz.juvitec.entidades.Periodo;
 import biz.juvitec.entidades.Vacacion;
 import java.util.Date;
 import java.util.HashMap;
@@ -76,5 +77,14 @@ public class VacacionControlador extends Controlador<Vacacion> {
         }else{
             return vacacion.get(0);
         }
+    }
+
+    public List<Vacacion> buscarXEmpleadoXPeriodo(String dni, Periodo periodo) {
+        String jpql = "SELECT v FROM Vacacion v WHERE v.empleado = :dni AND v.periodo = :periodo";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", dni);
+        mapa.put("periodo", periodo);
+        List<Vacacion> vacacion = this.getDao().buscar(jpql, mapa);
+        return vacacion;
     }
 }

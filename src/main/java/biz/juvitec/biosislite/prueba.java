@@ -68,17 +68,19 @@ public class prueba {
 //        } catch (SQLException e) {
 //            LOG.error("ERROR " + e.getMessage());
 //        }
-//        RolControlador rc = new RolControlador();
-//        UsuarioControlador uc = new UsuarioControlador();
-//        Rol rol = rc.buscarPorId("ADM");
-//        
-//        Usuario usuario = new Usuario();
-//        usuario.setLogin("fesquivelc");
-//        usuario.setPassword(Encriptador.encrypt("Elhacker12"));
-//        usuario.setEmpleado("10001020");
-//        usuario.setRol(rol);
-//        usuario.setActivo(true);
-//        uc.guardar(usuario);
+        RolControlador rc = new RolControlador();
+        UsuarioControlador uc = new UsuarioControlador();
+        Rol rol = rc.buscarPorId("ADM");
+        
+        Usuario usuario = new Usuario();
+        usuario.setLogin("admin");
+        usuario.setPassword(Encriptador.encrypt("admin"));
+        usuario.setEmpleado("46557081");
+        usuario.setRol(rol);
+        usuario.setActivo(true);
+        uc.guardar(usuario);
+        
+        System.exit(0);
 //        ReporteUtil reporteador = new ReporteUtil();
 //        
 //        File reporte=  new File("reportes/r_registro_asistencia_consolidado.jasper");
@@ -97,6 +99,7 @@ public class prueba {
         Calendar cal = Calendar.getInstance();
         cal.setTime(fecha1);
         cal.add(Calendar.MINUTE, 34);
+        cal.add(Calendar.SECOND, 14);        
         Date fecha2 = cal.getTime();
         System.out.println("FECHA 2 "+fecha2.toString());
         Long dif = fecha2.getTime() - fecha1.getTime();

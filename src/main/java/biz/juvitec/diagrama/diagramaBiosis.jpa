@@ -35,8 +35,8 @@
                 <jpa:column name="tardanza_turno_he" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
                 <jpa:temporal>TIME</jpa:temporal>
             </jpa:basic>
-            <jpa:basic name="toleranciaRefrigerioHE" attribute-type="java.util.Date" visibile="true" id="_141979739711613">
-                <jpa:column name="tolerancia_refrigerio_he" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            <jpa:basic name="toleranciaRefrigerioHE" optional="true" attribute-type="java.util.Date" visibile="true" id="_141979739711613">
+                <jpa:column name="tolerancia_refrigerio_he" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
                 <jpa:temporal>TIME</jpa:temporal>
             </jpa:basic>
             <jpa:basic name="nombre" attribute-type="String" visibile="true" id="_141979746330816">
@@ -44,6 +44,9 @@
             </jpa:basic>
             <jpa:basic name="refrigerioEspecial" attribute-type="boolean" visibile="true" id="_142057757941235">
                 <jpa:column name="refrigerio_especial" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:basic name="minRefrigerio" optional="true" attribute-type="int" visibile="true" id="_142128248733345">
+                <jpa:column name="minutos_refrigerio" unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
             </jpa:basic>
             <jpa:one-to-many name="horarioList" target-entity="Horario" fetch="LAZY" mapped-by="jornada" collection-type="java.util.List" connected-entity-id="_1419797437526" connected-attribute-id="_141981663725320" visibile="true" id="_141981663725621">
                 <jpa:join-table/>
@@ -82,6 +85,14 @@
             </jpa:basic>
             <jpa:basic name="documento" attribute-type="String" visibile="true" id="_142070951939740">
                 <jpa:column name="documento" unique="false" nullable="false" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+            <jpa:basic name="fechaInicio" attribute-type="java.util.Date" visibile="true" id="_142128212757843">
+                <jpa:column name="fecha_inicio" unique="false" nullable="false" insertable="true" updatable="true" length="255"/>
+                <jpa:temporal>DATE</jpa:temporal>
+            </jpa:basic>
+            <jpa:basic name="fechaFin" attribute-type="java.util.Date" visibile="true" id="_142128213628644">
+                <jpa:column name="fecha_fin" unique="false" nullable="false" insertable="true" updatable="true" length="255"/>
+                <jpa:temporal>DATE</jpa:temporal>
             </jpa:basic>
             <jpa:many-to-one name="jornada" target-entity="Jornada" optional="false" primaryKey="false" connected-entity-id="_1419797094305" connected-attribute-id="_141981663725621" visibile="true" id="_141981663725320">
                 <jpa:join-column name="jornada_codigo" referenced-column-name="codigo" unique="false" nullable="false" insertable="true" updatable="true" column-definition="" table=""/>
@@ -505,7 +516,11 @@
                 <jpa:column unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
             </jpa:basic>
             <jpa:one-to-many name="usuarioList" target-entity="Usuario" fetch="LAZY" mapped-by="rol" collection-type="java.util.List" connected-entity-id="_1420626757584" connected-attribute-id="_142062694040544" visibile="true" id="_142062694041045"/>
-            <jpa:one-to-many name="rolAccesoList" target-entity="RolAcceso" mapped-by="rol" collection-type="java.util.List" connected-entity-id="_1421075359384" connected-attribute-id="_142107540469253" visibile="true" id="_142107540469454"/>
+            <jpa:one-to-many name="rolAccesoList" target-entity="RolAcceso" mapped-by="rol" collection-type="java.util.List" connected-entity-id="_1421075359384" connected-attribute-id="_142107540469253" visibile="true" id="_142107540469454">
+                <jpa:cascade>
+                    <jpa:cascade-all/>
+                </jpa:cascade>
+            </jpa:one-to-many>
         </jpa:attributes>
     </jpa:entity>
     <jpa:entity class="Acceso" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1420645933794">
@@ -574,67 +589,67 @@
     <jpa:diagram id="_14197969282182">
         <plane elementRef="_14197969282181" id="_14197969282193_p">
             <shape elementRef="_1419797094305" id="_1419797094305_gui">
-                <Bounds x="1201.0" y="-64.0" width="177.0" height="320.0"/>
+                <Bounds x="1195.0" y="-70.0" width="177.0" height="341.0"/>
             </shape>
             <shape elementRef="_1419797437526" id="_1419797437526_gui">
-                <Bounds x="944.0" y="-7.0" width="181.0" height="320.0"/>
+                <Bounds x="938.0" y="-13.0" width="181.0" height="362.0"/>
             </shape>
             <shape elementRef="_1419816874537" id="_1419816874537_gui">
-                <Bounds x="-42.0" y="20.0" width="191.0" height="152.0"/>
+                <Bounds x="-48.0" y="14.0" width="191.0" height="152.0"/>
             </shape>
             <shape elementRef="_1419816954830" id="_1419816954830_gui">
-                <Bounds x="456.0" y="-111.0" width="213.0" height="131.0"/>
+                <Bounds x="450.0" y="-117.0" width="213.0" height="131.0"/>
             </shape>
             <shape elementRef="_1419817066614" id="_1419817066614_gui">
-                <Bounds x="466.0" y="46.0" width="203.0" height="173.0"/>
+                <Bounds x="460.0" y="40.0" width="203.0" height="173.0"/>
             </shape>
             <shape elementRef="_1419857416453" id="_1419857416453_gui">
-                <Bounds x="-63.0" y="256.0" width="170.0" height="194.0"/>
+                <Bounds x="-69.0" y="250.0" width="170.0" height="194.0"/>
             </shape>
             <shape elementRef="_1419859527825" id="_1419859527825_gui">
-                <Bounds x="192.0" y="196.0" width="220.0" height="362.0"/>
+                <Bounds x="186.0" y="190.0" width="220.0" height="362.0"/>
             </shape>
             <shape elementRef="_1419860919430" id="_1419860919430_gui">
-                <Bounds x="820.0" y="690.0" width="151.0" height="236.0"/>
+                <Bounds x="814.0" y="684.0" width="151.0" height="236.0"/>
             </shape>
             <shape elementRef="_1419869578736" id="_1419869578736_gui">
-                <Bounds x="1069.0" y="744.0" width="170.0" height="194.0"/>
+                <Bounds x="1063.0" y="738.0" width="170.0" height="194.0"/>
             </shape>
             <shape elementRef="_1419869918591" id="_1419869918591_gui">
-                <Bounds x="1224.0" y="516.0" width="140.0" height="152.0"/>
+                <Bounds x="1218.0" y="510.0" width="140.0" height="152.0"/>
             </shape>
             <shape elementRef="_1419872241459" id="_1419872241459_gui">
-                <Bounds x="1193.0" y="296.0" width="193.0" height="152.0"/>
+                <Bounds x="1187.0" y="290.0" width="193.0" height="152.0"/>
             </shape>
             <shape elementRef="_1419872745030" id="_1419872745030_gui">
-                <Bounds x="711.0" y="313.0" width="220.0" height="341.0"/>
+                <Bounds x="705.0" y="307.0" width="220.0" height="341.0"/>
             </shape>
             <shape elementRef="_1419873178531" id="_1419873178531_gui">
-                <Bounds x="384.0" y="631.0" width="245.0" height="278.0"/>
+                <Bounds x="378.0" y="625.0" width="245.0" height="278.0"/>
             </shape>
             <shape elementRef="_1419881765499" id="_1419881765499_gui">
-                <Bounds x="45.0" y="673.0" width="158.0" height="117.0"/>
+                <Bounds x="39.0" y="667.0" width="158.0" height="117.0"/>
             </shape>
             <shape elementRef="_1420208587542" id="_1420208587542_gui">
-                <Bounds x="466.0" y="256.0" width="209.0" height="131.0"/>
+                <Bounds x="460.0" y="250.0" width="209.0" height="131.0"/>
             </shape>
             <shape elementRef="_1420431112337" id="_1420431112337_gui">
-                <Bounds x="-27.0" y="486.0" width="160.0" height="117.0"/>
+                <Bounds x="-33.0" y="480.0" width="160.0" height="117.0"/>
             </shape>
             <shape elementRef="_1420626757584" id="_1420626757584_gui">
-                <Bounds x="558.0" y="-455.0" width="153.0" height="194.0"/>
+                <Bounds x="552.0" y="-461.0" width="153.0" height="194.0"/>
             </shape>
             <shape elementRef="_1420626865035" id="_1420626865035_gui">
-                <Bounds x="811.0" y="-389.0" width="133.0" height="152.0"/>
+                <Bounds x="805.0" y="-395.0" width="133.0" height="152.0"/>
             </shape>
             <shape elementRef="_1420645933794" id="_1420645933794_gui">
-                <Bounds x="1223.0" y="-369.0" width="141.0" height="152.0"/>
+                <Bounds x="1217.0" y="-375.0" width="141.0" height="152.0"/>
             </shape>
             <shape elementRef="_1421040960477" id="_1421040960477_gui">
-                <Bounds x="46.0" y="-344.0" width="146.0" height="243.0"/>
+                <Bounds x="40.0" y="-350.0" width="146.0" height="243.0"/>
             </shape>
             <shape elementRef="_1421075359384" id="_1421075359384_gui">
-                <Bounds x="1009.0" y="-334.0" width="159.0" height="117.0"/>
+                <Bounds x="1003.0" y="-340.0" width="159.0" height="117.0"/>
             </shape>
         </plane>
     </jpa:diagram>

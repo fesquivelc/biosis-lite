@@ -6,6 +6,8 @@
 package biz.juvitec.controladores;
 
 import biz.juvitec.entidades.Rol;
+import biz.juvitec.entidades.RolAcceso;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,5 +18,13 @@ public class RolControlador extends Controlador<Rol>{
     public RolControlador() {
         super(Rol.class);
     }
+
+    @Override
+    public void prepararCrear() {
+        super.prepararCrear();
+        this.getSeleccionado().setRolAccesoList(new ArrayList<RolAcceso>());//To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
     
 }

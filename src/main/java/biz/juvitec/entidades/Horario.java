@@ -1,6 +1,7 @@
 package biz.juvitec.entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -10,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Horario implements Serializable {
@@ -35,6 +38,10 @@ public class Horario implements Serializable {
     @Column(nullable=false)
     @Basic
     private boolean lunes;
+    @Column(name="fecha_fin",nullable=false)
+    @Temporal(TemporalType.DATE)
+    @Basic
+    private Date fechaFin;
     @Column(name="documento",nullable=false)
     @Basic
     private String documento;
@@ -43,6 +50,10 @@ public class Horario implements Serializable {
     private boolean domingo;
     @OneToMany(fetch = FetchType.LAZY,targetEntity = AsignacionHorario.class,mappedBy = "horario")
     private List<AsignacionHorario> asignacionHorarioList;
+    @Column(name="fecha_inicio",nullable=false)
+    @Temporal(TemporalType.DATE)
+    @Basic
+    private Date fechaInicio;
     @Column(nullable=false)
     @Basic
     private boolean martes;
@@ -110,6 +121,14 @@ public class Horario implements Serializable {
         this.lunes = lunes;
     }
    
+    public Date getFechaFin() {
+        return this.fechaFin;
+    }
+
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+   
     public String getDocumento() {
         return this.documento;
     }
@@ -132,6 +151,14 @@ public class Horario implements Serializable {
 
     public void setAsignacionHorarioList(List<AsignacionHorario> asignacionHorarioList) {
         this.asignacionHorarioList = asignacionHorarioList;
+    }
+   
+    public Date getFechaInicio() {
+        return this.fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
     
     public boolean isMartes() {

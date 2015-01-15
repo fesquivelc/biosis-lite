@@ -20,19 +20,19 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
-     CAST(SUM(registro_asistencia.milisegundostardanza)/(1000*60) as decimal(10,2)) AS milisegundos_tardanza,
-     CAST(SUM(registro_asistencia.milisegundostrabajados)/(1000*60*60) as decimal(10,2)) AS milisegundos_trabajados,
+     SUM(registro_asistencia.minutos_tardanza) as minutos_tardanza,
+     SUM(registro_asistencia.minutos_trabajados) / 60 as minutos_trabajados,
      registro_asistencia.horario_codigo AS horario_codigo,
      horario.nombre AS horario_nombre,
      horario.documento AS horario_documento
 FROM
-     public.registro_asistencia registro_asistencia LEFT JOIN public.detalle_registro_asistencia detalle_registro_asistencia ON registro_asistencia.id = detalle_registro_asistencia.registro_asistencia_id
-     INNER JOIN public.horario horario ON registro_asistencia.horario_codigo = horario.codigo
+     registro_asistencia registro_asistencia LEFT JOIN detalle_registro_asistencia detalle_registro_asistencia ON registro_asistencia.id = detalle_registro_asistencia.registro_asistencia_id
+     INNER JOIN horario horario ON registro_asistencia.horario_codigo = horario.codigo
 WHERE registro_asistencia.empleado_nro_documento = $P{empleado_nro_documento} AND registro_asistencia.fecha BETWEEN $P{fechaInicio} AND $P{fechaFin}
 GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]>
 	</queryString>
-	<field name="milisegundos_tardanza" class="java.math.BigDecimal"/>
-	<field name="milisegundos_trabajados" class="java.math.BigDecimal"/>
+	<field name="minutos_tardanza" class="java.math.BigDecimal"/>
+	<field name="minutos_trabajados" class="java.math.BigDecimal"/>
 	<field name="horario_codigo" class="java.lang.String"/>
 	<field name="horario_nombre" class="java.lang.String"/>
 	<field name="horario_documento" class="java.lang.String"/>
@@ -101,13 +101,13 @@ GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]
 				<reportElement x="144" y="81" width="40" height="20" uuid="70780476-a5ec-45cb-bd6e-663dc07f5f50"/>
 				<box leftPadding="5"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{milisegundos_tardanza}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{minutos_tardanza}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="144" y="101" width="40" height="20" uuid="85baaf07-e4a2-426c-aef9-93823d78cdb3"/>
 				<box leftPadding="5"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{milisegundos_trabajados}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{minutos_trabajados}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="158" y="21" width="390" height="20" uuid="cfefb609-f35b-424d-9c53-a2ef19dd1703"/>

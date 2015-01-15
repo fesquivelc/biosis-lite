@@ -688,7 +688,12 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         if (fila != -1) {
             RegistroAsistencia registro = this.registroAsistenciaList.get(fila);
 
-            mostrarDetalle(registro);
+            if(registro.getDetalleRegistroAsistenciaList() == null){
+                detalleRegistroAsistenciaList.clear();
+            }else{
+                mostrarDetalle(registro);
+            }
+            
             mostrarHorario(registro.getHorario());
             mostrarMarcaciones(registro.getEmpleado(), registro.getFecha());
         }
