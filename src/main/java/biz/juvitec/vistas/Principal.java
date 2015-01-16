@@ -649,6 +649,7 @@ public class Principal extends javax.swing.JFrame {
         if (u != null) {
             UsuarioActivo.setUsuario(u);
             lblUsuario.setText("Usuario: " + u.getLogin() + " Rol: " + u.getRol().getNombre());
+            this.habilitarMenu();
         } else {
             System.out.println("USUARIO NULL =(");
         }
