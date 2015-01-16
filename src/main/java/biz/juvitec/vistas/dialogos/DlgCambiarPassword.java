@@ -27,6 +27,7 @@ public class DlgCambiarPassword extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.usuario = usuario;
+        this.setLocationRelativeTo(parent);
     }
 
     /**
@@ -81,6 +82,8 @@ public class DlgCambiarPassword extends javax.swing.JDialog {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(jPanel1, gridBagConstraints);
+
+        txtNuevoPass.setColumns(50);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -93,11 +96,15 @@ public class DlgCambiarPassword extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(jLabel3, gridBagConstraints);
+
+        txtPassActual.setColumns(50);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         getContentPane().add(txtPassActual, gridBagConstraints);
+
+        txtRepNuevoPass.setColumns(50);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -113,9 +120,9 @@ public class DlgCambiarPassword extends javax.swing.JDialog {
         // TODO add your handling code here:
         String passActual = new String(txtPassActual.getPassword()).trim();
         String nuevoPass = new String(txtNuevoPass.getPassword()).trim();
-        String repNuevoPass = new String(txtPassActual.getPassword()).trim();
+        String repNuevoPass = new String(txtRepNuevoPass.getPassword()).trim();
         
-        if(!(passActual.isEmpty() && nuevoPass.isEmpty() && repNuevoPass.isEmpty()) && nuevoPass.equals(repNuevoPass)){
+        if(!(passActual.isEmpty() || nuevoPass.isEmpty() || repNuevoPass.isEmpty()) && nuevoPass.equals(repNuevoPass) && Encriptador.encrypt(passActual).equals(this.usuario.getPassword())){
             this.usuario.setPassword(Encriptador.encrypt(nuevoPass));
             if(uc.modificar(usuario)){
                 FormularioUtil.mensajeExito(this, Controlador.MODIFICAR);
