@@ -1,6 +1,7 @@
 package biz.juvitec.entidades;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -54,6 +55,17 @@ public class Permiso implements Serializable {
     @Temporal(TemporalType.TIME)
     @Basic
     private Date horaFin;
+    @Column(name="diferencia_minutos")    
+    @Basic
+    private BigDecimal diferencia;
+
+    public BigDecimal getDiferencia() {
+        return diferencia;
+    }
+
+    public void setDiferencia(BigDecimal diferencia) {
+        this.diferencia = diferencia;
+    }
     @Column(name="cubre_entrada",nullable=false)
     @Basic
     private boolean cubreEntrada;

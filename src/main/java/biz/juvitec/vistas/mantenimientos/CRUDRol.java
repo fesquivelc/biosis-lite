@@ -49,8 +49,10 @@ public class CRUDRol extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
+        setClosable(true);
+        setMaximizable(true);
         setTitle("CREACIÓN DE ROLES DE USUARIO");
-        getContentPane().setLayout(new java.awt.GridLayout());
+        getContentPane().setLayout(new java.awt.GridLayout(1, 0));
 
         pnlDatos.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
         java.awt.GridBagLayout pnlDatosLayout = new java.awt.GridBagLayout();
@@ -102,17 +104,6 @@ public class CRUDRol extends javax.swing.JInternalFrame {
         pnlAccesos.setBorder(javax.swing.BorderFactory.createTitledBorder("Accesos"));
         pnlAccesos.setLayout(new java.awt.GridBagLayout());
 
-        tblAccesos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane1.setViewportView(tblAccesos);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -165,17 +156,6 @@ public class CRUDRol extends javax.swing.JInternalFrame {
         pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder("Roles"));
         pnlListado.setLayout(new java.awt.GridBagLayout());
 
-        tblTabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane2.setViewportView(tblTabla);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

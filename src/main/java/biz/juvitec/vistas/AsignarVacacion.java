@@ -123,7 +123,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         btnCancelar = new javax.swing.JButton();
 
         setClosable(true);
-        setIconifiable(true);
+        setMaximizable(true);
         setTitle("ASIGNAR VACACIONES A EMPLEADO");
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
         layout.columnWidths = new int[] {0, 5, 0};

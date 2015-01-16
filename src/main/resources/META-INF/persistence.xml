@@ -24,11 +24,12 @@
     <class>biz.juvitec.entidades.Bitacora</class>
     <class>biz.juvitec.entidades.RolAcceso</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/minedu-biosis"/>
-      <property name="javax.persistence.jdbc.password" value="root"/>
-      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-      <property name="javax.persistence.jdbc.user" value="postgres"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://127.0.0.1\JUPITER:49417;databaseName=db_biosis"/>
+      <property name="javax.persistence.jdbc.password" value="asistencia"/>
+      <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+      <property name="javax.persistence.jdbc.user" value="usuarioAsistencia"/>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+      <property name="hibernate.show_sql" value="true"/>
     </properties>
   </persistence-unit>
   <persistence-unit name="rrhh-PU" transaction-type="RESOURCE_LOCAL">

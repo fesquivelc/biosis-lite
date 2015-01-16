@@ -22,8 +22,8 @@
      CASE tipo_permiso.tipo_descuento WHEN 'C' THEN 'CON GOCE' WHEN 'S' THEN 'SIN GOCE' END AS tipo_descuento,
      asignacion_permiso.empleado_nro_documento AS empleado_nro_documento
 FROM
-     public.tipo_permiso tipo_permiso INNER JOIN public.permiso permiso ON tipo_permiso.codigo = permiso.tipo_permiso_codigo
-     INNER JOIN public.asignacion_permiso asignacion_permiso ON permiso.id = asignacion_permiso.permiso_id
+     tipo_permiso tipo_permiso INNER JOIN permiso permiso ON tipo_permiso.codigo = permiso.tipo_permiso_codigo
+     INNER JOIN asignacion_permiso asignacion_permiso ON permiso.id = asignacion_permiso.permiso_id
 WHERE
 $X{IN,tipo_permiso.clase,listaTipo} AND asignacion_permiso.empleado_nro_documento = $P{empleado_nro_documento}]]>
 	</queryString>

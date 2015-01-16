@@ -374,11 +374,13 @@ public class DlgEmpleado extends javax.swing.JDialog {
         JTableBinding binding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, lista, tblEmpleado);
 
         BeanProperty pNroDocumento = BeanProperty.create("nroDocumento");
+        BeanProperty pCodigoModular = BeanProperty.create("codigoModular");
         BeanProperty pTipoDocumento = BeanProperty.create("tipoDocumento");
         BeanProperty pNombre = BeanProperty.create("nombre");
         BeanProperty pApellidoPaterno = BeanProperty.create("apellidoPaterno");
         BeanProperty pApellidoMaterno = BeanProperty.create("apellidoMaterno");
 
+        binding.addColumnBinding(pCodigoModular).setColumnName("Código modular").setEditable(false);
         binding.addColumnBinding(pNroDocumento).setColumnName("Nro. Documento").setEditable(false);
         binding.addColumnBinding(pTipoDocumento).setColumnName("Tipo de documento").setEditable(false);
         binding.addColumnBinding(pNombre).setColumnName("Nombre").setEditable(false);

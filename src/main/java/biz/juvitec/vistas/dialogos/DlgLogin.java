@@ -271,8 +271,11 @@ public class DlgLogin extends javax.swing.JDialog {
             Usuario u = uc.login(usuario, password);
 
             if (u == null) {
-                JOptionPane.showMessageDialog(this, "El usuario o password estan incorrectos", "Mensaje del Sistema", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El usuario o password son incorrectos", "Mensaje del Sistema", JOptionPane.ERROR_MESSAGE);
             } else {
+                if(u.isCambiarPassword()){
+                    
+                }
                 Principal principal = new Principal();
                 principal.setUsuario(u);
                 principal.setVisible(true);

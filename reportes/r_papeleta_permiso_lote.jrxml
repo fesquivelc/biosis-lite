@@ -39,8 +39,8 @@
      tipo_permiso.clase AS tipo_permiso_clase,
 permiso.documento as permiso_documento
 FROM
-     public.permiso permiso INNER JOIN public.asignacion_permiso asignacion_permiso ON permiso.id = asignacion_permiso.permiso_id
-     INNER JOIN public.tipo_permiso tipo_permiso ON permiso.tipo_permiso_codigo = tipo_permiso.codigo
+     permiso permiso INNER JOIN asignacion_permiso asignacion_permiso ON permiso.id = asignacion_permiso.permiso_id
+     INNER JOIN tipo_permiso tipo_permiso ON permiso.tipo_permiso_codigo = tipo_permiso.codigo
 WHERE
 permiso.id = $P{permiso_id}]]>
 	</queryString>

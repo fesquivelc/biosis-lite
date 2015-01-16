@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_consolidado" pageWidth="595" pageHeight="600" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_consolidado" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -32,7 +32,7 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
-empleado_nro_documento
+DISTINCT(empleado_nro_documento)
 FROM
 registro_asistencia
 WHERE
@@ -63,7 +63,7 @@ $X{IN,registro_asistencia.empleado_nro_documento,lista} AND registro_asistencia.
 				<textElement verticalAlignment="Middle">
 					<font fontName="SansSerif" size="16" isBold="true"/>
 				</textElement>
-				<text><![CDATA[RESUMEN DE ASISTENCIA]]></text>
+				<text><![CDATA[REP. DE ASISTENCIA DETALLADO]]></text>
 			</staticText>
 			<image>
 				<reportElement x="322" y="0" width="233" height="52" uuid="13930c06-6956-4319-98ae-275191516703"/>
@@ -104,9 +104,9 @@ $X{IN,registro_asistencia.empleado_nro_documento,lista} AND registro_asistencia.
 				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_datos_empleado.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="109">
+		<band height="20">
 			<subreport>
-				<reportElement x="0" y="10" width="556" height="89" uuid="afbf6734-a4f7-468e-bbe3-0ac2dd03d1a0"/>
+				<reportElement x="-1" y="0" width="556" height="20" uuid="afbf6734-a4f7-468e-bbe3-0ac2dd03d1a0"/>
 				<subreportParameter name="ruta">
 					<subreportParameterExpression><![CDATA[$P{ruta}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -120,7 +120,7 @@ $X{IN,registro_asistencia.empleado_nro_documento,lista} AND registro_asistencia.
 					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subr_resumen_asistencia.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_resumen_asistencia_detalle.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

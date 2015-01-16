@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subr_resumen_asistencia_detalle_detalle" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f168683d-5661-48a5-ad52-89c6d67b5638">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="ruta" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="empleado_nro_documento" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="horario_codigo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+registro_asistencia.id as registro_asistencia_id,
+     registro_asistencia.fecha AS registro_fecha,
+     CAST(registro_asistencia.minutos_tardanza AS DECIMAL(10,2)) AS registro_minutos_tardanza,
+     CAST(registro_asistencia.minutos_trabajados /60  AS DECIMAL(10,2)) AS registro_horas_trabajadas,
+     registro_asistencia.tipo_asistencia AS registro_tipo_asistencia,
+     CASE
+     WHEN registro_asistencia.tipo_asistencia = 'R' THEN 'ASIST. REGULAR'
+     WHEN registro_asistencia.tipo_asistencia = 'T' THEN 'TARDANZA'
+     WHEN registro_asistencia.tipo_asistencia = 'F' THEN 'FALTA'
+     WHEN registro_asistencia.tipo_asistencia = 'V' THEN 'VACACIONES: '+vacacion.documento
+     WHEN registro_asistencia.tipo_asistencia = 'P' THEN 'PERMISO: '+permiso.documento
+     WHEN registro_asistencia.tipo_asistencia = 'E' THEN 'FERIADO: '+feriado.nombre
+     END as asistencia
+FROM
+     registro_asistencia registro_asistencia LEFT JOIN Vacacion Vacacion ON Vacacion.id = registro_asistencia.vacacion_id
+     LEFT JOIN Permiso Permiso ON registro_asistencia.permiso_id = Permiso.id
+     LEFT JOIN Feriado Feriado ON registro_asistencia.feriado_fecha_inicio = Feriado.fecha_inicio
+     LEFT JOIN tipo_permiso tipo_permiso ON Permiso.tipo_permiso_codigo = tipo_permiso.codigo
+WHERE
+registro_asistencia.empleado_nro_documento = $P{empleado_nro_documento} AND (registro_asistencia.fecha BETWEEN $P{fechaInicio} AND $P{fechaFin}) AND registro_asistencia.horario_codigo = $P{horario_codigo}]]>
+	</queryString>
+	<field name="registro_asistencia_id" class="java.lang.Long"/>
+	<field name="registro_fecha" class="java.sql.Date"/>
+	<field name="registro_minutos_tardanza" class="java.math.BigDecimal"/>
+	<field name="registro_horas_trabajadas" class="java.math.BigDecimal"/>
+	<field name="registro_tipo_asistencia" class="java.lang.String"/>
+	<field name="asistencia" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="27">
+			<staticText>
+				<reportElement x="0" y="0" width="38" height="20" uuid="606b46ed-6e64-425d-bb09-1b7cfdbc3a77"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="38" y="0" width="69" height="20" uuid="442ef468-048f-4c4c-b087-3d06a0f453c0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{registro_fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="107" y="0" width="76" height="20" uuid="21b9c35e-cd8a-4e39-a4af-13416644198f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TIPO DE ASIST:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="183" y="0" width="255" height="20" uuid="cf80369f-449f-441c-9bad-1c2cc470460f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{asistencia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="0" width="25" height="20" uuid="158f443f-60f3-441e-b802-839fa6698bc0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["H.T."]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="463" y="0" width="26" height="20" uuid="9f3e5b2a-32bd-488e-96a9-23f2b4b10206"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{registro_horas_trabajadas}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="523" y="0" width="32" height="20" uuid="0bc3dabe-4e4e-4bca-a241-eadac3cb62e1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{registro_minutos_tardanza}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="489" y="0" width="34" height="20" uuid="36168a35-1490-4fbe-b7d7-77ccfe64eccd"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TARD."]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="20" width="555" height="1" uuid="e78b51f8-0855-434f-8f3b-d87eaa2fbd9e"/>
+			</line>
+			<subreport>
+				<reportElement x="0" y="20" width="555" height="5" uuid="16fe146d-a336-4fd5-ba20-f8e40294a9ea"/>
+				<subreportParameter name="registro_asistencia_id">
+					<subreportParameterExpression><![CDATA[$F{registro_asistencia_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_resumen_asistencia_detalle_detalle_marcaciones_procesadas.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

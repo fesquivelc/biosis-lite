@@ -86,21 +86,19 @@ public class Principal extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         lblJuvitec = new javax.swing.JLabel();
         lblUsuario = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         editMenu = new javax.swing.JMenu();
         mnuVerEmpleados = new javax.swing.JMenuItem();
         mnuMarcacionesSinProcesar = new javax.swing.JMenuItem();
-        mnuMarcacionesTR = new javax.swing.JMenuItem();
         copyMenuItem = new javax.swing.JMenuItem();
+        mnuSalir = new javax.swing.JMenuItem();
         fileMenu = new javax.swing.JMenu();
         mnuJornadas = new javax.swing.JMenuItem();
         mnuHorarios = new javax.swing.JMenuItem();
         mnuGruposHorario = new javax.swing.JMenuItem();
         mnuAsignarHorario = new javax.swing.JMenuItem();
-        mnuSalir = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         mnuTiposPermiso = new javax.swing.JMenuItem();
         mnuAsignarPermiso = new javax.swing.JMenuItem();
@@ -140,7 +138,7 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().add(desktopPane, gridBagConstraints);
 
         java.awt.GridBagLayout pnlBotnesLayout = new java.awt.GridBagLayout();
-        pnlBotnesLayout.columnWidths = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0};
+        pnlBotnesLayout.columnWidths = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0};
         pnlBotnesLayout.rowHeights = new int[] {0};
         pnlBotnes.setLayout(pnlBotnesLayout);
 
@@ -173,7 +171,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         pnlBotnes.add(jButton3, gridBagConstraints);
 
@@ -184,7 +182,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
         pnlBotnes.add(jButton4, gridBagConstraints);
 
@@ -195,20 +193,9 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 0;
         pnlBotnes.add(jButton5, gridBagConstraints);
-
-        jButton6.setText("Marcaciones en Tiempo Real");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        pnlBotnes.add(jButton6, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -253,9 +240,6 @@ public class Principal extends javax.swing.JFrame {
         });
         editMenu.add(mnuMarcacionesSinProcesar);
 
-        mnuMarcacionesTR.setText("Marcaciones en tiempo real");
-        editMenu.add(mnuMarcacionesTR);
-
         copyMenuItem.setMnemonic('y');
         copyMenuItem.setText("Prueba");
         copyMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -264,6 +248,15 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         editMenu.add(copyMenuItem);
+
+        mnuSalir.setMnemonic('x');
+        mnuSalir.setText("Salir");
+        mnuSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSalirActionPerformed(evt);
+            }
+        });
+        editMenu.add(mnuSalir);
 
         menuBar.add(editMenu);
 
@@ -303,15 +296,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         fileMenu.add(mnuAsignarHorario);
-
-        mnuSalir.setMnemonic('x');
-        mnuSalir.setText("Salir");
-        mnuSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuSalirActionPerformed(evt);
-            }
-        });
-        fileMenu.add(mnuSalir);
 
         menuBar.add(fileMenu);
 
@@ -518,11 +502,6 @@ public class Principal extends javax.swing.JFrame {
         registroAsistencia();
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-        marcacionesTR();
-    }//GEN-LAST:event_jButton6ActionPerformed
-
     private void copyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyMenuItemActionPerformed
         // TODO add your handling code here:
         List<String> dnis = new ArrayList<>();
@@ -577,7 +556,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuItem jMenuItem1;
@@ -597,7 +575,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuHorarios;
     private javax.swing.JMenuItem mnuJornadas;
     private javax.swing.JMenuItem mnuMarcacionesSinProcesar;
-    private javax.swing.JMenuItem mnuMarcacionesTR;
     private javax.swing.JMenuItem mnuPeriodos;
     private javax.swing.JMenuItem mnuRolesUsuario;
     private javax.swing.JMenuItem mnuSalir;

@@ -19,9 +19,11 @@ import biz.juvitec.vistas.dialogos.DlgEmpleado;
 import biz.juvitec.vistas.dialogos.DlgTipoPermiso;
 import biz.juvitec.vistas.modelos.MTAsignacionPermiso;
 import biz.juvitec.vistas.modelos.MTEmpleado;
+import com.personal.utiles.FechaUtil;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
 import java.io.File;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -129,7 +131,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         btnImprimirTodo = new javax.swing.JButton();
 
         setClosable(true);
-        setIconifiable(true);
+        setMaximizable(true);
         setTitle("ASIGNAR PERMISO A EMPLEADO(S)");
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
         layout.columnWidths = new int[] {0, 5, 0};
@@ -656,22 +658,30 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             seleccionada.setFechaInicio((Date) spFechaInicio.getValue());
             seleccionada.setPorFecha(chkPorFecha.isSelected());
             seleccionada.setDocumento(txtDocumento.getText());
+            Long diferencia;
             if (chkPorFecha.isSelected()) {
                 seleccionada.setFechaFin((Date) spFechaFin.getValue());
+                diferencia = seleccionada.getFechaFin().getTime() - seleccionada.getFechaInicio().getTime();
             } else {
                 seleccionada.setCubreEntrada(chkCubrirHoraEntrada.isSelected());
                 seleccionada.setCubreSalida(chkCubrirSalida.isSelected());                
                 seleccionada.setHoraInicio((seleccionada.isCubreEntrada()) ? (Date) spHoraInicio.getValue() : null);
                 seleccionada.setHoraFin((seleccionada.isCubreSalida()) ?(Date) spHoraFin.getValue() : null);
                 seleccionada.setFechaFin((Date) spFechaInicio.getValue());
+                
+                diferencia = FechaUtil.soloHora(seleccionada.getFechaFin()).getTime() - FechaUtil.soloHora(seleccionada.getFechaInicio()).getTime();
             }
+            
+            BigDecimal diferenciaMin = new BigDecimal(diferencia / (60*1000*60));
+            
+            seleccionada.setDiferencia(diferenciaMin);
             
             List<String> dnis = new ArrayList<>();
             for(AsignacionPermiso asignacion : seleccionada.getAsignacionPermisoList()){
                 dnis.add(asignacion.getEmpleado());
             }
             
-            retrocederTiempo(dnis, seleccionada.getFechaInicio());
+//            retrocederTiempo(dnis, seleccionada.getFechaInicio());
 
             if (controlador.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
@@ -1137,7 +1147,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
     private void imprimirBoleta(AsignacionPermiso seleccionada) {
 
-        File reporte = new File("reportes/r_papeleta_permiso.jasper");
+        File reporte = new File("reportes/r_papeleta_permiso2.jasper");
 //        List<Long> lista = new ArrayList<>();
         String tipoPermiso = "";
         String conGoce = "";
@@ -1190,7 +1200,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
     }
 
     private final TCAnalisisControlador  tcac = new TCAnalisisControlador();
-    private void retrocederTiempo(List<String> dnis, Date fechaInicio) {
-        tcac.retrocederTiempo(dnis,fechaInicio);
-    }
+//    private void retrocederTiempo(List<String> dnis, Date fechaInicio) {
+//        tcac.retrocederTiempo(dnis,fechaInicio);
+//    }
 }

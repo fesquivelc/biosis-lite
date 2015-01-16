@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subr_resumen_asistencia_detalle_detalle_marcaciones_procesadas" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="456f96cd-a308-4c5f-965d-117764769546">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="registro_asistencia_id" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     det.hora_inicio,
+	 det.hora_fin,
+     det.minutos_tardanza AS minutos_tardanza,
+     CASE 
+		WHEN det.resultado = 'F' THEN 'FALTA' WHEN det.resultado = 'T' THEN 'TARDANZA' WHEN det.resultado = 'R' THEN 'REGULAR'  
+     END AS asistencia,
+     CASE 
+		WHEN det.tipo_registro = 'T' THEN 'TURNO' WHEN det.tipo_registro = 'R' THEN 'REFRIGERIO' WHEN det.tipo_registro = 'P' THEN 'PERMISO'  
+     END AS tipo_registro,
+     Permiso.documento AS Permiso_documento,
+     Permiso.hora_fin AS Permiso_hora_fin,
+     Permiso.hora_inicio AS Permiso_hora_inicio
+FROM
+     detalle_registro_asistencia det LEFT JOIN Permiso Permiso ON Permiso.id = det.permiso_id
+WHERE det.registro_asistencia_id = $P{registro_asistencia_id}
+ORDER BY det.registro_asistencia_id ASC,det.orden ASC,det.hora_inicio ASC]]>
+	</queryString>
+	<field name="hora_inicio" class="java.sql.Time"/>
+	<field name="hora_fin" class="java.sql.Time"/>
+	<field name="minutos_tardanza" class="java.math.BigDecimal"/>
+	<field name="asistencia" class="java.lang.String"/>
+	<field name="tipo_registro" class="java.lang.String"/>
+	<field name="Permiso_documento" class="java.lang.String"/>
+	<field name="Permiso_hora_fin" class="java.sql.Time"/>
+	<field name="Permiso_hora_inicio" class="java.sql.Time"/>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="70" height="20" uuid="0af8152b-1a4f-4bb5-b4a8-b9f7f7896e30"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REGISTRO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="0" width="60" height="20" uuid="56d83f68-7a08-41ae-b572-08e94e603204"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[H. INICIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="0" width="60" height="20" uuid="28b7e796-c9b8-4113-b6a0-1c83870a21d5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[H. FIN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="0" width="79" height="20" uuid="97738503-8853-4c65-84ca-c57d33c57093"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MIN. TARDANZA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="70" height="20" uuid="11a680c0-a0fe-41f3-a321-81a8caa65921"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_registro}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="70" y="0" width="60" height="20" uuid="c3adefc4-ad71-4ad9-9c92-be89ed00c37f"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hora_inicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="130" y="0" width="60" height="20" uuid="542a7096-3c1b-4439-8f33-1368d5e3124d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hora_fin}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="190" y="0" width="79" height="20" uuid="d3667cdb-1457-4ae3-9772-1815f60f8680"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{minutos_tardanza}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

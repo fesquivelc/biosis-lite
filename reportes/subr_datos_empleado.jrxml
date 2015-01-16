@@ -6,16 +6,18 @@
 	<parameter name="empleado_nro_documento" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
-     v_empleado.nro_documento AS v_empleado_nro_documento,
-     v_empleado.apellido_paterno AS v_empleado_apellido_paterno,
-     v_empleado.apellido_materno AS v_empleado_apellido_materno,
-     v_empleado.nombre AS v_empleado_nombre,
-     v_empleado.tipo_documento AS v_empleado_tipo_documento
+     CODIGO_MODULAR AS codigo_modular,
+     NRO_DOCUMENTO AS v_empleado_nro_documento,
+     PATERNO AS v_empleado_apellido_paterno,
+     MATERNO AS v_empleado_apellido_materno,
+     NOMBRES AS v_empleado_nombre,
+     TIPO_DOCUMENTO AS v_empleado_tipo_documento
 FROM
-     v_empleado
+     v_empleados2
 WHERE
-     nro_documento = $P{empleado_nro_documento}]]>
+     NRO_DOCUMENTO = $P{empleado_nro_documento}]]>
 	</queryString>
+	<field name="codigo_modular" class="java.lang.String"/>
 	<field name="v_empleado_nro_documento" class="java.lang.String"/>
 	<field name="v_empleado_apellido_paterno" class="java.lang.String"/>
 	<field name="v_empleado_apellido_materno" class="java.lang.String"/>
@@ -28,7 +30,7 @@ WHERE
 				<textElement verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{v_empleado_nro_documento}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{v_empleado_tipo_documento} + " / " +$F{v_empleado_nro_documento}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="157" y="40" width="398" height="20" uuid="3c0f1f6e-6994-473d-9f8f-0d13d7b0e6f6"/>
@@ -56,14 +58,14 @@ WHERE
 				<textElement verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{v_empleado_tipo_documento}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{codigo_modular}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="0" width="157" height="20" uuid="b3c7718b-6a54-40bd-b41e-e85f24d34937"/>
 				<textElement verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[TIPO DE DOC. DE IDENTIF:]]></text>
+				<text><![CDATA[CÓDIGO MODULAR:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="20" width="157" height="20" uuid="f264a416-9d6e-4e4a-a2fe-1e6e08c8a634"/>

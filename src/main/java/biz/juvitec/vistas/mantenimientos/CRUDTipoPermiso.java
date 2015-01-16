@@ -70,7 +70,6 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
         tblTabla = new org.jdesktop.swingx.JXTable();
 
         setClosable(true);
-        setIconifiable(true);
         setMaximizable(true);
         setTitle("MANTENIMIENTO TIPOS DE PERMISO");
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -219,18 +218,6 @@ public class CRUDTipoPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 1;
         pnlListado.add(jPanel4, gridBagConstraints);
 
-        tblTabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tblTabla.setHorizontalScrollEnabled(true);
         tblTabla.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tblTablaMouseReleased(evt);

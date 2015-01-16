@@ -68,19 +68,19 @@ public class prueba {
 //        } catch (SQLException e) {
 //            LOG.error("ERROR " + e.getMessage());
 //        }
-        RolControlador rc = new RolControlador();
-        UsuarioControlador uc = new UsuarioControlador();
-        Rol rol = rc.buscarPorId("ADM");
+//        RolControlador rc = new RolControlador();
+//        UsuarioControlador uc = new UsuarioControlador();
+//        Rol rol = rc.buscarPorId("ADM");
+//        
+//        Usuario usuario = new Usuario();
+//        usuario.setLogin("admin");
+//        usuario.setPassword(Encriptador.encrypt("admin"));
+//        usuario.setEmpleado("46557081");
+//        usuario.setRol(rol);
+//        usuario.setActivo(true);
+//        uc.guardar(usuario);
         
-        Usuario usuario = new Usuario();
-        usuario.setLogin("admin");
-        usuario.setPassword(Encriptador.encrypt("admin"));
-        usuario.setEmpleado("46557081");
-        usuario.setRol(rol);
-        usuario.setActivo(true);
-        uc.guardar(usuario);
-        
-        System.exit(0);
+//        System.exit(0);
 //        ReporteUtil reporteador = new ReporteUtil();
 //        
 //        File reporte=  new File("reportes/r_registro_asistencia_consolidado.jasper");
@@ -94,19 +94,30 @@ public class prueba {
 //        
 //        reporteador.setConn(rc.getDao().getConexion());
 //        reporteador.generarReporte(reporte, parametros, null);
-        Date fecha1 = new Date();
-        System.out.println("FECHA 1 "+fecha1.toString());
+//        Date fecha1 = new Date();
+//        System.out.println("FECHA 1 "+fecha1.toString());
+//        Calendar cal = Calendar.getInstance();
+//        cal.setTime(fecha1);
+//        cal.add(Calendar.MINUTE, 34);
+//        cal.add(Calendar.SECOND, 14);        
+//        Date fecha2 = cal.getTime();
+//        System.out.println("FECHA 2 "+fecha2.toString());
+//        Long dif = fecha2.getTime() - fecha1.getTime();
+//        
+//        cal.setTime(fecha1);
+//        cal.add(Calendar.MILLISECOND, dif.intValue());
+//        System.out.println("FECHA 3 "+cal.getTime().toString());
         Calendar cal = Calendar.getInstance();
-        cal.setTime(fecha1);
-        cal.add(Calendar.MINUTE, 34);
-        cal.add(Calendar.SECOND, 14);        
-        Date fecha2 = cal.getTime();
-        System.out.println("FECHA 2 "+fecha2.toString());
-        Long dif = fecha2.getTime() - fecha1.getTime();
         
-        cal.setTime(fecha1);
-        cal.add(Calendar.MILLISECOND, dif.intValue());
-        System.out.println("FECHA 3 "+cal.getTime().toString());
+        cal.set(2015, 0, 1, 0, 0, 0);
+        
+        Date fechaInicio = cal.getTime();
+        
+        cal.set(2015, 0, 15, 0, 0, 0);
+        
+        Date fechaFin = cal.getTime();
+        
+        System.out.println("DIF: "+(fechaFin.getTime() - fechaInicio.getTime())/(60*1000*60*24));
     }
 
 }

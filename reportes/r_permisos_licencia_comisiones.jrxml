@@ -26,11 +26,20 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="titulo" class="java.lang.String"/>
+	<parameter name="rangoValor" class="java.lang.String"/>
+	<parameter name="rangoTitulo" class="java.lang.String"/>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
      DISTINCT(asignacion_permiso.empleado_nro_documento) AS empleado_nro_documento
 FROM
-     public.asignacion_permiso asignacion_permiso]]>
+     asignacion_permiso asignacion_permiso inner join permiso on asignacion_permiso.permiso_id = permiso.id
+WHERE permiso.fecha_inicio BETWEEN $P{fechaInicio} AND $P{fechaFin}]]>
 	</queryString>
 	<field name="empleado_nro_documento" class="java.lang.String"/>
 	<background>
@@ -56,17 +65,33 @@ FROM
 				<imageExpression><![CDATA[$P{ruta}+"/reportes/logo.png"]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="0" y="0" width="322" height="47" forecolor="#545454" uuid="5ac85be4-bbfd-409b-a4e8-91f6b378ce29"/>
+				<reportElement x="0" y="0" width="322" height="22" forecolor="#545454" uuid="5ac85be4-bbfd-409b-a4e8-91f6b378ce29"/>
 				<box leftPadding="5"/>
 				<textElement>
-					<font size="16"/>
+					<font size="16" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="22" width="114" height="25" forecolor="#545454" backcolor="#545454" uuid="cde6b809-723e-4c57-8288-51993a4dabff"/>
+				<box leftPadding="0" rightPadding="5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rangoTitulo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="114" y="22" width="208" height="25" forecolor="#545454" backcolor="#545454" uuid="050a7c1f-0fba-49ae-ba48-fb3dd49195eb"/>
+				<box leftPadding="6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rangoValor}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="124" splitType="Stretch">
+		<band height="109" splitType="Stretch">
 			<subreport>
 				<reportElement x="0" y="1" width="555" height="100" uuid="bd91f346-0a84-4a4f-a957-20a78f05a7ec"/>
 				<subreportParameter name="empleado_nro_documento">

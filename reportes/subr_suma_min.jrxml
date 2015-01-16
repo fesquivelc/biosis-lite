@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subr_conteo_tipo" language="groovy" pageWidth="40" pageHeight="20" columnWidth="40" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a54e8b56-f366-4e3c-a1b5-2640520b772a">
+	<property name="ireport.zoom" value="7.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="empleado_nro_documento" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="horario_codigo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tipo_asistencia" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaInicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     SUM(permiso.diferencia_minutos) AS suma
+FROM
+     Permiso Permiso INNER JOIN asignacion_permiso asignacion_permiso ON Permiso.id = asignacion_permiso.permiso_id
+     INNER JOIN tipo_permiso tipo_permiso ON Permiso.tipo_permiso_codigo = tipo_permiso.codigo
+WHERE asignacion_permiso.empleado_nro_documento = $P{empleado_nro_documento} AND permiso.fecha_inicio BETWEEN $P{fechaInicio} AND $P{fechaFin} AND tipo_permiso.tipo_descuento = 'S']]>
+	</queryString>
+	<field name="suma" class="java.math.BigDecimal"/>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="40" height="20" uuid="d3dc05a7-6eb4-419a-9301-27ee697d2eba"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{suma}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

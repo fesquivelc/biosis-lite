@@ -73,6 +73,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         tblTabla = new org.jdesktop.swingx.JXTable();
         pnlBotones = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
+        pnlTab = new javax.swing.JTabbedPane();
         grpRango.add(radPorFecha);
         grpRango.add(radMes);
         grpRango.add(radAnio);
@@ -198,17 +199,6 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 1;
         pnlEmpleados.add(btnOficina, gridBagConstraints);
 
-        tblTabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane1.setViewportView(tblTabla);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -233,6 +223,11 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         pnlBotones.setLayout(new java.awt.GridBagLayout());
 
         jButton2.setText("GENERAR REPORTE");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -243,9 +238,21 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         getContentPane().add(pnlBotones, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.5;
+        gridBagConstraints.weighty = 0.1;
+        getContentPane().add(pnlTab, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -262,6 +269,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlBotones;
     private javax.swing.JPanel pnlEmpleados;
     private javax.swing.JPanel pnlRango;
+    private javax.swing.JTabbedPane pnlTab;
     private javax.swing.JRadioButton radAnio;
     private javax.swing.JRadioButton radGrupo;
     private javax.swing.JRadioButton radMes;

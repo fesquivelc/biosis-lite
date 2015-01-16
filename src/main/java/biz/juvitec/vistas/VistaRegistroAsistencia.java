@@ -5,6 +5,7 @@
  */
 package biz.juvitec.vistas;
 
+import algoritmo.AnalisisAsistencia;
 import biz.juvitec.controladores.MarcacionControlador;
 import biz.juvitec.controladores.RegistroAsistenciaControlador;
 import biz.juvitec.entidades.DetalleRegistroAsistencia;
@@ -105,7 +106,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         jButton4 = new javax.swing.JButton();
 
         setClosable(true);
-        setIconifiable(true);
+        setMaximizable(true);
         setTitle("REGISTRO DE ASISTENCIA");
         setToolTipText("Aquí se muestran todas las asistencias de los empleados");
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -124,14 +125,6 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlRegistro.setBorder(javax.swing.BorderFactory.createTitledBorder("Listado de asistencia"));
         pnlRegistro.setLayout(new java.awt.GridBagLayout());
 
-        tblRegistros.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
         tblRegistros.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tblRegistrosMouseReleased(evt);
@@ -223,17 +216,6 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlDetalle.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle de la asistencia"));
         pnlDetalle.setLayout(new java.awt.GridLayout(1, 0));
 
-        tblDetalleAsistencia.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane5.setViewportView(tblDetalleAsistencia);
 
         pnlDetalle.add(jScrollPane5);
@@ -249,17 +231,6 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlMarcaciones.setBorder(javax.swing.BorderFactory.createTitledBorder("Marcaciones en el día"));
         pnlMarcaciones.setLayout(new java.awt.GridLayout(1, 0));
 
-        tblMarcacionesDia.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane4.setViewportView(tblMarcacionesDia);
 
         pnlMarcaciones.add(jScrollPane4);
@@ -275,18 +246,6 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlHorario.setBorder(javax.swing.BorderFactory.createTitledBorder("Detalle del horario"));
         pnlHorario.setLayout(new java.awt.GridLayout(1, 0));
 
-        tblHorario.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tblHorario.setHorizontalScrollEnabled(true);
         jScrollPane2.setViewportView(tblHorario);
 
         pnlHorario.add(jScrollPane2);
@@ -399,14 +358,6 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(7, 0, 7, 0);
         jPanel3.add(jButton3, gridBagConstraints);
 
-        tblEmpleados.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
         jScrollPane6.setViewportView(tblEmpleados);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -586,7 +537,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
     private int paginaActual = 1;
     private int totalPaginas = 1;
     private int tamanioPagina = 0;
-
+    private final AnalisisAsistencia analisis = new AnalisisAsistencia();
     private void buscar() {
         Date fechaInicio = (Date) spFechaInicio.getValue();
         Date fechaFin = (Date) spFechaFin.getValue();
@@ -594,6 +545,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
 
         if (!empleadoList.isEmpty()) {
+            analisis.analizarEmpleados(empleadoList);
             mtRegistro.setEmpleadoList(empleadoList);
             registroAsistenciaList.clear();
 

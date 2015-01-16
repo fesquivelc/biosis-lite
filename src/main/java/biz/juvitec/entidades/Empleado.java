@@ -22,37 +22,38 @@ import javax.persistence.TemporalType;
  * @author fesquivelc
  */
 @Entity
-@Table(name = "v_empleado")
+@Table(name = "v_empleados2")
 public class Empleado implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    @Column(name = "apellido_paterno")
+    @Column(name = "PATERNO")
     private String apellidoPaterno;
-    @Column(name = "apellido_materno")
+    @Column(name = "CODIGO_MODULAR")
+    private String codigoModular;
+
+    public String getCodigoModular() {
+        return codigoModular;
+    }
+
+    public void setCodigoModular(String codigoModular) {
+        this.codigoModular = codigoModular;
+    }
+    @Column(name = "MATERNO")
     private String apellidoMaterno;
-    @Column(name = "nombre")
+
+    @Column(name = "NOMBRES")
     private String nombre;
     @Id
-    @Column(name = "nro_documento")
+    @Column(name = "NRO_DOCUMENTO")
     private String nroDocumento;
-    @Column(name = "tipo_documento")
+    @Column(name = "TIPO_DOCUMENTO")
     private String tipoDocumento;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "sueldo_base")
-    private double sueldoBase;
-    @Column(name = "fecha_nacimiento")
+    @Column(name = "FECNAC")
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
-    @Column(name = "area")
-    private String area;
-    @Column(name = "regimen_laboral")
+    @Column(name = "REGIMEN_LABORAL")
     private String regimenLaboral;
-    @Column(name = "direccion")
-    private String direccion;
-    @Column(name = "telefono_fijo")
-    private String telefonoFijo;
-    @Column(name = "telefono_movil")
-    private String telefonoMovil;
-    @Column(name = "fecha_inicio_contrato")
+    @Column(name = "FEC_INICIO")
     @Temporal(TemporalType.DATE)
     private Date fechaInicioContrato;
 
@@ -99,29 +100,12 @@ public class Empleado implements Serializable {
         this.tipoDocumento = tipoDocumento;
     }
 
-    public double getSueldoBase() {
-        return sueldoBase;
-    }
-
-    public void setSueldoBase(double sueldoBase) {
-        this.sueldoBase = sueldoBase;
-    }
-
-
     public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
     }
 
     public String getRegimenLaboral() {
@@ -132,30 +116,6 @@ public class Empleado implements Serializable {
         this.regimenLaboral = regimenLaboral;
     }
 
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public String getTelefonoFijo() {
-        return telefonoFijo;
-    }
-
-    public void setTelefonoFijo(String telefonoFijo) {
-        this.telefonoFijo = telefonoFijo;
-    }
-
-    public String getTelefonoMovil() {
-        return telefonoMovil;
-    }
-
-    public void setTelefonoMovil(String telefonoMovil) {
-        this.telefonoMovil = telefonoMovil;
-    }
-
     public Date getFechaInicioContrato() {
         return fechaInicioContrato;
     }
@@ -163,5 +123,5 @@ public class Empleado implements Serializable {
     public void setFechaInicioContrato(Date fechaInicioContrato) {
         this.fechaInicioContrato = fechaInicioContrato;
     }
-    
+
 }

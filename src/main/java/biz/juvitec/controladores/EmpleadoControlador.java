@@ -32,7 +32,7 @@ public class EmpleadoControlador extends Controlador<Empleado> {
     
     public List<Empleado> buscarXPatron(String patron, int desde, int tamanio) {
         String jpql = "SELECT e FROM Empleado e WHERE "
-                + "UPPER(CONCAT(nombre,apellidoPaterno,apellidoMaterno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron) "
+                + "UPPER(CONCAT(nombre,apellidoPaterno,apellidoMaterno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron) OR e.codigoModular = UPPER(:patron)"
                 + "ORDER BY e.apellidoPaterno,e.apellidoMaterno,e.nombre";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("patron", patron);
@@ -41,7 +41,7 @@ public class EmpleadoControlador extends Controlador<Empleado> {
     
     public int totalXPatron(String patron){
         String jpql = "SELECT COUNT(e.nroDocumento) FROM Empleado e WHERE "
-                + "UPPER(CONCAT(nombre,apellidoPaterno,apellidoMaterno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron) ";
+                + "UPPER(CONCAT(nombre,apellidoPaterno,apellidoMaterno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron)  OR e.codigoModular = UPPER(:patron)";
         Long cont = (Long)this.getDao().getEntityManager().createQuery(jpql)
                 .setParameter("patron", patron).getSingleResult();
         int conteo = cont.intValue();

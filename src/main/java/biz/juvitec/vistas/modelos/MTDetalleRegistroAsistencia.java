@@ -36,7 +36,7 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<DetalleRegistroAsis
                 }
                 
             case 2:
-                if(detalle.getHoraInicio() == null){
+                if(detalle.getHoraFin() == null){
                     return "FALTA";
                 }else{
                     return dfHora.format(detalle.getHoraFin());

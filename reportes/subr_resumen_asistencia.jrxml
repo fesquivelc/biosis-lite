@@ -49,7 +49,7 @@ GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<staticText>
-					<reportElement x="191" y="71" width="117" height="20" uuid="8815e569-9015-4ab6-aa0f-5ce61fbca6c2"/>
+					<reportElement x="181" y="71" width="117" height="20" uuid="8815e569-9015-4ab6-aa0f-5ce61fbca6c2"/>
 					<box leftPadding="5"/>
 					<textElement verticalAlignment="Middle">
 						<font isBold="true"/>
@@ -57,7 +57,7 @@ GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]
 					<text><![CDATA[NRO DE FALTAS:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="191" y="91" width="117" height="20" uuid="1abb69b2-b6ae-45b6-90d6-a2044d583f80"/>
+					<reportElement x="181" y="91" width="117" height="20" uuid="1abb69b2-b6ae-45b6-90d6-a2044d583f80"/>
 					<box leftPadding="5"/>
 					<textElement verticalAlignment="Middle">
 						<font isBold="true"/>
@@ -65,7 +65,7 @@ GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]
 					<text><![CDATA[NRO DE VACACIONES:]]></text>
 				</staticText>
 				<subreport>
-					<reportElement x="308" y="71" width="40" height="20" uuid="a6b9e622-afdc-471a-b5ba-d81cd77080dd"/>
+					<reportElement x="298" y="71" width="40" height="20" uuid="a6b9e622-afdc-471a-b5ba-d81cd77080dd"/>
 					<subreportParameter name="horario_codigo">
 						<subreportParameterExpression><![CDATA[$F{horario_codigo}]]></subreportParameterExpression>
 					</subreportParameter>
@@ -85,7 +85,7 @@ GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]
 					<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_conteo_tipo.jasper"]]></subreportExpression>
 				</subreport>
 				<subreport>
-					<reportElement x="308" y="91" width="40" height="20" uuid="dfd8ba2c-c44b-451e-b8fb-bf3292e232a5"/>
+					<reportElement x="298" y="91" width="40" height="20" uuid="dfd8ba2c-c44b-451e-b8fb-bf3292e232a5"/>
 					<subreportParameter name="horario_codigo">
 						<subreportParameterExpression><![CDATA[$F{horario_codigo}]]></subreportParameterExpression>
 					</subreportParameter>
@@ -99,7 +99,7 @@ GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]
 					<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_conteo_tipo.jasper"]]></subreportExpression>
 				</subreport>
 				<staticText>
-					<reportElement x="348" y="71" width="134" height="20" uuid="79c9c62e-f1b9-4b14-b8be-6a6ea0620195"/>
+					<reportElement x="338" y="71" width="137" height="20" uuid="79c9c62e-f1b9-4b14-b8be-6a6ea0620195"/>
 					<box leftPadding="5"/>
 					<textElement verticalAlignment="Middle">
 						<font isBold="true"/>
@@ -108,13 +108,13 @@ GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]
 				</staticText>
 			</frame>
 			<textField>
-				<reportElement x="151" y="71" width="40" height="20" uuid="70780476-a5ec-45cb-bd6e-663dc07f5f50"/>
+				<reportElement x="141" y="71" width="40" height="20" uuid="70780476-a5ec-45cb-bd6e-663dc07f5f50"/>
 				<box leftPadding="5"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{minutos_tardanza}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="151" y="91" width="40" height="20" uuid="85baaf07-e4a2-426c-aef9-93823d78cdb3"/>
+				<reportElement x="141" y="91" width="40" height="20" uuid="85baaf07-e4a2-426c-aef9-93823d78cdb3"/>
 				<box leftPadding="5"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{minutos_trabajados}]]></textFieldExpression>
@@ -130,7 +130,7 @@ GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]
 				<textFieldExpression><![CDATA[$F{horario_documento}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="17" y="71" width="134" height="20" uuid="9c781ef9-8a67-48e0-bee1-3447acd9b247"/>
+				<reportElement x="7" y="71" width="134" height="20" uuid="9c781ef9-8a67-48e0-bee1-3447acd9b247"/>
 				<box leftPadding="5"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
@@ -138,7 +138,7 @@ GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]
 				<text><![CDATA[TARDANZA TOTAL (MIN):]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="17" y="91" width="134" height="20" uuid="5e037d8c-7546-4da6-9bf8-9d4bd827ed18"/>
+				<reportElement x="7" y="91" width="134" height="20" uuid="5e037d8c-7546-4da6-9bf8-9d4bd827ed18"/>
 				<box leftPadding="5"/>
 				<textElement verticalAlignment="Middle">
 					<font isBold="true"/>
@@ -162,7 +162,7 @@ GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]
 				<text><![CDATA[DOC. LEGAL DE HORARIO:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="475" y="81" width="40" height="20" uuid="3dfb4be8-0d96-4506-9826-9a74608ae08e"/>
+				<reportElement x="475" y="71" width="40" height="20" uuid="3dfb4be8-0d96-4506-9826-9a74608ae08e"/>
 				<box leftPadding="5"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{prom_horas_trabajadas}]]></textFieldExpression>

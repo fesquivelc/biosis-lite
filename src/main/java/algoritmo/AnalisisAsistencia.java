@@ -191,7 +191,7 @@ public class AnalisisAsistencia {
 
         RegistroAsistencia registro;
 
-        while (fInicio.compareTo(fFin) < 1) {
+        while (fInicio.compareTo(fFin) < 0) {
             //COMAPRAMOS QUE SE ENCUENTRE ENTRE LAS FECHAS DEL HORARIO
             if (fInicio.compareTo(horario.getFechaInicio()) >= 0
                     && fInicio.compareTo(horario.getFechaFin()) <= 0) {
@@ -325,6 +325,7 @@ public class AnalisisAsistencia {
             //ANALIZAMOS =D
             registro = new RegistroAsistencia();
             BigDecimal tardanzaTotal = new BigDecimal(0);
+            BigDecimal trabajoTotal = new BigDecimal(0);
 
             Date ocupaEntrada = null;
             Date ocupaSalida = null;
@@ -421,7 +422,7 @@ public class AnalisisAsistencia {
             if (ocupaEntrada != null) {
                 turnoHoraEntrada = ocupaEntrada;
             } else {
-                Marcacion marcacionInicioTurno = mc.buscarXFechaXhora(empleado.getNroDocumento(), fInicio, jornada.getDesdeHE(), jornada.getToleranciaHE());
+                Marcacion marcacionInicioTurno = mc.buscarXFechaXhora(empleado.getNroDocumento(), fInicio, jornada.getDesdeHE(), jornada.getTardanzaHE());
                 turnoHoraEntrada = (marcacionInicioTurno != null) ? marcacionInicioTurno.getHora() : null;
             }
             if (ocupaSalida != null) {
@@ -452,7 +453,7 @@ public class AnalisisAsistencia {
             detalleTurno.setMinTardanza(tardanzaEntradaTurno);
             detalleTurno.setTipoRegistro('T');
             detalleTurno.setResultado(tipoAsistencia);
-            
+
             detalles.add(detalleTurno);
 
             //ANALISIS DE REFRIGERIO =D
@@ -519,14 +520,31 @@ public class AnalisisAsistencia {
             char resultadoAsistencia = ' ';
             if (tipoAsistencia == 'F' || tipoAsistenciaRefrigerio == 'F') {
                 resultadoAsistencia = 'F';
+                trabajoTotal = new BigDecimal(0);
             } else if (tipoAsistencia == 'T' || tipoAsistenciaRefrigerio == 'T') {
                 resultadoAsistencia = 'T';
             } else if (tipoAsistencia == 'R' && tipoAsistenciaRefrigerio == 'R') {
                 resultadoAsistencia = 'R';
             }
+
+            if (tipoAsistencia != 'F' && tipoAsistenciaRefrigerio != 'F') {
+                tardanzaTotal = tardanzaTotal.add(detalleRefrigerio.getMinTardanza()).add(detalleTurno.getMinTardanza());
+                Date ini;
+//                if(detalleTurno.getMinTardanza() != null){
+                ini = detalleTurno.getMinTardanza().compareTo(new BigDecimal(0)) == 0 ? jornada.getTurnoHE() : detalleTurno.getHoraInicio();
+//                }
+                Long difTrabajo = (detalleTurno.getHoraFin().getTime() - ini.getTime()) - (detalleRefrigerio.getHoraFin().getTime() - detalleRefrigerio.getHoraInicio().getTime());
+                trabajoTotal = new BigDecimal(difTrabajo / (60 * 1000));
+            } else if (tipoAsistencia == 'F') {
+                detalleTurno.setMinTardanza(null);
+                tardanzaTotal = null;
+            }
+
             registro.setFecha(fInicio);
             registro.setTipoAsistencia(resultadoAsistencia);
+            System.out.println("TARDANZA TOTAL: " + tardanzaTotal);
             registro.setMinTardanza(tardanzaTotal);
+            registro.setMinTrabajados(trabajoTotal);
             registro.setDetalleRegistroAsistenciaList(detalles);
         }
 

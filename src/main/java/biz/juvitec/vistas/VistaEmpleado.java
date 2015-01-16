@@ -69,7 +69,7 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         cboTamanio = new javax.swing.JComboBox();
 
         setClosable(true);
-        setIconifiable(true);
+        setMaximizable(true);
         setTitle("LISTADO DE EMPLEADOS");
 
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
@@ -106,18 +106,6 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 0;
         jPanel1.add(btnBuscar, gridBagConstraints);
 
-        tblEmpleado.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tblEmpleado.setHorizontalScrollEnabled(true);
         jScrollPane1.setViewportView(tblEmpleado);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -332,11 +320,13 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         JTableBinding binding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, lista, tblEmpleado);
 
         BeanProperty pNroDocumento = BeanProperty.create("nroDocumento");
+        BeanProperty pCodigoModular = BeanProperty.create("codigoModular");
         BeanProperty pTipoDocumento = BeanProperty.create("tipoDocumento");
         BeanProperty pNombre = BeanProperty.create("nombre");
         BeanProperty pApellidoPaterno = BeanProperty.create("apellidoPaterno");
         BeanProperty pApellidoMaterno = BeanProperty.create("apellidoMaterno");
 
+        binding.addColumnBinding(pCodigoModular).setColumnName("Código modular").setEditable(false);
         binding.addColumnBinding(pNroDocumento).setColumnName("Nro. Documento").setEditable(false);
         binding.addColumnBinding(pTipoDocumento).setColumnName("Tipo de documento").setEditable(false);
         binding.addColumnBinding(pNombre).setColumnName("Nombre").setEditable(false);

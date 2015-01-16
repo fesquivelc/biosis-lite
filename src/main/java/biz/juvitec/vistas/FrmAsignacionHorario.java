@@ -94,9 +94,7 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
         grupoEOG.add(radGrupoHorario);
 
         setClosable(true);
-        setIconifiable(true);
         setMaximizable(true);
-        setResizable(true);
         setTitle("ASIGNAR HORARIO");
         java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
         layout.columnWidths = new int[] {0, 5, 0, 5, 0};
@@ -106,17 +104,6 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
         pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder("Horarios asignados"));
         pnlListado.setLayout(new java.awt.GridBagLayout());
 
-        tblTabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         tblTabla.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tblTablaMouseReleased(evt);

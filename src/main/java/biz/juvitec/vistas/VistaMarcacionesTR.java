@@ -60,7 +60,7 @@ public class VistaMarcacionesTR extends javax.swing.JInternalFrame {
         btnLimpiar = new javax.swing.JButton();
 
         setClosable(true);
-        setIconifiable(true);
+        setMaximizable(true);
         setTitle("LISTADO DE MARCACIONES SIN PROCESAR");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -118,18 +118,6 @@ public class VistaMarcacionesTR extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel1.add(btnBuscar, gridBagConstraints);
 
-        tblEmpleado.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tblEmpleado.setHorizontalScrollEnabled(true);
         jScrollPane1.setViewportView(tblEmpleado);
 
         gridBagConstraints = new java.awt.GridBagConstraints();

@@ -5,9 +5,15 @@
  */
 package biz.juvitec.vistas.reportes;
 
+import algoritmo.AnalisisAsistencia;
+import biz.juvitec.controladores.AsignacionHorarioControlador;
+import biz.juvitec.controladores.DetalleGrupoControlador;
 import biz.juvitec.controladores.EmpleadoControlador;
+import biz.juvitec.controladores.GrupoHorarioControlador;
 import biz.juvitec.controladores.PeriodoControlador;
+import biz.juvitec.entidades.DetalleGrupoHorario;
 import biz.juvitec.entidades.Empleado;
+import biz.juvitec.entidades.GrupoHorario;
 import biz.juvitec.entidades.Periodo;
 import biz.juvitec.vistas.dialogos.DlgEmpleado;
 import biz.juvitec.vistas.modelos.MTEmpleado;
@@ -78,7 +84,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlOpciones = new javax.swing.JPanel();
         radConsolidado = new javax.swing.JRadioButton();
         radDetallado = new javax.swing.JRadioButton();
-        chkMarcaciones = new javax.swing.JCheckBox();
         pnlRango = new javax.swing.JPanel();
         radPorFecha = new javax.swing.JRadioButton();
         radMes = new javax.swing.JRadioButton();
@@ -125,6 +130,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         radConsolidado.setText("Reporte resumen");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
         pnlOpciones.add(radConsolidado, gridBagConstraints);
 
         radDetallado.setText("Reporte detallado");
@@ -133,14 +139,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlOpciones.add(radDetallado, gridBagConstraints);
-
-        chkMarcaciones.setText("Mostrar marcaciones no procesadas");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
-        pnlOpciones.add(chkMarcaciones, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -264,6 +262,11 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlEmpleados.add(radPersonalizado, gridBagConstraints);
 
         cboGrupoHorario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboGrupoHorario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboGrupoHorarioActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(cboGrupoHorario, gridBagConstraints);
@@ -382,6 +385,12 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         controles();
     }//GEN-LAST:event_radPorFechaActionPerformed
 
+    private GrupoHorario grupoSeleccionado;
+    private void cboGrupoHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboGrupoHorarioActionPerformed
+        // TODO add your handling code here:
+        obtenerGrupo();
+    }//GEN-LAST:event_cboGrupoHorarioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -391,7 +400,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JMonthChooser cboMes;
     private javax.swing.JComboBox cboPeriodo;
     private javax.swing.JComboBox cboPeriodo1;
-    private javax.swing.JCheckBox chkMarcaciones;
     private javax.swing.ButtonGroup grpRango;
     private javax.swing.ButtonGroup grpSeleccion;
     private javax.swing.ButtonGroup grpTipoReporte;
@@ -426,10 +434,11 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlTab.add("Vista previa", jv.getContentPane());
         empleadoList = ObservableCollections.observableList(new ArrayList<Empleado>());
         periodoList = pc.buscarTodosOrden();
+        grupoList = gc.buscarTodos();
     }
 
     private void controles() {
-        FormularioUtil.activarComponente(chkMarcaciones, radDetallado.isSelected());
+//        FormularioUtil.activarComponente(chkMarcaciones, radDetallado.isSelected());
 
         FormularioUtil.activarComponente(spFechaInicio, radPorFecha.isSelected());
         FormularioUtil.activarComponente(spFechaFin, radPorFecha.isSelected());
@@ -445,6 +454,8 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
 
     }
 
+    private List<GrupoHorario> grupoList;
+
     private void bindeoSalvaje() {
         MTEmpleado mt = new MTEmpleado(empleadoList);
         tblTabla.setModel(mt);
@@ -453,9 +464,11 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
 
         JComboBoxBinding binding = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
         JComboBoxBinding binding2 = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo1);
+        JComboBoxBinding binding3 = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, grupoList, cboGrupoHorario);
 
         bindeo.addBinding(binding);
         bindeo.addBinding(binding2);
+        bindeo.addBinding(binding3);
         bindeo.bind();
 
         DefaultListCellRenderer render = new DefaultListCellRenderer() {
@@ -464,7 +477,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 if (value != null) {
                     if (value instanceof Periodo) {
-                        value = ((Periodo) value).getNombre();
+                        value = ((Periodo) value).getAnio();
                     }
                 }
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -475,23 +488,32 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         cboPeriodo.setRenderer(render);
         cboPeriodo1.setRenderer(render);
     }
-
+    private AnalisisAsistencia analisis = new AnalisisAsistencia();
     private void imprimir() {
+        
         Calendar cal = Calendar.getInstance();
+        
+        String usuario = UsuarioActivo.getUsuario().getLogin();
+        List<String> dnis = obtenerDNI();
+        
+        List<Empleado> empleados = this.ec.buscarPorLista(dnis);
+        analisis.analizarEmpleados(empleados);
+        
+        String reporte = "";
+        
+
+        if (radConsolidado.isSelected()) {
+            reporte = "reportes/r_registro_asistencia_consolidado.jasper";
+        }else if(radDetallado.isSelected()){
+            reporte = "reportes/r_registro_asistencia_detallado.jasper";
+        }
+
+        int anio;
+        int mes;
         Date fechaInicio = new Date();
         Date fechaFin = new Date();
         String rangoTitulo = "";
         String rangoValor = "";
-        String usuario = UsuarioActivo.getUsuario().getLogin();
-        List<String> dnis = obtenerDNI();
-        String reporte = "";
-        int anio;
-        int mes;
-
-        if (radConsolidado.isSelected()) {
-            reporte = "reportes/r_registro_asistencia_consolidado.jasper";
-        }
-
         if (radPorFecha.isSelected()) {
             rangoTitulo = "ENTRE: ";
             fechaInicio = (Date) spFechaInicio.getValue();
@@ -542,15 +564,35 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     boolean bandera = false;
 
     private List<String> obtenerDNI() {
+
         List<String> lista = new ArrayList<>();
-        for (Empleado empleado : empleadoList) {
-            lista.add(empleado.getNroDocumento());
+        if (radGrupo.isSelected()) {
+            obtenerGrupo();
+            List<DetalleGrupoHorario> detalleGrupo = dgc.buscarXGrupo(grupoSeleccionado);
+            for (DetalleGrupoHorario detalle : detalleGrupo) {
+                lista.add(detalle.getEmpleado());
+            }
+        } else if (radPersonalizado.isSelected()) {
+            for (Empleado empleado : empleadoList) {
+                lista.add(empleado.getNroDocumento());
+            }
         }
+
         return lista;
     }
 
     public void agregarEmpleado(Empleado empleado) {
         empleadoList.add(empleado);
         tblTabla.packAll();
+    }
+
+    private GrupoHorarioControlador gc = new GrupoHorarioControlador();
+    private DetalleGrupoControlador dgc = new DetalleGrupoControlador();
+
+    private void obtenerGrupo() {
+        int seleccionado = cboGrupoHorario.getSelectedIndex();
+        if (seleccionado != -1) {
+            grupoSeleccionado = this.grupoList.get(seleccionado);
+        }
     }
 }

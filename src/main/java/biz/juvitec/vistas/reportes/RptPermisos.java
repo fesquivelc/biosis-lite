@@ -5,9 +5,12 @@
  */
 package biz.juvitec.vistas.reportes;
 
+import algoritmo.AnalisisAsistencia;
+import biz.juvitec.controladores.DetalleGrupoControlador;
 import biz.juvitec.controladores.EmpleadoControlador;
 import biz.juvitec.controladores.GrupoHorarioControlador;
 import biz.juvitec.controladores.PeriodoControlador;
+import biz.juvitec.entidades.DetalleGrupoHorario;
 import biz.juvitec.entidades.Empleado;
 import biz.juvitec.entidades.GrupoHorario;
 import biz.juvitec.entidades.Periodo;
@@ -18,7 +21,10 @@ import com.personal.utiles.ReporteUtil;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +33,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import net.sf.jasperreports.view.JasperViewer;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.observablecollections.ObservableCollections;
@@ -52,7 +59,6 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private final EmpleadoControlador ec;
 
     private final ReporteUtil reporteador;
-    
 
     public RptPermisos() {
         initComponents();
@@ -459,6 +465,8 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void inicializar() {
+        JasperViewer jv = new JasperViewer(null);
+        pnlTab.add("Vista previa", jv.getContentPane());
         empleadoList = ObservableCollections.observableList(new ArrayList<Empleado>());
         periodoList = pc.buscarTodosOrden();
         grupoList = gc.buscarTodos();
@@ -485,6 +493,9 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         BindingGroup bindeo = new BindingGroup();
         JComboBoxBinding bindGrupo = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, grupoList, cboGrupoHorario);
         JComboBoxBinding bindPeriodo = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
+        JComboBoxBinding bindPeriodo2 = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo2);
+        
+        bindeo.addBinding(bindPeriodo2);
         bindeo.addBinding(bindPeriodo);
         bindeo.addBinding(bindGrupo);
 
@@ -511,7 +522,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 if (value != null) {
                     if (value instanceof Periodo) {
-                        value = ((Periodo) value).getNombre();
+                        value = ((Periodo) value).getAnio();
                     }
                 }
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -520,81 +531,137 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         };
 
         cboPeriodo.setRenderer(renderPeriodo);
+        cboPeriodo2.setRenderer(renderPeriodo);
         cboGrupoHorario.setRenderer(renderGrupo);
     }
 
     boolean bandera = false;
     int i = 1;
+
+    private final DateFormat dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+
     private void imprimir() {
-        String reporte = "reportes/r_permisos_licencia_comisiones.jasper";
+        String reporte = "reportes/r_permisos_licencia_comision.jasper";
         List<String> listaTipo = obtenerTipos();
         List<Empleado> empleados = obtenerEmpleados();
-        List<String> listaDNI = obtenerDNI(empleados);
+        List<String> listaDNI = obtenerDNI();
+        Calendar cal = Calendar.getInstance();
+
+        int anio;
+        int mes;
+        Date fechaInicio = new Date();
+        Date fechaFin = new Date();
+        String rangoTitulo = "";
+        String rangoValor = "";
+        if (radPorFecha.isSelected()) {
+            rangoTitulo = "ENTRE: ";
+            fechaInicio = (Date) spFechaInicio.getValue();
+            fechaFin = (Date) spFechaFin.getValue();
+            rangoValor = dfFecha.format(fechaInicio) + " - " + dfFecha.format(fechaFin);
+        } else if (radMes.isSelected()) {
+            rangoTitulo = "MES: ";
+            anio = periodoList.get(cboPeriodo.getSelectedIndex()).getAnio();
+            mes = cboMes.getMonth();
+            cal.set(anio, mes, 1);
+            fechaInicio = cal.getTime();
+            cal.set(Calendar.DAY_OF_MONTH, cal.getMaximum(Calendar.DAY_OF_MONTH));
+            fechaFin = cal.getTime();
+            rangoValor = (cboMes.getMonth() + 1) + " / " + anio;
+        } else if (radAnio.isSelected()) {
+            rangoTitulo = "AÑO: ";
+            anio = periodoList.get(cboPeriodo2.getSelectedIndex()).getAnio();
+            cal.set(anio, 0, 1);
+            fechaInicio = cal.getTime();
+            cal.set(anio, 11, 31);
+            fechaFin = cal.getTime();
+            rangoValor = periodoList.get(cboPeriodo2.getSelectedIndex()).getAnio() + "";
+        }
+
         File archivo = new File(reporte);
+        System.out.println("archivo: "+archivo.getAbsolutePath());
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("usuario", UsuarioActivo.getUsuario().getLogin());
         parametros.put("lista", listaDNI);
         parametros.put("listaTipo", listaTipo);
+        parametros.put("fechaInicio", fechaInicio);
+        parametros.put("fechaFin", fechaFin);
+        parametros.put("rangoTitulo", rangoTitulo);
+        parametros.put("rangoValor", rangoValor);
         parametros.put("titulo", "REPORTE DE PERMISOS");
         parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
-        
+
         reporteador.setConn(gc.getDao().getConexion());
-        JPanel panelReporte = new JPanel();
-        
+//        JPanel panelReporte = new JPanel();
+
 //        pnlVistaPrevia.removeAll();
         Component report = reporteador.obtenerReporte(archivo, parametros);
-        panelReporte.add(report);
+//        panelReporte.add(report);
 //        pnlVistaPrevia.add(report, BorderLayout.CENTER);
 //        pnlVistaPrevia.repaint();
 //        pnlVistaPrevia.revalidate();
 //        pnlTab.add("REPORTE 1", panelReporte);
-        if(bandera){
-            pnlTab.removeTabAt(0);
-        }
-        pnlTab.add("VISTA PREVIA "+i, report);
+        pnlTab.removeTabAt(0);
+        pnlTab.add("Vista previa", report);
         i++;
         bandera = true;
-        
-        
-        
+
 //        reporteador.generarReporte(archivo, parametros, JOptionPane.getFrameForComponent(this));
     }
 
     private List<String> obtenerTipos() {
         List<String> tipos = new ArrayList<>();
-        if(radTodo.isSelected()){
+        if (radTodo.isSelected()) {
             tipos.add("P");
             tipos.add("L");
             tipos.add("C");
-        }else if(radPermiso.isSelected()){
+        } else if (radPermiso.isSelected()) {
             tipos.add("P");
-        }else if(radLicencia.isSelected()){
+        } else if (radLicencia.isSelected()) {
             tipos.add("L");
-        }else if(radComision.isSelected()){
+        } else if (radComision.isSelected()) {
             tipos.add("C");
         }
         return tipos;
     }
 
+    private GrupoHorario grupoSeleccionado;
+
+    private void obtenerGrupo() {
+        int seleccionado = cboGrupoHorario.getSelectedIndex();
+        if (seleccionado != -1) {
+            grupoSeleccionado = this.grupoList.get(seleccionado);
+        }
+    }
+
+    private final AnalisisAsistencia analisis = new AnalisisAsistencia();
+    private final DetalleGrupoControlador dgc = new DetalleGrupoControlador();
+
     private List<Empleado> obtenerEmpleados() {
         List<Empleado> empleado = new ArrayList<>();
-        if(radGrupo.isSelected()){
-            
-        }else if(radPersonalizado.isSelected()){
+        if (radPersonalizado.isSelected()) {
             empleado = empleadoList;
         }
         return empleado;
     }
 
-    private List<String> obtenerDNI(List<Empleado> empleados) {
+    private List<String> obtenerDNI() {
         List<String> lista = new ArrayList<>();
-        for(Empleado e : empleados){
-            lista.add(e.getNroDocumento());
+        if (radGrupo.isSelected()) {
+            obtenerGrupo();
+            List<DetalleGrupoHorario> detalleGrupo = dgc.buscarXGrupo(grupoSeleccionado);
+            for (DetalleGrupoHorario detalle : detalleGrupo) {
+                lista.add(detalle.getEmpleado());
+            }
+        } else if (radPersonalizado.isSelected()) {
+            for (Empleado e : empleadoList) {
+                lista.add(e.getNroDocumento());
+            }
         }
+
         return lista;
     }
-    
-    public void agregarEmpleado(Empleado empleado){
+
+    public void agregarEmpleado(Empleado empleado) {
         empleadoList.add(empleado);
     }
 }
