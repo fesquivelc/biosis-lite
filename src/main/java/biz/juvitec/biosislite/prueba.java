@@ -5,14 +5,16 @@
  */
 package biz.juvitec.biosislite;
 
+import biz.juvitec.controladores.EmpleadoBeanControlador;
 import biz.juvitec.controladores.EmpleadoControlador;
 import biz.juvitec.controladores.RolControlador;
 import biz.juvitec.controladores.UsuarioControlador;
 import biz.juvitec.dao.DAOMINEDU;
 import biz.juvitec.entidades.Empleado;
+import biz.juvitec.entidades.EmpleadoBean;
 import biz.juvitec.entidades.Rol;
 import biz.juvitec.entidades.Usuario;
-import biz.juvitec.vistas.mantenimientos.CRUDGrupoHorario;
+import vistas.mantenimientos.CRUDGrupoHorario;
 import com.personal.utiles.ReporteUtil;
 import java.io.File;
 import java.sql.Connection;
@@ -25,6 +27,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import javax.persistence.EntityManager;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -43,8 +46,8 @@ public class prueba {
      * @param args the command line arguments
      */
     private static final Logger LOG = Logger.getLogger(prueba.class.getName());
-    
-    public void getPrueba(){
+
+    public void getPrueba() {
         System.out.println(getClass().getClassLoader().getResource("."));
     }
 
@@ -79,7 +82,7 @@ public class prueba {
 //        usuario.setRol(rol);
 //        usuario.setActivo(true);
 //        uc.guardar(usuario);
-        
+
 //        System.exit(0);
 //        ReporteUtil reporteador = new ReporteUtil();
 //        
@@ -107,17 +110,70 @@ public class prueba {
 //        cal.setTime(fecha1);
 //        cal.add(Calendar.MILLISECOND, dif.intValue());
 //        System.out.println("FECHA 3 "+cal.getTime().toString());
-        Calendar cal = Calendar.getInstance();
+        Calendar calContrato = Calendar.getInstance();
+
+//        calContrato.set(1990, 0, 1, 0, 0, 0);
+
+        Calendar calFechaNacimiento = Calendar.getInstance();
+
+        System.out.println("RANDOM: " + randInt(1, 28));
+        System.out.println("RANDOM: " + randInt(1, 28));
+        System.out.println("RANDOM: " + randInt(1, 28));
+        System.out.println("RANDOM: " + randInt(0, 11));
+        System.out.println("RANDOM: " + randInt(0, 11));
+
+        EmpleadoBeanControlador cont = new EmpleadoBeanControlador();
+        List<EmpleadoBean> empleados = new ArrayList<>();
+        EmpleadoBean empleado;
+
+        for (int i = 1; i <= 4000; i++) {
+            calContrato.set(randInt(1990, 2014), randInt(0, 11), randInt(1, 28), 0, 0, 0);
+            calFechaNacimiento.set(randInt(1970, 1990), randInt(0, 11), randInt(1, 28), 0, 0, 0);
+            empleado = new EmpleadoBean();
+            empleado.setApellidoPaterno("PATERNO " + i);
+            empleado.setApellidoMaterno("MATERNO " + i);
+            empleado.setNombre("NOMBRE " + i);
+            empleado.setFechaInicioContrato(calContrato.getTime());
+            empleado.setFechaNacimiento(calFechaNacimiento.getTime());
+            empleado.setRegimenLaboral("CAS");
+            empleado.setNroDocumento(conCeros(i));
+            empleado.setTipoDocumento("DNI");
+            empleado.setCodigoModular(conCeros(10000 - i));
+            empleados.add(empleado);
+        }
         
-        cal.set(2015, 0, 1, 0, 0, 0);
-        
-        Date fechaInicio = cal.getTime();
-        
-        cal.set(2015, 0, 15, 0, 0, 0);
-        
-        Date fechaFin = cal.getTime();
-        
-        System.out.println("DIF: "+(fechaFin.getTime() - fechaInicio.getTime())/(60*1000*60*24));
+        cont.guardarLote(empleados);
+
+        System.exit(0);
+    }
+    static Random rand;
+
+    public static int randInt(int min, int max) {
+
+        // NOTE: Usually this should be a field rather than a method
+        // variable so that it is not re-seeded every call.
+        if (rand == null) {
+            rand = new Random();
+        }
+
+        // nextInt is normally exclusive of the top value,
+        // so add 1 to make it inclusive
+        int randomNum = rand.nextInt((max - min) + 1) + min;
+
+        return randomNum;
     }
 
+    public static String conCeros(int dni) {
+        if (dni <= 9) {
+            return "0000000" + dni;
+        } else if (dni <= 99) {
+            return "000000" + dni;
+        } else if (dni <= 999) {
+            return "00000" + dni;
+        } else {
+            return "0000" + dni;
+        }
+    }
+
+    
 }

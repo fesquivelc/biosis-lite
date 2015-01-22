@@ -5,20 +5,18 @@
  */
 package biz.juvitec.controladores;
 
-import vistas.Principal;
+import biz.juvitec.dao.DAOMINEDU;
+import biz.juvitec.entidades.EmpleadoBean;
 
 /**
  *
  * @author fesquivelc
  */
-public class HiloPrueba2 extends Thread{
+public class EmpleadoBeanControlador extends Controlador<EmpleadoBean> {
 
-    @Override
-    public void run() {
-        Principal principal = new Principal();
-        System.out.println("TERMINADO PRINCIPAL");
-        principal.setVisible(true);
-        
+    public EmpleadoBeanControlador() {
+        super(EmpleadoBean.class, new DAOMINEDU(EmpleadoBean.class));
     }
-    
+
+
 }

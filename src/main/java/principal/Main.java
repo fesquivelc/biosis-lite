@@ -5,8 +5,8 @@
  */
 package principal;
 
-import biz.juvitec.vistas.Principal;
-import biz.juvitec.vistas.dialogos.DlgLogin;
+import vistas.Principal;
+import vistas.dialogos.DlgLogin;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 

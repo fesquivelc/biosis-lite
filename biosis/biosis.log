@@ -1066,3 +1066,11 @@ Caused by: com.microsoft.sqlserver.jdbc.SQLServerException: Sintaxis incorrecta 
 	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.executeQuery(SQLServerPreparedStatement.java:285)
 	at net.sf.jasperreports.engine.query.JRJdbcQueryExecuter.createDatasource(JRJdbcQueryExecuter.java:233)
 	... 49 more
+2015-01-21 21:37:28.639	ERROR	[main]	CLASE: DetalleRegistroAsistenciaControlador	 METODO: viajarTiempo	LINEA:29	MSJE:javax.persistence.TransactionRequiredException: Executing an update/delete query
+2015-01-21 21:38:30.818	ERROR	[main]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:Sintaxis incorrecta cerca de la palabra clave 'cross'.
+2015-01-21 21:38:30.823	ERROR	[main]	CLASE: DetalleRegistroAsistenciaControlador	 METODO: viajarTiempo	LINEA:31	MSJE:javax.persistence.PersistenceException: org.hibernate.exception.SQLGrammarException: could not execute statement
+2015-01-21 22:13:57.981	ERROR	[main]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:El valor no está configurado para el número de parámetro 1.
+2015-01-21 22:14:30.393	ERROR	[main]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:El valor no está configurado para el número de parámetro 2.
+2015-01-21 22:17:53.216	ERROR	[main]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:El identificador formado por varias partes "r.id" no se pudo enlazar.
+2015-01-21 22:19:54.591	ERROR	[main]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:Sintaxis incorrecta cerca de la palabra clave 'AS'.
+2015-01-21 22:21:00.025	ERROR	[main]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:Sintaxis incorrecta cerca de la palabra clave 'AS'.

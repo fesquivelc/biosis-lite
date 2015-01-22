@@ -559,5 +559,108 @@ public class AnalisisAsistencia {
             return new BigDecimal(0);
         }
     }
+    
+    private DetalleRegistroAsistencia analizarTurno(String empleadoDNI, Date fechaInicio, Date fechaFin, Date horaDesde, Date horaToleranciaInicio, Date horaMaximaInicio, Date horaFin, int minutosMaximoFin){
+        DetalleRegistroAsistencia registroTurno = new DetalleRegistroAsistencia();
+        registroTurno.setOrden(0);
+        registroTurno.setTipoRegistro('R');
+        
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(horaFin);
+        calendar.add(Calendar.MINUTE, minutosMaximoFin);
+        
+        Date horaMaximaFin = calendar.getTime();
+        
+        Marcacion marcacionInicio = mc.buscarXFechaXhora(empleadoDNI, fechaInicio, horaDesde, horaMaximaInicio);
+        
+        char resultadoInicio;
+        char resultadoFin;
+        
+        if(marcacionInicio == null){
+            registroTurno.setHoraInicio(null);
+            resultadoInicio = 'F';
+        }else{
+            BigDecimal tardanzaMin = tardanzaMin(marcacionInicio.getHora(), horaToleranciaInicio);
+            registroTurno.setHoraInicio(marcacionInicio.getHora());
+            if(tardanzaMin.compareTo(BigDecimal.ZERO) > 0){
+                resultadoInicio = 'T';
+            }else{
+                resultadoInicio = 'R';
+            }
+            registroTurno.setMinTardanza(tardanzaMin);
+        }
+        
+        calendar.setTime(horaFin);
+        calendar.add(Calendar.MINUTE, minutosMaximoFin);
+        Marcacion marcacionFin = mc.buscarXFechaXhora(empleadoDNI, fechaFin, horaFin, calendar.getTime());
+        
+        if(marcacionFin == null){
+            registroTurno.setHoraFin(null);
+            resultadoFin = 'F';
+        }else{
+            resultadoFin = 'R';
+            registroTurno.setHoraFin(marcacionFin.getHora());            
+        }
+        
+        if(resultadoInicio == 'F' || resultadoFin == 'F'){
+            registroTurno.setResultado('F');
+        }else{
+            registroTurno.setResultado(resultadoInicio);
+        }
+        
+        return registroTurno;
+    }
 
+    private DetalleRegistroAsistencia analizarRefrigerio(String empleadoDNI, Date fechaInicio, Date horaInicio, Date horaFin, Date horaMaximaFin, int minutosHoraInicio, int minutosRefrigerio) {
+        DetalleRegistroAsistencia registroRefrigerio = new DetalleRegistroAsistencia();
+        registroRefrigerio.setOrden(1);
+        registroRefrigerio.setTipoRegistro('R');
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechaInicio);
+        calendar.add(Calendar.MINUTE, minutosHoraInicio);
+
+        Date horaMaximaInicio = calendar.getTime();
+
+        Marcacion marcacionInicio = mc.buscarXFechaXhora(empleadoDNI, fechaInicio, horaInicio, horaMaximaInicio);
+
+        if (marcacionInicio == null) {
+            registroRefrigerio.setResultado('F');
+            registroRefrigerio.setHoraInicio(null);
+            registroRefrigerio.setHoraFin(null);
+        } else {
+            registroRefrigerio.setHoraInicio(marcacionInicio.getHora());
+            calendar.setTime(marcacionInicio.getHora());
+            calendar.add(Calendar.MINUTE, minutosRefrigerio);
+            Date horaEsperadaFin;
+            if (horaFin.before(calendar.getTime())) {
+                horaEsperadaFin = calendar.getTime();
+            } else {
+                horaEsperadaFin = horaFin;
+            }
+
+            calendar.add(Calendar.MINUTE, -minutosRefrigerio);
+            calendar.add(Calendar.SECOND, 1);
+            Date limiteInferiorHoraFin = calendar.getTime();
+
+            Marcacion marcacionFin = mc.buscarXFechaXhora(empleadoDNI, fechaInicio, limiteInferiorHoraFin, horaMaximaFin);
+
+            if (marcacionFin == null) {
+                registroRefrigerio.setHoraFin(null);
+                registroRefrigerio.setResultado('F');
+            } else {
+                BigDecimal minTardanza = this.tardanzaMin(marcacionFin.getHora(), horaEsperadaFin);
+                registroRefrigerio.setHoraFin(marcacionFin.getHora());
+                registroRefrigerio.setMinTardanza(minTardanza);
+
+                if (minTardanza.compareTo(BigDecimal.ZERO) > 0) {
+                    registroRefrigerio.setResultado('T');
+                } else {
+                    registroRefrigerio.setResultado('R');
+                }
+            }
+        }
+
+        return registroRefrigerio;
+    }
 }

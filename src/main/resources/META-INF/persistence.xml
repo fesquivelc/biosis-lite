@@ -24,7 +24,7 @@
     <class>biz.juvitec.entidades.Bitacora</class>
     <class>biz.juvitec.entidades.RolAcceso</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://127.0.0.1\JUPITER:49417;databaseName=db_biosis"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://127.0.0.1\JUPITER:49417;databaseName=db_biosis;sendTimeAsDateTime=false"/>
       <property name="javax.persistence.jdbc.password" value="asistencia"/>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
       <property name="javax.persistence.jdbc.user" value="usuarioAsistencia"/>
