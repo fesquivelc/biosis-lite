@@ -40,12 +40,12 @@ import utiles.Encriptador;
  *
  * @author fesquivelc
  */
-public class prueba {
+public class GenerarEmpleados {
 
     /**
      * @param args the command line arguments
      */
-    private static final Logger LOG = Logger.getLogger(prueba.class.getName());
+    private static final Logger LOG = Logger.getLogger(GenerarEmpleados.class.getName());
 
     public void getPrueba() {
         System.out.println(getClass().getClassLoader().getResource("."));
@@ -161,6 +161,15 @@ public class prueba {
         int randomNum = rand.nextInt((max - min) + 1) + min;
 
         return randomNum;
+    }
+    
+    public static int randTiempo(Date horaMinima, Date horaMaxima) {
+
+        // NOTE: Usually this should be a field rather than a method
+        // variable so that it is not re-seeded every call.
+        Long hMin = horaMinima.getTime();
+        Long hMax = horaMaxima.getTime();
+        return randInt(hMin.intValue(), hMax.intValue());
     }
 
     public static String conCeros(int dni) {

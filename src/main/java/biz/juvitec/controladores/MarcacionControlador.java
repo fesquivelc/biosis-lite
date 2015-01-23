@@ -33,13 +33,12 @@ public class MarcacionControlador extends Controlador<Marcacion> {
     }
 
     public List<Marcacion> buscarXFecha(String dni, Date fechaInicio, Date fechaFin, int desde, int tamanio) {
-        String jpql = "SELECT m FROM Marcacion m WHERE CONCAT(:ceros,m.empleado) = :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin "
+        String jpql = "SELECT m FROM Marcacion m WHERE m.empleado = :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin "
                 + "ORDER BY m.empleado,m.fecha,m.hora";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("dni", dni);
+        mapa.put("dni", Integer.parseInt(dni));
         mapa.put("fechaInicio", fechaInicio);
         mapa.put("fechaFin", fechaFin);
-        mapa.put("ceros", this.ceros(dni));
         return this.getDao().buscar(jpql, mapa, desde, tamanio);
     }
 
@@ -78,12 +77,11 @@ public class MarcacionControlador extends Controlador<Marcacion> {
     }
 
     public int totalXEmpleadoXFecha(String dni, Date fechaInicio, Date fechaFin) {
-        String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE CONCAT(:ceros,m.empleado) = :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin";
+        String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.empleado = :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin";
         Long cont = (Long) this.getDao().getEntityManager().createQuery(jpql)
-                .setParameter("dni", dni)
+                .setParameter("dni", Integer.parseInt(dni))
                 .setParameter("fechaInicio", fechaInicio)
-                .setParameter("fechaFin", fechaFin)
-                .setParameter("ceros", this.ceros(dni)).getSingleResult();
+                .setParameter("fechaFin", fechaFin).getSingleResult();
         int conteo = cont.intValue();
         return conteo;
     }
@@ -99,7 +97,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
     private String ceros(String dni) {
         String ceros = "";
         int nDNI = Integer.parseInt(dni);
-
+        System.out.println("DNI: "+dni);
         int tamanio1 = dni.length();
         int tamanio2 = (nDNI + "").length();
 
@@ -107,21 +105,21 @@ public class MarcacionControlador extends Controlador<Marcacion> {
             ceros += "0";
         }
 //        System.out.println("CEROS: "+ceros);
+        System.out.println("CEROS: "+ceros);
         return ceros;
     }
 
     public Marcacion buscarXFechaXhora(String dni, Date fecha, Date horaI, Date horaF) {
         String jpql = "SELECT m FROM Marcacion m WHERE "
-                + "CONCAT(:ceros,m.empleado) = :dni "
+                + "m.empleado = :dni "
                 + "AND m.fecha = :fecha "
                 + "AND m.hora BETWEEN :horaI AND :horaF "
                 + "ORDER BY m.hora ASC";
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("dni", dni);
+        mapa.put("dni", Integer.parseInt(dni));
         mapa.put("fecha", fecha);
         mapa.put("horaI", horaI);
         mapa.put("horaF", horaF);
-        mapa.put("ceros", this.ceros(dni));
         List<Marcacion> marcaciones = this.getDao().buscar(jpql, mapa, -1, 1);
 
         if (marcaciones.isEmpty()) {

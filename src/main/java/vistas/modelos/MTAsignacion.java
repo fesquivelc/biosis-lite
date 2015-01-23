@@ -51,7 +51,10 @@ public class MTAsignacion extends ModeloTabla<AsignacionHorario>{
                     return seleccion.getGrupoHorario().getNombre();                    
                 }else{
                     Empleado empleado = ec.buscarPorId(seleccion.getEmpleado());
-                    return empleado.getApellidoPaterno() + " " + empleado.getApellidoMaterno() + " " + empleado.getNombre();
+                    if(empleado != null){
+                        return empleado.getApellidoPaterno() + " " + empleado.getApellidoMaterno() + " " + empleado.getNombre();
+                    }
+                    
                 }
             default:
                 return null;
