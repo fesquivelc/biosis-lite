@@ -52,7 +52,7 @@ public class AnalisisAsistencia {
     private AsignacionHorarioControlador ahc;
     private RegistroAsistenciaControlador rac;
 
-    private final int MIN_FIN_MARCACION = 300;
+    private final int MIN_FIN_MARCACION = 420;
 
     public AnalisisAsistencia() {
         iniciar();
