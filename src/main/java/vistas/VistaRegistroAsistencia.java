@@ -26,6 +26,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import org.jdesktop.observablecollections.ObservableCollections;
+import vistas.renders.RenderAsistencia;
 
 /**
  *
@@ -509,6 +510,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
     private void bindeoSalvaje() {
         mtRegistro = new MTRegistroAsistencia(registroAsistenciaList);
         tblRegistros.setModel(mtRegistro);
+        tblRegistros.setRowHeight(25);
 
         MTEmpleado mtEmpleado = new MTEmpleado(empleadoList);
         tblEmpleados.setModel(mtEmpleado);
@@ -521,6 +523,8 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         
         MTHorarioRA mtHorario = new MTHorarioRA(horarioList);
         tblHorario.setModel(mtHorario);
+        
+        
     }
 
     private void inicializar() {
@@ -532,7 +536,11 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
 
         FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
         FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
+        
+        
     }
+    
+    RenderAsistencia render = new RenderAsistencia();
 
     private int paginaActual = 1;
     private int totalPaginas = 1;
@@ -551,7 +559,13 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
 
             registroAsistenciaList.addAll(this.listar(empleadoList, fechaInicio, fechaFin, paginaActual, tamanioPagina));
 
-            tblEmpleados.packAll();
+//            tblRegistros.getColumn(0).setCellRenderer(render);
+//            tblRegistros.getColumn(1).setCellRenderer(render);
+//            tblRegistros.getColumn(2).setCellRenderer(render);
+//            tblRegistros.getColumn(3).setCellRenderer(render);
+//            tblRegistros.getColumn(4).setCellRenderer(render);
+            tblRegistros.packAll();
+            
         }
 
     }

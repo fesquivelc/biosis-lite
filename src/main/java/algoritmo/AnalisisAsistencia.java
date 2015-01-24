@@ -551,11 +551,15 @@ public class AnalisisAsistencia {
         return registro;
     }
 
+//    private RegistroAsistencia analizarJornada2(Empleado empleado, Jornada jornada, Date fInicio, Date hInicio, Date fFin, Date hFin){
+//        
+//    }
+    
     public BigDecimal tardanzaMin(Date horaMarcada, Date horaComparar) {
         Long diferencia = horaMarcada.getTime() - horaComparar.getTime();
         if (diferencia > 0) {
 //            System.out.println("MINUTOS: "+Double.parseDouble(diferencia+"")/(1000 * 60));
-            return new BigDecimal(Double.parseDouble(diferencia.toString())/ (1000 * 60));
+            return BigDecimal.valueOf(Double.parseDouble(diferencia.toString())/ (1000 * 60));
         } else {
             return BigDecimal.ZERO;
         }
