@@ -120,7 +120,7 @@ $X{IN,registro_asistencia.empleado_nro_documento,lista} AND registro_asistencia.
 					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "subr_resumen_asistencia.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_resumen_asistencia.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
