@@ -562,7 +562,7 @@ public class AnalisisAsistencia {
 
         RegistroAsistencia registroAsistencia = null;
         Calendar cal = Calendar.getInstance();
-        cal.setTime(jornada.getTurnoHS());
+        cal.setTime(jornada.getTurnoHS());        
         cal.add(Calendar.MINUTE, 60 * 4);
 
         Date horaMaximaSalida = cal.getTime();
@@ -664,7 +664,9 @@ public class AnalisisAsistencia {
         }
 
         calendar.setTime(horaFin);
-        calendar.add(Calendar.MINUTE, minutosMaximoFin);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
         Marcacion marcacionFin = mc.buscarXFechaXhora(empleadoDNI, fechaFin, horaFin, calendar.getTime());
 
         if (marcacionFin == null) {
@@ -739,4 +741,5 @@ public class AnalisisAsistencia {
         return registroRefrigerio;
     }
 
+    
 }
