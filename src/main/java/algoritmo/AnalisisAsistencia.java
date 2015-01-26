@@ -52,7 +52,7 @@ public class AnalisisAsistencia {
     private AsignacionHorarioControlador ahc;
     private RegistroAsistenciaControlador rac;
 
-    private final int MIN_FIN_MARCACION = 420;
+    private final int MIN_FIN_MARCACION = 500;
 
     public AnalisisAsistencia() {
         iniciar();
@@ -230,7 +230,7 @@ public class AnalisisAsistencia {
                                     //SE REGISTRA COMO ONOMASTICO
                                 } else {
                                     //SE PROCEDE AL ANALISIS DE LA JORNADA
-                                    registro = analizarJornada(empleado, horario.getJornada(), fInicio, hInicio, fFin, hFin);
+                                    registro = analizarJornada2(empleado, horario.getJornada(), fInicio, hInicio, fInicio, fFin, hFin);
                                     if (registro != null) {
                                         registro.setHorario(horario);
                                     }
@@ -551,68 +551,136 @@ public class AnalisisAsistencia {
         return registro;
     }
 
-//    private RegistroAsistencia analizarJornada2(Empleado empleado, Jornada jornada, Date fInicio, Date hInicio, Date fFin, Date hFin){
-//        
-//    }
-    
+    private RegistroAsistencia analizarJornada2(
+            Empleado empleado,
+            Jornada jornada,
+            Date fecha,
+            Date horaInicioAnalisis,
+            Date fechaFin,
+            Date fechaFinAnalisis,
+            Date horaFinAnalisis) {
+
+        RegistroAsistencia registroAsistencia = null;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(jornada.getTurnoHS());
+        cal.add(Calendar.MINUTE, 60 * 4);
+
+        Date horaMaximaSalida = cal.getTime();
+
+        if (FechaUtil.compararFechaHora(fecha, horaInicioAnalisis, fecha, horaMaximaSalida) <= 0
+                && FechaUtil.compararFechaHora(fechaFinAnalisis, horaFinAnalisis, fechaFin, horaMaximaSalida) >= 0) {
+            registroAsistencia = new RegistroAsistencia();
+            List<DetalleRegistroAsistencia> detalles = new ArrayList<>();
+            char resultadoAsistencia = ' ';
+            //ANALIZAMOS PERMISOS
+
+            //ANALIZAMOS TURNO
+            DetalleRegistroAsistencia detalleTurno = this.analizarTurno(empleado.getNroDocumento(), fecha, fechaFin, jornada.getDesdeHE(), jornada.getToleranciaHE(), jornada.getTardanzaHE(), jornada.getTurnoHS(), 60 * 4);
+            //ANALIZAMOS REFRIGERIO
+            DetalleRegistroAsistencia detalleRefrigerio
+                    = this.analizarRefrigerio(
+                            empleado.getNroDocumento(),
+                            fecha,
+                            jornada.getRefrigerioHS(),
+                            jornada.getRefrigerioHE(),
+                            horaMaximaSalida,
+                            60 * 3,
+                            jornada.getMinRefrigerio());
+
+            detalleTurno.setRegistroAsistencia(registroAsistencia);
+            detalleRefrigerio.setRegistroAsistencia(registroAsistencia);
+
+            detalles.add(detalleTurno);
+            detalles.add(detalleRefrigerio);
+
+            if (detalleTurno.getResultado() == 'F' || detalleRefrigerio.getResultado() == 'F') {
+                resultadoAsistencia = 'F';
+            } else if (detalleTurno.getResultado() == 'T' || detalleRefrigerio.getResultado() == 'T') {
+                resultadoAsistencia = 'T';
+            } else if (detalleTurno.getResultado() == 'R' && detalleRefrigerio.getResultado() == 'R') {
+                resultadoAsistencia = 'R';
+            }
+
+            BigDecimal tardanzaTotal = (resultadoAsistencia != 'F') ? detalleTurno.getMinTardanza().add(detalleRefrigerio.getMinTardanza()) : null;
+            BigDecimal trabajoTotal = null;
+            if (resultadoAsistencia != 'F') {
+                long diferenciaTurnoMilis = detalleTurno.getHoraFin().getTime() - detalleTurno.getHoraInicio().getTime();
+                long diferenciaRefrigerioMilis = detalleRefrigerio.getHoraFin().getTime() - detalleRefrigerio.getHoraInicio().getTime();
+
+                long diferenciaTrabajoMilis = diferenciaTurnoMilis - diferenciaRefrigerioMilis;
+
+                double diferenciaTrabajoMin = diferenciaTrabajoMilis / (60 * 1000);
+
+                trabajoTotal = BigDecimal.valueOf(diferenciaTrabajoMin).subtract(tardanzaTotal);
+            }
+
+            registroAsistencia.setTipoAsistencia(resultadoAsistencia);
+            System.out.println("TARDANZA TOTAL: " + tardanzaTotal);
+            registroAsistencia.setMinTardanza(tardanzaTotal);
+            registroAsistencia.setMinTrabajados(trabajoTotal);
+            registroAsistencia.setDetalleRegistroAsistenciaList(detalles);
+            registroAsistencia.setFecha(fecha);
+            registroAsistencia.setEmpleado(empleado.getNroDocumento());
+
+        }
+
+        return registroAsistencia;
+    }
+
     public BigDecimal tardanzaMin(Date horaMarcada, Date horaComparar) {
         Long diferencia = horaMarcada.getTime() - horaComparar.getTime();
         if (diferencia > 0) {
 //            System.out.println("MINUTOS: "+Double.parseDouble(diferencia+"")/(1000 * 60));
-            return BigDecimal.valueOf(Double.parseDouble(diferencia.toString())/ (1000 * 60));
+            return BigDecimal.valueOf(Double.parseDouble(diferencia.toString()) / (1000 * 60));
         } else {
             return BigDecimal.ZERO;
         }
     }
-    
-    private DetalleRegistroAsistencia analizarTurno(String empleadoDNI, Date fechaInicio, Date fechaFin, Date horaDesde, Date horaToleranciaInicio, Date horaMaximaInicio, Date horaFin, int minutosMaximoFin){
+
+    private DetalleRegistroAsistencia analizarTurno(String empleadoDNI, Date fechaInicio, Date fechaFin, Date horaDesde, Date horaToleranciaInicio, Date horaMaximaInicio, Date horaFin, int minutosMaximoFin) {
         DetalleRegistroAsistencia registroTurno = new DetalleRegistroAsistencia();
         registroTurno.setOrden(0);
-        registroTurno.setTipoRegistro('R');
-        
+        registroTurno.setTipoRegistro('T');
+
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(horaFin);
-        calendar.add(Calendar.MINUTE, minutosMaximoFin);
-        
-        Date horaMaximaFin = calendar.getTime();
-        
+
         Marcacion marcacionInicio = mc.buscarXFechaXhora(empleadoDNI, fechaInicio, horaDesde, horaMaximaInicio);
-        
+
         char resultadoInicio;
         char resultadoFin;
-        
-        if(marcacionInicio == null){
+
+        if (marcacionInicio == null) {
             registroTurno.setHoraInicio(null);
             resultadoInicio = 'F';
-        }else{
+        } else {
             BigDecimal tardanzaMin = tardanzaMin(marcacionInicio.getHora(), horaToleranciaInicio);
             registroTurno.setHoraInicio(marcacionInicio.getHora());
-            if(tardanzaMin.compareTo(BigDecimal.ZERO) > 0){
+            if (tardanzaMin.compareTo(BigDecimal.ZERO) > 0) {
                 resultadoInicio = 'T';
-            }else{
+            } else {
                 resultadoInicio = 'R';
             }
             registroTurno.setMinTardanza(tardanzaMin);
         }
-        
+
         calendar.setTime(horaFin);
         calendar.add(Calendar.MINUTE, minutosMaximoFin);
         Marcacion marcacionFin = mc.buscarXFechaXhora(empleadoDNI, fechaFin, horaFin, calendar.getTime());
-        
-        if(marcacionFin == null){
+
+        if (marcacionFin == null) {
             registroTurno.setHoraFin(null);
             resultadoFin = 'F';
-        }else{
+        } else {
             resultadoFin = 'R';
-            registroTurno.setHoraFin(marcacionFin.getHora());            
+            registroTurno.setHoraFin(marcacionFin.getHora());
         }
-        
-        if(resultadoInicio == 'F' || resultadoFin == 'F'){
+
+        if (resultadoInicio == 'F' || resultadoFin == 'F') {
             registroTurno.setResultado('F');
-        }else{
+        } else {
             registroTurno.setResultado(resultadoInicio);
         }
-        
+
         return registroTurno;
     }
 
@@ -622,11 +690,12 @@ public class AnalisisAsistencia {
         registroRefrigerio.setTipoRegistro('R');
 
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(fechaInicio);
+        calendar.setTime(horaInicio);
         calendar.add(Calendar.MINUTE, minutosHoraInicio);
 
         Date horaMaximaInicio = calendar.getTime();
 
+//        System.out.println("MARCACION INICIO REFRIGERIO PARAMS: " + fechaInicio + " " + horaInicio + " " + horaMaximaInicio);
         Marcacion marcacionInicio = mc.buscarXFechaXhora(empleadoDNI, fechaInicio, horaInicio, horaMaximaInicio);
 
         if (marcacionInicio == null) {
@@ -639,12 +708,12 @@ public class AnalisisAsistencia {
             calendar.add(Calendar.MINUTE, minutosRefrigerio);
             Date horaEsperadaFin;
             if (horaFin.before(calendar.getTime())) {
-                horaEsperadaFin = calendar.getTime();
-            } else {
                 horaEsperadaFin = horaFin;
+            } else {
+                horaEsperadaFin = calendar.getTime();
             }
 
-            calendar.add(Calendar.MINUTE, -minutosRefrigerio);
+            calendar.setTime(marcacionInicio.getHora());
             calendar.add(Calendar.SECOND, 1);
             Date limiteInferiorHoraFin = calendar.getTime();
 
@@ -654,6 +723,7 @@ public class AnalisisAsistencia {
                 registroRefrigerio.setHoraFin(null);
                 registroRefrigerio.setResultado('F');
             } else {
+//                System.out.println("HORA FIN, HORA ESPERADA FIN: "+marcacionFin.getHora()+" "+horaEsperadaFin);
                 BigDecimal minTardanza = this.tardanzaMin(marcacionFin.getHora(), horaEsperadaFin);
                 registroRefrigerio.setHoraFin(marcacionFin.getHora());
                 registroRefrigerio.setMinTardanza(minTardanza);
@@ -668,4 +738,5 @@ public class AnalisisAsistencia {
 
         return registroRefrigerio;
     }
+
 }

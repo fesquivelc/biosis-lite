@@ -8,6 +8,7 @@ package vistas.modelos;
 import biz.juvitec.entidades.Empleado;
 import biz.juvitec.entidades.RegistroAsistencia;
 import com.personal.utiles.ModeloTabla;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -86,5 +87,16 @@ public class MTRegistroAsistencia extends ModeloTabla<RegistroAsistencia>{
                 return null;
         }
     }
+
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        if(columnIndex == 4){
+            return BigDecimal.class;
+        }else{
+            return String.class;
+        }
+    }
+    
+    
     
 }
