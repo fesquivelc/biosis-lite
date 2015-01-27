@@ -14,17 +14,17 @@ import javax.persistence.TemporalType;
 @Entity
 public class Feriado implements Serializable {
 
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private String nombre;
-    @Column(name="fecha_fin",nullable=false)
+    @Column(name="fecha_fin",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaFin;
     @ManyToOne(optional=false,targetEntity = Periodo.class)
-    @JoinColumn(name="periodo_anio",referencedColumnName="anio",nullable=false)
+    @JoinColumn(name="periodo_anio",referencedColumnName="anio",insertable=true,nullable=false,unique=false,updatable=true)
     private Periodo periodo;
-    @Column(name="fecha_inicio")
+    @Column(name="fecha_inicio",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Id
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;

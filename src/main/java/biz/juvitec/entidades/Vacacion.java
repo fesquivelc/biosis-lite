@@ -16,29 +16,31 @@ import javax.persistence.TemporalType;
 @Entity
 public class Vacacion implements Serializable {
 
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @Column(name="fecha_interrupcion")
+    @Column(name="fecha_interrupcion",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaInterrupcion;
-    @Column(name="empleado_nro_documento",nullable=false)
+    @Column(name="empleado_nro_documento",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private String empleado;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private String documento;
-    @Column(name="hay_interrupcion",nullable=false)
+    @Column(name="hay_interrupcion",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean hayInterrupcion;
-    @Column(name="fecha_fin",nullable=false)
+    @Column(name="fecha_fin",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaFin;
     @ManyToOne(optional=false,targetEntity = Periodo.class)
-    @JoinColumn(name="periodo_anio",referencedColumnName="anio",nullable=false)
+    @JoinColumn(name="periodo_anio",referencedColumnName="anio",insertable=true,nullable=false,unique=false,updatable=true)
     private Periodo periodo;
-    @Column(name="fecha_inicio",nullable=false)
+    @Column(name="fecha_inicio",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaInicio;

@@ -665,8 +665,8 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             } else {
                 seleccionada.setCubreEntrada(chkCubrirHoraEntrada.isSelected());
                 seleccionada.setCubreSalida(chkCubrirSalida.isSelected());                
-                seleccionada.setHoraInicio((seleccionada.isCubreEntrada()) ? (Date) spHoraInicio.getValue() : null);
-                seleccionada.setHoraFin((seleccionada.isCubreSalida()) ?(Date) spHoraFin.getValue() : null);
+                seleccionada.setHoraInicio((Date) spHoraInicio.getValue());
+                seleccionada.setHoraFin((Date) spHoraFin.getValue());
                 seleccionada.setFechaFin((Date) spFechaInicio.getValue());
                 
                 diferencia = FechaUtil.soloHora(seleccionada.getFechaFin()).getTime() - FechaUtil.soloHora(seleccionada.getFechaInicio()).getTime();

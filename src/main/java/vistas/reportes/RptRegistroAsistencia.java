@@ -95,12 +95,9 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         cboPeriodo = new javax.swing.JComboBox();
         cboPeriodo1 = new javax.swing.JComboBox();
         pnlEmpleados = new javax.swing.JPanel();
-        radOficina = new javax.swing.JRadioButton();
         radGrupo = new javax.swing.JRadioButton();
         radPersonalizado = new javax.swing.JRadioButton();
         cboGrupoHorario = new javax.swing.JComboBox();
-        txtOficina = new javax.swing.JTextField();
-        btnOficina = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTabla = new org.jdesktop.swingx.JXTable();
         btnAgregar = new javax.swing.JButton();
@@ -116,7 +113,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         grpRango.add(radAnio);
 
         grpSeleccion.add(radGrupo);
-        grpSeleccion.add(radOficina);
         grpSeleccion.add(radPersonalizado);
 
         setClosable(true);
@@ -236,19 +232,12 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlEmpleados.setBorder(javax.swing.BorderFactory.createTitledBorder("Selección de empleados"));
         pnlEmpleados.setLayout(new java.awt.GridBagLayout());
 
-        radOficina.setText("Por oficina:");
-        radOficina.addActionListener(new java.awt.event.ActionListener() {
+        radGrupo.setText("Por grupo horario:");
+        radGrupo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radOficinaActionPerformed(evt);
+                radGrupoActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlEmpleados.add(radOficina, gridBagConstraints);
-
-        radGrupo.setText("Por grupo horario:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(radGrupo, gridBagConstraints);
@@ -270,19 +259,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(cboGrupoHorario, gridBagConstraints);
-
-        txtOficina.setEditable(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        pnlEmpleados.add(txtOficina, gridBagConstraints);
-
-        btnOficina.setText("...");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        pnlEmpleados.add(btnOficina, gridBagConstraints);
 
         jScrollPane1.setViewportView(tblTabla);
 
@@ -375,11 +351,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         controles();
     }//GEN-LAST:event_radMesActionPerformed
 
-    private void radOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radOficinaActionPerformed
-        // TODO add your handling code here:
-        controles();
-    }//GEN-LAST:event_radOficinaActionPerformed
-
     private void radPorFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPorFechaActionPerformed
         // TODO add your handling code here:
         controles();
@@ -391,10 +362,14 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         obtenerGrupo();
     }//GEN-LAST:event_cboGrupoHorarioActionPerformed
 
+    private void radGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radGrupoActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radGrupoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnOficina;
     private javax.swing.JButton btnQuitar;
     private javax.swing.JComboBox cboGrupoHorario;
     private com.toedter.calendar.JMonthChooser cboMes;
@@ -416,13 +391,11 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton radDetallado;
     private javax.swing.JRadioButton radGrupo;
     private javax.swing.JRadioButton radMes;
-    private javax.swing.JRadioButton radOficina;
     private javax.swing.JRadioButton radPersonalizado;
     private javax.swing.JRadioButton radPorFecha;
     private javax.swing.JSpinner spFechaFin;
     private javax.swing.JSpinner spFechaInicio;
     private org.jdesktop.swingx.JXTable tblTabla;
-    private javax.swing.JTextField txtOficina;
     // End of variables declaration//GEN-END:variables
 
     private List<Empleado> empleadoList;
@@ -447,7 +420,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         FormularioUtil.activarComponente(cboPeriodo, radAnio.isSelected());
 
         FormularioUtil.activarComponente(cboGrupoHorario, radGrupo.isSelected());
-        FormularioUtil.activarComponente(btnOficina, radGrupo.isSelected());
+//        FormularioUtil.activarComponente(btnOficina, radGrupo.isSelected());
         FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
         FormularioUtil.activarComponente(btnAgregar, radPersonalizado.isSelected());
         FormularioUtil.activarComponente(btnQuitar, radPersonalizado.isSelected());
@@ -471,7 +444,20 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         bindeo.addBinding(binding3);
         bindeo.bind();
 
-        DefaultListCellRenderer render = new DefaultListCellRenderer() {
+        DefaultListCellRenderer renderGrupo = new DefaultListCellRenderer(){
+
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                if(value != null){
+                    if(value instanceof GrupoHorario){
+                        value = ((GrupoHorario)value).getNombre();
+                    }
+                }
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
+            }
+            
+        };
+        DefaultListCellRenderer renderPeriodo = new DefaultListCellRenderer() {
 
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -485,8 +471,9 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
 
         };
 
-        cboPeriodo.setRenderer(render);
-        cboPeriodo1.setRenderer(render);
+        cboPeriodo.setRenderer(renderPeriodo);
+        cboPeriodo1.setRenderer(renderPeriodo);
+        cboGrupoHorario.setRenderer(renderGrupo);
     }
     private AnalisisAsistencia analisis = new AnalisisAsistencia();
     private void imprimir() {

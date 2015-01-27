@@ -5,7 +5,11 @@
  */
 package biz.juvitec.controladores;
 
+import biz.juvitec.entidades.Periodo;
 import biz.juvitec.entidades.SaldoVacacional;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -17,4 +21,17 @@ public class SaldoVacacionalControlador extends Controlador<SaldoVacacional>{
         super(SaldoVacacional.class);
     }
     
+    public SaldoVacacional buscarXPeriodo(String dni, Periodo periodo){
+        String jpql = "SELECT s FROM SaldoVacacional s WHERE s.periodo = :periodo and s.empleado = :dni";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", dni);
+        mapa.put("periodo", periodo);
+        
+        List<SaldoVacacional> lista =  this.getDao().buscar(jpql, mapa, -1, 1);
+        if(lista.isEmpty()){
+            return null;
+        }else{
+            return lista.get(0);
+        }
+    }
 }

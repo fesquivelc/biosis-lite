@@ -19,6 +19,7 @@ import com.personal.utiles.FormularioUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.jdesktop.observablecollections.ObservableCollections;
+import vistas.dialogos.DlgImportarDNI;
 
 /**
  *
@@ -68,6 +69,7 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
         btnQuitar = new javax.swing.JButton();
         txtCodigo = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -110,17 +112,6 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 2;
         pnlListado.add(jPanel3, gridBagConstraints);
 
-        tblTabla.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         tblTabla.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tblTablaMouseReleased(evt);
@@ -152,8 +143,8 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
         pnlDatos.setLayout(jPanel2Layout);
 
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
-        jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
-        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0};
+        jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
+        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel4.setLayout(jPanel4Layout);
 
         jLabel1.setText("Código:");
@@ -177,24 +168,12 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.FIRST_LINE_START;
         jPanel4.add(jLabel3, gridBagConstraints);
 
-        tblIntegrantes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tblIntegrantes.setHorizontalScrollEnabled(true);
         jScrollPane3.setViewportView(tblIntegrantes);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.gridheight = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
@@ -207,7 +186,7 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(btnAgregar, gridBagConstraints);
@@ -219,7 +198,7 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_START;
@@ -236,6 +215,17 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
         jPanel4.add(txtNombre, gridBagConstraints);
+
+        jButton1.setText("Cargar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 8;
+        jPanel4.add(jButton1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -301,7 +291,7 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        int fila = tblTabla.getSelectedRow();        
+        int fila = tblTabla.getSelectedRow();
         if (fila != -1) {
             this.accion = Controlador.MODIFICAR;
             controlador.setSeleccionado(this.listado.get(fila));
@@ -335,7 +325,6 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
 //            }
 //
 //            seleccionada.setDetalleGrupoHorarioList(detalles);
-
             if (controlador.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
                 this.accion = 0;
@@ -369,10 +358,20 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
     private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
         // TODO add your handling code here:
         int fila = tblIntegrantes.getSelectedRow();
-        if(fila != -1){
+        if (fila != -1) {
             quitarEmpleado(fila);
         }
     }//GEN-LAST:event_btnQuitarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        DlgImportarDNI importar = new DlgImportarDNI(this);
+        List<String> dnis = importar.obtenerDNI();
+        List<Empleado> empleados = ec.buscarPorLista(dnis);
+        for (Empleado e : empleados) {
+            this.agregarEmpleado(e);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -382,6 +381,7 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnQuitar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -415,7 +415,7 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
 
         integrantes = ObservableCollections.observableList(new ArrayList<Empleado>());
 
-        String[] columnas = {"Código","Nombre"};
+        String[] columnas = {"Código", "Nombre"};
         String[] columnasIntegrantes = {"Nro Documento", "Empleado"};
 
         MTGrupoHorario mt = new MTGrupoHorario(listado, columnas);
@@ -440,7 +440,7 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
 
     private void inicializar() {
         this.accion = 0;
-        
+
         controlador = new GrupoHorarioControlador();
         ec = new EmpleadoControlador();
         this.controles(accion);
@@ -454,7 +454,7 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
 
         if (accion != Controlador.MODIFICAR) {
             FormularioUtil.limpiarComponente(this.pnlDatos);
-            
+
         }
     }
 
@@ -467,17 +467,20 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
     }
 
     public void agregarEmpleado(Empleado empleado) {
-        integrantes.add(empleado);
-        
-        DetalleGrupoHorario detalle = new DetalleGrupoHorario();
-        detalle.setEmpleado(empleado.getNroDocumento());
-        detalle.setGrupoHorario(controlador.getSeleccionado());
-        
-        controlador.getSeleccionado().getDetalleGrupoHorarioList().add(detalle);
+        if (!integrantes.contains(empleado)) {
+            integrantes.add(empleado);
+
+            DetalleGrupoHorario detalle = new DetalleGrupoHorario();
+            detalle.setEmpleado(empleado.getNroDocumento());
+            detalle.setGrupoHorario(controlador.getSeleccionado());
+
+            controlador.getSeleccionado().getDetalleGrupoHorarioList().add(detalle);
+        }
+
     }
-    
-    private void quitarEmpleado(int fila){
-        integrantes.remove(fila);        
+
+    private void quitarEmpleado(int fila) {
+        integrantes.remove(fila);
         controlador.getSeleccionado().getDetalleGrupoHorarioList().remove(fila);
     }
 }

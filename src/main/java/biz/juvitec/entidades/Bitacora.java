@@ -3,6 +3,7 @@ package biz.juvitec.entidades;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
@@ -11,23 +12,32 @@ import javax.persistence.TemporalType;
 @Entity
 public class Bitacora implements Serializable {
 
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private String valorAnterior;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Id
     private Long id;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private String valorPosterior;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private String campo;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private String usuario;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIMESTAMP)
     @Basic
     private Date fechaHora;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private char accion;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private String tabla;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private String ip;
 

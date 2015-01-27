@@ -17,48 +17,48 @@ import javax.persistence.TemporalType;
 @Entity
 public class Horario implements Serializable {
 
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean sabado;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private String nombre;
-    @Column(length=45)
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=45,scale=0,precision=0)
     @Id
     private String codigo;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean jueves;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean viernes;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean miercoles;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean lunes;
-    @Column(name="fecha_fin",nullable=false)
+    @Column(name="fecha_fin",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaFin;
-    @Column(name="documento",nullable=false)
+    @Column(name="documento",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private String documento;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean domingo;
     @OneToMany(fetch = FetchType.LAZY,targetEntity = AsignacionHorario.class,mappedBy = "horario")
     private List<AsignacionHorario> asignacionHorarioList;
-    @Column(name="fecha_inicio",nullable=false)
+    @Column(name="fecha_inicio",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaInicio;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean martes;
     @ManyToOne(optional=false,targetEntity = Jornada.class)
-    @JoinColumn(name="jornada_codigo",referencedColumnName="codigo",nullable=false)
+    @JoinColumn(name="jornada_codigo",referencedColumnName="codigo",insertable=true,nullable=false,unique=false,updatable=true)
     private Jornada jornada;
 
     public Horario() {

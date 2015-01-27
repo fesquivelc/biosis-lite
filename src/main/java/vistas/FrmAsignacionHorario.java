@@ -323,13 +323,28 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
         if (fila != -1) {
             this.accion = Controlador.MODIFICAR;
             controlador.setSeleccionado(this.listado.get(fila));
-            this.controles(accion);
-            this.checkboxes();
+            this.actualizarTabla();
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnModificar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificar1ActionPerformed
         // TODO add your handling code here:
+        int fila;
+        if ((fila = tblTabla.getSelectedRow()) != -1) {
+            accion = Controlador.ELIMINAR;
+            if (FormularioUtil.dialogoConfirmar(this, accion)) {
+                controlador.setSeleccionado(this.listado.get(fila));
+                if(controlador.accion(accion)){
+                    FormularioUtil.mensajeExito(this, accion);
+                    accion = 0;
+                    this.controles(accion);
+                    this.checkboxes();
+                }
+                
+                
+            }
+        }
+
     }//GEN-LAST:event_btnModificar1ActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -408,12 +423,12 @@ public class FrmAsignacionHorario extends javax.swing.JInternalFrame {
     private void btnVerGrupoHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerGrupoHorarioActionPerformed
         // TODO add your handling code here:
         int grupo = this.cboGrupo.getSelectedIndex();
-        if(grupo != -1){
+        if (grupo != -1) {
             grupoSeleccionado = grupoList.get(grupo);
             DlgVerIntegrantes integrantes = new DlgVerIntegrantes(this, grupoSeleccionado);
             integrantes.setVisible(true);
         }
-        
+
     }//GEN-LAST:event_btnVerGrupoHorarioActionPerformed
 
 

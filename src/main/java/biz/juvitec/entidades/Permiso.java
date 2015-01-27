@@ -21,57 +21,51 @@ import javax.persistence.TemporalType;
 @Entity
 public class Permiso implements Serializable {
 
-    @Column(name="cubre_salida",nullable=false)
+    @Column(name="cubre_salida",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean cubreSalida;
+    @Column(name="diferencia_minutos",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
+    @Basic
+    private BigDecimal diferencia;
     @OneToMany(fetch = FetchType.LAZY,targetEntity = DetalleRegistroAsistencia.class,mappedBy = "permiso")
     private List<DetalleRegistroAsistencia> detalleRegistroAsistenciaList;
-    @Column(name="hora_inicio")
+    @Column(name="hora_inicio",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date horaInicio;
-    @Column(name="a_compensar",nullable=false)
+    @Column(name="a_compensar",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean aCompensar;
-    @Column(name="por_fecha",nullable=false)
+    @Column(name="por_fecha",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean porFecha;
-    @Column(name="fecha_fin",nullable=false)
+    @Column(name="fecha_fin",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaFin;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private String documento;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne(optional=false,targetEntity = TipoPermiso.class)
+    @JoinColumn(name="tipo_permiso_codigo",referencedColumnName="codigo",insertable=true,nullable=false,unique=false,updatable=true)
+    private TipoPermiso tipoPermiso;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private String motivo;
-    @ManyToOne(optional=false,targetEntity = TipoPermiso.class)
-    @JoinColumn(name="tipo_permiso_codigo",referencedColumnName="codigo",nullable=false)
-    private TipoPermiso tipoPermiso;
-    @Column(name="hora_fin")
+    @Column(name="hora_fin",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date horaFin;
-    @Column(name="diferencia_minutos")    
-    @Basic
-    private BigDecimal diferencia;
-
-    public BigDecimal getDiferencia() {
-        return diferencia;
-    }
-
-    public void setDiferencia(BigDecimal diferencia) {
-        this.diferencia = diferencia;
-    }
-    @Column(name="cubre_entrada",nullable=false)
+    @Column(name="cubre_entrada",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean cubreEntrada;
     @OneToMany(cascade={CascadeType.ALL},fetch = FetchType.LAZY,targetEntity = AsignacionPermiso.class,mappedBy = "permiso")
     private List<AsignacionPermiso> asignacionPermisoList;
-    @Column(name="fecha_inicio",nullable=false)
+    @Column(name="fecha_inicio",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaInicio;
@@ -86,6 +80,14 @@ public class Permiso implements Serializable {
 
     public void setCubreSalida(boolean cubreSalida) {
         this.cubreSalida = cubreSalida;
+    }
+   
+    public BigDecimal getDiferencia() {
+        return this.diferencia;
+    }
+
+    public void setDiferencia(BigDecimal diferencia) {
+        this.diferencia = diferencia;
     }
    
     public List<DetalleRegistroAsistencia> getDetalleRegistroAsistenciaList() {
@@ -144,20 +146,20 @@ public class Permiso implements Serializable {
         this.id = id;
     }
    
-    public String getMotivo() {
-        return this.motivo;
-    }
-
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
-    }
-   
     public TipoPermiso getTipoPermiso() {
         return this.tipoPermiso;
     }
 
     public void setTipoPermiso(TipoPermiso tipoPermiso) {
         this.tipoPermiso = tipoPermiso;
+    }
+   
+    public String getMotivo() {
+        return this.motivo;
+    }
+
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
     }
    
     public Date getHoraFin() {

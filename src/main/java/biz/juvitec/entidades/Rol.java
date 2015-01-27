@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -12,11 +13,13 @@ import javax.persistence.OneToMany;
 @Entity
 public class Rol implements Serializable {
 
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private String nombre;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Id
     private String codigo;
-    @OneToMany(cascade={CascadeType.ALL},targetEntity = RolAcceso.class,mappedBy = "rol",orphanRemoval = true)
+    @OneToMany(cascade={CascadeType.ALL},targetEntity = RolAcceso.class,mappedBy = "rol")
     private List<RolAcceso> rolAccesoList;
     @OneToMany(fetch = FetchType.LAZY,targetEntity = Usuario.class,mappedBy = "rol")
     private List<Usuario> usuarioList;

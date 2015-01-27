@@ -19,36 +19,38 @@ import javax.persistence.TemporalType;
 @Table(name="detalle_registro_asistencia")
 public class DetalleRegistroAsistencia implements Serializable {
 
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private int orden;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @Column(name="minutos_extra")
+    @Column(name="minutos_extra",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private BigDecimal minExtra;
-    @Column(name="minutos_tardanza")
+    @Column(name="minutos_tardanza",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private BigDecimal minTardanza;
-    @ManyToOne(targetEntity = Permiso.class)
-    @JoinColumn(name="permiso_id",referencedColumnName="id")
+    @ManyToOne(optional=true,targetEntity = Permiso.class)
+    @JoinColumn(name="permiso_id",referencedColumnName="id",insertable=true,nullable=true,unique=false,updatable=true)
     private Permiso permiso;
-    @Column(name="hora_inicio")
+    @Column(name="hora_inicio",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date horaInicio;
-    @Column(name="hora_fin")
+    @Column(name="hora_fin",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date horaFin;
-    @Column(name="tipo_registro",nullable=false)
+    @Column(name="tipo_registro",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private char tipoRegistro;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private char resultado;
     @ManyToOne(optional=false,targetEntity = RegistroAsistencia.class)
-    @JoinColumn(name="registro_asistencia_id",referencedColumnName="id",nullable=false)
+    @JoinColumn(name="registro_asistencia_id",referencedColumnName="id",insertable=true,nullable=false,unique=false,updatable=true)
     private RegistroAsistencia registroAsistencia;
 
     public DetalleRegistroAsistencia() {

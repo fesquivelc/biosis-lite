@@ -15,20 +15,20 @@ import javax.persistence.Table;
 @Table(name="asignacion_horario")
 public class AsignacionHorario implements Serializable {
 
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(optional=false,targetEntity = Horario.class)
-    @JoinColumn(name="horario_codigo",referencedColumnName="codigo",nullable=false)
+    @JoinColumn(name="horario_codigo",referencedColumnName="codigo",insertable=true,nullable=false,unique=false,updatable=true)
     private Horario horario;
-    @Column(name="empleado_nro_documento")
+    @Column(name="empleado_nro_documento",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private String empleado;
-    @ManyToOne(targetEntity = GrupoHorario.class)
-    @JoinColumn(name="grupo_horario_codigo",referencedColumnName="codigo")
+    @ManyToOne(optional=true,targetEntity = GrupoHorario.class)
+    @JoinColumn(name="grupo_horario_codigo",referencedColumnName="codigo",insertable=true,nullable=true,unique=false,updatable=true)
     private GrupoHorario grupoHorario;
-    @Column(name="por_grupo",nullable=false)
+    @Column(name="por_grupo",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean porGrupo;
 

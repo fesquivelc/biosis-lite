@@ -3,6 +3,7 @@ package biz.juvitec.entidades;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,13 +14,16 @@ import javax.persistence.OneToMany;
 @Entity
 public class Acceso implements Serializable {
 
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private String nombre;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     @OneToMany(fetch = FetchType.LAZY,targetEntity = RolAcceso.class,mappedBy = "acceso")
     private List<RolAcceso> rolAccesoList;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private String clase;
 

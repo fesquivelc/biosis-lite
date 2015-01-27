@@ -23,43 +23,44 @@ import javax.persistence.TemporalType;
 @Table(name="registro_asistencia")
 public class RegistroAsistencia implements Serializable {
 
-    @Column(name="minutos_compensados")
+    @Column(name="minutos_compensados",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private BigDecimal minCompensados;
-    @Column(name="minutos_tardanza")
+    @Column(name="minutos_tardanza",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private BigDecimal minTardanza;
-    @ManyToOne(targetEntity = Horario.class)
-    @JoinColumn(name="horario_codigo",referencedColumnName="codigo")
+    @ManyToOne(optional=true,targetEntity = Horario.class)
+    @JoinColumn(name="horario_codigo",referencedColumnName="codigo",insertable=true,nullable=true,unique=false,updatable=true)
     private Horario horario;
     @OneToMany(cascade={CascadeType.ALL},fetch = FetchType.LAZY,targetEntity = DetalleRegistroAsistencia.class,mappedBy = "registroAsistencia")
     private List<DetalleRegistroAsistencia> detalleRegistroAsistenciaList;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fecha;
-    @Column(name="empleado_nro_documento")
+    @Column(name="empleado_nro_documento",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private String empleado;
-    @Column(name="tipo_asistencia",nullable=false)
+    @Column(name="tipo_asistencia",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private char tipoAsistencia;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(targetEntity = Permiso.class)
+    @ManyToOne(optional=true,targetEntity = Permiso.class)
     private Permiso permiso;
-    @ManyToOne(targetEntity = Feriado.class)
-    @JoinColumn(name="feriado_fecha_inicio",referencedColumnName="fecha_inicio")
+    @ManyToOne(optional=true,targetEntity = Feriado.class)
+    @JoinColumn(name="feriado_fecha_inicio",referencedColumnName="fecha_inicio",insertable=true,nullable=true,unique=false,updatable=true)
     private Feriado feriado;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private boolean compensacion;
-    @Column(name="minutos_trabajados")
+    @Column(name="minutos_trabajados",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private BigDecimal minTrabajados;
-    @ManyToOne(targetEntity = Vacacion.class)
-    @JoinColumn(name="vacacion_id",referencedColumnName="id")
+    @ManyToOne(optional=true,targetEntity = Vacacion.class)
+    @JoinColumn(name="vacacion_id",referencedColumnName="id",insertable=true,nullable=true,unique=false,updatable=true)
     private Vacacion vacacion;
 
     public RegistroAsistencia() {

@@ -13,9 +13,10 @@ import javax.persistence.OneToMany;
 @Entity
 public class Periodo implements Serializable {
 
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private String nombre;
-    @Column(length=4)
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=4,scale=0,precision=0)
     @Id
     private int anio;
     @OneToMany(cascade={CascadeType.ALL},fetch = FetchType.LAZY,targetEntity = Feriado.class,mappedBy = "periodo")
@@ -24,7 +25,7 @@ public class Periodo implements Serializable {
     private List<SaldoVacacional> saldoVacacionalList;
     @OneToMany(fetch = FetchType.LAZY,targetEntity = Vacacion.class,mappedBy = "periodo")
     private List<Vacacion> vacacionList;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean vigente;
 

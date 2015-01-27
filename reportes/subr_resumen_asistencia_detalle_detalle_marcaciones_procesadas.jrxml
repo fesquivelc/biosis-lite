@@ -8,7 +8,7 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
-     det.hora_inicio,
+     det.hora_inicio as hora_inicio,
 	 det.hora_fin,
      det.minutos_tardanza AS minutos_tardanza,
      CASE 

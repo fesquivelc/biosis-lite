@@ -7,6 +7,7 @@ package vistas.modelos;
 
 import biz.juvitec.entidades.DetalleRegistroAsistencia;
 import com.personal.utiles.ModeloTabla;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -19,7 +20,7 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<DetalleRegistroAsis
     private final DateFormat dfHora = new SimpleDateFormat("HH:mm:ss");
     public MTDetalleRegistroAsistencia(List<DetalleRegistroAsistencia> datos) {
         super(datos);
-        this.nombreColumnas = new String[]{"Tipo","Inicio","Fin",""};
+        this.nombreColumnas = new String[]{"Tipo","Inicio","Fin","Tardanza",""};
     }
 
     @Override
@@ -40,6 +41,14 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<DetalleRegistroAsis
                     return "FALTA";
                 }else{
                     return dfHora.format(detalle.getHoraFin());
+                }
+            case 3:
+                if(detalle.getResultado() != 'F'){
+                    return detalle.getMinTardanza();
+                }
+            case 4:
+                if(detalle.getTipoRegistro() == 'P'){
+                    return detalle.getPermiso().getTipoPermiso().getNombre();
                 }
                 
             default:
@@ -82,6 +91,15 @@ public class MTDetalleRegistroAsistencia extends ModeloTabla<DetalleRegistroAsis
                 return "FALTA";
             default:
                 return "";
+        }
+    }
+
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        if(columnIndex == 3){
+            return BigDecimal.class;
+        }else{
+            return String.class;
         }
     }
     

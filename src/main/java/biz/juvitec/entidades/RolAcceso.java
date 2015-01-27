@@ -1,6 +1,7 @@
 package biz.juvitec.entidades;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,12 +13,13 @@ import javax.persistence.Table;
 @Table(name="rol_acceso")
 public class RolAcceso implements Serializable {
 
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(targetEntity = Acceso.class)
+    @ManyToOne(optional=true,targetEntity = Acceso.class)
     private Acceso acceso;
-    @ManyToOne(targetEntity = Rol.class)
+    @ManyToOne(optional=true,targetEntity = Rol.class)
     private Rol rol;
 
     public RolAcceso() {

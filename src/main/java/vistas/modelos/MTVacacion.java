@@ -21,7 +21,8 @@ public class MTVacacion extends AbstractTableModel {
     private List<Vacacion> vacaciones;
     private final Calendar cal;
     private int lunesAViernes = 0;
-    private int sabadoADomingo = 0;
+    private int sabado = 0;
+    private int domingo = 0;
 
     public MTVacacion(List<Vacacion> vacaciones) {
         this.cal = Calendar.getInstance();
@@ -43,7 +44,7 @@ public class MTVacacion extends AbstractTableModel {
 
     public void analisis(List<Vacacion> vacaciones) {
         lunesAViernes = 0;
-        sabadoADomingo = 0;
+        
         for (Vacacion vacacion : vacaciones) {
             Date fechaInicio = vacacion.getFechaInicio();
             Date fechaFin = vacacion.isHayInterrupcion() ? vacacion.getFechaInterrupcion() : vacacion.getFechaFin();
@@ -51,7 +52,7 @@ public class MTVacacion extends AbstractTableModel {
             while (fechaInicio.compareTo(fechaFin) <= 0) {
                 cal.setTime(fechaInicio);
                 if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                    sabadoADomingo++;
+//                    sabadoADomingo++;
                 } else {
                     lunesAViernes++;
                 }
@@ -59,6 +60,10 @@ public class MTVacacion extends AbstractTableModel {
                 fechaInicio = cal.getTime();
             }
         }
+        int division = lunesAViernes / 5;
+        sabado = division;
+        domingo = division;
+        
     }
 
     @Override
@@ -68,7 +73,7 @@ public class MTVacacion extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -91,9 +96,18 @@ public class MTVacacion extends AbstractTableModel {
             case 1:
                 switch (columnIndex) {
                     case 0:
-                        return "Sabado a domingo";
+                        return "Sabados";
                     case 1:
-                        return sabadoADomingo;
+                        return sabado;
+                    default:
+                        return null;
+                }
+            case 2:
+                switch (columnIndex) {
+                    case 0:
+                        return "Domingos";
+                    case 1:
+                        return domingo;
                     default:
                         return null;
                 }

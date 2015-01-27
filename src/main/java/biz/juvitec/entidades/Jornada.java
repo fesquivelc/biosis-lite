@@ -17,47 +17,47 @@ public class Jornada implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY,targetEntity = Horario.class,mappedBy = "jornada")
     private List<Horario> horarioList;
-    @Column(name="tardanza_turno_he",nullable=false)
+    @Column(name="tardanza_turno_he",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date tardanzaHE;
-    @Column(name="minutos_refrigerio")
+    @Column(name="minutos_refrigerio",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private int minRefrigerio;
-    @Column(name="refrigerio_hs",nullable=false)
+    @Column(name="refrigerio_hs",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date refrigerioHS;
-    @Column(name="refrigerio_especial",nullable=false)
+    @Column(name="refrigerio_especial",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean refrigerioEspecial;
-    @Column(name="turno_he",nullable=false)
+    @Column(name="turno_he",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date turnoHE;
-    @Column(nullable=false,length=45)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=45,scale=0,precision=0)
     @Id
     private String codigo;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date refrigerioHE;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private String nombre;
-    @Column(name="desde_marcacion_he")
+    @Column(name="desde_marcacion_he",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date desdeHE;
-    @Column(name="tolerancia_turno_he",nullable=false)
+    @Column(name="tolerancia_turno_he",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date toleranciaHE;
-    @Column(name="turno_hs",nullable=false)
+    @Column(name="turno_hs",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date turnoHS;
-    @Column(name="tolerancia_refrigerio_he")
+    @Column(name="tolerancia_refrigerio_he",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date toleranciaRefrigerioHE;

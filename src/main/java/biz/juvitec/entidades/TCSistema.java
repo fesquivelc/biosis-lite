@@ -14,13 +14,14 @@ import javax.persistence.TemporalType;
 @Table(name="tc_sistema")
 public class TCSistema implements Serializable {
 
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Id
     private String sistema;
-    @Column(name="fecha_cero",nullable=false)
+    @Column(name="fecha_cero",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaCero;
-    @Column(name="hora_cero",nullable=false)
+    @Column(name="hora_cero",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.TIME)
     @Basic
     private Date horaCero;

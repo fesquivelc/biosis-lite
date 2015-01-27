@@ -15,13 +15,14 @@ import javax.persistence.Table;
 @Table(name="asignacion_permiso")
 public class AsignacionPermiso implements Serializable {
 
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(optional=false,targetEntity = Permiso.class)
-    @JoinColumn(name="permiso_id",referencedColumnName="id",nullable=false)
+    @JoinColumn(name="permiso_id",referencedColumnName="id",insertable=true,nullable=false,unique=false,updatable=true)
     private Permiso permiso;
-    @Column(name="empleado_nro_documento",nullable=false)
+    @Column(name="empleado_nro_documento",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private String empleado;
 

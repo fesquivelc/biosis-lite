@@ -11,21 +11,22 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Usuario implements Serializable {
 
-    @Column(name="cambiar_password",nullable=false)
+    @Column(name="cambiar_password",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean cambiarPassword;
-    @Column(name="empleado_nro_documento",nullable=false)
+    @Column(name="empleado_nro_documento",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private String empleado;
     @ManyToOne(optional=false,targetEntity = Rol.class)
-    @JoinColumn(name="rol_codigo",referencedColumnName="codigo",nullable=false)
+    @JoinColumn(name="rol_codigo",referencedColumnName="codigo",insertable=true,nullable=false,unique=false,updatable=true)
     private Rol rol;
-    @Column(nullable=false,length=45)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=45,scale=0,precision=0)
     @Id
     private String login;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private String password;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean activo;
 

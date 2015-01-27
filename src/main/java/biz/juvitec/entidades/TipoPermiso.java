@@ -14,17 +14,19 @@ import javax.persistence.Table;
 @Table(name="tipo_permiso")
 public class TipoPermiso implements Serializable {
 
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private String nombre;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Id
     private String codigo;
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Basic
     private int diasMaximo;
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private char clase;
-    @Column(name="tipo_descuento",nullable=false)
+    @Column(name="tipo_descuento",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private char tipoDescuento;
     @OneToMany(fetch = FetchType.LAZY,targetEntity = Permiso.class,mappedBy = "tipoPermiso")

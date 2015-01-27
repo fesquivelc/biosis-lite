@@ -8,11 +8,13 @@ package vistas;
 import biz.juvitec.controladores.Controlador;
 import biz.juvitec.controladores.EmpleadoControlador;
 import biz.juvitec.controladores.PeriodoControlador;
+import biz.juvitec.controladores.SaldoVacacionalControlador;
 import biz.juvitec.controladores.VacacionControlador;
 import biz.juvitec.dao.DAOMINEDU;
 import biz.juvitec.entidades.AsignacionPermiso;
 import biz.juvitec.entidades.Empleado;
 import biz.juvitec.entidades.Periodo;
+import biz.juvitec.entidades.SaldoVacacional;
 import biz.juvitec.entidades.TipoPermiso;
 import biz.juvitec.entidades.Vacacion;
 import vistas.dialogos.DlgEmpleado;
@@ -972,6 +974,22 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         if(empleado != null && cboPeriodo.getSelectedIndex() != -1){
             
             this.mtVac.setVacaciones(this.controlador.buscarXEmpleadoXPeriodo(empleado.getNroDocumento(),periodoList.get(cboPeriodo.getSelectedIndex())));
+        }
+    }
+    private final SaldoVacacionalControlador svc = new SaldoVacacionalControlador();
+    public void buscarCrear(Empleado empleado, Periodo periodo){
+        SaldoVacacional sv = svc.buscarXPeriodo(empleado.getNroDocumento(), periodo);
+        
+        if(sv == null){
+            //CREAMOS
+            sv = new SaldoVacacional();
+            sv.setDiasRestantes(30);
+            sv.setEmpleado(empleado.getNroDocumento());
+            sv.setLunesViernes(0);
+            sv.setSabado(0);
+            sv.setDomingo(0);
+            sv.setPeriodo(periodo);
+            svc.modificar(sv);
         }
     }
 }

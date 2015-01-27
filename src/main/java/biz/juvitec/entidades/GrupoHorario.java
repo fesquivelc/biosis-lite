@@ -15,10 +15,10 @@ import javax.persistence.Table;
 @Table(name="grupo_horario")
 public class GrupoHorario implements Serializable {
 
-    @Column(nullable=false)
+    @Column(unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private String nombre;
-    @Column(length=45)
+    @Column(unique=false,updatable=true,insertable=true,nullable=true,length=45,scale=0,precision=0)
     @Id
     private String codigo;
     @OneToMany(fetch = FetchType.LAZY,targetEntity = AsignacionHorario.class,mappedBy = "grupoHorario")
