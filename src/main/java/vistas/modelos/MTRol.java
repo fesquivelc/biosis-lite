@@ -5,7 +5,7 @@
  */
 package vistas.modelos;
 
-import biz.juvitec.entidades.Rol;
+import entidades.Rol;
 import com.personal.utiles.ModeloTabla;
 import java.util.List;
 

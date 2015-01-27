@@ -6,14 +6,14 @@
 package vistas.reportes;
 
 import algoritmo.AnalisisAsistencia;
-import biz.juvitec.controladores.DetalleGrupoControlador;
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.controladores.GrupoHorarioControlador;
-import biz.juvitec.controladores.PeriodoControlador;
-import biz.juvitec.entidades.DetalleGrupoHorario;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.GrupoHorario;
-import biz.juvitec.entidades.Periodo;
+import controladores.DetalleGrupoControlador;
+import controladores.EmpleadoControlador;
+import controladores.GrupoHorarioControlador;
+import controladores.PeriodoControlador;
+import entidades.DetalleGrupoHorario;
+import entidades.Empleado;
+import entidades.GrupoHorario;
+import entidades.Periodo;
 import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
@@ -104,12 +104,9 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         cboPeriodo = new javax.swing.JComboBox();
         cboPeriodo2 = new javax.swing.JComboBox();
         pnlEmpleados = new javax.swing.JPanel();
-        radOficina = new javax.swing.JRadioButton();
         radGrupo = new javax.swing.JRadioButton();
         radPersonalizado = new javax.swing.JRadioButton();
         cboGrupoHorario = new javax.swing.JComboBox();
-        txtOficina = new javax.swing.JTextField();
-        btnOficina = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTabla = new org.jdesktop.swingx.JXTable();
         jButton1 = new javax.swing.JButton();
@@ -127,10 +124,11 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         grpRango.add(radAnio);
 
         grpSeleccion.add(radGrupo);
-        grpSeleccion.add(radOficina);
         grpSeleccion.add(radPersonalizado);
 
         setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("REPORTES DE PERMISOS / LICENCIAS / COMISION DE SERVICIOS");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -264,18 +262,6 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         pnlEmpleados.setBorder(javax.swing.BorderFactory.createTitledBorder("Selección de empleados"));
         pnlEmpleados.setLayout(new java.awt.GridBagLayout());
 
-        radOficina.setText("Por oficina:");
-        radOficina.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radOficinaActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlEmpleados.add(radOficina, gridBagConstraints);
-
         radGrupo.setText("Por grupo horario:");
         radGrupo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -303,19 +289,6 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(cboGrupoHorario, gridBagConstraints);
-
-        txtOficina.setEditable(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        pnlEmpleados.add(txtOficina, gridBagConstraints);
-
-        btnOficina.setText("...");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        pnlEmpleados.add(btnOficina, gridBagConstraints);
 
         jScrollPane1.setViewportView(tblTabla);
 
@@ -407,11 +380,6 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         controles();
     }//GEN-LAST:event_radGrupoActionPerformed
 
-    private void radOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radOficinaActionPerformed
-        // TODO add your handling code here:
-        controles();
-    }//GEN-LAST:event_radOficinaActionPerformed
-
     private void radPersonalizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPersonalizadoActionPerformed
         // TODO add your handling code here:
         controles();
@@ -430,7 +398,6 @@ public class RptPermisos extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnOficina;
     private javax.swing.JComboBox cboGrupoHorario;
     private com.toedter.calendar.JMonthChooser cboMes;
     private javax.swing.JComboBox cboPeriodo;
@@ -453,7 +420,6 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton radGrupo;
     private javax.swing.JRadioButton radLicencia;
     private javax.swing.JRadioButton radMes;
-    private javax.swing.JRadioButton radOficina;
     private javax.swing.JRadioButton radPermiso;
     private javax.swing.JRadioButton radPersonalizado;
     private javax.swing.JRadioButton radPorFecha;
@@ -461,7 +427,6 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JSpinner spFechaFin;
     private javax.swing.JSpinner spFechaInicio;
     private org.jdesktop.swingx.JXTable tblTabla;
-    private javax.swing.JTextField txtOficina;
     // End of variables declaration//GEN-END:variables
 
     private void inicializar() {
@@ -481,7 +446,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         FormularioUtil.activarComponente(cboPeriodo2, radAnio.isSelected());
 
         FormularioUtil.activarComponente(cboGrupoHorario, radGrupo.isSelected());
-        FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
+//        FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
         FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
 
     }

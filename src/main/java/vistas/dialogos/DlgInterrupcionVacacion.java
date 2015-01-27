@@ -5,11 +5,11 @@
  */
 package vistas.dialogos;
 
-import biz.juvitec.controladores.Controlador;
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.controladores.VacacionControlador;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.Vacacion;
+import controladores.Controlador;
+import controladores.EmpleadoControlador;
+import controladores.VacacionControlador;
+import entidades.Empleado;
+import entidades.Vacacion;
 import com.personal.utiles.FormularioUtil;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;

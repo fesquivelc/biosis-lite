@@ -5,7 +5,7 @@
  */
 package vistas.modelos;
 
-import biz.juvitec.entidades.Periodo;
+import entidades.Periodo;
 import com.personal.utiles.ModeloTabla;
 import java.util.List;
 

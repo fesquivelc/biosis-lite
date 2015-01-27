@@ -5,9 +5,9 @@
  */
 package vistas.modelos;
 
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.Marcacion;
+import controladores.EmpleadoControlador;
+import entidades.Empleado;
+import entidades.Marcacion;
 import com.personal.utiles.ModeloTabla;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

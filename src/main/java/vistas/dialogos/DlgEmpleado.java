@@ -7,9 +7,9 @@ package vistas.dialogos;
 
 import vistas.VistaRegistroAsistencia;
 import vistas.AsignarPermiso;
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.RegistroAsistencia;
+import controladores.EmpleadoControlador;
+import entidades.Empleado;
+import entidades.RegistroAsistencia;
 import vistas.mantenimientos.CRUDGrupoHorario;
 import vistas.reportes.RptPermisos;
 import vistas.reportes.RptRegistroAsistencia;

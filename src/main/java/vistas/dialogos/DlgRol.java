@@ -5,12 +5,12 @@
  */
 package vistas.dialogos;
 
-import biz.juvitec.controladores.AccesoControlador;
-import biz.juvitec.controladores.Controlador;
-import biz.juvitec.controladores.RolControlador;
-import biz.juvitec.entidades.Acceso;
-import biz.juvitec.entidades.Rol;
-import biz.juvitec.entidades.RolAcceso;
+import controladores.AccesoControlador;
+import controladores.Controlador;
+import controladores.RolControlador;
+import entidades.Acceso;
+import entidades.Rol;
+import entidades.RolAcceso;
 import vistas.modelos.MTAcceso;
 import vistas.modelos.MTJornada;
 import vistas.modelos.MTRol;

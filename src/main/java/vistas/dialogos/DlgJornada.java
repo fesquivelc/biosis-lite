@@ -5,9 +5,9 @@
  */
 package vistas.dialogos;
 
-import biz.juvitec.controladores.Controlador;
-import biz.juvitec.controladores.JornadaControlador;
-import biz.juvitec.entidades.Jornada;
+import controladores.Controlador;
+import controladores.JornadaControlador;
+import entidades.Jornada;
 import vistas.modelos.MTJornada;
 import com.personal.utiles.FormularioUtil;
 import java.util.Calendar;

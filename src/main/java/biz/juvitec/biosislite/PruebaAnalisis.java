@@ -6,8 +6,8 @@
 package biz.juvitec.biosislite;
 
 import algoritmo.AnalisisAsistencia;
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.entidades.Empleado;
+import controladores.EmpleadoControlador;
+import entidades.Empleado;
 import java.util.List;
 
 /**

@@ -5,12 +5,12 @@
  */
 package vistas.dialogos;
 
-import biz.juvitec.controladores.DetalleGrupoControlador;
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.entidades.AsignacionHorario;
-import biz.juvitec.entidades.DetalleGrupoHorario;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.GrupoHorario;
+import controladores.DetalleGrupoControlador;
+import controladores.EmpleadoControlador;
+import entidades.AsignacionHorario;
+import entidades.DetalleGrupoHorario;
+import entidades.Empleado;
+import entidades.GrupoHorario;
 import vistas.modelos.MTEmpleado;
 import java.util.ArrayList;
 import java.util.List;

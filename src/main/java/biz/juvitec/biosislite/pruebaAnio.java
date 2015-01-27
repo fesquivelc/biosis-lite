@@ -18,12 +18,20 @@ public class pruebaAnio {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Calendar cal = Calendar.getInstance();
-        cal.set(2012, 1, 29);
-//        cal.add(Calendar.YEAR, 1);
-        cal.add(Calendar.DATE, 365);
-        
-        System.out.println("FECHA NUEVA: "+cal.getTime());
+        for(int i = 1; i <= 2000; i++){
+            System.out.println("\""+conCeros(i)+"\"");
+        }
     }
     
+    public static String conCeros(int dni) {
+        if (dni <= 9) {
+            return "0000000" + dni;
+        } else if (dni <= 99) {
+            return "000000" + dni;
+        } else if (dni <= 999) {
+            return "00000" + dni;
+        } else {
+            return "0000" + dni;
+        }
+    }
 }

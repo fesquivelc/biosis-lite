@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_vacaciones" pageWidth="595" pageHeight="385" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="usuario" class="java.lang.String">
+		<defaultValueExpression><![CDATA["fesquivelc"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ruta" class="java.lang.String"/>
+	<parameter name="lista" class="java.util.List"/>
+	<parameter name="CONEXION_EMPLEADOS" class="java.sql.Connection"/>
+	<parameter name="periodo_anio" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+     saldo_vacacional.dias_restantes AS dias_restantes,
+     saldo_vacacional.periodo_anio AS periodo_anio,
+     saldo_vacacional.lunes_viernes AS lunes_viernes,
+     saldo_vacacional.sabado AS sabado,
+     saldo_vacacional.domingo AS domingo,
+     saldo_vacacional.fecha_desde AS fecha_desde,
+     saldo_vacacional.fecha_hasta AS fecha_hasta,
+saldo_vacacional.empleado_nro_documento AS empleado_nro_documento
+FROM
+     saldo_vacacional saldo_vacacional
+WHERE saldo_vacacional.periodo_anio = $P{periodo_anio} AND $X{IN,empleado_nro_documento,lista}]]>
+	</queryString>
+	<field name="dias_restantes" class="java.lang.Integer"/>
+	<field name="periodo_anio" class="java.lang.Integer"/>
+	<field name="lunes_viernes" class="java.lang.Integer"/>
+	<field name="sabado" class="java.lang.Integer"/>
+	<field name="domingo" class="java.lang.Integer"/>
+	<field name="fecha_desde" class="java.sql.Date"/>
+	<field name="fecha_hasta" class="java.sql.Date"/>
+	<field name="empleado_nro_documento" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="74" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="52" width="555" height="20" forecolor="#000000" backcolor="#640000" uuid="db5417aa-d176-4f3f-bfaf-8a1541262932"/>
+				<textField>
+					<reportElement x="341" y="0" width="212" height="20" forecolor="#CCCCCC" uuid="8c0bc83c-86ac-4321-80fd-e987705b1e26"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Usuario: "+$P{usuario}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<image>
+				<reportElement x="322" y="0" width="233" height="47" uuid="13930c06-6956-4319-98ae-275191516703"/>
+				<imageExpression><![CDATA[$P{ruta}+"/reportes/logo.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="0" y="0" width="322" height="52" forecolor="#545454" uuid="5ac85be4-bbfd-409b-a4e8-91f6b378ce29"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["REPORTE DE VACACIONES"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="109" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="1" width="555" height="100" uuid="bd91f346-0a84-4a4f-a957-20a78f05a7ec"/>
+				<subreportParameter name="empleado_nro_documento">
+					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{CONEXION_EMPLEADOS}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_datos_empleado.jasper"]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="25e03c4f-5988-4f92-89d3-f672827e8098"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+		<band height="82">
+			<staticText>
+				<reportElement x="0" y="20" width="157" height="20" uuid="23600156-0e08-4cf4-aa4b-b7e9be3d7862"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DÍAS USADOS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="157" y="20" width="42" height="20" uuid="67e48614-3245-4977-add8-97a462694a59"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[L - V:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="157" height="20" uuid="65a94073-a3ca-4396-9dfb-b55821931ed0"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERÍODO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="157" y="0" width="30" height="20" uuid="6c91a903-6db2-49e5-9c3a-3d48e1415ff0"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{periodo_anio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="20" width="20" height="20" uuid="64bbd04f-dfd0-4a14-aa55-b459a3fc5525"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lunes_viernes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="219" y="20" width="33" height="20" uuid="0b3a64c1-52d3-44f4-81cc-c4067f7955f1"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SÁB:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="252" y="20" width="20" height="20" uuid="42012fef-a8d6-4404-a52e-1fa6f3b793f0"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sabado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="309" y="20" width="20" height="20" uuid="926ffa1d-7334-4707-8143-49c19dd52b2f"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{domingo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="272" y="20" width="37" height="20" uuid="2450de09-198f-421f-aaa9-688eb61366a3"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOM:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="157" height="20" uuid="21df70a1-d764-44a7-8a21-2c1556974f02"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DÍAS RESTANTES:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="157" y="40" width="100" height="20" uuid="419ae232-8120-410f-a6b7-dd75d13cc865"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dias_restantes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="203" y="0" width="52" height="20" uuid="7a9d24eb-8f18-4c68-9158-fd1d40d4889f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_desde}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="272" y="0" width="52" height="20" uuid="c1ef1f96-3f34-4c37-93d9-57d33d812120"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_hasta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="255" y="0" width="16" height="20" uuid="059fb259-0d35-4048-aac5-28b1917c2e6a"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="187" y="0" width="16" height="20" uuid="aff6d224-762e-4ff2-a1e7-0abf3507fe23"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="13" splitType="Stretch">
+			<break>
+				<reportElement x="0" y="8" width="555" height="1" uuid="21ae1515-2729-41a4-8f17-1f11b1a1c2ca"/>
+			</break>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="31" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="7" width="555" height="24" forecolor="#D0B48E" backcolor="#545454" uuid="066f2ba3-3c52-4168-9910-2121c159d922"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="513" y="0" width="40" height="20" forecolor="#FFFFFF" uuid="3ed62912-fda8-48bc-be07-ec21af053300"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="433" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="1b5f9832-1382-4512-b615-2246bc3f2975"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yyyy HH:mm:ss">
+					<reportElement style="Column header" x="2" y="1" width="197" height="20" forecolor="#FFFFFF" uuid="9970ce9f-5ab0-4756-b115-fcf6775188b2"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="SansSerif" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="ebc42359-70f3-4cb9-8399-c8455f6a9d38"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

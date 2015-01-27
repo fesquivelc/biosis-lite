@@ -5,9 +5,9 @@
  */
 package vistas.dialogos;
 
-import biz.juvitec.controladores.Controlador;
-import biz.juvitec.entidades.Feriado;
-import biz.juvitec.entidades.Periodo;
+import controladores.Controlador;
+import entidades.Feriado;
+import entidades.Periodo;
 import com.personal.utiles.FormularioUtil;
 import java.util.Date;
 import javax.swing.JInternalFrame;

@@ -5,13 +5,13 @@
  */
 package vistas.mantenimientos;
 
-import biz.juvitec.controladores.Controlador;
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.controladores.GrupoHorarioControlador;
-import biz.juvitec.entidades.AsignacionHorario;
-import biz.juvitec.entidades.DetalleGrupoHorario;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.GrupoHorario;
+import controladores.Controlador;
+import controladores.EmpleadoControlador;
+import controladores.GrupoHorarioControlador;
+import entidades.AsignacionHorario;
+import entidades.DetalleGrupoHorario;
+import entidades.Empleado;
+import entidades.GrupoHorario;
 import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTEmpleado;
 import vistas.modelos.MTGrupoHorario;

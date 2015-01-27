@@ -6,9 +6,9 @@
 package vistas;
 
 import vistas.dialogos.DlgDatosEmpleado;
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.Marcacion;
+import controladores.EmpleadoControlador;
+import entidades.Empleado;
+import entidades.Marcacion;
 import vistas.dialogos.DlgMostrarHorarios;
 import java.util.ArrayList;
 import java.util.Date;

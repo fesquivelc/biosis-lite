@@ -5,7 +5,7 @@
  */
 package vistas.modelos;
 
-import biz.juvitec.entidades.ConexionBean;
+import entidades.ConexionBean;
 import com.personal.utiles.ModeloTabla;
 import java.util.List;
 

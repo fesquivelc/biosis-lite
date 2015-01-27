@@ -104,7 +104,7 @@ $X{IN,registro_asistencia.empleado_nro_documento,lista} AND registro_asistencia.
 				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_datos_empleado.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="20">
+		<band height="26">
 			<subreport>
 				<reportElement x="-1" y="0" width="556" height="20" uuid="afbf6734-a4f7-468e-bbe3-0ac2dd03d1a0"/>
 				<subreportParameter name="ruta">
@@ -123,10 +123,12 @@ $X{IN,registro_asistencia.empleado_nro_documento,lista} AND registro_asistencia.
 				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_resumen_asistencia_detalle.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
+		<band height="17">
+			<break>
+				<reportElement x="0" y="11" width="555" height="1" uuid="5e1ea85f-01b6-4f6f-b0cb-2a52736570bf"/>
+			</break>
+		</band>
 	</detail>
-	<columnFooter>
-		<band height="14" splitType="Stretch"/>
-	</columnFooter>
 	<pageFooter>
 		<band height="31" splitType="Stretch">
 			<frame>

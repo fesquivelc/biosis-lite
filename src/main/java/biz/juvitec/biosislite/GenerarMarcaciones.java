@@ -6,11 +6,11 @@
 package biz.juvitec.biosislite;
 
 import algoritmo.AnalisisAsistencia;
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.controladores.JornadaControlador;
-import biz.juvitec.controladores.MarcacionControlador;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.Jornada;
+import controladores.EmpleadoControlador;
+import controladores.JornadaControlador;
+import controladores.MarcacionControlador;
+import entidades.Empleado;
+import entidades.Jornada;
 import com.personal.utiles.FechaUtil;
 import java.math.BigDecimal;
 import java.text.DateFormat;

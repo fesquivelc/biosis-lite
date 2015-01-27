@@ -5,15 +5,15 @@
  */
 package biz.juvitec.biosislite;
 
-import biz.juvitec.controladores.EmpleadoBeanControlador;
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.controladores.RolControlador;
-import biz.juvitec.controladores.UsuarioControlador;
+import controladores.EmpleadoBeanControlador;
+import controladores.EmpleadoControlador;
+import controladores.RolControlador;
+import controladores.UsuarioControlador;
 import biz.juvitec.dao.DAOMINEDU;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.EmpleadoBean;
-import biz.juvitec.entidades.Rol;
-import biz.juvitec.entidades.Usuario;
+import entidades.Empleado;
+import entidades.EmpleadoBean;
+import entidades.Rol;
+import entidades.Usuario;
 import vistas.mantenimientos.CRUDGrupoHorario;
 import com.personal.utiles.ReporteUtil;
 import java.io.File;

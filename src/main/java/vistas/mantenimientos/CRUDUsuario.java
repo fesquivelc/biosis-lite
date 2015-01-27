@@ -5,12 +5,12 @@
  */
 package vistas.mantenimientos;
 
-import biz.juvitec.controladores.Controlador;
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.controladores.UsuarioControlador;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.Rol;
-import biz.juvitec.entidades.Usuario;
+import controladores.Controlador;
+import controladores.EmpleadoControlador;
+import controladores.UsuarioControlador;
+import entidades.Empleado;
+import entidades.Rol;
+import entidades.Usuario;
 import vistas.dialogos.DlgEmpleado;
 import vistas.dialogos.DlgRol;
 import vistas.modelos.MTJornada;

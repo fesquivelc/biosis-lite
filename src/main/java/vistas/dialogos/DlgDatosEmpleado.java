@@ -5,7 +5,7 @@
  */
 package vistas.dialogos;
 
-import biz.juvitec.entidades.Empleado;
+import entidades.Empleado;
 import com.personal.utiles.FormularioUtil;
 import java.util.Date;
 import javax.swing.JDialog;

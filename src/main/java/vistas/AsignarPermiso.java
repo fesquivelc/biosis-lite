@@ -5,16 +5,16 @@
  */
 package vistas;
 
-import biz.juvitec.controladores.AsignacionPermisoControlador;
-import biz.juvitec.controladores.Controlador;
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.controladores.PermisoControlador;
-import biz.juvitec.controladores.TCAnalisisControlador;
-import biz.juvitec.entidades.AsignacionHorario;
-import biz.juvitec.entidades.AsignacionPermiso;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.Permiso;
-import biz.juvitec.entidades.TipoPermiso;
+import controladores.AsignacionPermisoControlador;
+import controladores.Controlador;
+import controladores.EmpleadoControlador;
+import controladores.PermisoControlador;
+import controladores.TCAnalisisControlador;
+import entidades.AsignacionHorario;
+import entidades.AsignacionPermiso;
+import entidades.Empleado;
+import entidades.Permiso;
+import entidades.TipoPermiso;
 import vistas.dialogos.DlgEmpleado;
 import vistas.dialogos.DlgTipoPermiso;
 import vistas.modelos.MTAsignacionPermiso;
@@ -123,8 +123,6 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         txtDocumento = new javax.swing.JTextField();
-        chkCubrirHoraEntrada = new javax.swing.JCheckBox();
-        chkCubrirSalida = new javax.swing.JCheckBox();
         jPanel5 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -548,20 +546,6 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(txtDocumento, gridBagConstraints);
 
-        chkCubrirHoraEntrada.setText("Cubrir hora de entrada");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel4.add(chkCubrirHoraEntrada, gridBagConstraints);
-
-        chkCubrirSalida.setText("Cubrir hora de salida");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel4.add(chkCubrirSalida, gridBagConstraints);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -645,6 +629,9 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        if (!erroresFormulario()) {
+            return;
+        }
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
             Permiso seleccionada = this.controlador.getSeleccionado();
 
@@ -663,24 +650,24 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
                 seleccionada.setFechaFin((Date) spFechaFin.getValue());
                 diferencia = seleccionada.getFechaFin().getTime() - seleccionada.getFechaInicio().getTime();
             } else {
-                seleccionada.setCubreEntrada(chkCubrirHoraEntrada.isSelected());
-                seleccionada.setCubreSalida(chkCubrirSalida.isSelected());                
+                seleccionada.setCubreEntrada(false);
+                seleccionada.setCubreSalida(false);
                 seleccionada.setHoraInicio((Date) spHoraInicio.getValue());
                 seleccionada.setHoraFin((Date) spHoraFin.getValue());
                 seleccionada.setFechaFin((Date) spFechaInicio.getValue());
-                
+
                 diferencia = FechaUtil.soloHora(seleccionada.getFechaFin()).getTime() - FechaUtil.soloHora(seleccionada.getFechaInicio()).getTime();
             }
-            
-            BigDecimal diferenciaMin = new BigDecimal(diferencia / (60*1000*60));
-            
+
+            BigDecimal diferenciaMin = new BigDecimal(diferencia / (60 * 1000 * 60));
+
             seleccionada.setDiferencia(diferenciaMin);
-            
+
             List<String> dnis = new ArrayList<>();
-            for(AsignacionPermiso asignacion : seleccionada.getAsignacionPermisoList()){
+            for (AsignacionPermiso asignacion : seleccionada.getAsignacionPermisoList()) {
                 dnis.add(asignacion.getEmpleado());
             }
-            
+
             retrocederTiempo(dnis, seleccionada.getFechaInicio());
 
             if (controlador.accion(accion)) {
@@ -689,9 +676,9 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
                 FormularioUtil.limpiarComponente(this.pnlDatos);
                 this.integrantes.clear();
                 this.controles(accion);
-                this.actualizarTabla();                                
-                
-                if(FormularioUtil.dialogoConfirmar(this, 4)){
+                this.actualizarTabla();
+
+                if (FormularioUtil.dialogoConfirmar(this, 4)) {
                     this.imprimirBoleta(seleccionada);
                 }
             } else {
@@ -846,8 +833,6 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
     private javax.swing.JComboBox cboTamanio;
-    private javax.swing.JCheckBox chkCubrirHoraEntrada;
-    private javax.swing.JCheckBox chkCubrirSalida;
     private javax.swing.JCheckBox chkPorFecha;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -957,8 +942,8 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         ac = new AsignacionPermisoControlador();
         FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
         FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
-        FormularioUtil.modeloSpinnerFechaHora(spHoraInicio, "HH:mm:ss");
-        FormularioUtil.modeloSpinnerFechaHora(spHoraFin, "HH:mm:ss");
+        FormularioUtil.modeloSpinnerFechaHora(spHoraInicio, "HH:mm");
+        FormularioUtil.modeloSpinnerFechaHora(spHoraFin, "HH:mm");
         FormularioUtil.modeloSpinnerFechaHora(spFechaInicio1, "dd/MM/yyyy");
         FormularioUtil.modeloSpinnerFechaHora(spFechaFin1, "dd/MM/yyyy");
         this.controles(accion);
@@ -973,8 +958,10 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
         if (accion != Controlador.MODIFICAR) {
             FormularioUtil.limpiarComponente(this.pnlDatos);
-
         }
+
+        this.txtTipoPermiso.setEditable(false);
+        checkPorFecha(accion);
     }
 
     private List<String> obtenerListadoDNI(List<AsignacionPermiso> detalles) {
@@ -1090,7 +1077,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         this.btnPrimero.setEnabled(paginaActual != 1);
     }
     private final DateFormat dfFecha = new SimpleDateFormat("dd/MM/yyyy");
-    private final DateFormat dfHora = new SimpleDateFormat("HH:mm:ss");
+    private final DateFormat dfHora = new SimpleDateFormat("HH:mm");
 
     private void imprimirBoleta(Permiso seleccionada) {
 
@@ -1199,8 +1186,33 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
     }
 
-    private final TCAnalisisControlador  tcac = new TCAnalisisControlador();
+    private final TCAnalisisControlador tcac = new TCAnalisisControlador();
+
     private void retrocederTiempo(List<String> dnis, Date fechaInicio) {
-        tcac.retrocederTiempo(dnis,fechaInicio);
+        tcac.retrocederTiempo(dnis, fechaInicio);
+    }
+
+    private void checkPorFecha(int accion) {
+        if (accion != 0) {
+            spFechaInicio.setEnabled(true);
+            spFechaFin.setEnabled(chkPorFecha.isSelected());
+
+            spHoraInicio.setEnabled(!chkPorFecha.isSelected());
+            spHoraFin.setEnabled(!chkPorFecha.isSelected());
+        }
+    }
+
+    private boolean erroresFormulario() {
+        int errores = 0;
+        String mensaje = "";
+        if (integrantes.isEmpty()) {
+            errores++;
+            mensaje = ">Debe seleccionar uno o mas empleados";
+        }
+
+        if (errores > 0) {
+            JOptionPane.showMessageDialog(this, "Se ha(n) encontrado el(los) siguiente(s) error(es):" + mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
+        }
+        return errores != 0;
     }
 }

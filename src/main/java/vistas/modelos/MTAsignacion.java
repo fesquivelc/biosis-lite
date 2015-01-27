@@ -5,9 +5,9 @@
  */
 package vistas.modelos;
 
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.entidades.AsignacionHorario;
-import biz.juvitec.entidades.Empleado;
+import controladores.EmpleadoControlador;
+import entidades.AsignacionHorario;
+import entidades.Empleado;
 import com.personal.utiles.ModeloTabla;
 import java.util.List;
 

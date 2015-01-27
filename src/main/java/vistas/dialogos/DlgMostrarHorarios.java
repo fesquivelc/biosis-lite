@@ -6,8 +6,8 @@
 package vistas.dialogos;
 
 import algoritmo.AnalisisAsistencia;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.Horario;
+import entidades.Empleado;
+import entidades.Horario;
 import vistas.modelos.MTHorario;
 import java.util.List;
 import javax.swing.JInternalFrame;

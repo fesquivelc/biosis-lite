@@ -5,10 +5,10 @@
  */
 package biz.juvitec.biosislite;
 
-import biz.juvitec.controladores.DetalleRegistroAsistenciaControlador;
-import biz.juvitec.controladores.TCAnalisisControlador;
-import biz.juvitec.entidades.DetalleRegistroAsistencia;
-import biz.juvitec.entidades.TCAnalisis;
+import controladores.DetalleRegistroAsistenciaControlador;
+import controladores.TCAnalisisControlador;
+import entidades.DetalleRegistroAsistencia;
+import entidades.TCAnalisis;
 import com.personal.utiles.FechaUtil;
 import java.util.ArrayList;
 import java.util.Calendar;

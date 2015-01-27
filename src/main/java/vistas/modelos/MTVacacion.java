@@ -5,8 +5,8 @@
  */
 package vistas.modelos;
 
-import biz.juvitec.entidades.Feriado;
-import biz.juvitec.entidades.Vacacion;
+import entidades.Feriado;
+import entidades.Vacacion;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -40,8 +40,6 @@ public class MTVacacion extends AbstractTableModel {
         this.fireTableDataChanged();
     }
     
-    
-
     public void analisis(List<Vacacion> vacaciones) {
         lunesAViernes = 0;
         

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_consolidado" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_permisos_licencia_comision" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -38,8 +38,8 @@
 		<![CDATA[SELECT
      DISTINCT(asignacion_permiso.empleado_nro_documento) AS empleado_nro_documento
 FROM
-     asignacion_permiso asignacion_permiso inner join permiso on asignacion_permiso.permiso_id = permiso.id
-WHERE permiso.fecha_inicio BETWEEN $P{fechaInicio} AND $P{fechaFin}]]>
+     asignacion_permiso asignacion_permiso inner join permiso on asignacion_permiso.permiso_id = permiso.id inner join tipo_permiso on permiso.tipo_permiso_codigo = tipo_permiso.codigo
+WHERE $X{IN,empleado_nro_documento,lista} AND $X{IN,tipo_permiso.clase,listaTipo} AND permiso.fecha_inicio BETWEEN $P{fechaInicio} AND $P{fechaFin}]]>
 	</queryString>
 	<field name="empleado_nro_documento" class="java.lang.String"/>
 	<background>
@@ -91,7 +91,7 @@ WHERE permiso.fecha_inicio BETWEEN $P{fechaInicio} AND $P{fechaFin}]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="109" splitType="Stretch">
+		<band height="105">
 			<subreport>
 				<reportElement x="0" y="1" width="555" height="100" uuid="bd91f346-0a84-4a4f-a957-20a78f05a7ec"/>
 				<subreportParameter name="empleado_nro_documento">
@@ -100,16 +100,16 @@ WHERE permiso.fecha_inicio BETWEEN $P{fechaInicio} AND $P{fechaFin}]]>
 				<connectionExpression><![CDATA[$P{CONEXION_EMPLEADOS}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_datos_empleado.jasper"]]></subreportExpression>
 			</subreport>
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="25e03c4f-5988-4f92-89d3-f672827e8098"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</graphicElement>
-			</line>
 		</band>
-		<band height="138">
+		<band height="109" splitType="Stretch">
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="138" uuid="0325f9c7-0ad5-444e-a53e-baa5492ceef0"/>
+				<reportElement x="0" y="0" width="555" height="109" uuid="0325f9c7-0ad5-444e-a53e-baa5492ceef0"/>
+				<subreportParameter name="fechaFin">
+					<subreportParameterExpression><![CDATA[$P{fechaFin}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fechaInicio">
+					<subreportParameterExpression><![CDATA[$P{fechaInicio}]]></subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="empleado_nro_documento">
 					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -119,6 +119,11 @@ WHERE permiso.fecha_inicio BETWEEN $P{fechaInicio} AND $P{fechaFin}]]>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_permisos_empleado.jasper"]]></subreportExpression>
 			</subreport>
+		</band>
+		<band height="20">
+			<break>
+				<reportElement x="0" y="11" width="555" height="1" uuid="8fd76759-58dd-42f1-a86a-793bc2b107b4"/>
+			</break>
 		</band>
 	</detail>
 	<columnFooter>

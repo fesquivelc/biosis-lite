@@ -6,13 +6,13 @@
 package vistas;
 
 import algoritmo.AnalisisAsistencia;
-import biz.juvitec.controladores.MarcacionControlador;
-import biz.juvitec.controladores.RegistroAsistenciaControlador;
-import biz.juvitec.entidades.DetalleRegistroAsistencia;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.Horario;
-import biz.juvitec.entidades.Marcacion;
-import biz.juvitec.entidades.RegistroAsistencia;
+import controladores.MarcacionControlador;
+import controladores.RegistroAsistenciaControlador;
+import entidades.DetalleRegistroAsistencia;
+import entidades.Empleado;
+import entidades.Horario;
+import entidades.Marcacion;
+import entidades.RegistroAsistencia;
 import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTDetalleRegistroAsistencia;
 import vistas.modelos.MTEmpleado;

@@ -5,27 +5,36 @@
  */
 package vistas.reportes;
 
-import biz.juvitec.controladores.DetalleGrupoControlador;
-import biz.juvitec.controladores.GrupoHorarioControlador;
-import biz.juvitec.controladores.PeriodoControlador;
-import biz.juvitec.controladores.SaldoVacacionalControlador;
-import biz.juvitec.entidades.DetalleGrupoHorario;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.GrupoHorario;
-import biz.juvitec.entidades.Periodo;
-import biz.juvitec.entidades.SaldoVacacional;
+import controladores.DetalleGrupoControlador;
+import controladores.EmpleadoControlador;
+import controladores.GrupoHorarioControlador;
+import controladores.PeriodoControlador;
+import controladores.SaldoVacacionalControlador;
+import entidades.DetalleGrupoHorario;
+import entidades.Empleado;
+import entidades.GrupoHorario;
+import entidades.Periodo;
+import entidades.SaldoVacacional;
 import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
 import java.awt.Component;
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
+import net.sf.jasperreports.view.JasperViewer;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import utiles.UsuarioActivo;
 import vistas.dialogos.DlgEmpleado;
 
 /**
@@ -82,6 +91,8 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         grpSeleccion.add(radPersonalizado);
 
         setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("REPORTES DE VACACIONES");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -261,6 +272,8 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
     private final PeriodoControlador pc;
 
     private void inicializar() {
+        JasperViewer jv = new JasperViewer(null);
+        pnlTab.add("Vista previa",jv.getContentPane());
         empleadoList = ObservableCollections.observableList(new ArrayList<Empleado>());
         periodoList = pc.buscarTodosOrden();
     }
@@ -328,16 +341,53 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
     }
 
     private void generarReporte() {
-        
+        List<String> dnis = obtenerDNI();
+        Periodo periodo = obtenerPeriodo();
+        List<Empleado> empleados = ec.buscarPorLista(dnis);
+        for (Empleado e : empleados) {
+            buscarCrear(e, periodo);
+        }
+        String ficheroReporte = "reportes/r_vacaciones.jasper";
+
+        File archivo = new File(ficheroReporte);
+        Map<String, Object> parametros = new HashMap<>();
+        parametros.put("usuario", UsuarioActivo.getUsuario().getLogin());
+        parametros.put("lista", dnis);
+        parametros.put("periodo_anio", periodo.getAnio());
+        parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
+
+        reporteUtil.setConn(svc.getDao().getConexion());
+        Component componente = reporteUtil.obtenerReporte(archivo, parametros);
+
+        if (componente != null) {
+            pnlTab.remove(0);
+            pnlTab.add("Vista previa", componente);
+        }
+
     }
     private final SaldoVacacionalControlador svc = new SaldoVacacionalControlador();
-    public void buscarCrear(Empleado empleado, Periodo periodo){
+    private final Calendar calendar = Calendar.getInstance();
+    private final EmpleadoControlador ec = new EmpleadoControlador();
+    private final ReporteUtil reporteUtil = new ReporteUtil();
+
+    public void buscarCrear(Empleado empleado, Periodo periodo) {
         SaldoVacacional sv = svc.buscarXPeriodo(empleado.getNroDocumento(), periodo);
-        
-        if(sv == null){
+        Date fechaContrato = empleado.getFechaInicioContrato();
+        calendar.setTime(fechaContrato);
+        if (sv == null && periodo.getAnio() > calendar.get(Calendar.YEAR)) {
             //CREAMOS
             sv = new SaldoVacacional();
-            sv.setDiasRestantes(30);
+            //OBTENEMOS SI LE CORRESPONDEN VACACIONES ACORDE A LEY
+
+            if (calendar.get(Calendar.YEAR) < periodo.getAnio()) {
+                sv.setDiasRestantes(30);
+            } else {
+                sv.setDiasRestantes(0);
+            }
+            calendar.set(Calendar.YEAR, periodo.getAnio());
+            sv.setFechaDesde(calendar.getTime());
+            calendar.add(Calendar.YEAR, 1);
+            sv.setFechaHasta(calendar.getTime());
             sv.setEmpleado(empleado.getNroDocumento());
             sv.setLunesViernes(0);
             sv.setSabado(0);
@@ -346,7 +396,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
             svc.modificar(sv);
         }
     }
-    
+
     private List<String> obtenerDNI() {
 
         List<String> lista = new ArrayList<>();
@@ -367,10 +417,19 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
 
     private GrupoHorario grupoSeleccionado;
     private final DetalleGrupoControlador dgc = new DetalleGrupoControlador();
+
     private void obtenerGrupo() {
         int fila;
-        if((fila = cboGrupoHorario.getSelectedIndex()) != -1){
+        if ((fila = cboGrupoHorario.getSelectedIndex()) != -1) {
             grupoSeleccionado = grupoList.get(fila);
         }
+    }
+
+    private Periodo obtenerPeriodo() {
+        int fila;
+        if ((fila = cboPeriodo.getSelectedIndex()) != -1) {
+            return periodoList.get(fila);
+        }
+        return null;
     }
 }

@@ -5,7 +5,7 @@
  */
 package vistas;
 
-import biz.juvitec.controladores.Controlador;
+import controladores.Controlador;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ParametrosUtil;
 import com.personal.utiles.PropertiesUtil;

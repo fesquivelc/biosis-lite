@@ -5,15 +5,15 @@
  */
 package vistas;
 
-import biz.juvitec.controladores.AsignacionHorarioControlador;
-import biz.juvitec.controladores.Controlador;
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.controladores.GrupoHorarioControlador;
-import biz.juvitec.controladores.HorarioControlador;
-import biz.juvitec.entidades.AsignacionHorario;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.GrupoHorario;
-import biz.juvitec.entidades.Horario;
+import controladores.AsignacionHorarioControlador;
+import controladores.Controlador;
+import controladores.EmpleadoControlador;
+import controladores.GrupoHorarioControlador;
+import controladores.HorarioControlador;
+import entidades.AsignacionHorario;
+import entidades.Empleado;
+import entidades.GrupoHorario;
+import entidades.Horario;
 import vistas.dialogos.DlgEmpleado;
 import vistas.dialogos.DlgVerIntegrantes;
 import vistas.modelos.MTAsignacion;

@@ -5,10 +5,10 @@
  */
 package vistas.mantenimientos;
 
-import biz.juvitec.controladores.Controlador;
-import biz.juvitec.controladores.PeriodoControlador;
-import biz.juvitec.entidades.Feriado;
-import biz.juvitec.entidades.Periodo;
+import controladores.Controlador;
+import controladores.PeriodoControlador;
+import entidades.Feriado;
+import entidades.Periodo;
 import vistas.dialogos.DlgFeriado;
 import vistas.modelos.MTFeriado;
 import vistas.modelos.MTPeriodo;

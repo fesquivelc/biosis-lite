@@ -33,6 +33,7 @@ public class DlgImportarDNI extends javax.swing.JDialog {
         this.url = "";
         this.dnis = new ArrayList<>();
         initComponents();
+        this.setLocationRelativeTo(padre);
     }
 
     /**
@@ -53,6 +54,7 @@ public class DlgImportarDNI extends javax.swing.JDialog {
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Importar empleados");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setText("Fichero:");
@@ -112,7 +114,7 @@ public class DlgImportarDNI extends javax.swing.JDialog {
     private final List<String> dnis;
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        url = FormularioUtil.chooserImagen(this);
+        url = FormularioUtil.chooserFichero(this,"Seleccione el fichero CSV");
         lblURL.setText(url);
     }//GEN-LAST:event_btnBuscarActionPerformed
 

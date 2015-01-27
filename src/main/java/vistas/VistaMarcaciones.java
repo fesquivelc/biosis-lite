@@ -5,9 +5,9 @@
  */
 package vistas;
 
-import biz.juvitec.controladores.MarcacionControlador;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.Marcacion;
+import controladores.MarcacionControlador;
+import entidades.Empleado;
+import entidades.Marcacion;
 import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTMarcacion;
 import com.personal.utiles.FormularioUtil;

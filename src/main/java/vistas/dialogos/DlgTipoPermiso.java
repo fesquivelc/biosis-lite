@@ -5,9 +5,9 @@
  */
 package vistas.dialogos;
 
-import biz.juvitec.controladores.Controlador;
-import biz.juvitec.controladores.TipoPermisoControlador;
-import biz.juvitec.entidades.TipoPermiso;
+import controladores.Controlador;
+import controladores.TipoPermisoControlador;
+import entidades.TipoPermiso;
 import vistas.modelos.MTTipoPermiso;
 import com.personal.utiles.FormularioUtil;
 import java.util.ArrayList;

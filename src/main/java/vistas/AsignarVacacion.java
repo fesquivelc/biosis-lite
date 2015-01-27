@@ -5,18 +5,18 @@
  */
 package vistas;
 
-import biz.juvitec.controladores.Controlador;
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.controladores.PeriodoControlador;
-import biz.juvitec.controladores.SaldoVacacionalControlador;
-import biz.juvitec.controladores.VacacionControlador;
+import controladores.Controlador;
+import controladores.EmpleadoControlador;
+import controladores.PeriodoControlador;
+import controladores.SaldoVacacionalControlador;
+import controladores.VacacionControlador;
 import biz.juvitec.dao.DAOMINEDU;
-import biz.juvitec.entidades.AsignacionPermiso;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.Periodo;
-import biz.juvitec.entidades.SaldoVacacional;
-import biz.juvitec.entidades.TipoPermiso;
-import biz.juvitec.entidades.Vacacion;
+import entidades.AsignacionPermiso;
+import entidades.Empleado;
+import entidades.Periodo;
+import entidades.SaldoVacacional;
+import entidades.TipoPermiso;
+import entidades.Vacacion;
 import vistas.dialogos.DlgEmpleado;
 import vistas.dialogos.DlgInterrupcionVacacion;
 import vistas.modelos.MTAsignarVacacion;

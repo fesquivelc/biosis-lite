@@ -2,27 +2,27 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="biosis-PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>biz.juvitec.entidades.Jornada</class>
-    <class>biz.juvitec.entidades.Horario</class>
-    <class>biz.juvitec.entidades.GrupoHorario</class>
-    <class>biz.juvitec.entidades.DetalleGrupoHorario</class>
-    <class>biz.juvitec.entidades.AsignacionHorario</class>
-    <class>biz.juvitec.entidades.TipoPermiso</class>
-    <class>biz.juvitec.entidades.Permiso</class>
-    <class>biz.juvitec.entidades.Vacacion</class>
-    <class>biz.juvitec.entidades.Periodo</class>
-    <class>biz.juvitec.entidades.Feriado</class>
-    <class>biz.juvitec.entidades.SaldoVacacional</class>
-    <class>biz.juvitec.entidades.RegistroAsistencia</class>
-    <class>biz.juvitec.entidades.DetalleRegistroAsistencia</class>
-    <class>biz.juvitec.entidades.TCAnalisis</class>
-    <class>biz.juvitec.entidades.AsignacionPermiso</class>
-    <class>biz.juvitec.entidades.TCSistema</class>
-    <class>biz.juvitec.entidades.Usuario</class>
-    <class>biz.juvitec.entidades.Rol</class>
-    <class>biz.juvitec.entidades.Acceso</class>
-    <class>biz.juvitec.entidades.Bitacora</class>
-    <class>biz.juvitec.entidades.RolAcceso</class>
+    <class>entidades.Horario</class>
+    <class>entidades.SaldoVacacional</class>
+    <class>entidades.Acceso</class>
+    <class>entidades.Periodo</class>
+    <class>entidades.TCSistema</class>
+    <class>entidades.AsignacionPermiso</class>
+    <class>entidades.RegistroAsistencia</class>
+    <class>entidades.GrupoHorario</class>
+    <class>entidades.Usuario</class>
+    <class>entidades.AsignacionHorario</class>
+    <class>entidades.RolAcceso</class>
+    <class>entidades.Feriado</class>
+    <class>entidades.Rol</class>
+    <class>entidades.DetalleRegistroAsistencia</class>
+    <class>entidades.TipoPermiso</class>
+    <class>entidades.Vacacion</class>
+    <class>entidades.TCAnalisis</class>
+    <class>entidades.DetalleGrupoHorario</class>
+    <class>entidades.Permiso</class>
+    <class>entidades.Bitacora</class>
+    <class>entidades.Jornada</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://127.0.0.1\JUPITER:49417;databaseName=db_biosis;sendTimeAsDateTime=false"/>
       <property name="javax.persistence.jdbc.password" value="asistencia"/>
@@ -34,14 +34,14 @@
   </persistence-unit>
   <persistence-unit name="rrhh-PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>biz.juvitec.entidades.Empleado</class>
+    <class>entidades.Empleado</class>
     <properties>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
     </properties>
   </persistence-unit>
   <persistence-unit name="biostar-PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>biz.juvitec.entidades.Marcacion</class>
+    <class>entidades.Marcacion</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/minedu-biostar"/>
       <property name="javax.persistence.jdbc.password" value="root"/>

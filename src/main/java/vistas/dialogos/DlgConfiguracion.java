@@ -5,12 +5,12 @@
  */
 package vistas.dialogos;
 
-import biz.juvitec.controladores.Controlador;
+import controladores.Controlador;
 import biz.juvitec.dao.DAO;
 import biz.juvitec.dao.DAOBIOSTAR;
 import biz.juvitec.dao.DAOMINEDU;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.Marcacion;
+import entidades.Empleado;
+import entidades.Marcacion;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.PropertiesUtil;
 import java.util.Properties;

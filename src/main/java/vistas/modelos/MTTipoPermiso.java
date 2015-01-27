@@ -5,7 +5,7 @@
  */
 package vistas.modelos;
 
-import biz.juvitec.entidades.TipoPermiso;
+import entidades.TipoPermiso;
 import com.personal.utiles.ModeloTabla;
 import java.util.List;
 

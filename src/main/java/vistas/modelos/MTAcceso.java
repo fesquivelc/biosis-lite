@@ -5,9 +5,9 @@
  */
 package vistas.modelos;
 
-import biz.juvitec.entidades.Acceso;
-import biz.juvitec.entidades.Rol;
-import biz.juvitec.entidades.RolAcceso;
+import entidades.Acceso;
+import entidades.Rol;
+import entidades.RolAcceso;
 import com.personal.utiles.ModeloTabla;
 import java.util.List;
 

@@ -5,7 +5,7 @@
  */
 package utiles;
 
-import biz.juvitec.entidades.Usuario;
+import entidades.Usuario;
 
 /**
  *

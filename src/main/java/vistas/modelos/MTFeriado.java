@@ -5,7 +5,7 @@
  */
 package vistas.modelos;
 
-import biz.juvitec.entidades.Feriado;
+import entidades.Feriado;
 import com.personal.utiles.ModeloTabla;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

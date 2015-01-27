@@ -6,15 +6,15 @@
 package vistas.reportes;
 
 import algoritmo.AnalisisAsistencia;
-import biz.juvitec.controladores.AsignacionHorarioControlador;
-import biz.juvitec.controladores.DetalleGrupoControlador;
-import biz.juvitec.controladores.EmpleadoControlador;
-import biz.juvitec.controladores.GrupoHorarioControlador;
-import biz.juvitec.controladores.PeriodoControlador;
-import biz.juvitec.entidades.DetalleGrupoHorario;
-import biz.juvitec.entidades.Empleado;
-import biz.juvitec.entidades.GrupoHorario;
-import biz.juvitec.entidades.Periodo;
+import controladores.AsignacionHorarioControlador;
+import controladores.DetalleGrupoControlador;
+import controladores.EmpleadoControlador;
+import controladores.GrupoHorarioControlador;
+import controladores.PeriodoControlador;
+import entidades.DetalleGrupoHorario;
+import entidades.Empleado;
+import entidades.GrupoHorario;
+import entidades.Periodo;
 import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;

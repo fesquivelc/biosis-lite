@@ -5,11 +5,11 @@
  */
 package vistas.mantenimientos;
 
-import biz.juvitec.controladores.Controlador;
-import biz.juvitec.controladores.HorarioControlador;
-import biz.juvitec.controladores.JornadaControlador;
-import biz.juvitec.entidades.Horario;
-import biz.juvitec.entidades.Jornada;
+import controladores.Controlador;
+import controladores.HorarioControlador;
+import controladores.JornadaControlador;
+import entidades.Horario;
+import entidades.Jornada;
 import vistas.dialogos.DlgJornada;
 import vistas.modelos.MTHorario;
 import vistas.modelos.MTJornada;

@@ -5,7 +5,7 @@
  */
 package vistas.modelos;
 
-import biz.juvitec.entidades.DetalleRegistroAsistencia;
+import entidades.DetalleRegistroAsistencia;
 import com.personal.utiles.ModeloTabla;
 import java.math.BigDecimal;
 import java.text.DateFormat;

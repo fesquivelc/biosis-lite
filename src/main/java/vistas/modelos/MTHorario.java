@@ -5,7 +5,7 @@
  */
 package vistas.modelos;
 
-import biz.juvitec.entidades.Horario;
+import entidades.Horario;
 import com.personal.utiles.ModeloTabla;
 import java.util.List;
 

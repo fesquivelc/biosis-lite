@@ -5,9 +5,9 @@
  */
 package vistas.dialogos;
 
-import biz.juvitec.controladores.Controlador;
-import biz.juvitec.controladores.UsuarioControlador;
-import biz.juvitec.entidades.Usuario;
+import controladores.Controlador;
+import controladores.UsuarioControlador;
+import entidades.Usuario;
 import com.personal.utiles.FormularioUtil;
 import javax.swing.JOptionPane;
 import utiles.Encriptador;
