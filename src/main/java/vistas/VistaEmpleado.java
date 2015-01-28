@@ -241,6 +241,7 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         lblBusqueda.setBusy(true);
         buscar();
+        actualizarControlesNavegacion();
         lblBusqueda.setBusy(false);
     }//GEN-LAST:event_btnBuscarActionPerformed
 

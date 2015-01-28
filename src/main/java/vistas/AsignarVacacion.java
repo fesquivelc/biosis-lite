@@ -24,6 +24,7 @@ import vistas.modelos.MTEmpleado;
 import vistas.modelos.MTVacacion;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
+import controladores.TCAnalisisControlador;
 import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
@@ -557,6 +558,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
+//    private final SaldoVacacionalControlador svc = new SaldoVacacionalControlador();
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
@@ -571,13 +573,24 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             seleccionada.setPeriodo(periodoList.get(cboPeriodo.getSelectedIndex()));
 
             if (controlador.accion(accion)) {
+                List<String> dni = new ArrayList<>();
+                dni.add(empleadoSeleccionado.getNroDocumento());
+                retrocederTiempo(dni, seleccionada.getFechaInicio());
+                SaldoVacacional sv = buscarCrear(empleadoSeleccionado, seleccionada.getPeriodo());
+                int[] saldos = obtenerSaldos(empleadoSeleccionado,seleccionada.getPeriodo());
+                sv.setDiasRestantes(30 - (saldos[0] + saldos[1] + saldos[2]));
+                sv.setLunesViernes(saldos[0]);
+                sv.setSabado(saldos[1]);
+                sv.setDomingo(saldos[2]);
+                svc.modificar(sv);
+                
                 FormularioUtil.mensajeExito(this, accion);
-                System.out.println("SELECCION: "+seleccionada.getId());
+                System.out.println("SELECCION: " + seleccionada.getId());
                 this.accion = 0;
                 FormularioUtil.limpiarComponente(this.pnlDatos);
                 this.controles(accion);
                 this.actualizarTabla();
-                if(FormularioUtil.dialogoConfirmar(this, 4)){
+                if (FormularioUtil.dialogoConfirmar(this, 4)) {
                     imprimirBoleta(seleccionada);
                 }
             } else {
@@ -587,13 +600,18 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private final TCAnalisisControlador tcac = new TCAnalisisControlador();
+
+    private void retrocederTiempo(List<String> dnis, Date fechaInicio) {
+        tcac.retrocederTiempo(dnis, fechaInicio);
+    }
     private void tblTablaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTablaMouseReleased
         // TODO add your handling code here:
         int fila = tblTabla.getSelectedRow();
         if (fila != -1) {
-            Vacacion permiso = listado.get(fila);
+            Vacacion vacacion = listado.get(fila);
 
-            mostrar(permiso);
+            mostrar(vacacion);
         }
     }//GEN-LAST:event_tblTablaMouseReleased
 
@@ -760,10 +778,11 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         spFechaInicio.setValue(vacacion.getFechaInicio());
         spFechaFin.setValue(vacacion.getFechaFin());
         cboPeriodo.setSelectedItem(vacacion.getPeriodo());
+        txtDocumento.setText(vacacion.getDocumento());
         actualizarResumenVacaciones(e);
 
     }
-    
+
     private List<Periodo> periodoList;
 
     private void bindeoSalvaje() {
@@ -774,28 +793,27 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         integrantes = ObservableCollections.observableList(new ArrayList<Empleado>());
 
 //        String[] columnasIntegrantes = {"Nro Documento", "Empleado"};
-        
-        JComboBoxBinding bindingPeriodo  = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
+        JComboBoxBinding bindingPeriodo = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
 
         bindingPeriodo.bind();
-        
+
         MTAsignarVacacion mt = new MTAsignarVacacion(listado);
 //        MTEmpleado mtIntegrantes = new MTEmpleado(integrantes, columnasIntegrantes);
         tblTabla.setModel(mt);
 //        tblTabla.setModel(mtIntegrantes);
 
-        cboPeriodo.setRenderer(new DefaultListCellRenderer(){
+        cboPeriodo.setRenderer(new DefaultListCellRenderer() {
 
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                if(value instanceof Periodo){
-                    value = ((Periodo)value).getAnio();
+                if (value instanceof Periodo) {
+                    value = ((Periodo) value).getAnio();
                 }
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             }
-            
-        });        
-        
+
+        });
+
         actualizarTabla();
     }
 
@@ -848,7 +866,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         }
         return listadoDNI;
     }
-    
+
     private MTVacacion mtVac;
 
 //    public void agregarEmpleado(Empleado empleado) {
@@ -867,7 +885,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private int paginaActual = 1;
     private int totalPaginas = 0;
     private int tamanioPagina = 0;
-   
 
     private void buscar() {
         String busqueda = txtEmpleado.getText();
@@ -965,22 +982,23 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         System.out.println("NULL 2 ");
         parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
         System.out.println("NULL 3 ");
-        
+
         reporteador.setConn(controlador.getDao().getConexion());
         reporteador.generarReporte(reporte, parametros, JOptionPane.getFrameForComponent(this));
-        
+
     }
 
     private void actualizarResumenVacaciones(Empleado empleado) {
-        if(empleado != null && cboPeriodo.getSelectedIndex() != -1){
-            
-            this.mtVac.setVacaciones(this.controlador.buscarXEmpleadoXPeriodo(empleado.getNroDocumento(),periodoList.get(cboPeriodo.getSelectedIndex())));
+        if (empleado != null && cboPeriodo.getSelectedIndex() != -1) {
+
+            this.mtVac.setVacaciones(this.controlador.buscarXEmpleadoXPeriodo(empleado.getNroDocumento(), periodoList.get(cboPeriodo.getSelectedIndex())));
         }
     }
     private final SaldoVacacionalControlador svc = new SaldoVacacionalControlador();
-    
+
     private final Calendar calendar = Calendar.getInstance();
-    public void buscarCrear(Empleado empleado, Periodo periodo) {
+
+    public SaldoVacacional buscarCrear(Empleado empleado, Periodo periodo) {
         SaldoVacacional sv = svc.buscarXPeriodo(empleado.getNroDocumento(), periodo);
         Date fechaContrato = empleado.getFechaInicioContrato();
         calendar.setTime(fechaContrato);
@@ -1005,9 +1023,44 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             sv.setPeriodo(periodo);
             svc.modificar(sv);
         }
+        sv = svc.buscarXPeriodo(empleado.getNroDocumento(), periodo);
+        return sv;
     }
-    
-    private void hayErorres(){
+
+    private void hayErorres() {
+
+    }
+
+    private final Calendar cal = Calendar.getInstance();
+    private int[] obtenerSaldos(Empleado empleado, Periodo periodo) {
+        List<Vacacion> vacaciones = controlador.buscarXEmpleadoXPeriodo(empleado.getNroDocumento(), periodo);
+        int[] saldo = new int[3];
+        int lunesViernes = 0;
+        int sabado = 0;
+        int domingo = 0;
         
+        for (Vacacion vacacion : vacaciones) {
+            Date fechaInicio = vacacion.getFechaInicio();
+            Date fechaFin = vacacion.isHayInterrupcion() ? vacacion.getFechaInterrupcion() : vacacion.getFechaFin();
+
+            while (fechaInicio.compareTo(fechaFin) <= 0) {
+                cal.setTime(fechaInicio);
+                if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+//                    sabadoADomingo++;
+                } else {
+                    lunesViernes++;
+                }
+                cal.add(Calendar.DAY_OF_MONTH, 1);
+                fechaInicio = cal.getTime();
+            }
+        }
+        int division = lunesViernes / 5;
+        sabado = division;
+        domingo = division;
+        
+        saldo[0] = lunesViernes;
+        saldo[1] = sabado;
+        saldo[2] = domingo;
+        return saldo;
     }
 }

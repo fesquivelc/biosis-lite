@@ -11,6 +11,10 @@ import controladores.VacacionControlador;
 import entidades.Empleado;
 import entidades.Vacacion;
 import com.personal.utiles.FormularioUtil;
+import controladores.TCAnalisisControlador;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 
@@ -26,6 +30,7 @@ public class DlgInterrupcionVacacion extends javax.swing.JDialog {
     private final Vacacion vacacion;
     private final VacacionControlador vc;
     private final EmpleadoControlador ec;
+
     public DlgInterrupcionVacacion(JInternalFrame padre, Vacacion vacacion) {
         super(JOptionPane.getFrameForComponent(padre), true);
         initComponents();
@@ -160,13 +165,21 @@ public class DlgInterrupcionVacacion extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         int accion = Controlador.MODIFICAR;
-        if(FormularioUtil.dialogoConfirmar(this, accion)){
+        if (FormularioUtil.dialogoConfirmar(this, accion)) {
             vacacion.setHayInterrupcion(true);
             vc.setSeleccionado(vacacion);
-            vc.accion(accion);
+            if (vc.accion(accion)) {
+                List<String> dnis = new ArrayList<>();
+                dnis.add(vacacion.getEmpleado());
+                retrocederTiempo(dnis, vacacion.getFechaInicio());
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+    private final TCAnalisisControlador tcac = new TCAnalisisControlador();
 
+    private void retrocederTiempo(List<String> dnis, Date fechaInicio) {
+        tcac.retrocederTiempo(dnis, fechaInicio);
+    }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         this.dispose();
@@ -190,10 +203,10 @@ public class DlgInterrupcionVacacion extends javax.swing.JDialog {
 
     private void controles() {
         Empleado empleado = ec.buscarPorId(vacacion.getEmpleado());
-        txtEmpleado.setText(empleado.getNombre() + " " +empleado.getApellidoPaterno() + " " +empleado.getApellidoMaterno());
+        txtEmpleado.setText(empleado.getNombre() + " " + empleado.getApellidoPaterno() + " " + empleado.getApellidoMaterno());
         dtFechaInicio.setDate(vacacion.getFechaInicio());
         dtFechaFin.setDate(vacacion.getFechaFin());
-        
+
         FormularioUtil.activarComponente(txtEmpleado, false);
         FormularioUtil.activarComponente(dtFechaInicio, false);
         FormularioUtil.activarComponente(dtFechaFin, false);

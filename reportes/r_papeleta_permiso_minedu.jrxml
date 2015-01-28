@@ -185,7 +185,7 @@ permiso.id = $P{permiso_id} AND asignacion_permiso.empleado_nro_documento = $P{e
 				<textFieldExpression><![CDATA[$F{permiso_documento}]]></textFieldExpression>
 			</textField>
 			<frame>
-				<reportElement x="0" y="0" width="555" height="59" uuid="ff85ac1c-b1b4-46f1-9d5c-e425b8b68325"/>
+				<reportElement x="0" y="0" width="555" height="41" uuid="ff85ac1c-b1b4-46f1-9d5c-e425b8b68325"/>
 				<box>
 					<pen lineWidth="1.0" lineStyle="Double"/>
 					<topPen lineWidth="1.0" lineStyle="Double"/>
@@ -194,16 +194,28 @@ permiso.id = $P{permiso_id} AND asignacion_permiso.empleado_nro_documento = $P{e
 					<rightPen lineWidth="1.0" lineStyle="Double"/>
 				</box>
 				<staticText>
-					<reportElement x="0" y="0" width="230" height="20" backcolor="#CCCCCC" uuid="6a004c8b-6c41-4f81-b624-424cbcaaa0f7"/>
-					<box leftPadding="3"/>
+					<reportElement mode="Opaque" x="1" y="1" width="230" height="20" backcolor="#D2D2D2" uuid="6a004c8b-6c41-4f81-b624-424cbcaaa0f7"/>
+					<box leftPadding="3">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
 					<textElement verticalAlignment="Middle">
 						<font size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[APELLIDOS Y NOMBRES:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="0" y="20" width="230" height="20" backcolor="#CCCCCC" uuid="eb01eb2a-32e0-409a-ac24-3bc5bbe31655"/>
-					<box leftPadding="3"/>
+					<reportElement mode="Opaque" x="1" y="20" width="230" height="20" backcolor="#CCCCCC" uuid="eb01eb2a-32e0-409a-ac24-3bc5bbe31655"/>
+					<box leftPadding="3">
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
 					<textElement verticalAlignment="Middle">
 						<font size="11" isBold="true"/>
 					</textElement>

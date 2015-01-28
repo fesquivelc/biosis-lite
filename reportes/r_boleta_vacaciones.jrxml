@@ -119,16 +119,6 @@ WHERE vacacion.id = $P{vacacion_id}]]>
 + new SimpleDateFormat("dd/MM/yyyy").format($F{vacacion_fecha_fin})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="270" width="175" height="30" uuid="b4e9e4fd-eee9-414b-90cd-f0a7335455ea"/>
-				<box>
-					<topPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[FIRMA DEL EMPLEADO]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="380" y="270" width="175" height="30" uuid="a521a82b-3aa6-437d-b6d8-67151998624a"/>
 				<box>
 					<topPen lineWidth="1.0"/>
@@ -136,10 +126,10 @@ WHERE vacacion.id = $P{vacacion_id}]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[FIRMA DEL JEFE DE PERSONAL]]></text>
+				<text><![CDATA[PERSONAL QUE AUTORIZA VAC.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="190" y="270" width="175" height="30" uuid="d888e9f9-c8c1-4425-bc32-9c7443bb445a"/>
+				<reportElement x="0" y="270" width="175" height="30" uuid="d888e9f9-c8c1-4425-bc32-9c7443bb445a"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>

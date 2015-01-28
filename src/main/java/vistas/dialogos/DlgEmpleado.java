@@ -260,6 +260,7 @@ public class DlgEmpleado extends javax.swing.JDialog {
         // TODO add your handling code here:
         lblBusqueda.setBusy(true);
         buscar();
+        actualizarControlesNavegacion();
         lblBusqueda.setBusy(false);
     }//GEN-LAST:event_btnBuscarActionPerformed
 

@@ -1215,14 +1215,20 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
     private boolean erroresFormulario() {
         int errores = 0;
+        Date fechaInicio = (Date) spFechaInicio.getValue();
+        Date fechaFin = (Date) spFechaFin.getValue();
         String mensaje = "";
         if (integrantes.isEmpty()) {
             errores++;
-            mensaje = ">Debe seleccionar uno o mas empleados";
+            mensaje = ">Debe seleccionar uno o mas empleados\n";
+        }
+        if (fechaInicio.compareTo(fechaFin) > 0 && chkPorFecha.isSelected()) {
+            errores++;
+            mensaje = ">La fecha de inicio debe ser menor que la fecha de fin\n";
         }
 
         if (errores > 0) {
-            JOptionPane.showMessageDialog(this, "Se ha(n) encontrado el(los) siguiente(s) error(es):" + mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Se ha(n) encontrado el(los) siguiente(s) error(es):\n" + mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
         }
         return errores != 0;
     }
