@@ -87,3 +87,4 @@ Caused by: com.microsoft.sqlserver.jdbc.SQLServerException: Error al convertir u
 	at com.microsoft.sqlserver.jdbc.SQLServerResultSet.next(SQLServerResultSet.java:1034)
 	at net.sf.jasperreports.engine.JRResultSetDataSource.next(JRResultSetDataSource.java:118)
 	... 13 more
+2015-01-27 16:31:53.034	ERROR	[main]	CLASE: DlgLogin	 METODO: iniciar	LINEA:299	MSJE:Unable to build entity manager factory

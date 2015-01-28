@@ -51,7 +51,7 @@ public class DAO<T> {
             String url = configuracion.getProperty("url");
             String usuario = configuracion.getProperty("usuario");
             String password = configuracion.getProperty("password");
-            String accion = configuracion.getProperty("accion");
+            String accion = configuracion.getProperty("action");
 
             Map<String, String> properties = new HashMap<>();
             properties.put("javax.persistence.jdbc.user", usuario);

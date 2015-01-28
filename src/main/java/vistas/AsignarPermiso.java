@@ -516,6 +516,12 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel8, gridBagConstraints);
+
+        chkPorFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkPorFechaActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
@@ -816,6 +822,11 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             imprimirBoleta(asignacion.getPermiso());
         }
     }//GEN-LAST:event_btnImprimirTodoActionPerformed
+
+    private void chkPorFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPorFechaActionPerformed
+        // TODO add your handling code here:
+        checkPorFecha(accion);
+    }//GEN-LAST:event_chkPorFechaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

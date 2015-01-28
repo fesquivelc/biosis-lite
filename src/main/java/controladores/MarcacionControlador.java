@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -35,11 +36,14 @@ public class MarcacionControlador extends Controlador<Marcacion> {
     public List<Marcacion> buscarXFecha(String dni, Date fechaInicio, Date fechaFin, int desde, int tamanio) {
         String jpql = "SELECT m FROM Marcacion m WHERE m.empleado = :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin "
                 + "ORDER BY m.empleado,m.fecha,m.hora";
+        LOG.error("DOCUMENTO: " + dni);
         Map<String, Object> mapa = new HashMap<>();
+
         mapa.put("dni", Integer.parseInt(dni));
         mapa.put("fechaInicio", fechaInicio);
         mapa.put("fechaFin", fechaFin);
-        return this.getDao().buscar(jpql, mapa, desde, tamanio);
+        List<Marcacion> marcaciones = this.getDao().buscar(jpql, mapa, desde, tamanio);
+        return marcaciones;
     }
 
     public List<Marcacion> buscarXFecha(Date fechaInicio, Date fechaFin) {
@@ -49,7 +53,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
         mapa.put("fechaFin", fechaFin);
         return this.getDao().buscar(jpql, mapa);
     }
-    
+
     public List<Marcacion> buscarXFecha(Date fecha) {
         String jpql = "SELECT m FROM Marcacion m WHERE m.fecha = :fecha";
         Map<String, Object> mapa = new HashMap<>();
@@ -72,9 +76,10 @@ public class MarcacionControlador extends Controlador<Marcacion> {
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("fechaInicio", fechaInicio);
         mapa.put("fechaFin", fechaFin);
-
-        return this.getDao().buscar(jpql, mapa, desde, tamanio);
+        List<Marcacion> lista = this.getDao().buscar(jpql, mapa, desde, tamanio);
+        return lista;
     }
+    private static final Logger LOG = Logger.getLogger(MarcacionControlador.class.getName());
 
     public int totalXEmpleadoXFecha(String dni, Date fechaInicio, Date fechaFin) {
         String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.empleado = :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin";
@@ -97,7 +102,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
     private String ceros(String dni) {
         String ceros = "";
         int nDNI = Integer.parseInt(dni);
-        System.out.println("DNI: "+dni);
+        System.out.println("DNI: " + dni);
         int tamanio1 = dni.length();
         int tamanio2 = (nDNI + "").length();
 
@@ -105,7 +110,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
             ceros += "0";
         }
 //        System.out.println("CEROS: "+ceros);
-        System.out.println("CEROS: "+ceros);
+        System.out.println("CEROS: " + ceros);
         return ceros;
     }
 
