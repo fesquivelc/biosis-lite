@@ -59,7 +59,7 @@ permiso.id = $P{permiso_id} AND asignacion_permiso.empleado_nro_documento = $P{e
 	<title>
 		<band height="82" splitType="Stretch">
 			<image>
-				<reportElement x="0" y="0" width="233" height="47" uuid="13930c06-6956-4319-98ae-275191516703"/>
+				<reportElement x="0" y="0" width="215" height="47" uuid="13930c06-6956-4319-98ae-275191516703"/>
 				<imageExpression><![CDATA[$P{ruta}+"/reportes/logo.png"]]></imageExpression>
 			</image>
 			<staticText>

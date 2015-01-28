@@ -27,6 +27,7 @@ import com.personal.utiles.ReporteUtil;
 import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -977,13 +978,26 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         }
     }
     private final SaldoVacacionalControlador svc = new SaldoVacacionalControlador();
-    public void buscarCrear(Empleado empleado, Periodo periodo){
+    
+    private final Calendar calendar = Calendar.getInstance();
+    public void buscarCrear(Empleado empleado, Periodo periodo) {
         SaldoVacacional sv = svc.buscarXPeriodo(empleado.getNroDocumento(), periodo);
-        
-        if(sv == null){
+        Date fechaContrato = empleado.getFechaInicioContrato();
+        calendar.setTime(fechaContrato);
+        if (sv == null && periodo.getAnio() > calendar.get(Calendar.YEAR)) {
             //CREAMOS
             sv = new SaldoVacacional();
-            sv.setDiasRestantes(30);
+            //OBTENEMOS SI LE CORRESPONDEN VACACIONES ACORDE A LEY
+
+            if (calendar.get(Calendar.YEAR) < periodo.getAnio()) {
+                sv.setDiasRestantes(30);
+            } else {
+                sv.setDiasRestantes(0);
+            }
+            calendar.set(Calendar.YEAR, periodo.getAnio());
+            sv.setFechaDesde(calendar.getTime());
+            calendar.add(Calendar.YEAR, 1);
+            sv.setFechaHasta(calendar.getTime());
             sv.setEmpleado(empleado.getNroDocumento());
             sv.setLunesViernes(0);
             sv.setSabado(0);
@@ -991,5 +1005,9 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             sv.setPeriodo(periodo);
             svc.modificar(sv);
         }
+    }
+    
+    private void hayErorres(){
+        
     }
 }

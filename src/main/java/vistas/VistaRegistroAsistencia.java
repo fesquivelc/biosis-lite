@@ -323,7 +323,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(jButton2, gridBagConstraints);
 
-        jLabel2.setText("Área:");
+        jLabel2.setText("Grupo horario:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 10;
