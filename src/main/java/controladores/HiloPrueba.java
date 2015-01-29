@@ -5,8 +5,8 @@
  */
 package controladores;
 
-import biz.juvitec.dao.DAO;
-import biz.juvitec.dao.DAOMINEDU;
+import dao.DAO;
+import dao.DAOMINEDU;
 import entidades.Empleado;
 
 

@@ -9,7 +9,7 @@ import controladores.EmpleadoBeanControlador;
 import controladores.EmpleadoControlador;
 import controladores.RolControlador;
 import controladores.UsuarioControlador;
-import biz.juvitec.dao.DAOMINEDU;
+import dao.DAOMINEDU;
 import entidades.Empleado;
 import entidades.EmpleadoBean;
 import entidades.Rol;

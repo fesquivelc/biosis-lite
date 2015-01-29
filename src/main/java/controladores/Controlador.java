@@ -6,7 +6,7 @@
 
 package controladores;
 
-import biz.juvitec.dao.DAO;
+import dao.DAO;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -10,7 +10,7 @@ import controladores.EmpleadoControlador;
 import controladores.PeriodoControlador;
 import controladores.SaldoVacacionalControlador;
 import controladores.VacacionControlador;
-import biz.juvitec.dao.DAOMINEDU;
+import dao.DAOMINEDU;
 import entidades.AsignacionPermiso;
 import entidades.Empleado;
 import entidades.Periodo;

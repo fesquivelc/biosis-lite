@@ -5,13 +5,18 @@
  */
 package biz.juvitec.biosislite;
 
+import com.personal.utiles.FormularioUtil;
 import controladores.DepartamentoControlador;
 import controladores.EmpleadoControlador;
 import controladores.MarcacionControlador;
 import entidades.Departamento;
 import entidades.Empleado;
+import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,12 +25,18 @@ import java.util.List;
 public class pruebaAnio {
 
     public static void main(String[] args) {
-        MarcacionControlador mc = new MarcacionControlador();
-        EmpleadoControlador ec = new EmpleadoControlador();
-        DepartamentoControlador dc = new DepartamentoControlador();
-        List<Departamento> deps = dc.buscarXNombre("");
-        
-        System.out.println("DEPS: "+deps.size());
+        String url = FormularioUtil.chooserFichero(null, "holi");
+        File file = new File(url);
+        if(file.exists()){
+            System.out.println("CHEVERE");
+        }else{
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(pruebaAnio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("NO TAN CHEVERE");
+        }
         System.exit(0);
     }
 

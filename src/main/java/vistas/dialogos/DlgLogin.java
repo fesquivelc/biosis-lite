@@ -6,9 +6,9 @@
 package vistas.dialogos;
 
 import controladores.UsuarioControlador;
-import biz.juvitec.dao.DAO;
-import biz.juvitec.dao.DAOBIOSTAR;
-import biz.juvitec.dao.DAOMINEDU;
+import dao.DAO;
+import dao.DAOBIOSTAR;
+import dao.DAOMINEDU;
 import entidades.Empleado;
 import entidades.Marcacion;
 import entidades.Usuario;

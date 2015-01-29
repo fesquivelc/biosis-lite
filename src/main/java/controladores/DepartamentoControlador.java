@@ -5,7 +5,7 @@
  */
 package controladores;
 
-import biz.juvitec.dao.DAOBIOSTAR;
+import dao.DAOBIOSTAR;
 import entidades.Departamento;
 import entidades.Marcacion;
 import java.util.Date;

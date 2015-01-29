@@ -5,7 +5,7 @@
  */
 package controladores;
 
-import biz.juvitec.dao.DAOMINEDU;
+import dao.DAOMINEDU;
 import entidades.Empleado;
 import java.util.HashMap;
 import java.util.List;

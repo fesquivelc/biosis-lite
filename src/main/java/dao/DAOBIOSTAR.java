@@ -3,16 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package biz.juvitec.dao;
+package dao;
 
 import com.personal.utiles.ParametrosUtil;
 import com.personal.utiles.PropertiesUtil;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import utiles.Encriptador;
 
 /**
@@ -20,18 +22,18 @@ import utiles.Encriptador;
  * @author Kyon
  * @param <T>
  */
-public class DAOMINEDU<T> extends DAO<T> {
-    private static EntityManager entityManagerMINEDU;
+public class DAOBIOSTAR<T> extends DAO<T> {
 
-    public DAOMINEDU(Class<T> clase) {
-        this.PU = "rrhh-PU";
+    private static EntityManager entityManagerBIOSTAR;
+    public DAOBIOSTAR(Class<T> clase) {
+        this.PU = "biostar-PU";
         this.clase = clase;
     }
 
     @Override
     public EntityManager getEntityManager() {
-        if (entityManagerMINEDU == null) {
-            Properties configuracion = PropertiesUtil.cargarProperties("config/rrhh-config.properties");
+        if (entityManagerBIOSTAR == null) {
+            Properties configuracion = PropertiesUtil.cargarProperties("config/biostar-config.properties");
             int tipoBD = Integer.parseInt(configuracion.getProperty("tipo"));
 
             String driver = ParametrosUtil.obtenerDriver(tipoBD);
@@ -47,8 +49,8 @@ public class DAOMINEDU<T> extends DAO<T> {
             properties.put("javax.persistence.schema-generation.database.action", "none");
 
             EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.PU, properties);
-            entityManagerMINEDU = emf.createEntityManager();
+            entityManagerBIOSTAR = emf.createEntityManager();
         }
-        return entityManagerMINEDU;
+        return entityManagerBIOSTAR;
     }
 }

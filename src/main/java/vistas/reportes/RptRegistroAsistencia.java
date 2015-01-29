@@ -551,8 +551,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         List<Empleado> empleados = this.ec.buscarPorLista(dnis);
         analisis.analizarEmpleados(empleados);
         
-        String reporte = "";
-        
+        String reporte = "";        
 
         if (radConsolidado.isSelected()) {
             reporte = "reportes/r_registro_asistencia_consolidado.jasper";
