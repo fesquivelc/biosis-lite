@@ -96,9 +96,10 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         pnlDatosJornada.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de usuario"));
+        pnlDatosJornada.setLayout(new java.awt.GridBagLayout());
 
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
-        jPanel1Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
+        jPanel1Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
         jPanel1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel1.setLayout(jPanel1Layout);
 
@@ -129,12 +130,12 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel10, gridBagConstraints);
-
-        txtLogin.setColumns(30);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtLogin, gridBagConstraints);
 
         jLabel11.setText("¿Cambiar contraseña al iniciar?:");
@@ -154,19 +155,19 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(chkCambiarContraseña, gridBagConstraints);
-
-        txtRol.setColumns(30);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtRol, gridBagConstraints);
-
-        txtEmpleado.setColumns(30);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtEmpleado, gridBagConstraints);
 
         btnRol.setText("...");
@@ -176,7 +177,7 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
@@ -201,19 +202,24 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(btnEmpleado, gridBagConstraints);
 
-        txtPassword.setColumns(30);
         txtPassword.setText("jPasswordField1");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtPassword, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnlDatosJornada.add(jPanel1, gridBagConstraints);
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
@@ -233,28 +239,12 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         });
         jPanel2.add(btnCancelar);
 
-        javax.swing.GroupLayout pnlDatosJornadaLayout = new javax.swing.GroupLayout(pnlDatosJornada);
-        pnlDatosJornada.setLayout(pnlDatosJornadaLayout);
-        pnlDatosJornadaLayout.setHorizontalGroup(
-            pnlDatosJornadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDatosJornadaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnlDatosJornadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
-                    .addGroup(pnlDatosJornadaLayout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        pnlDatosJornadaLayout.setVerticalGroup(
-            pnlDatosJornadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlDatosJornadaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 371, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.SOUTH;
+        gridBagConstraints.weighty = 0.1;
+        pnlDatosJornada.add(jPanel2, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -263,9 +253,7 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         gridBagConstraints.ipadx = 151;
         gridBagConstraints.ipady = 148;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(12, 6, 12, 12);
         getContentPane().add(pnlDatosJornada, gridBagConstraints);
 
         pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder("Usuarios"));
@@ -329,7 +317,6 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.2;
         gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(12, 12, 12, 0);
         getContentPane().add(pnlListado, gridBagConstraints);
 
         pack();
@@ -531,7 +518,7 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
 
     private void mostrar(Usuario seleccionado) {
         txtLogin.setText(seleccionado.getLogin());
-        txtPassword.setText(Encriptador.decrypt(seleccionado.getPassword()));
+//        txtPassword.setText(Encriptador.decrypt(seleccionado.getPassword()));
         chkActivo.setSelected(seleccionado.isActivo());
         
         chkCambiarContraseña.setSelected(seleccionado.isCambiarPassword());

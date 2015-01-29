@@ -5,7 +5,13 @@
  */
 package biz.juvitec.biosislite;
 
+import controladores.DepartamentoControlador;
+import controladores.EmpleadoControlador;
+import controladores.MarcacionControlador;
+import entidades.Departamento;
+import entidades.Empleado;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  *
@@ -13,16 +19,16 @@ import java.util.Calendar;
  */
 public class pruebaAnio {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
-        for(int i = 1; i <= 2000; i++){
-            System.out.println("\""+conCeros(i)+"\"");
-        }
+        MarcacionControlador mc = new MarcacionControlador();
+        EmpleadoControlador ec = new EmpleadoControlador();
+        DepartamentoControlador dc = new DepartamentoControlador();
+        List<Departamento> deps = dc.buscarXNombre("");
+        
+        System.out.println("DEPS: "+deps.size());
+        System.exit(0);
     }
-    
+
     public static String conCeros(int dni) {
         if (dni <= 9) {
             return "0000000" + dni;

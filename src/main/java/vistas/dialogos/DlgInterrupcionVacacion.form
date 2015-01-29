@@ -3,6 +3,7 @@
 <Form version="1.8" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" value="Registrar interrupci&#xf3;n"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -33,6 +34,7 @@
             <TitledBorder title="Definir fecha de interrupci&#xf3;n"/>
           </Border>
         </Property>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
       <SubComponents>
         <Container class="javax.swing.JPanel" name="jPanel2">
@@ -116,21 +118,21 @@
         <Component class="com.toedter.calendar.JDateChooser" name="dtFechaInicio">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-              <GridBagConstraints gridX="2" gridY="2" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="4" insetsBottom="0" insetsRight="4" anchor="21" weightX="0.0" weightY="0.0"/>
+              <GridBagConstraints gridX="2" gridY="2" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="4" insetsBottom="0" insetsRight="4" anchor="21" weightX="0.0" weightY="0.0"/>
             </Constraint>
           </Constraints>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="dtFechaFin">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-              <GridBagConstraints gridX="2" gridY="4" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="4" insetsBottom="0" insetsRight="4" anchor="21" weightX="0.0" weightY="0.0"/>
+              <GridBagConstraints gridX="2" gridY="4" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="4" insetsBottom="0" insetsRight="4" anchor="21" weightX="0.0" weightY="0.0"/>
             </Constraint>
           </Constraints>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="dtFechaInterrupcion">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
-              <GridBagConstraints gridX="2" gridY="6" gridWidth="1" gridHeight="1" fill="0" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="4" insetsBottom="0" insetsRight="4" anchor="21" weightX="0.0" weightY="0.0"/>
+              <GridBagConstraints gridX="2" gridY="6" gridWidth="1" gridHeight="1" fill="2" ipadX="0" ipadY="0" insetsTop="0" insetsLeft="4" insetsBottom="0" insetsRight="4" anchor="21" weightX="0.0" weightY="0.0"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -778,10 +780,23 @@
         <CodeStatement>
           <CodeExpression id="44_gridBagConstraints"/>
           <StatementProvider type="CodeField">
-            <CodeField name="anchor" class="java.awt.GridBagConstraints"/>
+            <CodeField name="fill" class="java.awt.GridBagConstraints"/>
           </StatementProvider>
           <Parameters>
             <CodeExpression id="47">
+              <ExpressionOrigin>
+                <Value type="int" value="2"/>
+              </ExpressionOrigin>
+            </CodeExpression>
+          </Parameters>
+        </CodeStatement>
+        <CodeStatement>
+          <CodeExpression id="44_gridBagConstraints"/>
+          <StatementProvider type="CodeField">
+            <CodeField name="anchor" class="java.awt.GridBagConstraints"/>
+          </StatementProvider>
+          <Parameters>
+            <CodeExpression id="48">
               <ExpressionOrigin>
                 <Value type="int" value="21"/>
               </ExpressionOrigin>
@@ -794,7 +809,7 @@
             <CodeField name="insets" class="java.awt.GridBagConstraints"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="48">
+            <CodeExpression id="49">
               <ExpressionOrigin>
                 <Value type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                   <Insets value="[0, 4, 0, 4]"/>
@@ -809,7 +824,7 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="49_dtFechaInicio">
+            <CodeExpression id="50_dtFechaInicio">
               <CodeVariable name="dtFechaInicio" type="8194" declaredType="com.toedter.calendar.JDateChooser"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
@@ -821,7 +836,7 @@
           </Parameters>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="50_gridBagConstraints">
+          <CodeExpression id="51_gridBagConstraints">
             <CodeVariable name="gridBagConstraints"/>
             <ExpressionOrigin>
               <ExpressionProvider type="CodeConstructor">
@@ -830,16 +845,16 @@
             </ExpressionOrigin>
           </CodeExpression>
           <StatementProvider type="CodeExpression">
-            <CodeExpression id="50_gridBagConstraints"/>
+            <CodeExpression id="51_gridBagConstraints"/>
           </StatementProvider>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="50_gridBagConstraints"/>
+          <CodeExpression id="51_gridBagConstraints"/>
           <StatementProvider type="CodeField">
             <CodeField name="gridx" class="java.awt.GridBagConstraints"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="51">
+            <CodeExpression id="52">
               <ExpressionOrigin>
                 <Value type="int" value="2"/>
               </ExpressionOrigin>
@@ -847,12 +862,12 @@
           </Parameters>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="50_gridBagConstraints"/>
+          <CodeExpression id="51_gridBagConstraints"/>
           <StatementProvider type="CodeField">
             <CodeField name="gridy" class="java.awt.GridBagConstraints"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="52">
+            <CodeExpression id="53">
               <ExpressionOrigin>
                 <Value type="int" value="4"/>
               </ExpressionOrigin>
@@ -860,12 +875,25 @@
           </Parameters>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="50_gridBagConstraints"/>
+          <CodeExpression id="51_gridBagConstraints"/>
+          <StatementProvider type="CodeField">
+            <CodeField name="fill" class="java.awt.GridBagConstraints"/>
+          </StatementProvider>
+          <Parameters>
+            <CodeExpression id="54">
+              <ExpressionOrigin>
+                <Value type="int" value="2"/>
+              </ExpressionOrigin>
+            </CodeExpression>
+          </Parameters>
+        </CodeStatement>
+        <CodeStatement>
+          <CodeExpression id="51_gridBagConstraints"/>
           <StatementProvider type="CodeField">
             <CodeField name="anchor" class="java.awt.GridBagConstraints"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="53">
+            <CodeExpression id="55">
               <ExpressionOrigin>
                 <Value type="int" value="21"/>
               </ExpressionOrigin>
@@ -873,12 +901,12 @@
           </Parameters>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="50_gridBagConstraints"/>
+          <CodeExpression id="51_gridBagConstraints"/>
           <StatementProvider type="CodeField">
             <CodeField name="insets" class="java.awt.GridBagConstraints"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="54">
+            <CodeExpression id="56">
               <ExpressionOrigin>
                 <Value type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                   <Insets value="[0, 4, 0, 4]"/>
@@ -893,7 +921,7 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="55_dtFechaFin">
+            <CodeExpression id="57_dtFechaFin">
               <CodeVariable name="dtFechaFin" type="8194" declaredType="com.toedter.calendar.JDateChooser"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
@@ -901,11 +929,11 @@
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
-            <CodeExpression id="50_gridBagConstraints"/>
+            <CodeExpression id="51_gridBagConstraints"/>
           </Parameters>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="56_gridBagConstraints">
+          <CodeExpression id="58_gridBagConstraints">
             <CodeVariable name="gridBagConstraints"/>
             <ExpressionOrigin>
               <ExpressionProvider type="CodeConstructor">
@@ -914,16 +942,16 @@
             </ExpressionOrigin>
           </CodeExpression>
           <StatementProvider type="CodeExpression">
-            <CodeExpression id="56_gridBagConstraints"/>
+            <CodeExpression id="58_gridBagConstraints"/>
           </StatementProvider>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="56_gridBagConstraints"/>
+          <CodeExpression id="58_gridBagConstraints"/>
           <StatementProvider type="CodeField">
             <CodeField name="gridx" class="java.awt.GridBagConstraints"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="57">
+            <CodeExpression id="59">
               <ExpressionOrigin>
                 <Value type="int" value="2"/>
               </ExpressionOrigin>
@@ -931,12 +959,12 @@
           </Parameters>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="56_gridBagConstraints"/>
+          <CodeExpression id="58_gridBagConstraints"/>
           <StatementProvider type="CodeField">
             <CodeField name="gridy" class="java.awt.GridBagConstraints"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="58">
+            <CodeExpression id="60">
               <ExpressionOrigin>
                 <Value type="int" value="6"/>
               </ExpressionOrigin>
@@ -944,12 +972,25 @@
           </Parameters>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="56_gridBagConstraints"/>
+          <CodeExpression id="58_gridBagConstraints"/>
+          <StatementProvider type="CodeField">
+            <CodeField name="fill" class="java.awt.GridBagConstraints"/>
+          </StatementProvider>
+          <Parameters>
+            <CodeExpression id="61">
+              <ExpressionOrigin>
+                <Value type="int" value="2"/>
+              </ExpressionOrigin>
+            </CodeExpression>
+          </Parameters>
+        </CodeStatement>
+        <CodeStatement>
+          <CodeExpression id="58_gridBagConstraints"/>
           <StatementProvider type="CodeField">
             <CodeField name="anchor" class="java.awt.GridBagConstraints"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="59">
+            <CodeExpression id="62">
               <ExpressionOrigin>
                 <Value type="int" value="21"/>
               </ExpressionOrigin>
@@ -957,12 +998,12 @@
           </Parameters>
         </CodeStatement>
         <CodeStatement>
-          <CodeExpression id="56_gridBagConstraints"/>
+          <CodeExpression id="58_gridBagConstraints"/>
           <StatementProvider type="CodeField">
             <CodeField name="insets" class="java.awt.GridBagConstraints"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="60">
+            <CodeExpression id="63">
               <ExpressionOrigin>
                 <Value type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
                   <Insets value="[0, 4, 0, 4]"/>
@@ -977,7 +1018,7 @@
             <CodeMethod name="add" class="java.awt.Container" parameterTypes="java.awt.Component, java.lang.Object"/>
           </StatementProvider>
           <Parameters>
-            <CodeExpression id="61_dtFechaInterrupcion">
+            <CodeExpression id="64_dtFechaInterrupcion">
               <CodeVariable name="dtFechaInterrupcion" type="8194" declaredType="com.toedter.calendar.JDateChooser"/>
               <ExpressionOrigin>
                 <ExpressionProvider type="ComponentRef">
@@ -985,7 +1026,7 @@
                 </ExpressionProvider>
               </ExpressionOrigin>
             </CodeExpression>
-            <CodeExpression id="56_gridBagConstraints"/>
+            <CodeExpression id="58_gridBagConstraints"/>
           </Parameters>
         </CodeStatement>
       </LayoutCode>

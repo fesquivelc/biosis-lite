@@ -134,4 +134,22 @@ public class MarcacionControlador extends Controlador<Marcacion> {
         }
     }
 
+    public List<Object[]> buscarEmpleadosXEvento(int evento, boolean dentro) {
+        String sql = "SELECT u.sUserID,CONVERT(varchar,u.sUserName),CONVERT (varchar,dep.sName) FROM TB_USER u LEFT JOIN TB_USER_DEPT dep on u.nDepartmentIdn = dep.nDepartmentIdn WHERE u.sUserID";
+        if (dentro) {
+            sql += " IN ";
+        } else {
+            sql += " NOT IN ";
+        }
+        sql += "(SELECT "
+                + "TB_USER.sUserID "
+                + "FROM TB_EVENT_LOG "
+                + "INNER JOIN TB_USER ON TB_EVENT_LOG.nUserID = TB_USER.nUserIdn "
+                + "WHERE TB_EVENT_LOG.nEventIdn = :evento)";
+        sql += " ORDER BY u.sUserID,u.sUserName";
+        System.out.println("SQL: "+sql);
+        List<Object[]> lista = this.getDao().getEntityManager().createNativeQuery(sql).setParameter("evento", evento).getResultList();
+        return lista;
+    }
+
 }

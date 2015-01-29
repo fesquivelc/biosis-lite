@@ -250,6 +250,7 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             lblBusqueda.setBusy(true);
             buscar();
+            actualizarControlesNavegacion();
             lblBusqueda.setBusy(false);
         }
     }//GEN-LAST:event_txtBusquedaKeyReleased

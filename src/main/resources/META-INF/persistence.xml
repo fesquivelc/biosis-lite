@@ -42,6 +42,7 @@
   <persistence-unit name="biostar-PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>entidades.Marcacion</class>
+    <class>entidades.Departamento</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://127.0.0.1:5432/minedu-biostar"/>
       <property name="javax.persistence.jdbc.password" value="root"/>

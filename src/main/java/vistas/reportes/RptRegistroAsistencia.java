@@ -19,6 +19,7 @@ import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
+import entidades.Departamento;
 import java.awt.Component;
 import java.io.File;
 import java.text.DateFormat;
@@ -40,6 +41,7 @@ import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import utiles.UsuarioActivo;
+import vistas.dialogos.DlgOficina;
 
 /**
  *
@@ -102,6 +104,9 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         tblTabla = new org.jdesktop.swingx.JXTable();
         btnAgregar = new javax.swing.JButton();
         btnQuitar = new javax.swing.JButton();
+        radOficina = new javax.swing.JRadioButton();
+        txtOficina = new javax.swing.JTextField();
+        btnOficina = new javax.swing.JButton();
         pnlBotones = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         pnlTab = new javax.swing.JTabbedPane();
@@ -114,6 +119,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
 
         grpSeleccion.add(radGrupo);
         grpSeleccion.add(radPersonalizado);
+        grpSeleccion.add(radOficina);
 
         setClosable(true);
         setTitle("REPORTE DE REGISTRO DE ASISTENCIA");
@@ -244,6 +250,11 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
 
         radPersonalizado.setSelected(true);
         radPersonalizado.setText("Personalizado:");
+        radPersonalizado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radPersonalizadoActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -289,6 +300,36 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         pnlEmpleados.add(btnQuitar, gridBagConstraints);
+
+        radOficina.setText("Por oficina:");
+        radOficina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radOficinaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEmpleados.add(radOficina, gridBagConstraints);
+
+        txtOficina.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlEmpleados.add(txtOficina, gridBagConstraints);
+
+        btnOficina.setText("...");
+        btnOficina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOficinaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        pnlEmpleados.add(btnOficina, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -367,9 +408,30 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         controles();
     }//GEN-LAST:event_radGrupoActionPerformed
 
+    private void radPersonalizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPersonalizadoActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radPersonalizadoActionPerformed
+
+    private void radOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radOficinaActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radOficinaActionPerformed
+
+    private void btnOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOficinaActionPerformed
+        // TODO add your handling code here:
+        DlgOficina oficinas = new DlgOficina(this);
+        oficinaSeleccionada = oficinas.getSeleccionado();
+        if(oficinaSeleccionada != null){
+            txtOficina.setText(oficinaSeleccionada.getNombre());
+        }
+    }//GEN-LAST:event_btnOficinaActionPerformed
+
+    private Departamento oficinaSeleccionada;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnOficina;
     private javax.swing.JButton btnQuitar;
     private javax.swing.JComboBox cboGrupoHorario;
     private com.toedter.calendar.JMonthChooser cboMes;
@@ -391,11 +453,13 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton radDetallado;
     private javax.swing.JRadioButton radGrupo;
     private javax.swing.JRadioButton radMes;
+    private javax.swing.JRadioButton radOficina;
     private javax.swing.JRadioButton radPersonalizado;
     private javax.swing.JRadioButton radPorFecha;
     private javax.swing.JSpinner spFechaFin;
     private javax.swing.JSpinner spFechaInicio;
     private org.jdesktop.swingx.JXTable tblTabla;
+    private javax.swing.JTextField txtOficina;
     // End of variables declaration//GEN-END:variables
 
     private List<Empleado> empleadoList;
@@ -424,7 +488,8 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
         FormularioUtil.activarComponente(btnAgregar, radPersonalizado.isSelected());
         FormularioUtil.activarComponente(btnQuitar, radPersonalizado.isSelected());
-
+        
+        FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
     }
 
     private List<GrupoHorario> grupoList;

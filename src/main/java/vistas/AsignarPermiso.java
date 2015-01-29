@@ -635,7 +635,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        if (!erroresFormulario()) {
+        if (erroresFormulario()) {
             return;
         }
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
@@ -1216,15 +1216,18 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
     private boolean erroresFormulario() {
         int errores = 0;
         Date fechaInicio = (Date) spFechaInicio.getValue();
-        Date fechaFin = (Date) spFechaFin.getValue();
+
         String mensaje = "";
         if (integrantes.isEmpty()) {
             errores++;
             mensaje = ">Debe seleccionar uno o mas empleados\n";
         }
-        if (fechaInicio.compareTo(fechaFin) > 0 && chkPorFecha.isSelected()) {
-            errores++;
-            mensaje = ">La fecha de inicio debe ser menor que la fecha de fin\n";
+        if (chkPorFecha.isSelected()) {
+            Date fechaFin = (Date) spFechaFin.getValue();
+            if (fechaInicio.compareTo(fechaFin) > 0) {
+                errores++;
+                mensaje = ">La fecha de inicio debe ser menor que la fecha de fin\n";
+            }
         }
 
         if (errores > 0) {

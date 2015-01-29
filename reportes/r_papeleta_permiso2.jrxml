@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_consolidado" pageWidth="595" pageHeight="500" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_papeleta_permiso2" pageWidth="595" pageHeight="500" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -130,16 +130,6 @@ permiso.id = $P{permiso_id} AND asignacion_permiso.empleado_nro_documento = $P{e
 				<textFieldExpression><![CDATA[$P{fechas}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="297" width="175" height="30" uuid="b4e9e4fd-eee9-414b-90cd-f0a7335455ea"/>
-				<box>
-					<topPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[FIRMA DEL EMPLEADO]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="380" y="297" width="175" height="30" uuid="a521a82b-3aa6-437d-b6d8-67151998624a"/>
 				<box>
 					<topPen lineWidth="1.0"/>
@@ -147,17 +137,17 @@ permiso.id = $P{permiso_id} AND asignacion_permiso.empleado_nro_documento = $P{e
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[FIRMA DEL JEFE DE PERSONAL]]></text>
+				<text><![CDATA[PERSONAL QUE AUTORIZA SALIDA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="190" y="297" width="175" height="30" uuid="d888e9f9-c8c1-4425-bc32-9c7443bb445a"/>
+				<reportElement x="0" y="297" width="175" height="30" uuid="d888e9f9-c8c1-4425-bc32-9c7443bb445a"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[FIRMA DEL JEFE INMEDIATO]]></text>
+				<text><![CDATA[JEFE INMEDIATO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="120" width="157" height="20" uuid="87f9bde7-1574-4e95-a708-1e23b3209b87"/>

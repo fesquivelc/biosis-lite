@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<jpa:entity-mappings persistenceUnitName="biostar-PU" id="_14199651175011" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd" xmlns:ns4="http://nbmodeler.java.net" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <jpa:package>biz.juvitec.entidades</jpa:package>
-    <jpa:entity class="Marcacion" visibile="true" minimized="false" id="_1419965123651">
+<jpa:entity-mappings persistenceUnitName="biostar-PU" jaxb-support="false" id="_14199651175011" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm orm_2_1.xsd" xmlns:ns4="http://nbmodeler.java.net" xmlns:jpa="http://java.sun.com/xml/ns/persistence/orm" xmlns:java="http://jcp.org/en/jsr/detail?id=270" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <jpa:package>entidades</jpa:package>
+    <jpa:entity class="Marcacion" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1419965123651">
         <jpa:table name="v_marcaciones"/>
         <jpa:attributes>
             <jpa:id name="id" attribute-type="Long" visibile="true" id="_14199651320875">
@@ -22,12 +22,30 @@
             <jpa:basic name="equipo" attribute-type="String" visibile="true" id="_141996570099110">
                 <jpa:column name="equipo_ip" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
             </jpa:basic>
+            <jpa:basic name="nombre" attribute-type="String" visibile="true" id="_142255430579961">
+                <jpa:column name="empleado_nombre" unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
+            </jpa:basic>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="Departamento" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1422552170442">
+        <jpa:table name="TB_USER_DEPT"/>
+        <jpa:attributes>
+            <jpa:id name="id" attribute-type="Long" visibile="true" id="_14225521913108">
+                <jpa:column name="nDepartmentIdn" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:generated-value/>
+            </jpa:id>
+            <jpa:basic name="nombre" attribute-type="String" visibile="true" id="_14225521815906">
+                <jpa:column name="sName" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
         </jpa:attributes>
     </jpa:entity>
     <jpa:diagram id="_14199651175012">
         <plane elementRef="_14199651175011" id="_14199651175023_p">
             <shape elementRef="_1419965123651" id="_1419965123651_gui">
-                <Bounds x="337.0" y="171.0" width="168.0" height="146.0"/>
+                <Bounds x="192.0" y="136.0" width="156.0" height="176.0"/>
+            </shape>
+            <shape elementRef="_1422552170442" id="_1422552170442_gui">
+                <Bounds x="536.0" y="155.0" width="177.0" height="92.0"/>
             </shape>
         </plane>
     </jpa:diagram>

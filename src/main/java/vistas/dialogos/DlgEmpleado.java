@@ -268,11 +268,12 @@ public class DlgEmpleado extends javax.swing.JDialog {
         // TODO add your handling code here:
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
             lblBusqueda.setBusy(true);
-            buscar();
+            this.buscar();
+            this.actualizarControlesNavegacion();
             lblBusqueda.setBusy(false);
         }
     }//GEN-LAST:event_txtBusquedaKeyReleased
-
+    
     private void tblEmpleadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblEmpleadoKeyReleased
         // TODO add your handling code here:
 
