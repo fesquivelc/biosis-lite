@@ -123,11 +123,7 @@ $X{IN,registro_asistencia.empleado_nro_documento,lista} AND registro_asistencia.
 				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_resumen_asistencia_detalle.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="17">
-			<break>
-				<reportElement x="0" y="11" width="555" height="1" uuid="5e1ea85f-01b6-4f6f-b0cb-2a52736570bf"/>
-			</break>
-		</band>
+		<band height="17"/>
 	</detail>
 	<pageFooter>
 		<band height="31" splitType="Stretch">

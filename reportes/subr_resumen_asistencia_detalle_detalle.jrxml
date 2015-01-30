@@ -21,7 +21,6 @@
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite\\reportes\\"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="mostrarExtra" class="java.lang.Boolean"/>
 	<queryString>
 		<![CDATA[SELECT
 registro_asistencia.id as registro_asistencia_id,
@@ -87,28 +86,36 @@ registro_asistencia.empleado_nro_documento = $P{empleado_nro_documento} AND (reg
 				<textFieldExpression><![CDATA[$F{asistencia}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="438" y="0" width="25" height="20" uuid="158f443f-60f3-441e-b802-839fa6698bc0"/>
+				<reportElement x="438" y="0" width="25" height="20" uuid="158f443f-60f3-441e-b802-839fa6698bc0">
+					<printWhenExpression><![CDATA[$F{registro_horas_trabajadas} != null]]></printWhenExpression>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["H.T."]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="463" y="0" width="26" height="20" uuid="9f3e5b2a-32bd-488e-96a9-23f2b4b10206"/>
+				<reportElement x="463" y="0" width="26" height="20" uuid="9f3e5b2a-32bd-488e-96a9-23f2b4b10206">
+					<printWhenExpression><![CDATA[$F{registro_horas_trabajadas} != null]]></printWhenExpression>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{registro_horas_trabajadas}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="523" y="0" width="32" height="20" uuid="0bc3dabe-4e4e-4bca-a241-eadac3cb62e1"/>
+				<reportElement x="523" y="0" width="32" height="20" uuid="0bc3dabe-4e4e-4bca-a241-eadac3cb62e1">
+					<printWhenExpression><![CDATA[$F{registro_minutos_tardanza} != null]]></printWhenExpression>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{registro_minutos_tardanza}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="489" y="0" width="34" height="20" uuid="36168a35-1490-4fbe-b7d7-77ccfe64eccd"/>
+				<reportElement x="489" y="0" width="34" height="20" uuid="36168a35-1490-4fbe-b7d7-77ccfe64eccd">
+					<printWhenExpression><![CDATA[$F{registro_minutos_tardanza} != null]]></printWhenExpression>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
@@ -125,24 +132,6 @@ registro_asistencia.empleado_nro_documento = $P{empleado_nro_documento} AND (reg
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_resumen_asistencia_detalle_detalle_marcaciones_procesadas.jasper"]]></subreportExpression>
 			</subreport>
-			<staticText>
-				<reportElement x="365" y="0" width="33" height="20" uuid="e346be93-3f7e-48a2-a69e-45eabc4c1bc8">
-					<printWhenExpression><![CDATA[$P{mostrarExtra}]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[H.F.T.]]></text>
-			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement x="398" y="0" width="40" height="20" uuid="53e55059-db65-4c21-ac11-1448fb0220d8">
-					<printWhenExpression><![CDATA[$P{mostrarExtra}]]></printWhenExpression>
-				</reportElement>
-				<textElement verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{minutos_extra}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 </jasperReport>

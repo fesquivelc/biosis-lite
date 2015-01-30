@@ -151,5 +151,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
         List<Object[]> lista = this.getDao().getEntityManager().createNativeQuery(sql).setParameter("evento", evento).getResultList();
         return lista;
     }
+    
+    
 
 }

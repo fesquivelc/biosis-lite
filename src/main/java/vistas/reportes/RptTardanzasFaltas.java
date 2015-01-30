@@ -5,16 +5,17 @@
  */
 package vistas.reportes;
 
+import algoritmo.AnalisisAsistencia;
+import controladores.AsignacionHorarioControlador;
 import controladores.DetalleGrupoControlador;
 import controladores.EmpleadoControlador;
 import controladores.GrupoHorarioControlador;
 import controladores.PeriodoControlador;
-import controladores.SaldoVacacionalControlador;
 import entidades.DetalleGrupoHorario;
 import entidades.Empleado;
 import entidades.GrupoHorario;
 import entidades.Periodo;
-import entidades.SaldoVacacional;
+import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
@@ -22,6 +23,8 @@ import entidades.Departamento;
 import entidades.EmpleadoBiostar;
 import java.awt.Component;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,7 +32,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import net.sf.jasperreports.view.JasperViewer;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BindingGroup;
@@ -37,29 +42,30 @@ import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import utiles.UsuarioActivo;
-import vistas.dialogos.DlgEmpleado;
 import vistas.dialogos.DlgOficina;
 
 /**
  *
  * @author RyuujiMD
  */
-public class RptVacaciones extends javax.swing.JInternalFrame {
+public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form RptRegistroAsistencia
      */
-    private final List<GrupoHorario> grupoList;
-    private final GrupoHorarioControlador gc;
+    private final ReporteUtil reporteador;
+    private final DateFormat dfFecha;
+    private final EmpleadoControlador ec;
 
-    public RptVacaciones() {
+    public RptTardanzasFaltas() {
         initComponents();
-        gc = new GrupoHorarioControlador();
-        grupoList = gc.buscarTodos();
-        pc = new PeriodoControlador();
 
-//        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
-//        FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
+        ec = new EmpleadoControlador();
+        pc = new PeriodoControlador();
+        dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+        reporteador = new ReporteUtil();
+        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
+        FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
         inicializar();
         bindeoSalvaje();
         controles();
@@ -75,10 +81,22 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        grpTipoReporte = new javax.swing.ButtonGroup();
+        grpRango = new javax.swing.ButtonGroup();
         grpSeleccion = new javax.swing.ButtonGroup();
+        pnlOpciones = new javax.swing.JPanel();
+        radConsolidado = new javax.swing.JRadioButton();
+        radDetallado = new javax.swing.JRadioButton();
         pnlRango = new javax.swing.JPanel();
-        cboPeriodo = new javax.swing.JComboBox();
+        radPorFecha = new javax.swing.JRadioButton();
+        radMes = new javax.swing.JRadioButton();
+        radAnio = new javax.swing.JRadioButton();
+        spFechaInicio = new javax.swing.JSpinner();
+        spFechaFin = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
+        cboMes = new com.toedter.calendar.JMonthChooser();
+        cboPeriodo = new javax.swing.JComboBox();
+        cboPeriodo1 = new javax.swing.JComboBox();
         pnlEmpleados = new javax.swing.JPanel();
         radGrupo = new javax.swing.JRadioButton();
         radPersonalizado = new javax.swing.JRadioButton();
@@ -93,34 +111,122 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         pnlBotones = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         pnlTab = new javax.swing.JTabbedPane();
+        grpTipoReporte.add(radConsolidado);
+        grpTipoReporte.add(radDetallado);
+
+        grpRango.add(radPorFecha);
+        grpRango.add(radMes);
+        grpRango.add(radAnio);
+
         grpSeleccion.add(radGrupo);
         grpSeleccion.add(radPersonalizado);
         grpSeleccion.add(radOficina);
 
         setClosable(true);
-        setMaximizable(true);
-        setResizable(true);
-        setTitle("REPORTES DE VACACIONES");
+        setTitle("REPORTE DE REGISTRO DE ASISTENCIA");
         getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        pnlOpciones.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de reporte"));
+        pnlOpciones.setLayout(new java.awt.GridBagLayout());
+
+        radConsolidado.setSelected(true);
+        radConsolidado.setText("Reporte resumen");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        pnlOpciones.add(radConsolidado, gridBagConstraints);
+
+        radDetallado.setText("Reporte detallado");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlOpciones.add(radDetallado, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        getContentPane().add(pnlOpciones, gridBagConstraints);
 
         pnlRango.setBorder(javax.swing.BorderFactory.createTitledBorder("Rango"));
         pnlRango.setLayout(new java.awt.GridBagLayout());
 
+        radPorFecha.setSelected(true);
+        radPorFecha.setText("Por fechas:");
+        radPorFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radPorFechaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlRango.add(radPorFecha, gridBagConstraints);
+
+        radMes.setText("Por mes:");
+        radMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radMesActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlRango.add(radMes, gridBagConstraints);
+
+        radAnio.setText("Por año:");
+        radAnio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radAnioActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlRango.add(radAnio, gridBagConstraints);
+
+        spFechaInicio.setModel(new javax.swing.SpinnerDateModel());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlRango.add(spFechaInicio, gridBagConstraints);
+
+        spFechaFin.setModel(new javax.swing.SpinnerDateModel());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlRango.add(spFechaFin, gridBagConstraints);
+
+        jLabel1.setText("-");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        pnlRango.add(jLabel1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        pnlRango.add(cboMes, gridBagConstraints);
+
         cboPeriodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         pnlRango.add(cboPeriodo, gridBagConstraints);
 
-        jLabel1.setText("Período:");
+        cboPeriodo1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        pnlRango.add(jLabel1, gridBagConstraints);
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlRango.add(cboPeriodo1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -145,6 +251,11 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
 
         radPersonalizado.setSelected(true);
         radPersonalizado.setText("Personalizado:");
+        radPersonalizado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radPersonalizadoActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -152,6 +263,11 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         pnlEmpleados.add(radPersonalizado, gridBagConstraints);
 
         cboGrupoHorario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboGrupoHorario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboGrupoHorarioActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(cboGrupoHorario, gridBagConstraints);
@@ -180,11 +296,6 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         pnlEmpleados.add(btnAgregar, gridBagConstraints);
 
         btnQuitar.setText("-");
-        btnQuitar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQuitarActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
@@ -263,7 +374,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        generarReporte();
+        imprimir();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -272,25 +383,42 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         dialogo.setVisible(true);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
+    private void radAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radAnioActionPerformed
+        // TODO add your handling code here:control
+        controles();
+    }//GEN-LAST:event_radAnioActionPerformed
+
+    private void radMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radMesActionPerformed
         // TODO add your handling code here:
-        int fila;
-        if ((fila = tblTabla.getSelectedRow()) != -1) {
-            empleadoList.remove(fila);
-        }
-    }//GEN-LAST:event_btnQuitarActionPerformed
+        controles();
+    }//GEN-LAST:event_radMesActionPerformed
+
+    private void radPorFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPorFechaActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radPorFechaActionPerformed
+
+    private GrupoHorario grupoSeleccionado;
+    private void cboGrupoHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboGrupoHorarioActionPerformed
+        // TODO add your handling code here:
+        obtenerGrupo();
+    }//GEN-LAST:event_cboGrupoHorarioActionPerformed
 
     private void radGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radGrupoActionPerformed
         // TODO add your handling code here:
-        this.controles();
+        controles();
     }//GEN-LAST:event_radGrupoActionPerformed
+
+    private void radPersonalizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPersonalizadoActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radPersonalizadoActionPerformed
 
     private void radOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radOficinaActionPerformed
         // TODO add your handling code here:
         controles();
     }//GEN-LAST:event_radOficinaActionPerformed
 
-    private Departamento oficinaSeleccionada;
     private void btnOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOficinaActionPerformed
         // TODO add your handling code here:
         DlgOficina oficinas = new DlgOficina(this);
@@ -301,24 +429,37 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnOficinaActionPerformed
 
+    private Departamento oficinaSeleccionada;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnOficina;
     private javax.swing.JButton btnQuitar;
     private javax.swing.JComboBox cboGrupoHorario;
+    private com.toedter.calendar.JMonthChooser cboMes;
     private javax.swing.JComboBox cboPeriodo;
+    private javax.swing.JComboBox cboPeriodo1;
+    private javax.swing.ButtonGroup grpRango;
     private javax.swing.ButtonGroup grpSeleccion;
+    private javax.swing.ButtonGroup grpTipoReporte;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlBotones;
     private javax.swing.JPanel pnlEmpleados;
+    private javax.swing.JPanel pnlOpciones;
     private javax.swing.JPanel pnlRango;
     private javax.swing.JTabbedPane pnlTab;
+    private javax.swing.JRadioButton radAnio;
+    private javax.swing.JRadioButton radConsolidado;
+    private javax.swing.JRadioButton radDetallado;
     private javax.swing.JRadioButton radGrupo;
+    private javax.swing.JRadioButton radMes;
     private javax.swing.JRadioButton radOficina;
     private javax.swing.JRadioButton radPersonalizado;
+    private javax.swing.JRadioButton radPorFecha;
+    private javax.swing.JSpinner spFechaFin;
+    private javax.swing.JSpinner spFechaInicio;
     private org.jdesktop.swingx.JXTable tblTabla;
     private javax.swing.JTextField txtOficina;
     // End of variables declaration//GEN-END:variables
@@ -332,47 +473,58 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         pnlTab.add("Vista previa", jv.getContentPane());
         empleadoList = ObservableCollections.observableList(new ArrayList<Empleado>());
         periodoList = pc.buscarTodosOrden();
+        grupoList = gc.buscarTodos();
     }
 
     private void controles() {
+//        FormularioUtil.activarComponente(chkMarcaciones, radDetallado.isSelected());
 
-//        FormularioUtil.activarComponente(spFechaInicio, radPorFecha.isSelected());
-//        FormularioUtil.activarComponente(spFechaFin, radPorFecha.isSelected());
-//        FormularioUtil.activarComponente(cboMes, radMes.isSelected());
-//        FormularioUtil.activarComponente(cboPeriodo1, radMes.isSelected());
-//        FormularioUtil.activarComponente(cboPeriodo, radAnio.isSelected());
+        FormularioUtil.activarComponente(spFechaInicio, radPorFecha.isSelected());
+        FormularioUtil.activarComponente(spFechaFin, radPorFecha.isSelected());
+        FormularioUtil.activarComponente(cboMes, radMes.isSelected());
+        FormularioUtil.activarComponente(cboPeriodo1, radMes.isSelected());
+        FormularioUtil.activarComponente(cboPeriodo, radAnio.isSelected());
+
         FormularioUtil.activarComponente(cboGrupoHorario, radGrupo.isSelected());
 //        FormularioUtil.activarComponente(btnOficina, radGrupo.isSelected());
         FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
-        FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
+        FormularioUtil.activarComponente(btnAgregar, radPersonalizado.isSelected());
+        FormularioUtil.activarComponente(btnQuitar, radPersonalizado.isSelected());
 
+        FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
     }
+
+    private List<GrupoHorario> grupoList;
 
     private void bindeoSalvaje() {
         MTEmpleado mt = new MTEmpleado(empleadoList);
         tblTabla.setModel(mt);
 
-        BindingGroup grupo = new BindingGroup();
-        JComboBoxBinding bindPeriodo = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
-        JComboBoxBinding bindGrupo = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, grupoList, cboGrupoHorario);
-        grupo.addBinding(bindGrupo);
-        grupo.addBinding(bindPeriodo);
+        BindingGroup bindeo = new BindingGroup();
 
-        grupo.bind();
+        JComboBoxBinding binding = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
+        JComboBoxBinding binding2 = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo1);
+        JComboBoxBinding binding3 = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, grupoList, cboGrupoHorario);
+
+        bindeo.addBinding(binding);
+        bindeo.addBinding(binding2);
+        bindeo.addBinding(binding3);
+        bindeo.bind();
 
         DefaultListCellRenderer renderGrupo = new DefaultListCellRenderer() {
 
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                if (value instanceof GrupoHorario) {
-                    value = ((GrupoHorario) value).getNombre();
+                if (value != null) {
+                    if (value instanceof GrupoHorario) {
+                        value = ((GrupoHorario) value).getNombre();
+                    }
                 }
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
             }
 
         };
-
-        DefaultListCellRenderer render = new DefaultListCellRenderer() {
+        DefaultListCellRenderer renderPeriodo = new DefaultListCellRenderer() {
 
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -386,74 +538,87 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
 
         };
 
-        cboPeriodo.setRenderer(render);
+        cboPeriodo.setRenderer(renderPeriodo);
+        cboPeriodo1.setRenderer(renderPeriodo);
         cboGrupoHorario.setRenderer(renderGrupo);
     }
+    private AnalisisAsistencia analisis = new AnalisisAsistencia();
 
-    public void agregarEmpleado(Empleado empleado) {
-        if (!empleadoList.contains(empleado)) {
-            empleadoList.add(empleado);
-            tblTabla.packAll();
-        }
-    }
+    private void imprimir() {
 
-    private void generarReporte() {
+        Calendar cal = Calendar.getInstance();
+
+        String usuario = UsuarioActivo.getUsuario().getLogin();
+
+        List<Empleado> empleados;
+
         List<String> dnis = obtenerDNI();
-        Periodo periodo = obtenerPeriodo();
-        List<Empleado> empleados = ec.buscarPorLista(dnis);
-        for (Empleado e : empleados) {
-            buscarCrear(e, periodo);
-        }
-        String ficheroReporte = "reportes/r_vacaciones.jasper";
+        empleados = this.ec.buscarPorLista(dnis);
 
-        File archivo = new File(ficheroReporte);
+        analisis.analizarEmpleados(empleados);
+
+        String reporte = "";
+
+        if (radConsolidado.isSelected()) {
+            reporte = "reportes/r_registro_asistencia_consolidado.jasper";
+        } else if (radDetallado.isSelected()) {
+            reporte = "reportes/r_registro_asistencia_detallado.jasper";
+        }
+
+        int anio;
+        int mes;
+        Date fechaInicio = new Date();
+        Date fechaFin = new Date();
+        String rangoTitulo = "";
+        String rangoValor = "";
+        if (radPorFecha.isSelected()) {
+            rangoTitulo = "ENTRE: ";
+            fechaInicio = (Date) spFechaInicio.getValue();
+            fechaFin = (Date) spFechaFin.getValue();
+            rangoValor = dfFecha.format(fechaInicio) + " - " + dfFecha.format(fechaFin);
+        } else if (radMes.isSelected()) {
+            rangoTitulo = "MES: ";
+            anio = periodoList.get(cboPeriodo1.getSelectedIndex()).getAnio();
+            mes = cboMes.getMonth();
+            cal.set(anio, mes, 1);
+            fechaInicio = cal.getTime();
+            cal.set(Calendar.DAY_OF_MONTH, cal.getMaximum(Calendar.DAY_OF_MONTH));
+            fechaFin = cal.getTime();
+            rangoValor = (cboMes.getMonth() + 1) + " / " + anio;
+        } else if (radAnio.isSelected()) {
+            rangoTitulo = "AÑO: ";
+            anio = periodoList.get(cboPeriodo.getSelectedIndex()).getAnio();
+            cal.set(anio, 0, 1);
+            fechaInicio = cal.getTime();
+            cal.set(anio, 11, 31);
+            fechaFin = cal.getTime();
+            rangoValor = periodoList.get(cboPeriodo.getSelectedIndex()).getAnio() + "";
+        }
+
+        File archivo = new File(reporte);
         Map<String, Object> parametros = new HashMap<>();
-        parametros.put("usuario", UsuarioActivo.getUsuario().getLogin());
+        parametros.put("usuario", usuario);
         parametros.put("lista", dnis);
-        parametros.put("periodo_anio", periodo.getAnio());
+        parametros.put("fechaInicio", fechaInicio);
+        parametros.put("fechaFin", fechaFin);
+        parametros.put("rangoTitulo", rangoTitulo);
+        parametros.put("rangoValor", rangoValor);
+//        parametros.put("titulo", "REPORTE DE PERMISOS");
         parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
 
-        reporteUtil.setConn(svc.getDao().getConexion());
-        Component componente = reporteUtil.obtenerReporte(archivo, parametros);
+        reporteador.setConn(pc.getDao().getConexion());
+        Component report = reporteador.obtenerReporte(archivo, parametros);
+        report.getParent().add(new JButton("HOLI"));
 
-        if (componente != null) {
-            pnlTab.remove(0);
-            pnlTab.add("Vista previa", componente);
-        }
+//        if(bandera){
+        pnlTab.removeTabAt(0);
+//        }
+        pnlTab.add("Vista previa", report);
+        bandera = true;
 
     }
-    private final SaldoVacacionalControlador svc = new SaldoVacacionalControlador();
-    private final Calendar calendar = Calendar.getInstance();
-    private final EmpleadoControlador ec = new EmpleadoControlador();
-    private final ReporteUtil reporteUtil = new ReporteUtil();
 
-    public void buscarCrear(Empleado empleado, Periodo periodo) {
-        SaldoVacacional sv = svc.buscarXPeriodo(empleado.getNroDocumento(), periodo);
-        Date fechaContrato = empleado.getFechaInicioContrato();
-        calendar.setTime(fechaContrato);
-        if (sv == null && periodo.getAnio() > calendar.get(Calendar.YEAR)) {
-            //CREAMOS
-            sv = new SaldoVacacional();
-            //OBTENEMOS SI LE CORRESPONDEN VACACIONES ACORDE A LEY
-
-            if (calendar.get(Calendar.YEAR) < periodo.getAnio()) {
-                sv.setDiasRestantes(30);
-            } else {
-                sv.setDiasRestantes(0);
-            }
-            calendar.set(Calendar.YEAR, periodo.getAnio());
-            sv.setFechaDesde(calendar.getTime());
-            calendar.add(Calendar.YEAR, 1);
-            calendar.add(Calendar.DATE, -1);
-            sv.setFechaHasta(calendar.getTime());
-            sv.setEmpleado(empleado.getNroDocumento());
-            sv.setLunesViernes(0);
-            sv.setSabado(0);
-            sv.setDomingo(0);
-            sv.setPeriodo(periodo);
-            svc.modificar(sv);
-        }
-    }
+    boolean bandera = false;
 
     private List<String> obtenerDNI() {
 
@@ -479,7 +644,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
 
         return lista;
     }
-    
+
     private List<Integer> dniInteger(List<EmpleadoBiostar> empleados) {
         List<Integer> dni = new ArrayList<>();
         for (EmpleadoBiostar e : empleados) {
@@ -488,21 +653,18 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         return dni;
     }
 
-    private GrupoHorario grupoSeleccionado;
-    private final DetalleGrupoControlador dgc = new DetalleGrupoControlador();
-
-    private void obtenerGrupo() {
-        int fila;
-        if ((fila = cboGrupoHorario.getSelectedIndex()) != -1) {
-            grupoSeleccionado = grupoList.get(fila);
-        }
+    public void agregarEmpleado(Empleado empleado) {
+        empleadoList.add(empleado);
+        tblTabla.packAll();
     }
 
-    private Periodo obtenerPeriodo() {
-        int fila;
-        if ((fila = cboPeriodo.getSelectedIndex()) != -1) {
-            return periodoList.get(fila);
+    private GrupoHorarioControlador gc = new GrupoHorarioControlador();
+    private DetalleGrupoControlador dgc = new DetalleGrupoControlador();
+
+    private void obtenerGrupo() {
+        int seleccionado = cboGrupoHorario.getSelectedIndex();
+        if (seleccionado != -1) {
+            grupoSeleccionado = this.grupoList.get(seleccionado);
         }
-        return null;
     }
 }

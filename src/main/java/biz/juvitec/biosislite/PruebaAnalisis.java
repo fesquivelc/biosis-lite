@@ -6,8 +6,12 @@
 package biz.juvitec.biosislite;
 
 import algoritmo.AnalisisAsistencia;
+import controladores.DepartamentoControlador;
 import controladores.EmpleadoControlador;
+import entidades.Departamento;
 import entidades.Empleado;
+import entidades.EmpleadoBiostar;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,11 +25,24 @@ public class PruebaAnalisis {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        EmpleadoControlador ec= new EmpleadoControlador();
-        AnalisisAsistencia analisis = new AnalisisAsistencia();
-        List<Empleado> empleados = ec.buscarTodos();
-        analisis.analizarEmpleados(empleados);
+        DepartamentoControlador dc = new DepartamentoControlador();
+        EmpleadoControlador ec = new EmpleadoControlador();
+        List<Departamento> depas = dc.buscarXNombre("CASA DE LA LITERATURA");
+        for (Departamento dep : depas) {
+            System.out.println("----- DEP: " + dep.getNombre() + " -----");
+            List<Integer> dnis = dnis(dep.getEmpleadoList());
+            List<Empleado> empleados = ec.buscarPorListaEnteros(dnis);
+            System.out.println("> EMPS: " + empleados.size());
+        }
         System.exit(0);
     }
-    
+
+    static List<Integer> dnis(List<EmpleadoBiostar> empleados) {
+        List<Integer> dni = new ArrayList<>();
+        for (EmpleadoBiostar e : empleados) {
+            dni.add(e.getId());
+        }
+        return dni;
+    }
+
 }

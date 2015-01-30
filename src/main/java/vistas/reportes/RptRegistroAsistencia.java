@@ -20,6 +20,7 @@ import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
 import entidades.Departamento;
+import entidades.EmpleadoBiostar;
 import java.awt.Component;
 import java.io.File;
 import java.text.DateFormat;
@@ -122,6 +123,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         grpSeleccion.add(radOficina);
 
         setClosable(true);
+        setMaximizable(true);
         setTitle("REPORTE DE REGISTRO DE ASISTENCIA");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -422,8 +424,9 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         DlgOficina oficinas = new DlgOficina(this);
         oficinaSeleccionada = oficinas.getSeleccionado();
-        if(oficinaSeleccionada != null){
+        if (oficinaSeleccionada != null) {
             txtOficina.setText(oficinaSeleccionada.getNombre());
+
         }
     }//GEN-LAST:event_btnOficinaActionPerformed
 
@@ -488,7 +491,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
         FormularioUtil.activarComponente(btnAgregar, radPersonalizado.isSelected());
         FormularioUtil.activarComponente(btnQuitar, radPersonalizado.isSelected());
-        
+
         FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
     }
 
@@ -509,18 +512,18 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         bindeo.addBinding(binding3);
         bindeo.bind();
 
-        DefaultListCellRenderer renderGrupo = new DefaultListCellRenderer(){
+        DefaultListCellRenderer renderGrupo = new DefaultListCellRenderer() {
 
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                if(value != null){
-                    if(value instanceof GrupoHorario){
-                        value = ((GrupoHorario)value).getNombre();
+                if (value != null) {
+                    if (value instanceof GrupoHorario) {
+                        value = ((GrupoHorario) value).getNombre();
                     }
                 }
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
             }
-            
+
         };
         DefaultListCellRenderer renderPeriodo = new DefaultListCellRenderer() {
 
@@ -541,21 +544,25 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         cboGrupoHorario.setRenderer(renderGrupo);
     }
     private AnalisisAsistencia analisis = new AnalisisAsistencia();
+
     private void imprimir() {
-        
+
         Calendar cal = Calendar.getInstance();
-        
+
         String usuario = UsuarioActivo.getUsuario().getLogin();
+
+        List<Empleado> empleados;
+
         List<String> dnis = obtenerDNI();
-        
-        List<Empleado> empleados = this.ec.buscarPorLista(dnis);
+        empleados = this.ec.buscarPorLista(dnis);
+
         analisis.analizarEmpleados(empleados);
-        
-        String reporte = "";        
+
+        String reporte = "";
 
         if (radConsolidado.isSelected()) {
             reporte = "reportes/r_registro_asistencia_consolidado.jasper";
-        }else if(radDetallado.isSelected()){
+        } else if (radDetallado.isSelected()) {
             reporte = "reportes/r_registro_asistencia_detallado.jasper";
         }
 
@@ -627,9 +634,24 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
             for (Empleado empleado : empleadoList) {
                 lista.add(empleado.getNroDocumento());
             }
+        } else if (radOficina.isSelected()) {
+            List<EmpleadoBiostar> empleadoBiostar = oficinaSeleccionada.getEmpleadoList();
+            List<Integer> dniInt = dniInteger(empleadoBiostar);
+            List<Empleado> empleados = ec.buscarPorListaEnteros(dniInt);
+            for (Empleado empleado : empleados) {
+                lista.add(empleado.getNroDocumento());
+            }
         }
 
         return lista;
+    }
+
+    private List<Integer> dniInteger(List<EmpleadoBiostar> empleados) {
+        List<Integer> dni = new ArrayList<>();
+        for (EmpleadoBiostar e : empleados) {
+            dni.add(e.getId());
+        }
+        return dni;
     }
 
     public void agregarEmpleado(Empleado empleado) {

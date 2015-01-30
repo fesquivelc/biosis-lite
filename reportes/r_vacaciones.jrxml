@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_vacaciones" pageWidth="595" pageHeight="385" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_vacaciones" pageWidth="595" pageHeight="600" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -20,6 +20,9 @@
 	<parameter name="lista" class="java.util.List"/>
 	<parameter name="CONEXION_EMPLEADOS" class="java.sql.Connection"/>
 	<parameter name="periodo_anio" class="java.lang.Integer"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite\\reportes\\"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
      saldo_vacacional.dias_restantes AS dias_restantes,
@@ -75,9 +78,9 @@ WHERE saldo_vacacional.periodo_anio = $P{periodo_anio} AND $X{IN,empleado_nro_do
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="109" splitType="Stretch">
+		<band height="100" splitType="Stretch">
 			<subreport>
-				<reportElement x="0" y="1" width="555" height="100" uuid="bd91f346-0a84-4a4f-a957-20a78f05a7ec"/>
+				<reportElement x="0" y="0" width="555" height="100" uuid="bd91f346-0a84-4a4f-a957-20a78f05a7ec"/>
 				<subreportParameter name="empleado_nro_documento">
 					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -91,7 +94,7 @@ WHERE saldo_vacacional.periodo_anio = $P{periodo_anio} AND $X{IN,empleado_nro_do
 				</graphicElement>
 			</line>
 		</band>
-		<band height="82">
+		<band height="314">
 			<staticText>
 				<reportElement x="0" y="20" width="157" height="20" uuid="23600156-0e08-4cf4-aa4b-b7e9be3d7862"/>
 				<textElement verticalAlignment="Middle">
@@ -206,6 +209,19 @@ WHERE saldo_vacacional.periodo_anio = $P{periodo_anio} AND $X{IN,empleado_nro_do
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
+			<subreport>
+				<reportElement x="0" y="71" width="555" height="243" uuid="5c9ad43f-ce7c-44a7-8e28-2fae29036400">
+					<printWhenExpression><![CDATA[$F{dias_restantes} < 30]]></printWhenExpression>
+				</reportElement>
+				<subreportParameter name="periodo_anio">
+					<subreportParameterExpression><![CDATA[$P{periodo_anio}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="empleado_nro_documento">
+					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_vacaciones.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</detail>
 	<columnFooter>

@@ -95,3 +95,8 @@ Caused by: com.microsoft.sqlserver.jdbc.SQLServerException: Error al convertir u
 2015-01-29 11:12:37.851	ERROR	[main]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:La secuencia del protocolo de llamada a procedimiento remoto (RPC) de la secuencia de datos tabular (TDS) entrante es incorrecta. Se proporcionaron demasiados parámetros en esta solicitud RPC. El máximo es 2100.
 2015-01-29 11:12:37.863	ERROR	[main]	CLASE: DAO	 METODO: buscar	LINEA:167	MSJE:ERROR AL BUSCAR: org.hibernate.exception.SQLGrammarException: could not extract ResultSet org.hibernate.exception.SQLGrammarException: could not extract ResultSet
 2015-01-29 12:29:46.745	ERROR	[main]	CLASE: DAO	 METODO: buscar	LINEA:167	MSJE:ERROR AL BUSCAR: [PersistenceUnit: biostar-PU] Unable to build Hibernate SessionFactory [PersistenceUnit: biostar-PU] Unable to build Hibernate SessionFactory
+2015-01-29 19:14:16.636	ERROR	[main]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:El nombre de objeto 'EmpleadoBiostar' no es válido.
+2015-01-29 19:15:03.320	ERROR	[main]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:El nombre de objeto 'EmpleadoBiostar' no es válido.
+2015-01-29 19:16:52.189	ERROR	[main]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:El nombre de columna 'sUserId' no es válido.
+2015-01-29 19:41:26.071	ERROR	[main]	CLASE: DAO	 METODO: buscar	LINEA:167	MSJE:ERROR AL BUSCAR: null null
+2015-01-29 19:43:23.692	ERROR	[main]	CLASE: DAO	 METODO: buscar	LINEA:167	MSJE:ERROR AL BUSCAR: null null

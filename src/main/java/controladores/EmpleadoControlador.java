@@ -55,6 +55,14 @@ public class EmpleadoControlador extends Controlador<Empleado> {
         mapa.put("lista", lista);
         return this.getDao().buscar(jpql, mapa);
     }
+    
+    public List<Empleado> buscarPorListaEnteros(List<Integer> lista){
+        String jpql = "SELECT e FROM Empleado e WHERE "
+                + "CAST(e.nroDocumento AS integer) IN :lista";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("lista", lista);
+        return this.getDao().buscar(jpql, mapa);
+    }
 
     public Empleado buscarPorId(int id) {
         String jpql = "SELECT e FROM Empleado e WHERE "

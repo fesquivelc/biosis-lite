@@ -49,14 +49,15 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        grpOpcion = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         lblBusqueda = new org.jdesktop.swingx.JXBusyLabel();
         txtBusqueda = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblEmpleado = new org.jdesktop.swingx.JXTable();
-        spFechaInicio = new javax.swing.JSpinner();
-        spFechaFin = new javax.swing.JSpinner();
+        spHoraInicio = new javax.swing.JSpinner();
+        spHoraFin = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
@@ -68,22 +69,26 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         btnSiguiente = new javax.swing.JButton();
         btnUltimo = new javax.swing.JButton();
         cboTamanio = new javax.swing.JComboBox();
+        dcFechaInicio = new com.toedter.calendar.JDateChooser();
+        dcFechaFin = new com.toedter.calendar.JDateChooser();
+        radFechas = new javax.swing.JRadioButton();
+        radHora = new javax.swing.JRadioButton();
+        grpOpcion.add(radHora);
+        grpOpcion.add(radFechas);
 
         setClosable(true);
         setMaximizable(true);
         setTitle("LISTADO DE MARCACIONES SIN PROCESAR");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        java.awt.GridBagLayout jPanel1Layout1 = new java.awt.GridBagLayout();
-        jPanel1Layout1.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
-        jPanel1Layout1.rowHeights = new int[] {0, 5, 0, 5, 0};
-        jPanel1.setLayout(jPanel1Layout1);
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         lblBusqueda.setText("Empleado");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanel1.add(lblBusqueda, gridBagConstraints);
 
         txtBusqueda.setEditable(false);
@@ -93,10 +98,11 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanel1.add(txtBusqueda, gridBagConstraints);
 
         btnBuscar.setText("Buscar");
@@ -106,41 +112,46 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 14;
+        gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanel1.add(btnBuscar, gridBagConstraints);
 
         jScrollPane1.setViewportView(tblEmpleado);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 15;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 13;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanel1.add(jScrollPane1, gridBagConstraints);
 
-        spFechaInicio.setModel(new javax.swing.SpinnerDateModel());
+        spHoraInicio.setModel(new javax.swing.SpinnerDateModel());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridx = 9;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        jPanel1.add(spFechaInicio, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
+        jPanel1.add(spHoraInicio, gridBagConstraints);
 
-        spFechaFin.setModel(new javax.swing.SpinnerDateModel());
+        spHoraFin.setModel(new javax.swing.SpinnerDateModel());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridx = 11;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        jPanel1.add(spFechaFin, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
+        jPanel1.add(spHoraFin, gridBagConstraints);
 
         jLabel1.setText("-");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanel1.add(jLabel1, gridBagConstraints);
 
         jButton4.setText("...");
@@ -150,9 +161,10 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanel1.add(jButton4, gridBagConstraints);
 
         btnLimpiar.setText("Limpiar");
@@ -162,9 +174,10 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanel1.add(btnLimpiar, gridBagConstraints);
 
         pnlNavegacion.setLayout(new java.awt.GridLayout(1, 0, 2, 0));
@@ -228,9 +241,42 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 15;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 13;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanel1.add(pnlNavegacion, gridBagConstraints);
+
+        dcFechaInicio.setDateFormatString("dd/MM/yyyy");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
+        jPanel1.add(dcFechaInicio, gridBagConstraints);
+
+        dcFechaFin.setDateFormatString("dd/MM/yyyy");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
+        jPanel1.add(dcFechaFin, gridBagConstraints);
+
+        radFechas.setSelected(true);
+        radFechas.setText("Entre fechas:");
+        radFechas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radFechasActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        jPanel1.add(radFechas, gridBagConstraints);
+
+        radHora.setText("Entre horas:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 0;
+        jPanel1.add(radHora, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -317,6 +363,11 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         this.actualizarControlesNavegacion();
     }//GEN-LAST:event_cboTamanioActionPerformed
 
+    private void radFechasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radFechasActionPerformed
+        // TODO add your handling code here:
+        checkboxes();
+    }//GEN-LAST:event_radFechasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
@@ -326,14 +377,19 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
     private javax.swing.JComboBox cboTamanio;
+    private com.toedter.calendar.JDateChooser dcFechaFin;
+    private com.toedter.calendar.JDateChooser dcFechaInicio;
+    private javax.swing.ButtonGroup grpOpcion;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXBusyLabel lblBusqueda;
     private javax.swing.JPanel pnlNavegacion;
-    private javax.swing.JSpinner spFechaFin;
-    private javax.swing.JSpinner spFechaInicio;
+    private javax.swing.JRadioButton radFechas;
+    private javax.swing.JRadioButton radHora;
+    private javax.swing.JSpinner spHoraFin;
+    private javax.swing.JSpinner spHoraInicio;
     private javax.swing.JSpinner spPagina;
     private org.jdesktop.swingx.JXTable tblEmpleado;
     private javax.swing.JTextField txtBusqueda;
@@ -363,8 +419,14 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 //    }
 
     private void inicializar() {
-        FormularioUtil.modeloSpinnerFechaHora(this.spFechaInicio, "dd/MM/yyyy");
-        FormularioUtil.modeloSpinnerFechaHora(this.spFechaFin, "dd/MM/yyyy");
+        FormularioUtil.modeloSpinnerFechaHora(this.spHoraInicio, "HH:mm:ss");
+        FormularioUtil.modeloSpinnerFechaHora(this.spHoraFin, "HH:mm:ss");
+        Date fechaMax = new Date();
+        dcFechaInicio.setMaxSelectableDate(fechaMax);
+        dcFechaInicio.setDate(fechaMax);
+        dcFechaFin.setMaxSelectableDate(fechaMax);
+        dcFechaFin.setDate(fechaMax);
+        
     }
 
     private int paginaActual = 1;
@@ -372,8 +434,8 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
     private int tamanioPagina = 0;
 
     private void buscar() {
-        Date fechaInicio = (Date) spFechaInicio.getValue();
-        Date fechaFin = (Date) spFechaFin.getValue();
+        Date fechaInicio = (Date) spHoraInicio.getValue();
+        Date fechaFin = (Date) spHoraFin.getValue();
 
         tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
 
@@ -452,5 +514,13 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 
         this.btnAnterior.setEnabled(paginaActual != 1);
         this.btnPrimero.setEnabled(paginaActual != 1);
+    }
+
+    private void checkboxes() {
+        FormularioUtil.activarComponente(dcFechaInicio, true);
+        FormularioUtil.activarComponente(dcFechaFin, radFechas.isSelected());
+        
+        FormularioUtil.activarComponente(spHoraInicio, radHora.isSelected());
+        FormularioUtil.activarComponente(spHoraFin, radHora.isSelected());
     }
 }

@@ -23,7 +23,7 @@
                 <jpa:column name="equipo_ip" unique="false" nullable="false" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
             </jpa:basic>
             <jpa:basic name="nombre" attribute-type="String" visibile="true" id="_142255430579961">
-                <jpa:column name="empleado_nombre" unique="false" nullable="true" insertable="true" updatable="true" length="255"/>
+                <jpa:column name="empleado_nombre" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
             </jpa:basic>
         </jpa:attributes>
     </jpa:entity>
@@ -37,15 +37,36 @@
             <jpa:basic name="nombre" attribute-type="String" visibile="true" id="_14225521815906">
                 <jpa:column name="sName" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
             </jpa:basic>
+            <jpa:one-to-many name="empleadoList" target-entity="EmpleadoBiostar" fetch="LAZY" mapped-by="departamento" collection-type="java.util.List" connected-entity-id="_1422576488971" connected-attribute-id="_142257662043510" visibile="true" id="_142257662051111">
+                <jpa:join-table/>
+            </jpa:one-to-many>
+        </jpa:attributes>
+    </jpa:entity>
+    <jpa:entity class="EmpleadoBiostar" jaxb-root-element="false" static-metamodel="false" visibile="true" minimized="false" id="_1422576488971">
+        <jpa:attributes>
+            <jpa:id name="id" attribute-type="Integer" visibile="true" id="_14225764985637">
+                <jpa:column name="sUserID" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+                <jpa:generated-value/>
+            </jpa:id>
+            <jpa:basic name="nombre" attribute-type="String" visibile="true" id="_14225765725708">
+                <jpa:column name="sUserName" unique="false" nullable="true" insertable="true" updatable="true" length="255" precision="0" scale="0"/>
+            </jpa:basic>
+            <jpa:many-to-one name="departamento" target-entity="Departamento" optional="true" primaryKey="false" connected-entity-id="_1422552170442" connected-attribute-id="_142257662051111" visibile="true" id="_142257662043510">
+                <jpa:join-column name="nDepartmentIdn" referenced-column-name="nDepartmentIdn" unique="false" nullable="true" insertable="true" updatable="true" column-definition="" table=""/>
+                <jpa:join-table/>
+            </jpa:many-to-one>
         </jpa:attributes>
     </jpa:entity>
     <jpa:diagram id="_14199651175012">
         <plane elementRef="_14199651175011" id="_14199651175023_p">
             <shape elementRef="_1419965123651" id="_1419965123651_gui">
-                <Bounds x="192.0" y="136.0" width="156.0" height="176.0"/>
+                <Bounds x="106.0" y="309.0" width="156.0" height="176.0"/>
             </shape>
             <shape elementRef="_1422552170442" id="_1422552170442_gui">
-                <Bounds x="536.0" y="155.0" width="177.0" height="92.0"/>
+                <Bounds x="444.0" y="88.0" width="177.0" height="126.0"/>
+            </shape>
+            <shape elementRef="_1422576488971" id="_1422576488971_gui">
+                <Bounds x="670.0" y="286.0" width="193.0" height="126.0"/>
             </shape>
         </plane>
     </jpa:diagram>
