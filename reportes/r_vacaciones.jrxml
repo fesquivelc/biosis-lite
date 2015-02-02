@@ -104,7 +104,7 @@ WHERE saldo_vacacional.periodo_anio = $P{periodo_anio} AND $X{IN,empleado_nro_do
 			</staticText>
 			<staticText>
 				<reportElement x="157" y="20" width="42" height="20" uuid="67e48614-3245-4977-add8-97a462694a59"/>
-				<box leftPadding="5"/>
+				<box leftPadding="0"/>
 				<textElement verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
@@ -119,7 +119,7 @@ WHERE saldo_vacacional.periodo_anio = $P{periodo_anio} AND $X{IN,empleado_nro_do
 			</staticText>
 			<textField>
 				<reportElement x="157" y="0" width="30" height="20" uuid="6c91a903-6db2-49e5-9c3a-3d48e1415ff0"/>
-				<box leftPadding="5"/>
+				<box leftPadding="0"/>
 				<textElement verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
@@ -127,7 +127,7 @@ WHERE saldo_vacacional.periodo_anio = $P{periodo_anio} AND $X{IN,empleado_nro_do
 			</textField>
 			<textField>
 				<reportElement x="199" y="20" width="20" height="20" uuid="64bbd04f-dfd0-4a14-aa55-b459a3fc5525"/>
-				<box leftPadding="5"/>
+				<box leftPadding="0"/>
 				<textElement verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
@@ -135,7 +135,7 @@ WHERE saldo_vacacional.periodo_anio = $P{periodo_anio} AND $X{IN,empleado_nro_do
 			</textField>
 			<staticText>
 				<reportElement x="219" y="20" width="33" height="20" uuid="0b3a64c1-52d3-44f4-81cc-c4067f7955f1"/>
-				<box leftPadding="5"/>
+				<box leftPadding="0"/>
 				<textElement verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
@@ -143,7 +143,7 @@ WHERE saldo_vacacional.periodo_anio = $P{periodo_anio} AND $X{IN,empleado_nro_do
 			</staticText>
 			<textField>
 				<reportElement x="252" y="20" width="20" height="20" uuid="42012fef-a8d6-4404-a52e-1fa6f3b793f0"/>
-				<box leftPadding="5"/>
+				<box leftPadding="0"/>
 				<textElement verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
@@ -151,7 +151,7 @@ WHERE saldo_vacacional.periodo_anio = $P{periodo_anio} AND $X{IN,empleado_nro_do
 			</textField>
 			<textField>
 				<reportElement x="309" y="20" width="20" height="20" uuid="926ffa1d-7334-4707-8143-49c19dd52b2f"/>
-				<box leftPadding="5"/>
+				<box leftPadding="0"/>
 				<textElement verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
@@ -159,7 +159,7 @@ WHERE saldo_vacacional.periodo_anio = $P{periodo_anio} AND $X{IN,empleado_nro_do
 			</textField>
 			<staticText>
 				<reportElement x="272" y="20" width="37" height="20" uuid="2450de09-198f-421f-aaa9-688eb61366a3"/>
-				<box leftPadding="5"/>
+				<box leftPadding="0"/>
 				<textElement verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>

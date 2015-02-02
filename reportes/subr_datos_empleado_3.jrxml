@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subr_datos_empleado_3" language="groovy" pageWidth="555" pageHeight="100" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a3ee238b-3ac1-41d1-bfa4-3aef32feb27a">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="empleado_nro_documento" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT
+     CODIGO_MODULAR AS codigo_modular,
+     TIPO_DOCUMENTO + ' / ' + NRO_DOCUMENTO AS nro_documento,
+     PATERNO + ' ' + MATERNO + ' ' + NOMBRES AS empleado_nombre
+FROM
+     v_empleados2
+WHERE
+     CAST(NRO_DOCUMENTO as integer) = $P{empleado_nro_documento}]]>
+	</queryString>
+	<field name="codigo_modular" class="java.lang.String"/>
+	<field name="nro_documento" class="java.lang.String"/>
+	<field name="empleado_nombre" class="java.lang.String"/>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="116" height="20" uuid="0d7fb774-4598-4f1f-893e-a959e2e2659f"/>
+				<box leftPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{codigo_modular}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="116" y="0" width="147" height="20" uuid="a54a1969-4418-4c58-a519-106a2b1bb871"/>
+				<box leftPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nro_documento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="263" y="0" width="292" height="20" uuid="572928c5-cd55-41eb-a2ae-402801c4de70"/>
+				<box leftPadding="3">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{empleado_nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

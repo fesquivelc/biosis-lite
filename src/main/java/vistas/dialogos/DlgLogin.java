@@ -15,6 +15,7 @@ import entidades.Usuario;
 import vistas.Principal;
 import com.personal.utiles.FormularioUtil;
 import java.awt.event.KeyEvent;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
@@ -273,7 +274,11 @@ public class DlgLogin extends javax.swing.JDialog {
             if (u == null) {
                 JOptionPane.showMessageDialog(this, "El usuario o password son incorrectos", "Mensaje del Sistema", JOptionPane.ERROR_MESSAGE);
             } else {
+                
                 if(u.isCambiarPassword()){
+                    JOptionPane.showMessageDialog(this, "Debe cambiar su password", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
+                    DlgCambiarPasswordInicio cambiarPwd = new DlgCambiarPasswordInicio(null, u, true);
+                    cambiarPwd.setVisible(true);
                     
                 }
                 Principal principal = new Principal();

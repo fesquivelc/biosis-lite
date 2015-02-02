@@ -350,7 +350,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
         java.awt.GridBagLayout jPanel4Layout = new java.awt.GridBagLayout();
         jPanel4Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
-        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel4Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel4.setLayout(jPanel4Layout);
 
         jLabel1.setText("Tipo de permiso:");
@@ -374,6 +374,11 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel3, gridBagConstraints);
 
+        tblEmpleados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tblEmpleadosMouseReleased(evt);
+            }
+        });
         jScrollPane3.setViewportView(tblEmpleados);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -828,6 +833,14 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         checkPorFecha(accion);
     }//GEN-LAST:event_chkPorFechaActionPerformed
 
+    private void tblEmpleadosMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmpleadosMouseReleased
+        // TODO add your handling code here:
+        int fila;
+        if((fila = tblEmpleados.getSelectedRow()) != -1){
+            mostrarRecord(integrantes.get(fila));
+        }
+    }//GEN-LAST:event_tblEmpleadosMouseReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
@@ -1234,5 +1247,14 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Se ha(n) encontrado el(los) siguiente(s) error(es):\n" + mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
         }
         return errores != 0;
+    }
+
+    private void mostrarRecord(Empleado empleado) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(empleado.getFechaInicioContrato());
+        
+        Date fInicio = (Date) spFechaInicio.getValue();
+        
+        
     }
 }

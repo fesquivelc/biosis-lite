@@ -6,6 +6,7 @@
 package vistas.reportes;
 
 import algoritmo.AnalisisAsistencia;
+import com.personal.utiles.FechaUtil;
 import controladores.AsignacionHorarioControlador;
 import controladores.DetalleGrupoControlador;
 import controladores.EmpleadoControlador;
@@ -19,8 +20,14 @@ import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
+import controladores.HorarioControlador;
+import controladores.MarcacionControlador;
+import entidades.AsignacionHorario;
 import entidades.Departamento;
 import entidades.EmpleadoBiostar;
+import entidades.Horario;
+import entidades.Jornada;
+import entidades.Marcacion;
 import java.awt.Component;
 import java.io.File;
 import java.text.DateFormat;
@@ -56,16 +63,20 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
     private final ReporteUtil reporteador;
     private final DateFormat dfFecha;
     private final EmpleadoControlador ec;
+    private final HorarioControlador hc = new HorarioControlador();
+    private final List<Horario> horarioList;
+    private Horario horarioSeleccionado;
 
     public RptTardanzasFaltas() {
         initComponents();
 
+        horarioList = hc.buscarTodos();
         ec = new EmpleadoControlador();
         pc = new PeriodoControlador();
         dfFecha = new SimpleDateFormat("dd/MM/yyyy");
         reporteador = new ReporteUtil();
-        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
-        FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
+//        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
+//        FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
         inicializar();
         bindeoSalvaje();
         controles();
@@ -81,22 +92,7 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        grpTipoReporte = new javax.swing.ButtonGroup();
-        grpRango = new javax.swing.ButtonGroup();
         grpSeleccion = new javax.swing.ButtonGroup();
-        pnlOpciones = new javax.swing.JPanel();
-        radConsolidado = new javax.swing.JRadioButton();
-        radDetallado = new javax.swing.JRadioButton();
-        pnlRango = new javax.swing.JPanel();
-        radPorFecha = new javax.swing.JRadioButton();
-        radMes = new javax.swing.JRadioButton();
-        radAnio = new javax.swing.JRadioButton();
-        spFechaInicio = new javax.swing.JSpinner();
-        spFechaFin = new javax.swing.JSpinner();
-        jLabel1 = new javax.swing.JLabel();
-        cboMes = new com.toedter.calendar.JMonthChooser();
-        cboPeriodo = new javax.swing.JComboBox();
-        cboPeriodo1 = new javax.swing.JComboBox();
         pnlEmpleados = new javax.swing.JPanel();
         radGrupo = new javax.swing.JRadioButton();
         radPersonalizado = new javax.swing.JRadioButton();
@@ -111,130 +107,19 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         pnlBotones = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         pnlTab = new javax.swing.JTabbedPane();
-        grpTipoReporte.add(radConsolidado);
-        grpTipoReporte.add(radDetallado);
-
-        grpRango.add(radPorFecha);
-        grpRango.add(radMes);
-        grpRango.add(radAnio);
-
+        jPanel1 = new javax.swing.JPanel();
+        pnlOpciones = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        cboHorario = new javax.swing.JComboBox();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
         grpSeleccion.add(radGrupo);
         grpSeleccion.add(radPersonalizado);
         grpSeleccion.add(radOficina);
 
         setClosable(true);
-        setTitle("REPORTE DE REGISTRO DE ASISTENCIA");
+        setTitle("REPORTE DE TARDANZAS Y FALTAS EN EL DÍA");
         getContentPane().setLayout(new java.awt.GridBagLayout());
-
-        pnlOpciones.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de reporte"));
-        pnlOpciones.setLayout(new java.awt.GridBagLayout());
-
-        radConsolidado.setSelected(true);
-        radConsolidado.setText("Reporte resumen");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
-        pnlOpciones.add(radConsolidado, gridBagConstraints);
-
-        radDetallado.setText("Reporte detallado");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlOpciones.add(radDetallado, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
-        getContentPane().add(pnlOpciones, gridBagConstraints);
-
-        pnlRango.setBorder(javax.swing.BorderFactory.createTitledBorder("Rango"));
-        pnlRango.setLayout(new java.awt.GridBagLayout());
-
-        radPorFecha.setSelected(true);
-        radPorFecha.setText("Por fechas:");
-        radPorFecha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radPorFechaActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlRango.add(radPorFecha, gridBagConstraints);
-
-        radMes.setText("Por mes:");
-        radMes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radMesActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlRango.add(radMes, gridBagConstraints);
-
-        radAnio.setText("Por año:");
-        radAnio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radAnioActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlRango.add(radAnio, gridBagConstraints);
-
-        spFechaInicio.setModel(new javax.swing.SpinnerDateModel());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlRango.add(spFechaInicio, gridBagConstraints);
-
-        spFechaFin.setModel(new javax.swing.SpinnerDateModel());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlRango.add(spFechaFin, gridBagConstraints);
-
-        jLabel1.setText("-");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        pnlRango.add(jLabel1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
-        pnlRango.add(cboMes, gridBagConstraints);
-
-        cboPeriodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlRango.add(cboPeriodo, gridBagConstraints);
-
-        cboPeriodo1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlRango.add(cboPeriodo1, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
-        getContentPane().add(pnlRango, gridBagConstraints);
 
         pnlEmpleados.setBorder(javax.swing.BorderFactory.createTitledBorder("Selección de empleados"));
         pnlEmpleados.setLayout(new java.awt.GridBagLayout());
@@ -334,7 +219,7 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -360,6 +245,9 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         getContentPane().add(pnlBotones, gridBagConstraints);
+
+        pnlTab.addTab("Vista previa", jPanel1);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -368,6 +256,45 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.5;
         gridBagConstraints.weighty = 0.1;
         getContentPane().add(pnlTab, gridBagConstraints);
+
+        pnlOpciones.setBorder(javax.swing.BorderFactory.createTitledBorder("Elección de horario"));
+        pnlOpciones.setLayout(new java.awt.GridBagLayout());
+
+        jLabel1.setText("Horario:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnlOpciones.add(jLabel1, gridBagConstraints);
+
+        cboHorario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnlOpciones.add(cboHorario, gridBagConstraints);
+
+        jRadioButton1.setText("Faltas");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlOpciones.add(jRadioButton1, gridBagConstraints);
+
+        jRadioButton2.setText("Tardanzas");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlOpciones.add(jRadioButton2, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        getContentPane().add(pnlOpciones, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -382,21 +309,6 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         DlgEmpleado dialogo = new DlgEmpleado(this);
         dialogo.setVisible(true);
     }//GEN-LAST:event_btnAgregarActionPerformed
-
-    private void radAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radAnioActionPerformed
-        // TODO add your handling code here:control
-        controles();
-    }//GEN-LAST:event_radAnioActionPerformed
-
-    private void radMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radMesActionPerformed
-        // TODO add your handling code here:
-        controles();
-    }//GEN-LAST:event_radMesActionPerformed
-
-    private void radPorFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPorFechaActionPerformed
-        // TODO add your handling code here:
-        controles();
-    }//GEN-LAST:event_radPorFechaActionPerformed
 
     private GrupoHorario grupoSeleccionado;
     private void cboGrupoHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboGrupoHorarioActionPerformed
@@ -436,30 +348,21 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnOficina;
     private javax.swing.JButton btnQuitar;
     private javax.swing.JComboBox cboGrupoHorario;
-    private com.toedter.calendar.JMonthChooser cboMes;
-    private javax.swing.JComboBox cboPeriodo;
-    private javax.swing.JComboBox cboPeriodo1;
-    private javax.swing.ButtonGroup grpRango;
+    private javax.swing.JComboBox cboHorario;
     private javax.swing.ButtonGroup grpSeleccion;
-    private javax.swing.ButtonGroup grpTipoReporte;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlBotones;
     private javax.swing.JPanel pnlEmpleados;
     private javax.swing.JPanel pnlOpciones;
-    private javax.swing.JPanel pnlRango;
     private javax.swing.JTabbedPane pnlTab;
-    private javax.swing.JRadioButton radAnio;
-    private javax.swing.JRadioButton radConsolidado;
-    private javax.swing.JRadioButton radDetallado;
     private javax.swing.JRadioButton radGrupo;
-    private javax.swing.JRadioButton radMes;
     private javax.swing.JRadioButton radOficina;
     private javax.swing.JRadioButton radPersonalizado;
-    private javax.swing.JRadioButton radPorFecha;
-    private javax.swing.JSpinner spFechaFin;
-    private javax.swing.JSpinner spFechaInicio;
     private org.jdesktop.swingx.JXTable tblTabla;
     private javax.swing.JTextField txtOficina;
     // End of variables declaration//GEN-END:variables
@@ -479,12 +382,11 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
     private void controles() {
 //        FormularioUtil.activarComponente(chkMarcaciones, radDetallado.isSelected());
 
-        FormularioUtil.activarComponente(spFechaInicio, radPorFecha.isSelected());
-        FormularioUtil.activarComponente(spFechaFin, radPorFecha.isSelected());
-        FormularioUtil.activarComponente(cboMes, radMes.isSelected());
-        FormularioUtil.activarComponente(cboPeriodo1, radMes.isSelected());
-        FormularioUtil.activarComponente(cboPeriodo, radAnio.isSelected());
-
+//        FormularioUtil.activarComponente(spFechaInicio, radPorFecha.isSelected());
+//        FormularioUtil.activarComponente(spFechaFin, radPorFecha.isSelected());
+//        FormularioUtil.activarComponente(cboMes, radMes.isSelected());
+//        FormularioUtil.activarComponente(cboPeriodo1, radMes.isSelected());
+//        FormularioUtil.activarComponente(cboPeriodo, radAnio.isSelected());
         FormularioUtil.activarComponente(cboGrupoHorario, radGrupo.isSelected());
 //        FormularioUtil.activarComponente(btnOficina, radGrupo.isSelected());
         FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
@@ -502,12 +404,12 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
 
         BindingGroup bindeo = new BindingGroup();
 
-        JComboBoxBinding binding = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
-        JComboBoxBinding binding2 = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo1);
+//        JComboBoxBinding binding = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
+//        JComboBoxBinding binding2 = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo1);
         JComboBoxBinding binding3 = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, grupoList, cboGrupoHorario);
 
-        bindeo.addBinding(binding);
-        bindeo.addBinding(binding2);
+//        bindeo.addBinding(binding);
+//        bindeo.addBinding(binding2);
         bindeo.addBinding(binding3);
         bindeo.bind();
 
@@ -538,84 +440,119 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
 
         };
 
-        cboPeriodo.setRenderer(renderPeriodo);
-        cboPeriodo1.setRenderer(renderPeriodo);
+//        cboPeriodo.setRenderer(renderPeriodo);
+//        cboPeriodo1.setRenderer(renderPeriodo);
         cboGrupoHorario.setRenderer(renderGrupo);
     }
     private AnalisisAsistencia analisis = new AnalisisAsistencia();
+    private final MarcacionControlador mc = new MarcacionControlador();
+    private final AsignacionHorarioControlador ahc = new AsignacionHorarioControlador();
 
     private void imprimir() {
+        Date fecha = FechaUtil.soloFecha(new Date());
+        List<String> tardanzas = new ArrayList<>();
+        List<String> faltas = new ArrayList<>();
+        if (fecha.compareTo(horarioSeleccionado.getFechaInicio()) >= 0
+                && fecha.compareTo(horarioSeleccionado.getFechaFin()) <= 0) {
+            Jornada jornada = horarioSeleccionado.getJornada();
 
-        Calendar cal = Calendar.getInstance();
+            //SE ANALIZA PERSONA A PERSONA HASTA OBTENER UN LISTADO =D
+            for (AsignacionHorario ah : horarioSeleccionado.getAsignacionHorarioList()) {
+                //comprobamos persona a persona si ha llegado tarde o a falta
+                Marcacion marcacion;
+                marcacion = mc.buscarXFechaXhora(ah.getEmpleado(), fecha, jornada.getDesdeHE(), jornada.getToleranciaHE());
+                if (marcacion == null) {
+                    //SE DISCERNIRA SI ESTA EN FALTA
+                    marcacion = mc.buscarXFechaXhora(ah.getEmpleado(), fecha, jornada.getToleranciaHE(), jornada.getTardanzaHE());
 
-        String usuario = UsuarioActivo.getUsuario().getLogin();
-
-        List<Empleado> empleados;
-
-        List<String> dnis = obtenerDNI();
-        empleados = this.ec.buscarPorLista(dnis);
-
-        analisis.analizarEmpleados(empleados);
-
-        String reporte = "";
-
-        if (radConsolidado.isSelected()) {
-            reporte = "reportes/r_registro_asistencia_consolidado.jasper";
-        } else if (radDetallado.isSelected()) {
-            reporte = "reportes/r_registro_asistencia_detallado.jasper";
+                    if (marcacion == null) {
+                        faltas.add(ah.getEmpleado());
+                    } else {
+                        tardanzas.add(ah.getEmpleado());
+                    }
+                } else {
+                    //NO PROBLEM
+                }
+            }
+            
+            if(faltas.isEmpty()){
+                JOptionPane.showMessageDialog(this, "No hay empleados con falta el día de hoy", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
+                
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "El horario no se encuentra vigente", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
         }
 
-        int anio;
-        int mes;
-        Date fechaInicio = new Date();
-        Date fechaFin = new Date();
-        String rangoTitulo = "";
-        String rangoValor = "";
-        if (radPorFecha.isSelected()) {
-            rangoTitulo = "ENTRE: ";
-            fechaInicio = (Date) spFechaInicio.getValue();
-            fechaFin = (Date) spFechaFin.getValue();
-            rangoValor = dfFecha.format(fechaInicio) + " - " + dfFecha.format(fechaFin);
-        } else if (radMes.isSelected()) {
-            rangoTitulo = "MES: ";
-            anio = periodoList.get(cboPeriodo1.getSelectedIndex()).getAnio();
-            mes = cboMes.getMonth();
-            cal.set(anio, mes, 1);
-            fechaInicio = cal.getTime();
-            cal.set(Calendar.DAY_OF_MONTH, cal.getMaximum(Calendar.DAY_OF_MONTH));
-            fechaFin = cal.getTime();
-            rangoValor = (cboMes.getMonth() + 1) + " / " + anio;
-        } else if (radAnio.isSelected()) {
-            rangoTitulo = "AÑO: ";
-            anio = periodoList.get(cboPeriodo.getSelectedIndex()).getAnio();
-            cal.set(anio, 0, 1);
-            fechaInicio = cal.getTime();
-            cal.set(anio, 11, 31);
-            fechaFin = cal.getTime();
-            rangoValor = periodoList.get(cboPeriodo.getSelectedIndex()).getAnio() + "";
-        }
-
-        File archivo = new File(reporte);
-        Map<String, Object> parametros = new HashMap<>();
-        parametros.put("usuario", usuario);
-        parametros.put("lista", dnis);
-        parametros.put("fechaInicio", fechaInicio);
-        parametros.put("fechaFin", fechaFin);
-        parametros.put("rangoTitulo", rangoTitulo);
-        parametros.put("rangoValor", rangoValor);
-//        parametros.put("titulo", "REPORTE DE PERMISOS");
-        parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
-
-        reporteador.setConn(pc.getDao().getConexion());
-        Component report = reporteador.obtenerReporte(archivo, parametros);
-        report.getParent().add(new JButton("HOLI"));
-
-//        if(bandera){
-        pnlTab.removeTabAt(0);
+//
+//        Calendar cal = Calendar.getInstance();
+//
+//        String usuario = UsuarioActivo.getUsuario().getLogin();
+//
+//        List<Empleado> empleados;
+//
+//        List<String> dnis = obtenerDNI();
+//        empleados = this.ec.buscarPorLista(dnis);
+//
+//        analisis.analizarEmpleados(empleados);
+//
+//        String reporte = "";
+//
+//        if (radConsolidado.isSelected()) {
+//            reporte = "reportes/r_registro_asistencia_consolidado.jasper";
+//        } else if (radDetallado.isSelected()) {
+//            reporte = "reportes/r_registro_asistencia_detallado.jasper";
 //        }
-        pnlTab.add("Vista previa", report);
-        bandera = true;
-
+//
+//        int anio;
+//        int mes;
+//        Date fechaInicio = new Date();
+//        Date fechaFin = new Date();
+//        String rangoTitulo = "";
+//        String rangoValor = "";
+//        if (radPorFecha.isSelected()) {
+//            rangoTitulo = "ENTRE: ";
+//            fechaInicio = (Date) spFechaInicio.getValue();
+//            fechaFin = (Date) spFechaFin.getValue();
+//            rangoValor = dfFecha.format(fechaInicio) + " - " + dfFecha.format(fechaFin);
+//        } else if (radMes.isSelected()) {
+//            rangoTitulo = "MES: ";
+//            anio = periodoList.get(cboPeriodo1.getSelectedIndex()).getAnio();
+//            mes = cboMes.getMonth();
+//            cal.set(anio, mes, 1);
+//            fechaInicio = cal.getTime();
+//            cal.set(Calendar.DAY_OF_MONTH, cal.getMaximum(Calendar.DAY_OF_MONTH));
+//            fechaFin = cal.getTime();
+//            rangoValor = (cboMes.getMonth() + 1) + " / " + anio;
+//        } else if (radAnio.isSelected()) {
+//            rangoTitulo = "AÑO: ";
+//            anio = periodoList.get(cboPeriodo.getSelectedIndex()).getAnio();
+//            cal.set(anio, 0, 1);
+//            fechaInicio = cal.getTime();
+//            cal.set(anio, 11, 31);
+//            fechaFin = cal.getTime();
+//            rangoValor = periodoList.get(cboPeriodo.getSelectedIndex()).getAnio() + "";
+//        }
+//
+//        File archivo = new File(reporte);
+//        Map<String, Object> parametros = new HashMap<>();
+//        parametros.put("usuario", usuario);
+//        parametros.put("lista", dnis);
+//        parametros.put("fechaInicio", fechaInicio);
+//        parametros.put("fechaFin", fechaFin);
+//        parametros.put("rangoTitulo", rangoTitulo);
+//        parametros.put("rangoValor", rangoValor);
+////        parametros.put("titulo", "REPORTE DE PERMISOS");
+//        parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
+//
+//        reporteador.setConn(pc.getDao().getConexion());
+//        Component report = reporteador.obtenerReporte(archivo, parametros);
+//        report.getParent().add(new JButton("HOLI"));
+//
+////        if(bandera){
+//        pnlTab.removeTabAt(0);
+////        }
+//        pnlTab.add("Vista previa", report);
+//        bandera = true;
     }
 
     boolean bandera = false;

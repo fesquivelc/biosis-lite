@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2351c35a-4e16-4c1c-aaf5-8e900d7ae54e">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fecha_inicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha_fin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ruta" class="java.lang.String"/>
+	<parameter name="usuario" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     fecha,
+     equipo_ip,
+     hora,
+     empleado_nro_documento,
+     empleado_nombre
+FROM
+     v_marcaciones
+where fecha BETWEEN $P{fecha_inicio} AND $P{fecha_fin}
+ORDER By empleado_nro_documento,fecha,hora]]>
+	</queryString>
+	<field name="fecha" class="java.sql.Date"/>
+	<field name="equipo_ip" class="java.lang.String"/>
+	<field name="hora" class="java.sql.Time"/>
+	<field name="empleado_nro_documento" class="java.lang.String"/>
+	<field name="empleado_nombre" class="java.lang.String"/>
+	<group name="g_emp_doc">
+		<groupExpression><![CDATA[$F{empleado_nro_documento}]]></groupExpression>
+		<groupHeader>
+			<band height="74">
+				<textField>
+					<reportElement x="120" y="0" width="435" height="20" uuid="f5a856e0-f3da-4001-9bbc-598bfbbfc4a2"/>
+					<box leftPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{empleado_nro_documento}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="120" y="20" width="435" height="20" uuid="0458de0e-02dd-4f7d-ad16-daff1ebc85c7"/>
+					<box leftPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{empleado_nombre}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="120" height="20" forecolor="#000000" backcolor="#999999" uuid="fe293d12-0637-46b7-b13b-358d6e9364fe"/>
+					<box leftPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[NRO DE DOCUMENTO:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="20" width="120" height="20" forecolor="#000000" backcolor="#999999" uuid="40ec0d93-9180-47c3-8cab-13d5fe4dcf4f"/>
+					<box leftPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[NOMBRE:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="54" width="60" height="20" uuid="47f86d17-4496-4134-8957-ec1360cebd34"/>
+					<box leftPadding="3">
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[FECHA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="60" y="54" width="60" height="20" uuid="406559df-a785-4c29-8b07-8d8bf864a25f"/>
+					<box leftPadding="3">
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[HORA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="120" y="54" width="111" height="20" uuid="4b801ed5-39ae-4c27-ac48-703a2b09d376"/>
+					<box leftPadding="3">
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[EQUIPO]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="34">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="14" width="120" height="20" forecolor="#000000" backcolor="#999999" uuid="da39acf0-716c-4089-a871-725ffde777ed"/>
+					<box leftPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL DE MARC:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="120" y="14" width="100" height="20" uuid="fa37b219-61f6-476d-b944-37ecd0834279"/>
+					<box leftPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{g_emp_doc_COUNT}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="75">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="52" width="555" height="20" forecolor="#000000" backcolor="#640000" uuid="2bec6649-5b22-4d69-802c-fd5d325f9a91"/>
+				<textField>
+					<reportElement x="341" y="0" width="212" height="20" forecolor="#CCCCCC" uuid="17a2b085-6ebe-4931-a179-7e36baf072cd"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Usuario: "+$P{usuario}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField>
+				<reportElement x="0" y="0" width="320" height="52" forecolor="#545454" uuid="0b3100c0-5db2-46bc-a589-dbebcc15986c"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["REPORTE DE MARCACIONES"]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="320" y="0" width="233" height="47" uuid="f5b09920-7e8b-4de2-997f-b70e84b7fa54"/>
+				<imageExpression><![CDATA[$P{ruta}+"/reportes/logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="60" height="20" uuid="fb88eae5-8265-4261-bcfa-25a512a314ba"/>
+				<box leftPadding="3">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm:ss">
+				<reportElement x="60" y="0" width="60" height="20" uuid="4190d615-966c-44c6-aa0d-aa876e0dfb2c"/>
+				<box leftPadding="3">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{hora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="0" width="111" height="20" uuid="da26e939-72b2-4de5-aa52-047857ef5f29"/>
+				<box leftPadding="3">
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{equipo_ip}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

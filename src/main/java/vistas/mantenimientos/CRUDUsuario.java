@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.text.DateFormatter;
 import org.jdesktop.beansbinding.AutoBinding;
@@ -145,6 +146,8 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel11, gridBagConstraints);
 
+        chkCambiarContraseña.setSelected(true);
+        chkCambiarContraseña.setEnabled(false);
         chkCambiarContraseña.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkCambiarContraseñaActionPerformed(evt);
@@ -377,6 +380,9 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        if(hayErrores()){
+            return;
+        }
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
             Usuario seleccionado = usuarioControlador.getSeleccionado();
 
@@ -388,7 +394,7 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
             String password = new String(txtPassword.getPassword());
             seleccionado.setPassword(Encriptador.encrypt(password));
             seleccionado.setActivo(chkActivo.isSelected());
-            seleccionado.setCambiarPassword(chkCambiarContraseña.isSelected());
+            seleccionado.setCambiarPassword(true);
             seleccionado.setEmpleado(empleadoSeleccionado.getNroDocumento());
             seleccionado.setRol(rolSeleccionado);
             
@@ -534,6 +540,28 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         usuarioList.clear();
         usuarioList.addAll(usuarioControlador.buscarTodos());
         tblUsuarios.packAll();
+    }
+
+    private boolean hayErrores() {
+        int errores = 0;
+        String mensaje = "Se ha(n) encontrado el(los) siguiente(s) error(es):\n";
+        
+        String pwd = new String(txtPassword.getPassword());
+        
+        if(pwd.length() < 8){
+            mensaje += "> El password debe tener como mínimo 8 caracteres\n";
+            errores++;
+        }
+        if(empleadoSeleccionado == null){
+            mensaje += "> La cuenta de usuario debe pertenecer a un empleado de MINEDU\n";
+            errores++;
+        }
+        if(txtEmpleado.getText().trim().isEmpty()){
+            mensaje += "> El nombre de login no debe estar en blanco\n";
+            errores++;
+        }
+        JOptionPane.showMessageDialog(this, mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
+        return errores != 0;
     }
 
 }

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_empleados_listado" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2351c35a-4e16-4c1c-aaf5-8e900d7ae54e">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fecha_inicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha_fin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ruta" class="java.lang.String"/>
+	<parameter name="usuario" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="CONEXION_EMPLEADOS" class="java.sql.Connection"/>
+	<parameter name="lista" class="java.util.List">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="titulo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+CAST(u.sUserID as integer) as empleado_nro_documento,
+dep.sName as departamento_nombre
+FROM
+TB_USER u 
+inner join TB_USER_DEPT dep on u.nDepartmentIdn = dep.nDepartmentIdn
+WHERE $X{IN,sUserID,lista}
+ORDER BY dep.sName, u.sUserID]]>
+	</queryString>
+	<field name="empleado_nro_documento" class="java.lang.Integer"/>
+	<field name="departamento_nombre" class="java.lang.String"/>
+	<group name="g_oficina">
+		<groupExpression><![CDATA[$F{departamento_nombre}]]></groupExpression>
+		<groupHeader>
+			<band height="40">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="157" height="20" forecolor="#000000" backcolor="#999999" uuid="3d68f0a9-07f5-4d97-a526-d8de89fff68b"/>
+					<box leftPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[ÁREA / OFICINA / DPTO:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="157" y="0" width="398" height="20" uuid="d4d809de-8288-4f97-bea2-2ad2100e990e"/>
+					<box leftPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{departamento_nombre}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="20" width="116" height="20" forecolor="#000000" backcolor="#999999" uuid="7ebcd746-bad5-4f03-8c1b-8ce1e1c047e1"/>
+					<box leftPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[COD. MODULAR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="116" y="20" width="147" height="20" forecolor="#000000" backcolor="#999999" uuid="094e26a0-c568-4587-99a1-a51bf5804360"/>
+					<box leftPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[NRO. DOCUMENTO]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="263" y="20" width="292" height="20" forecolor="#000000" backcolor="#999999" uuid="efd5b663-a6ac-4271-a5fe-dc16c5a8532a"/>
+					<box leftPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[EMPLEADO]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="40">
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="157" height="20" forecolor="#000000" backcolor="#999999" uuid="da39acf0-716c-4089-a871-725ffde777ed"/>
+					<box leftPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL DE EMP. ENROL.:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="157" y="0" width="106" height="20" uuid="c37bd39a-d2c8-4ab4-9ddc-8cc127f56199"/>
+					<box leftPadding="3">
+						<pen lineWidth="1.0"/>
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$V{g_oficina_COUNT}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="75">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="52" width="555" height="20" forecolor="#000000" backcolor="#640000" uuid="2bec6649-5b22-4d69-802c-fd5d325f9a91"/>
+				<textField>
+					<reportElement x="341" y="0" width="212" height="20" forecolor="#CCCCCC" uuid="17a2b085-6ebe-4931-a179-7e36baf072cd"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Usuario: "+$P{usuario}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField>
+				<reportElement x="0" y="0" width="320" height="52" forecolor="#545454" uuid="0b3100c0-5db2-46bc-a589-dbebcc15986c"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="320" y="0" width="233" height="47" uuid="f5b09920-7e8b-4de2-997f-b70e84b7fa54"/>
+				<imageExpression><![CDATA[$P{ruta}+"/reportes/logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="20" uuid="a653bc4e-e946-46a3-992d-e5579a225936"/>
+				<subreportParameter name="empleado_nro_documento">
+					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{CONEXION_EMPLEADOS}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_datos_empleado_3.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

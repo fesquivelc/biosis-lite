@@ -20,15 +20,16 @@ import utiles.UsuarioActivo;
     /**
      * Creates new form DlgCambiarPassword
      */
-public class DlgCambiarPassword extends javax.swing.JDialog {
+public class DlgCambiarPasswordInicio extends javax.swing.JDialog {
 
     private final UsuarioControlador uc = new UsuarioControlador();
     private final Usuario usuario;
-    public DlgCambiarPassword(java.awt.Frame parent,Usuario usuario, boolean modal) {
+    public DlgCambiarPasswordInicio(java.awt.Frame parent,Usuario usuario, boolean modal) {
         super(parent, modal);
         initComponents();
         this.usuario = usuario;
         this.setLocationRelativeTo(parent);
+        this.setAlwaysOnTop(true);
     }
 
     /**
@@ -50,7 +51,7 @@ public class DlgCambiarPassword extends javax.swing.JDialog {
         txtPassActual = new javax.swing.JPasswordField();
         txtRepNuevoPass = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Cambiar contraseña");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -129,7 +130,9 @@ public class DlgCambiarPassword extends javax.swing.JDialog {
         
         if(!(passActual.isEmpty() || nuevoPass.isEmpty() || repNuevoPass.isEmpty()) && nuevoPass.equals(repNuevoPass) && Encriptador.encrypt(passActual).equals(this.usuario.getPassword())){
             this.usuario.setPassword(Encriptador.encrypt(nuevoPass));
+            this.usuario.setCambiarPassword(false);
             if(uc.modificar(usuario)){
+                
                 FormularioUtil.mensajeExito(this, Controlador.MODIFICAR);
                 this.dispose();
             }
@@ -160,13 +163,16 @@ public class DlgCambiarPassword extends javax.swing.JDialog {
         String newPwd = new String(txtNuevoPass.getPassword());
         String repNewPwd = new String(txtRepNuevoPass.getPassword());
         
-        Usuario up = uc.login(UsuarioActivo.getUsuario().getLogin(), Encriptador.encrypt(actPwd));
+        Usuario up = uc.login(usuario.getLogin(), actPwd);        
         
         if(newPwd.length() < 8 || repNewPwd.length() < 8){
             mensaje += "> El password debe tener como mínimo 8 caracteres\n";
             errores++;
         }
-        if(newPwd.equals(repNewPwd)){
+        System.out.println("ACT PWD "+actPwd);
+        System.out.println("NEW PWD "+newPwd);
+        System.out.println("REP PWD "+repNewPwd);
+        if(!newPwd.equals(repNewPwd)){
             mensaje += "> No ha repetido correctamente la contraseña\n";
             errores++;
         }
@@ -174,7 +180,10 @@ public class DlgCambiarPassword extends javax.swing.JDialog {
             mensaje += "> Escriba correctamente su contraseña actual\n";
             errores++;
         }
-        JOptionPane.showMessageDialog(this, mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
+        if(errores > 0){
+            JOptionPane.showMessageDialog(this, mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
+        }
+        
         return errores != 0;
     }
 }

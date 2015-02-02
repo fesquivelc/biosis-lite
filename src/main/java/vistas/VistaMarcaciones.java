@@ -5,17 +5,31 @@
  */
 package vistas;
 
+import com.opencsv.CSVWriter;
 import controladores.MarcacionControlador;
 import entidades.Empleado;
 import entidades.Marcacion;
 import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTMarcacion;
 import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
+import controladores.EmpleadoControlador;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import org.jdesktop.observablecollections.ObservableCollections;
+import utiles.UsuarioActivo;
 
 /**
  *
@@ -36,6 +50,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         bindeoSalvaje();
         buscar();
         actualizarControlesNavegacion();
+        checkboxes();
 //        buscar();
     }
 
@@ -73,6 +88,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         dcFechaFin = new com.toedter.calendar.JDateChooser();
         radFechas = new javax.swing.JRadioButton();
         radHora = new javax.swing.JRadioButton();
+        btnBuscar1 = new javax.swing.JButton();
         grpOpcion.add(radHora);
         grpOpcion.add(radFechas);
 
@@ -123,7 +139,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 13;
+        gridBagConstraints.gridwidth = 14;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
@@ -273,10 +289,28 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         jPanel1.add(radFechas, gridBagConstraints);
 
         radHora.setText("Entre horas:");
+        radHora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radHoraActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 0;
         jPanel1.add(radHora, gridBagConstraints);
+
+        btnBuscar1.setText("Exportar CSV");
+        btnBuscar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscar1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 13;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
+        jPanel1.add(btnBuscar1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -368,10 +402,22 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         checkboxes();
     }//GEN-LAST:event_radFechasActionPerformed
 
+    private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
+        // TODO add your handling code here:
+//        imprimir();
+        exportar();
+    }//GEN-LAST:event_btnBuscar1ActionPerformed
+
+    private void radHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radHoraActionPerformed
+        // TODO add your handling code here:
+        checkboxes();
+    }//GEN-LAST:event_radHoraActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnBuscar1;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnPrimero;
     private javax.swing.JButton btnSiguiente;
@@ -401,7 +447,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
     private void bindeoSalvaje() {
         lista = ObservableCollections.observableList(new ArrayList<Marcacion>());
 
-        String[] columnas = {"Nro de documento", "Empleado", "Fecha", "Hora", "Ip de Equipo"};
+        String[] columnas = {"Nro de documento", "Empleado", "Fecha", "Hora", "Equipo"};
         MTMarcacion mt = new MTMarcacion(lista, columnas);
         tblEmpleado.setModel(mt);
     }
@@ -417,16 +463,15 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 //        }
 //        tblEmpleado.packAll();
 //    }
-
     private void inicializar() {
-        FormularioUtil.modeloSpinnerFechaHora(this.spHoraInicio, "HH:mm:ss");
-        FormularioUtil.modeloSpinnerFechaHora(this.spHoraFin, "HH:mm:ss");
+        FormularioUtil.modeloSpinnerFechaHora(this.spHoraInicio, "HH:mm");
+        FormularioUtil.modeloSpinnerFechaHora(this.spHoraFin, "HH:mm");
         Date fechaMax = new Date();
         dcFechaInicio.setMaxSelectableDate(fechaMax);
         dcFechaInicio.setDate(fechaMax);
         dcFechaFin.setMaxSelectableDate(fechaMax);
         dcFechaFin.setDate(fechaMax);
-        
+
     }
 
     private int paginaActual = 1;
@@ -434,15 +479,15 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
     private int tamanioPagina = 0;
 
     private void buscar() {
-        Date fechaInicio = (Date) spHoraInicio.getValue();
-        Date fechaFin = (Date) spHoraFin.getValue();
+        Date fechaInicio = dcFechaInicio.getDate();
+        Date fechaFin = dcFechaFin.getDate();
 
         tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
 
         lista.clear();
 
         lista.addAll(this.listar(empleadoSeleccionado, fechaInicio, fechaFin, paginaActual, tamanioPagina));
-        
+
         tblEmpleado.packAll();
     }
 
@@ -458,15 +503,25 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         } else {
             totalPaginas = (total / tamanio) + 1;
         }
-        
-        if(totalPaginas == 0){
+
+        if (totalPaginas == 0) {
             totalPaginas = 1;
         }
 
         if (empleado == null) {
-            return this.mc.buscarXFecha(fechaInicio, fechaFin, (pagina - 1) * tamanio, tamanio);
+            if (radFechas.isSelected()) {
+                return this.mc.buscarXFecha(fechaInicio, fechaFin, (pagina - 1) * tamanio, tamanio);
+            } else {
+                return this.mc.buscarXFechaXHora(fechaInicio, (Date) spHoraInicio.getValue(), (Date) spHoraFin.getValue(), (pagina - 1) * tamanio, tamanio);
+            }
+
         } else {
-            return this.mc.buscarXFecha(empleado.getNroDocumento(), fechaInicio, fechaFin, (pagina - 1) * tamanio, tamanio);
+            if (radFechas.isSelected()) {
+                return this.mc.buscarXFecha(empleado.getNroDocumento(), fechaInicio, fechaFin, (pagina - 1) * tamanio, tamanio);
+            } else {
+                return this.mc.buscarXFechaXHora(empleado.getNroDocumento(), fechaInicio, (Date) spHoraInicio.getValue(), (Date) spHoraFin.getValue(), (pagina - 1) * tamanio, tamanio);
+            }
+
         }
 
     }
@@ -519,8 +574,78 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
     private void checkboxes() {
         FormularioUtil.activarComponente(dcFechaInicio, true);
         FormularioUtil.activarComponente(dcFechaFin, radFechas.isSelected());
-        
+
         FormularioUtil.activarComponente(spHoraInicio, radHora.isSelected());
         FormularioUtil.activarComponente(spHoraFin, radHora.isSelected());
+    }
+
+    private final EmpleadoControlador ec = new EmpleadoControlador();
+    private final ReporteUtil rUtil = new ReporteUtil();
+    private final DateFormat dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+    private final DateFormat dfHora = new SimpleDateFormat("HH:mm:ss");
+
+    private void imprimir() {
+        String rutaReporte = "reportes/r_marcaciones.jasper";
+        File ficheroReporte = new File(rutaReporte);
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("usuario", UsuarioActivo.getUsuario().getLogin());
+        mapa.put("fecha_inicio", dcFechaInicio.getDate());
+        mapa.put("por_fecha", radFechas.isSelected());
+        if (radFechas.isSelected()) {
+            mapa.put("fecha_fin", dcFechaFin.getDate());
+        } else {
+            mapa.put("hora_inicio", (Date) spHoraInicio.getValue());
+            mapa.put("hora_fin", (Date) spHoraFin.getValue());
+        }
+
+        mapa.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
+        rUtil.setConn(this.mc.getDao().getConexion());
+        rUtil.generarReporte(ficheroReporte, mapa, JOptionPane.getFrameForComponent(this));
+    }
+
+    private void exportar() {
+        try {
+            String url = FormularioUtil.chooserFichero(this, "Seleccione donde guardar");
+            File fichero = new File(url + ".csv");
+
+            if (!fichero.exists()) {
+                try {
+                    fichero.createNewFile();
+                } catch (IOException ex) {
+                    Logger.getLogger(VistaMarcaciones.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            CSVWriter writer = new CSVWriter(new FileWriter(fichero.getAbsolutePath()), ',');
+            List<Marcacion> listado;
+            if (empleadoSeleccionado == null) {
+                if (radFechas.isSelected()) {
+                    listado = this.mc.buscarXFecha(dcFechaInicio.getDate(), dcFechaFin.getDate(), -1, -1);
+                } else {
+                    listado = this.mc.buscarXFechaXHora(dcFechaInicio.getDate(), (Date) spHoraInicio.getValue(), (Date) spHoraFin.getValue(), -1, -1);
+                }
+
+            } else {
+                if (radFechas.isSelected()) {
+                    listado = this.mc.buscarXFecha(empleadoSeleccionado.getNroDocumento(), dcFechaInicio.getDate(), dcFechaFin.getDate(), -1, -1);
+                } else {
+                    listado = this.mc.buscarXFechaXHora(empleadoSeleccionado.getNroDocumento(), dcFechaInicio.getDate(), (Date) spHoraInicio.getValue(), (Date) spHoraFin.getValue(), -1, -1);
+                }
+            }
+            String[] linea = new String[5];
+            
+            for(Marcacion m : listado){
+                linea[0] = m.getNombre();
+                linea[1] = dfFecha.format(m.getFecha());
+                linea[2] = dfHora.format(m.getHora());
+                linea[3] = m.getEquipo();
+                
+                writer.writeNext(linea, true);
+            }
+            writer.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(VistaMarcaciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -23,12 +23,17 @@ import vistas.reportes.RptPermisos;
 import vistas.reportes.RptRegistroAsistencia;
 import vistas.reportes.RptVacaciones;
 import com.personal.utiles.ImagenFondo;
+import controladores.EmpleadoControlador;
+import controladores.UsuarioControlador;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseMotionListener;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -624,11 +629,17 @@ public class Principal extends javax.swing.JFrame {
         agregarAPanel(mtr, true);
     }
 
+    private final EmpleadoControlador ec = new EmpleadoControlador();
+    private final DateFormat dfTimestamp = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    private final UsuarioControlador uc = new UsuarioControlador();
     public void setUsuario(Usuario u) {
         if (u != null) {
             UsuarioActivo.setUsuario(u);
-            lblUsuario.setText("Usuario: " + u.getLogin() + " Rol: " + u.getRol().getNombre());
+            Empleado e = ec.buscarPorId(u.getEmpleado());
+            lblUsuario.setText("Empleado: "+e.getApellidoPaterno()+" "+e.getApellidoMaterno()+" "+e.getNombre()+" | Usuario: " + u.getLogin() + " | Rol: " + u.getRol().getNombre()+" | Ult. inicio de sesión: "+dfTimestamp.format(u.getUltimoInicio())+" |");
             this.habilitarMenu();
+            u.setUltimoInicio(new Date());
+            uc.modificar(u);
         } else {
             System.out.println("USUARIO NULL =(");
         }

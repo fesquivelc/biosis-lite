@@ -18,6 +18,8 @@ import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
+import entidades.Departamento;
+import entidades.EmpleadoBiostar;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.io.File;
@@ -40,6 +42,7 @@ import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import utiles.UsuarioActivo;
+import vistas.dialogos.DlgOficina;
 
 /**
  *
@@ -111,6 +114,9 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         tblTabla = new org.jdesktop.swingx.JXTable();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        radOficina = new javax.swing.JRadioButton();
+        txtOficina = new javax.swing.JTextField();
+        btnOficina = new javax.swing.JButton();
         pnlBotones = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         pnlTab = new javax.swing.JTabbedPane();
@@ -125,6 +131,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
 
         grpSeleccion.add(radGrupo);
         grpSeleccion.add(radPersonalizado);
+        grpSeleccion.add(radOficina);
 
         setClosable(true);
         setMaximizable(true);
@@ -320,6 +327,36 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         pnlEmpleados.add(jButton3, gridBagConstraints);
 
+        radOficina.setText("Por oficina:");
+        radOficina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radOficinaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEmpleados.add(radOficina, gridBagConstraints);
+
+        txtOficina.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlEmpleados.add(txtOficina, gridBagConstraints);
+
+        btnOficina.setText("...");
+        btnOficina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOficinaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        pnlEmpleados.add(btnOficina, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -396,8 +433,24 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         dialogo.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void radOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radOficinaActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radOficinaActionPerformed
+
+    private void btnOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOficinaActionPerformed
+        // TODO add your handling code here:
+        DlgOficina oficinas = new DlgOficina(this);
+        oficinaSeleccionada = oficinas.getSeleccionado();
+        if (oficinaSeleccionada != null) {
+            txtOficina.setText(oficinaSeleccionada.getNombre());
+
+        }
+    }//GEN-LAST:event_btnOficinaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnOficina;
     private javax.swing.JComboBox cboGrupoHorario;
     private com.toedter.calendar.JMonthChooser cboMes;
     private javax.swing.JComboBox cboPeriodo;
@@ -420,6 +473,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton radGrupo;
     private javax.swing.JRadioButton radLicencia;
     private javax.swing.JRadioButton radMes;
+    private javax.swing.JRadioButton radOficina;
     private javax.swing.JRadioButton radPermiso;
     private javax.swing.JRadioButton radPersonalizado;
     private javax.swing.JRadioButton radPorFecha;
@@ -427,6 +481,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JSpinner spFechaFin;
     private javax.swing.JSpinner spFechaInicio;
     private org.jdesktop.swingx.JXTable tblTabla;
+    private javax.swing.JTextField txtOficina;
     // End of variables declaration//GEN-END:variables
 
     private void inicializar() {
@@ -446,7 +501,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         FormularioUtil.activarComponente(cboPeriodo2, radAnio.isSelected());
 
         FormularioUtil.activarComponente(cboGrupoHorario, radGrupo.isSelected());
-//        FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
+        FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
         FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
 
     }
@@ -609,6 +664,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         return empleado;
     }
 
+    private Departamento oficinaSeleccionada;
     private List<String> obtenerDNI() {
         List<String> lista = new ArrayList<>();
         if (radGrupo.isSelected()) {
@@ -621,9 +677,24 @@ public class RptPermisos extends javax.swing.JInternalFrame {
             for (Empleado e : empleadoList) {
                 lista.add(e.getNroDocumento());
             }
+        } else if (radOficina.isSelected()) {
+            List<EmpleadoBiostar> empleadoBiostar = oficinaSeleccionada.getEmpleadoList();
+            List<Integer> dniInt = dniInteger(empleadoBiostar);
+            List<Empleado> empleados = ec.buscarPorListaEnteros(dniInt);
+            for (Empleado empleado : empleados) {
+                lista.add(empleado.getNroDocumento());
+            }
         }
 
         return lista;
+    }
+    
+    private List<Integer> dniInteger(List<EmpleadoBiostar> empleados) {
+        List<Integer> dni = new ArrayList<>();
+        for (EmpleadoBiostar e : empleados) {
+            dni.add(e.getId());
+        }
+        return dni;
     }
 
     public void agregarEmpleado(Empleado empleado) {

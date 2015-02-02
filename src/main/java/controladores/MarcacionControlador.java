@@ -79,6 +79,18 @@ public class MarcacionControlador extends Controlador<Marcacion> {
         List<Marcacion> lista = this.getDao().buscar(jpql, mapa, desde, tamanio);
         return lista;
     }
+
+    public List<Marcacion> buscarXFechaXHora(Date fechaInicio, Date horaInicio, Date horaFin, int desde, int tamanio) {
+        String jpql = "SELECT m FROM Marcacion m WHERE m.fecha = :fechaInicio AND m.hora BETWEEN :horaInicio AND :horaFin "
+                + "ORDER BY m.empleado,m.fecha,m.hora";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("fechaInicio", fechaInicio);
+        mapa.put("horaInicio", horaInicio);
+        mapa.put("horaFin", horaFin);
+        List<Marcacion> lista = this.getDao().buscar(jpql, mapa, desde, tamanio);
+        return lista;
+    }
+
     private static final Logger LOG = Logger.getLogger(MarcacionControlador.class.getName());
 
     public int totalXEmpleadoXFecha(String dni, Date fechaInicio, Date fechaFin) {
@@ -147,11 +159,24 @@ public class MarcacionControlador extends Controlador<Marcacion> {
                 + "INNER JOIN TB_USER ON TB_EVENT_LOG.nUserID = TB_USER.nUserIdn "
                 + "WHERE TB_EVENT_LOG.nEventIdn = :evento)";
         sql += " ORDER BY u.sUserID,u.sUserName";
-        System.out.println("SQL: "+sql);
+        System.out.println("SQL: " + sql);
         List<Object[]> lista = this.getDao().getEntityManager().createNativeQuery(sql).setParameter("evento", evento).getResultList();
         return lista;
     }
-    
-    
+
+    public List<Marcacion> buscarXFechaXHora(String dni, Date fechaInicio, Date horaInicio, Date horaFin, int desde, int tamanio) {
+        String jpql = "SELECT m FROM Marcacion m WHERE "
+                + "m.empleado = :dni "
+                + "AND m.fecha = :fecha "
+                + "AND m.hora BETWEEN :horaI AND :horaF "
+                + "ORDER BY m.hora ASC";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", Integer.parseInt(dni));
+        mapa.put("fecha", fechaInicio);
+        mapa.put("horaI", horaInicio);
+        mapa.put("horaF", horaFin);
+        List<Marcacion> marcaciones = this.getDao().buscar(jpql, mapa, desde, tamanio);
+        return marcaciones;
+    }
 
 }

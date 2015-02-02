@@ -1,12 +1,15 @@
 package entidades;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Usuario implements Serializable {
@@ -17,6 +20,9 @@ public class Usuario implements Serializable {
     @Column(name="empleado_nro_documento",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private String empleado;
+    @Column(name="ultimo_inicio")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date ultimoInicio;
     @ManyToOne(optional=false,targetEntity = Rol.class)
     @JoinColumn(name="rol_codigo",referencedColumnName="codigo",insertable=true,nullable=false,unique=false,updatable=true)
     private Rol rol;
@@ -32,6 +38,14 @@ public class Usuario implements Serializable {
 
     public Usuario() {
 
+    }
+
+    public Date getUltimoInicio() {
+        return ultimoInicio;
+    }
+
+    public void setUltimoInicio(Date ultimoInicio) {
+        this.ultimoInicio = ultimoInicio;
     }
     
     public boolean isCambiarPassword() {

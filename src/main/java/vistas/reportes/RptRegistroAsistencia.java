@@ -87,6 +87,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlOpciones = new javax.swing.JPanel();
         radConsolidado = new javax.swing.JRadioButton();
         radDetallado = new javax.swing.JRadioButton();
+        chkHFH = new javax.swing.JCheckBox();
         pnlRango = new javax.swing.JPanel();
         radPorFecha = new javax.swing.JRadioButton();
         radMes = new javax.swing.JRadioButton();
@@ -143,6 +144,13 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlOpciones.add(radDetallado, gridBagConstraints);
+
+        chkHFH.setText("Mostrar H.F.T.");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlOpciones.add(chkHFH, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -440,6 +448,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JMonthChooser cboMes;
     private javax.swing.JComboBox cboPeriodo;
     private javax.swing.JComboBox cboPeriodo1;
+    private javax.swing.JCheckBox chkHFH;
     private javax.swing.ButtonGroup grpRango;
     private javax.swing.ButtonGroup grpSeleccion;
     private javax.swing.ButtonGroup grpTipoReporte;
@@ -604,6 +613,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         parametros.put("fechaFin", fechaFin);
         parametros.put("rangoTitulo", rangoTitulo);
         parametros.put("rangoValor", rangoValor);
+        parametros.put("mostrar_he", chkHFH.isSelected());
 //        parametros.put("titulo", "REPORTE DE PERMISOS");
         parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
 
