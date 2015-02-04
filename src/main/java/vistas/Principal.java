@@ -41,6 +41,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JInternalFrame;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import utiles.UsuarioActivo;
+import vistas.reportes.RptTardanzasFaltas;
 
 /**
  *
@@ -104,6 +105,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         mnuConfiguracion = new javax.swing.JMenu();
         mnuPeriodos = new javax.swing.JMenuItem();
         mnuControlUsuario = new javax.swing.JMenuItem();
@@ -340,6 +342,14 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuReportes.add(jMenuItem3);
 
+        jMenuItem4.setText("Reporte de faltas y tardanzas en el día");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        mnuReportes.add(jMenuItem4);
+
         menuBar.add(mnuReportes);
 
         mnuConfiguracion.setMnemonic('h');
@@ -513,6 +523,12 @@ public class Principal extends javax.swing.JFrame {
         passwd.setVisible(true);
     }//GEN-LAST:event_mnuCambiarPasswdActionPerformed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        RptTardanzasFaltas tyf = new RptTardanzasFaltas();
+        agregarAPanel(tyf, true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAsignarPermiso;
@@ -524,6 +540,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblJuvitec;

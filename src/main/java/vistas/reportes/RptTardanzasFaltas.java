@@ -93,6 +93,7 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         grpSeleccion = new javax.swing.ButtonGroup();
+        grpOpcion = new javax.swing.ButtonGroup();
         pnlEmpleados = new javax.swing.JPanel();
         radGrupo = new javax.swing.JRadioButton();
         radPersonalizado = new javax.swing.JRadioButton();
@@ -107,17 +108,21 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         pnlBotones = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         pnlTab = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
         pnlOpciones = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         cboHorario = new javax.swing.JComboBox();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        radFalta = new javax.swing.JRadioButton();
+        radTardanza = new javax.swing.JRadioButton();
         grpSeleccion.add(radGrupo);
         grpSeleccion.add(radPersonalizado);
         grpSeleccion.add(radOficina);
 
+        grpOpcion.add(radFalta);
+        grpOpcion.add(radTardanza);
+
         setClosable(true);
+        setMaximizable(true);
+        setResizable(true);
         setTitle("REPORTE DE TARDANZAS Y FALTAS EN EL DÍA");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -245,9 +250,6 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
         getContentPane().add(pnlBotones, gridBagConstraints);
-
-        pnlTab.addTab("Vista previa", jPanel1);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -274,19 +276,20 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlOpciones.add(cboHorario, gridBagConstraints);
 
-        jRadioButton1.setText("Faltas");
+        radFalta.setSelected(true);
+        radFalta.setText("Faltas");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlOpciones.add(jRadioButton1, gridBagConstraints);
+        pnlOpciones.add(radFalta, gridBagConstraints);
 
-        jRadioButton2.setText("Tardanzas");
+        radTardanza.setText("Tardanzas");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlOpciones.add(jRadioButton2, gridBagConstraints);
+        pnlOpciones.add(radTardanza, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -349,20 +352,20 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnQuitar;
     private javax.swing.JComboBox cboGrupoHorario;
     private javax.swing.JComboBox cboHorario;
+    private javax.swing.ButtonGroup grpOpcion;
     private javax.swing.ButtonGroup grpSeleccion;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlBotones;
     private javax.swing.JPanel pnlEmpleados;
     private javax.swing.JPanel pnlOpciones;
     private javax.swing.JTabbedPane pnlTab;
+    private javax.swing.JRadioButton radFalta;
     private javax.swing.JRadioButton radGrupo;
     private javax.swing.JRadioButton radOficina;
     private javax.swing.JRadioButton radPersonalizado;
+    private javax.swing.JRadioButton radTardanza;
     private org.jdesktop.swingx.JXTable tblTabla;
     private javax.swing.JTextField txtOficina;
     // End of variables declaration//GEN-END:variables
@@ -407,10 +410,12 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
 //        JComboBoxBinding binding = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
 //        JComboBoxBinding binding2 = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo1);
         JComboBoxBinding binding3 = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, grupoList, cboGrupoHorario);
+        JComboBoxBinding binding2 = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, horarioList, cboHorario);
 
 //        bindeo.addBinding(binding);
 //        bindeo.addBinding(binding2);
         bindeo.addBinding(binding3);
+        bindeo.addBinding(binding2);
         bindeo.bind();
 
         DefaultListCellRenderer renderGrupo = new DefaultListCellRenderer() {
@@ -420,6 +425,19 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
                 if (value != null) {
                     if (value instanceof GrupoHorario) {
                         value = ((GrupoHorario) value).getNombre();
+                    }
+                }
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
+            }
+
+        };
+        DefaultListCellRenderer renderHorario = new DefaultListCellRenderer() {
+
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                if (value != null) {
+                    if (value instanceof Horario) {
+                        value = ((Horario) value).getNombre();
                     }
                 }
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
@@ -443,12 +461,14 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
 //        cboPeriodo.setRenderer(renderPeriodo);
 //        cboPeriodo1.setRenderer(renderPeriodo);
         cboGrupoHorario.setRenderer(renderGrupo);
+        cboHorario.setRenderer(renderHorario);
     }
     private AnalisisAsistencia analisis = new AnalisisAsistencia();
     private final MarcacionControlador mc = new MarcacionControlador();
     private final AsignacionHorarioControlador ahc = new AsignacionHorarioControlador();
 
     private void imprimir() {
+        horarioSeleccionado = horarioList.get(cboHorario.getSelectedIndex());
         Date fecha = FechaUtil.soloFecha(new Date());
         List<String> tardanzas = new ArrayList<>();
         List<String> faltas = new ArrayList<>();
@@ -457,28 +477,70 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
             Jornada jornada = horarioSeleccionado.getJornada();
 
             //SE ANALIZA PERSONA A PERSONA HASTA OBTENER UN LISTADO =D
-            for (AsignacionHorario ah : horarioSeleccionado.getAsignacionHorarioList()) {
+            List<AsignacionHorario> asignaciones = horarioSeleccionado.getAsignacionHorarioList();
+            List<String> dnis = dnis(asignaciones);
+            for (String dni : dnis) {
                 //comprobamos persona a persona si ha llegado tarde o a falta
                 Marcacion marcacion;
-                marcacion = mc.buscarXFechaXhora(ah.getEmpleado(), fecha, jornada.getDesdeHE(), jornada.getToleranciaHE());
+//                System.out.println("EMPLEADO: "+ah.getEmpleado());
+                
+                marcacion = mc.buscarXFechaXhora(dni, fecha, jornada.getDesdeHE(), jornada.getToleranciaHE());
                 if (marcacion == null) {
                     //SE DISCERNIRA SI ESTA EN FALTA
-                    marcacion = mc.buscarXFechaXhora(ah.getEmpleado(), fecha, jornada.getToleranciaHE(), jornada.getTardanzaHE());
+                    marcacion = mc.buscarXFechaXhora(dni, fecha, jornada.getToleranciaHE(), jornada.getTardanzaHE());
 
-                    if (marcacion == null) {
-                        faltas.add(ah.getEmpleado());
-                    } else {
-                        tardanzas.add(ah.getEmpleado());
+                    if (marcacion == null && radFalta.isSelected()) {
+                        faltas.add(dni);
+                    } else if (radTardanza.isSelected()) {
+                        tardanzas.add(dni);
                     }
                 } else {
                     //NO PROBLEM
                 }
             }
-            
-            if(faltas.isEmpty()){
+
+            boolean procede = false;
+            if (faltas.isEmpty() && radFalta.isSelected()) {
+                System.out.println("FALTA NO PROCEDE");
                 JOptionPane.showMessageDialog(this, "No hay empleados con falta el día de hoy", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
                 
+            }else if (radFalta.isSelected()){
+                System.out.println("FALTA PROCEDE");
+                procede = true;
             }
+
+            if (tardanzas.isEmpty() && radTardanza.isSelected()) {
+                System.out.println("TARDANZAS NO PROCEDE");
+                JOptionPane.showMessageDialog(this, "No hay empleados con tardanza el día de hoy", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
+                
+            }else if(radTardanza.isSelected()){
+                System.out.println("TARDANZAS PROCEDE");
+                procede = true;
+            }
+
+            System.out.println("PROCEDE: "+procede);
+            if (procede) {
+                String rutaFichero = "reportes/r_tardanzas_faltas_dia.jasper";
+                String titulo = radTardanza.isSelected() ? "REPORTE DE TARDANZAS EN EL DÍA" : "REPORTE DE FALTAS EN EL DÍA";
+                File ficheroReporte = new File(rutaFichero);
+                String usuario = UsuarioActivo.getUsuario().getLogin();
+
+                List<String> listado = radTardanza.isSelected() ? tardanzas : faltas;
+
+                Map<String, Object> parametros = new HashMap<>();
+                parametros.put("usuario", usuario);
+                parametros.put("titulo", titulo);
+                parametros.put("listado", listado);
+                
+                reporteador.setConn(ec.getDao().getConexion());
+                
+                pnlTab.removeTabAt(0);
+                
+                Component comp = reporteador.obtenerReporte(ficheroReporte, parametros);
+                
+                pnlTab.add("Vista previa", comp);
+            }
+
         } else {
             JOptionPane.showMessageDialog(this, "El horario no se encuentra vigente", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -603,5 +665,20 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         if (seleccionado != -1) {
             grupoSeleccionado = this.grupoList.get(seleccionado);
         }
+    }
+
+    private List<String> dnis(List<AsignacionHorario> asignaciones) {
+        List<String> listado = new ArrayList<>();
+        for(AsignacionHorario ah : asignaciones){
+            if(ah.isPorGrupo()){
+                List<DetalleGrupoHorario> detalles = ah.getGrupoHorario().getDetalleGrupoHorarioList();
+                for(DetalleGrupoHorario detalle : detalles){
+                    listado.add(detalle.getEmpleado());
+                }
+            }else{
+                listado.add(ah.getEmpleado());
+            }
+        }
+        return listado;
     }
 }

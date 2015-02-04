@@ -7,9 +7,16 @@
         <AuxValue name="JavaCodeGenerator_allCodePost" type="java.lang.String" value="grpSeleccion.add(radGrupo);&#xa;grpSeleccion.add(radPersonalizado);&#xa;grpSeleccion.add(radOficina);"/>
       </AuxValues>
     </Component>
+    <Component class="javax.swing.ButtonGroup" name="grpOpcion">
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="grpOpcion.add(radFalta);&#xa;grpOpcion.add(radTardanza);"/>
+      </AuxValues>
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="closable" type="boolean" value="true"/>
+    <Property name="maximizable" type="boolean" value="true"/>
+    <Property name="resizable" type="boolean" value="true"/>
     <Property name="title" type="java.lang.String" value="REPORTE DE TARDANZAS Y FALTAS EN EL D&#xcd;A"/>
   </Properties>
   <SyntheticProperties>
@@ -202,19 +209,6 @@
       </Constraints>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
-      <SubComponents>
-        <Container class="javax.swing.JPanel" name="jPanel1">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Vista previa">
-                <Property name="tabTitle" type="java.lang.String" value="Vista previa"/>
-              </JTabbedPaneConstraints>
-            </Constraint>
-          </Constraints>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>
-        </Container>
-      </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="pnlOpciones">
       <Properties>
@@ -259,8 +253,9 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="jRadioButton1">
+        <Component class="javax.swing.JRadioButton" name="radFalta">
           <Properties>
+            <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="Faltas"/>
           </Properties>
           <Constraints>
@@ -269,7 +264,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="jRadioButton2">
+        <Component class="javax.swing.JRadioButton" name="radTardanza">
           <Properties>
             <Property name="text" type="java.lang.String" value="Tardanzas"/>
           </Properties>

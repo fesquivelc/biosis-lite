@@ -27,7 +27,7 @@ AVG(registro_asistencia.minutos_trabajados) / 60 as prom_horas_trabajadas,
      horario.nombre AS horario_nombre,
      horario.documento AS horario_documento
 FROM
-     registro_asistencia registro_asistencia LEFT JOIN detalle_registro_asistencia detalle_registro_asistencia ON registro_asistencia.id = detalle_registro_asistencia.registro_asistencia_id
+     registro_asistencia registro_asistencia
      INNER JOIN Horario horario ON registro_asistencia.horario_codigo = horario.codigo
 WHERE registro_asistencia.empleado_nro_documento = $P{empleado_nro_documento} AND registro_asistencia.fecha BETWEEN $P{fechaInicio} AND $P{fechaFin}
 GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]>

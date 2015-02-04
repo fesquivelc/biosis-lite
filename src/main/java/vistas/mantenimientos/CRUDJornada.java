@@ -493,6 +493,9 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+//        if(hayErrores()){
+//            return;
+//        }
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
             Jornada seleccionada = jornadaControlador.getSeleccionado();
 
@@ -693,5 +696,15 @@ public class CRUDJornada extends javax.swing.JInternalFrame {
             FormularioUtil.activarComponente(spMinutosRefrigerio, chkRefrigerioEspecial.isSelected());
         }
 
+        
     }
+
+//    private boolean hayErrores() {
+//        Date refrigerioInicio = (Date)spRefrigerioHS.getValue();
+//        Date refrigerioFin = (Date)spRefrigerioHE.getValue();
+//        Date turnoInicio = (Date)spTurnoHE.getValue();
+//        Date turnoFin = (Date)spTurnoHS.getValue();
+//        
+//        
+//    }
 }
