@@ -159,11 +159,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuPeriodosActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnuUsuarios">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Usuarios"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuControlUsuario">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Control de usuarios"/>

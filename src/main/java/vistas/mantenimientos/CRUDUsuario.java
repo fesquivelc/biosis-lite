@@ -386,7 +386,7 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
             Usuario seleccionado = usuarioControlador.getSeleccionado();
 
-            FormularioUtil.convertirMayusculas(this.pnlDatosJornada);
+//            FormularioUtil.convertirMayusculas(this.pnlDatosJornada);
 
             if (accion == Controlador.NUEVO) {
                 seleccionado.setLogin(txtLogin.getText());

@@ -106,7 +106,6 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         mnuConfiguracion = new javax.swing.JMenu();
         mnuPeriodos = new javax.swing.JMenuItem();
-        mnuUsuarios = new javax.swing.JMenuItem();
         mnuControlUsuario = new javax.swing.JMenuItem();
         mnuConfiguracionBD = new javax.swing.JMenuItem();
         mnuCambiarPasswd = new javax.swing.JMenuItem();
@@ -355,9 +354,6 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuConfiguracion.add(mnuPeriodos);
 
-        mnuUsuarios.setText("Usuarios");
-        mnuConfiguracion.add(mnuUsuarios);
-
         mnuControlUsuario.setText("Control de usuarios");
         mnuControlUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -551,7 +547,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu mnuReportes;
     private javax.swing.JMenuItem mnuSalir;
     private javax.swing.JMenuItem mnuTiposPermiso;
-    private javax.swing.JMenuItem mnuUsuarios;
     private javax.swing.JMenuItem mnuVerEmpleados;
     private javax.swing.JPanel pnlBotnes;
     // End of variables declaration//GEN-END:variables
@@ -697,7 +692,7 @@ public class Principal extends javax.swing.JFrame {
         mnuAsignarPermiso.setEnabled(permiso);
         mnuAsignarVacaciones.setEnabled(vacacion);
         mnuReportes.setEnabled(reportes);
-        mnuUsuarios.setEnabled(configuracion);
+//        mnuUsuarios.setEnabled(configuracion);
         mnuConfiguracionBD.setEnabled(configuracion);
 //        mnuRolUsuario.setEnabled(configuracion);
         mnuControlUsuario.setEnabled(configuracion);
