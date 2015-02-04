@@ -39,10 +39,10 @@ CAST(registro_asistencia.minutos_extra/60 AS DECIMAL(10,2)) as minutos_extra,
      WHEN registro_asistencia.tipo_asistencia = 'E' THEN 'FERIADO: '+feriado.nombre
      END as asistencia
 FROM
-     registro_asistencia registro_asistencia LEFT JOIN Vacacion Vacacion ON Vacacion.id = registro_asistencia.vacacion_id
-     LEFT JOIN Permiso Permiso ON registro_asistencia.permiso_id = Permiso.id
-     LEFT JOIN Feriado Feriado ON registro_asistencia.feriado_fecha_inicio = Feriado.fecha_inicio
-     LEFT JOIN tipo_permiso tipo_permiso ON Permiso.tipo_permiso_codigo = tipo_permiso.codigo
+     registro_asistencia registro_asistencia LEFT JOIN Vacacion vacacion ON vacacion.id = registro_asistencia.vacacion_id
+     LEFT JOIN Permiso permiso ON registro_asistencia.permiso_id = permiso.id
+     LEFT JOIN Feriado feriado ON registro_asistencia.feriado_fecha_inicio = feriado.fecha_inicio
+     LEFT JOIN tipo_permiso tipo_permiso ON permiso.tipo_permiso_codigo = tipo_permiso.codigo
 WHERE
 registro_asistencia.empleado_nro_documento = $P{empleado_nro_documento} AND (registro_asistencia.fecha BETWEEN $P{fechaInicio} AND $P{fechaFin}) AND registro_asistencia.horario_codigo = $P{horario_codigo}]]>
 	</queryString>
