@@ -281,6 +281,9 @@ public class DlgLogin extends javax.swing.JDialog {
                     cambiarPwd.setVisible(true);
                     
                 }
+                if(u== null){
+                    LOG.error("USUARIO ES NULL");
+                }
                 Principal principal = new Principal();
                 principal.setUsuario(u);
                 principal.setVisible(true);

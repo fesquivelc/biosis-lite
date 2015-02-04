@@ -631,9 +631,14 @@ public class Principal extends javax.swing.JFrame {
         if (u != null) {
             UsuarioActivo.setUsuario(u);
             Empleado e = ec.buscarPorId(u.getEmpleado());
-            lblUsuario.setText("Empleado: "+e.getApellidoPaterno()+" "+e.getApellidoMaterno()+" "+e.getNombre()+" | Usuario: " + u.getLogin() + " | Rol: " + u.getRol().getNombre()+" | Ult. inicio de sesión: "+dfTimestamp.format(u.getUltimoInicio())+" |");
+            lblUsuario.setText("Empleado: "+e.getApellidoPaterno()+" "+e.getApellidoMaterno()+" "+e.getNombre()+" | Usuario: " + u.getLogin() + " | Rol: " + u.getRol().getNombre()+" | Ult. inicio de sesión: "+(u.getUltimoInicio() != null ? dfTimestamp.format(u.getUltimoInicio()) : dfTimestamp.format(new Date()))+" |");
             this.habilitarMenu();
-            u.setUltimoInicio(new Date());
+            if(u.getUltimoInicio() == null){
+                
+            }else{
+                u.setUltimoInicio(new Date());
+            }
+            
             uc.modificar(u);
         } else {
             System.out.println("USUARIO NULL =(");
