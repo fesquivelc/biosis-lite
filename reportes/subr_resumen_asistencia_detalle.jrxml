@@ -30,7 +30,7 @@ CAST(SUM(registro_asistencia.minutos_extra) / 60 AS decimal(10,2)) as minutos_ex
      horario.documento AS horario_documento
 FROM
      registro_asistencia registro_asistencia
-     INNER JOIN horario horario ON registro_asistencia.horario_codigo = horario.codigo
+     INNER JOIN Horario horario ON registro_asistencia.horario_codigo = horario.codigo
 WHERE registro_asistencia.empleado_nro_documento = $P{empleado_nro_documento} AND registro_asistencia.fecha BETWEEN $P{fechaInicio} AND $P{fechaFin}
 GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]>
 	</queryString>
@@ -108,15 +108,7 @@ GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]
 					<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_conteo_tipo.jasper"]]></subreportExpression>
 				</subreport>
 				<staticText>
-					<reportElement x="338" y="71" width="137" height="20" uuid="79c9c62e-f1b9-4b14-b8be-6a6ea0620195"/>
-					<box leftPadding="5"/>
-					<textElement verticalAlignment="Middle">
-						<font isBold="true"/>
-					</textElement>
-					<text><![CDATA[PROM DE HRS. TRAB:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="338" y="91" width="137" height="20" uuid="eb3050b7-4db5-4192-9762-cf9c6f614b8a">
+					<reportElement x="338" y="71" width="137" height="20" uuid="eb3050b7-4db5-4192-9762-cf9c6f614b8a">
 						<printWhenExpression><![CDATA[$P{mostrar_he}]]></printWhenExpression>
 					</reportElement>
 					<box leftPadding="5"/>
@@ -126,7 +118,7 @@ GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]
 					<text><![CDATA[TOTAL HRS. EXTRA:]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="475" y="91" width="40" height="20" uuid="dcfa557d-be26-4104-aef0-02784ec3bbf0">
+					<reportElement x="475" y="71" width="40" height="20" uuid="dcfa557d-be26-4104-aef0-02784ec3bbf0">
 						<printWhenExpression><![CDATA[$P{mostrar_he}]]></printWhenExpression>
 					</reportElement>
 					<box leftPadding="5"/>
@@ -188,12 +180,6 @@ GROUP BY registro_asistencia.horario_codigo, horario.nombre, horario.documento]]
 				</textElement>
 				<text><![CDATA[DOC. LEGAL DE HORARIO:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="475" y="71" width="40" height="20" uuid="3dfb4be8-0d96-4506-9826-9a74608ae08e"/>
-				<box leftPadding="5"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{prom_horas_trabajadas}]]></textFieldExpression>
-			</textField>
 		</band>
 		<band height="106">
 			<subreport>
