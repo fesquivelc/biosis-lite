@@ -243,6 +243,7 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         gridBagConstraints.ipadx = 151;
         gridBagConstraints.ipady = 148;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
         getContentPane().add(pnlDatosJornada, gridBagConstraints);
 
@@ -367,14 +368,13 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        if(hayErrores()){
+        if (hayErrores()) {
             return;
         }
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
             Usuario seleccionado = usuarioControlador.getSeleccionado();
 
 //            FormularioUtil.convertirMayusculas(this.pnlDatosJornada);
-
             if (accion == Controlador.NUEVO) {
                 seleccionado.setLogin(txtLogin.getText());
             }
@@ -384,8 +384,6 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
             seleccionado.setCambiarPassword(true);
             seleccionado.setEmpleado(empleadoSeleccionado.getNroDocumento());
             seleccionado.setRol(rolSeleccionado);
-            
-            
 
             if (usuarioControlador.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
@@ -405,8 +403,8 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         DlgEmpleado dlg = new DlgEmpleado(this);
         empleadoSeleccionado = dlg.getSeleccionado();
-        if(empleadoSeleccionado != null){
-            txtEmpleado.setText(empleadoSeleccionado.getApellidoPaterno() + " " + empleadoSeleccionado.getApellidoMaterno() + " " +empleadoSeleccionado.getNombre());
+        if (empleadoSeleccionado != null) {
+            txtEmpleado.setText(empleadoSeleccionado.getApellidoPaterno() + " " + empleadoSeleccionado.getApellidoMaterno() + " " + empleadoSeleccionado.getNombre());
         }
     }//GEN-LAST:event_btnEmpleadoActionPerformed
 
@@ -414,7 +412,7 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         DlgRol roles = new DlgRol(this);
         rolSeleccionado = roles.getRolSeleccionado();
-        if(rolSeleccionado != null){
+        if (rolSeleccionado != null) {
             txtRol.setText(rolSeleccionado.getNombre());
         }
     }//GEN-LAST:event_btnRolActionPerformed
@@ -482,6 +480,10 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         this.txtEmpleado.setEditable(false);
         this.txtRol.setEditable(false);
 
+        if (bandera) {
+            chkCambiarContraseña.setSelected(true);
+            chkCambiarContraseña.setEnabled(false);
+        }
         if (accion != Controlador.MODIFICAR) {
             FormularioUtil.limpiarComponente(this.pnlDatosJornada);
         }
@@ -491,19 +493,19 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
     private void bindeoSalvaje() {
         usuarioList = new ArrayList<>();
         usuarioList = ObservableCollections.observableList(usuarioList);
-        
+
         JTableBinding tablaBinding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, usuarioList, tblUsuarios);
 
         BeanProperty pLogin = BeanProperty.create("login");
         BeanProperty pRol = BeanProperty.create("rol.nombre");
         BeanProperty pActivo = BeanProperty.create("activo");
         BeanProperty pEmpleado = BeanProperty.create("empleado");
-        
+
         tablaBinding.addColumnBinding(pEmpleado).setColumnName("Nro de documento").setEditable(false).setColumnClass(String.class);
         tablaBinding.addColumnBinding(pLogin).setColumnName("Nombre de usuario").setEditable(false).setColumnClass(String.class);
         tablaBinding.addColumnBinding(pRol).setColumnName("Rol").setEditable(false).setColumnClass(String.class);
         tablaBinding.addColumnBinding(pActivo).setColumnName("Rol").setEditable(false).setColumnClass(Boolean.class);
-        
+
         tablaBinding.bind();
         this.actualizarTabla();
     }
@@ -512,14 +514,14 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
         txtLogin.setText(seleccionado.getLogin());
 //        txtPassword.setText(Encriptador.decrypt(seleccionado.getPassword()));
         chkActivo.setSelected(seleccionado.isActivo());
-        
+
         chkCambiarContraseña.setSelected(seleccionado.isCambiarPassword());
         empleadoSeleccionado = empleadoControlador.buscarPorId(seleccionado.getEmpleado());
-        if(empleadoSeleccionado != null){
-            txtEmpleado.setText(empleadoSeleccionado.getApellidoPaterno() + " " + empleadoSeleccionado.getApellidoMaterno() + " "+empleadoSeleccionado.getNombre());
+        if (empleadoSeleccionado != null) {
+            txtEmpleado.setText(empleadoSeleccionado.getApellidoPaterno() + " " + empleadoSeleccionado.getApellidoMaterno() + " " + empleadoSeleccionado.getNombre());
         }
         txtRol.setText(seleccionado.getRol().getNombre());
-        
+
     }
 
     private void actualizarTabla() {
@@ -531,22 +533,25 @@ public class CRUDUsuario extends javax.swing.JInternalFrame {
     private boolean hayErrores() {
         int errores = 0;
         String mensaje = "Se ha(n) encontrado el(los) siguiente(s) error(es):\n";
-        
+
         String pwd = new String(txtPassword.getPassword());
-        
-        if(pwd.length() < 8){
+
+        if (pwd.length() < 8) {
             mensaje += "> El password debe tener como mínimo 8 caracteres\n";
             errores++;
         }
-        if(empleadoSeleccionado == null){
+        if (empleadoSeleccionado == null) {
             mensaje += "> La cuenta de usuario debe pertenecer a un empleado de MINEDU\n";
             errores++;
         }
-        if(txtEmpleado.getText().trim().isEmpty()){
+        if (txtEmpleado.getText().trim().isEmpty()) {
             mensaje += "> El nombre de login no debe estar en blanco\n";
             errores++;
         }
-        JOptionPane.showMessageDialog(this, mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
+        if (errores > 0) {
+            JOptionPane.showMessageDialog(this, mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
+        }
+
         return errores != 0;
     }
 
