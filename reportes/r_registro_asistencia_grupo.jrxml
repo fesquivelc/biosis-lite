@@ -3,6 +3,37 @@
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<subDataset name="resumen" uuid="1eee618d-a0e9-4987-98cd-43cba58379fd">
+		<queryString language="SQL">
+			<![CDATA[SELECT
+     registro_asistencia."compensacion" AS registro_asistencia_compensacion,
+     registro_asistencia."empleado_nro_documento" AS registro_asistencia_empleado_nro_documento,
+     registro_asistencia."fecha" AS registro_asistencia_fecha,
+     registro_asistencia."minutos_compensados" AS registro_asistencia_minutos_compensados,
+     registro_asistencia."minutos_tardanza" AS registro_asistencia_minutos_tardanza,
+     registro_asistencia."minutos_trabajados" AS registro_asistencia_minutos_trabajados,
+     registro_asistencia."tipo_asistencia" AS registro_asistencia_tipo_asistencia,
+     registro_asistencia."feriado_fecha_inicio" AS registro_asistencia_feriado_fecha_inicio,
+     registro_asistencia."horario_codigo" AS registro_asistencia_horario_codigo,
+     registro_asistencia."permiso_id" AS registro_asistencia_permiso_id,
+     registro_asistencia."vacacion_id" AS registro_asistencia_vacacion_id,
+     registro_asistencia."minutos_extra" AS registro_asistencia_minutos_extra
+FROM
+     "dbo"."registro_asistencia" registro_asistencia]]>
+		</queryString>
+		<field name="registro_asistencia_compensacion" class="java.lang.Boolean"/>
+		<field name="registro_asistencia_empleado_nro_documento" class="java.lang.String"/>
+		<field name="registro_asistencia_fecha" class="java.sql.Date"/>
+		<field name="registro_asistencia_minutos_compensados" class="java.math.BigDecimal"/>
+		<field name="registro_asistencia_minutos_tardanza" class="java.math.BigDecimal"/>
+		<field name="registro_asistencia_minutos_trabajados" class="java.math.BigDecimal"/>
+		<field name="registro_asistencia_tipo_asistencia" class="java.lang.String"/>
+		<field name="registro_asistencia_feriado_fecha_inicio" class="java.sql.Date"/>
+		<field name="registro_asistencia_horario_codigo" class="java.lang.String"/>
+		<field name="registro_asistencia_permiso_id" class="java.lang.Long"/>
+		<field name="registro_asistencia_vacacion_id" class="java.lang.Long"/>
+		<field name="registro_asistencia_minutos_extra" class="java.math.BigDecimal"/>
+	</subDataset>
 	<parameter name="usuario" class="java.lang.String"/>
 	<parameter name="ruta" class="java.lang.String">
 		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite"]]></defaultValueExpression>

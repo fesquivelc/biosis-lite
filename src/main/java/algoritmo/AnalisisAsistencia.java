@@ -394,7 +394,7 @@ public class AnalisisAsistencia {
             //SEGUN DIRECTIVA SOLO SE DEBE ANALIZAR REFRIGERIO SI SE
             //DETECTA UNA SALIDA
             //CASO CONTRARIO NO SE TOMA EN CUENTA
-            Long milisHoraInicioRefrigerio = (jornada.getRefrigerioHS().getTime() - jornada.getRefrigerioHE().getTime())/(60*1000);
+            Long milisInicioRefrigerio = jornada.getRefrigerioHE().getTime() - jornada.getRefrigerioHS().getTime();
             
             DetalleRegistroAsistencia detalleRefrigerio
                     = this.analizarRefrigerio(
@@ -403,7 +403,7 @@ public class AnalisisAsistencia {
                             jornada.getRefrigerioHS(),
                             jornada.getRefrigerioHE(),
                             horaMaximaSalida,
-                            milisHoraInicioRefrigerio.intValue(),
+                            milisInicioRefrigerio.intValue(),
                             jornada.getMinRefrigerio());
 
             detalleTurno.setRegistroAsistencia(registroAsistencia);
@@ -510,17 +510,18 @@ public class AnalisisAsistencia {
         return registroTurno;
     }
 
-    private DetalleRegistroAsistencia analizarRefrigerio(String empleadoDNI, Date fechaInicio, Date horaInicio, Date horaFin, Date horaMaximaFin, int minutosHoraInicio, int minutosRefrigerio) {
+    private DetalleRegistroAsistencia analizarRefrigerio(String empleadoDNI, Date fechaInicio, Date horaInicio, Date horaFin, Date horaMaximaFin, int milisHoraInicio, int minutosRefrigerio) {
         DetalleRegistroAsistencia registroRefrigerio = new DetalleRegistroAsistencia();
         registroRefrigerio.setOrden(1);
         registroRefrigerio.setTipoRegistro('R');
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(horaInicio);
-        calendar.add(Calendar.MINUTE, minutosHoraInicio);
+        calendar.add(Calendar.MILLISECOND, milisHoraInicio);
 
         Date horaMaximaInicio = calendar.getTime();
 
+        System.out.println("MINUTOS HORA INICIO: "+milisHoraInicio+" "+horaMaximaInicio);
 //        System.out.println("MARCACION INICIO REFRIGERIO PARAMS: " + fechaInicio + " " + horaInicio + " " + horaMaximaInicio);
         Marcacion marcacionInicio = mc.buscarXFechaXhora(empleadoDNI, fechaInicio, horaInicio, horaMaximaInicio);
 
