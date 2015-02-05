@@ -711,7 +711,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 
             CSVWriter writer = new CSVWriter(new FileWriter(fichero.getAbsolutePath()), ',');
             List<Marcacion> listado;
-            if (empleadoSeleccionado == null) {
+            if ((empleadoSeleccionado == null && radEmpleado.isSelected()) || (radOficina == null && radOficina.isSelected())) {
                 if (radFechas.isSelected()) {
                     listado = this.mc.buscarXFecha(dcFechaInicio.getDate(), dcFechaFin.getDate(), -1, -1);
                 } else {
@@ -720,9 +720,9 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 
             } else {
                 if (radFechas.isSelected()) {
-                    listado = this.mc.buscarXFecha(empleadoSeleccionado.getNroDocumento(), dcFechaInicio.getDate(), dcFechaFin.getDate(), -1, -1);
+                    listado = this.mc.buscarXFecha(obtenerDNIEntero(), dcFechaInicio.getDate(), dcFechaFin.getDate(), -1, -1);
                 } else {
-                    listado = this.mc.buscarXFechaXHora(empleadoSeleccionado.getNroDocumento(), dcFechaInicio.getDate(), (Date) spHoraInicio.getValue(), (Date) spHoraFin.getValue(), -1, -1);
+                    listado = this.mc.buscarXFechaXHora(obtenerDNIEntero(), dcFechaInicio.getDate(), (Date) spHoraInicio.getValue(), (Date) spHoraFin.getValue(), -1, -1);
                 }
             }
             String[] linea = new String[5];
