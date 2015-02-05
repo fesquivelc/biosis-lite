@@ -14,6 +14,8 @@ import vistas.modelos.MTMarcacion;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
 import controladores.EmpleadoControlador;
+import entidades.Departamento;
+import entidades.EmpleadoBiostar;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,6 +32,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import org.jdesktop.observablecollections.ObservableCollections;
 import utiles.UsuarioActivo;
+import vistas.dialogos.DlgOficina;
 
 /**
  *
@@ -65,8 +68,8 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         grpOpcion = new javax.swing.ButtonGroup();
+        grpSeleccion = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        lblBusqueda = new org.jdesktop.swingx.JXBusyLabel();
         txtBusqueda = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -74,7 +77,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         spHoraInicio = new javax.swing.JSpinner();
         spHoraFin = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
+        btnEmpleado = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         pnlNavegacion = new javax.swing.JPanel();
         btnPrimero = new javax.swing.JButton();
@@ -89,8 +92,15 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         radFechas = new javax.swing.JRadioButton();
         radHora = new javax.swing.JRadioButton();
         btnBuscar1 = new javax.swing.JButton();
+        radEmpleado = new javax.swing.JRadioButton();
+        radOficina = new javax.swing.JRadioButton();
+        txtOficina = new javax.swing.JTextField();
+        btnOficina = new javax.swing.JButton();
         grpOpcion.add(radHora);
         grpOpcion.add(radFechas);
+
+        grpSeleccion.add(radEmpleado);
+        grpSeleccion.add(radOficina);
 
         setClosable(true);
         setMaximizable(true);
@@ -98,14 +108,6 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel1.setLayout(new java.awt.GridBagLayout());
-
-        lblBusqueda.setText("Empleado");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel1.add(lblBusqueda, gridBagConstraints);
 
         txtBusqueda.setEditable(false);
         txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -128,7 +130,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridx = 15;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
@@ -139,7 +141,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 14;
+        gridBagConstraints.gridwidth = 17;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
@@ -148,7 +150,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 
         spHoraInicio.setModel(new javax.swing.SpinnerDateModel());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 9;
+        gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
@@ -156,7 +158,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 
         spHoraFin.setModel(new javax.swing.SpinnerDateModel());
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 11;
+        gridBagConstraints.gridx = 14;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
@@ -164,16 +166,16 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 
         jLabel1.setText("-");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 9;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanel1.add(jLabel1, gridBagConstraints);
 
-        jButton4.setText("...");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnEmpleado.setText("...");
+        btnEmpleado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnEmpleadoActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -181,7 +183,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
-        jPanel1.add(jButton4, gridBagConstraints);
+        jPanel1.add(btnEmpleado, gridBagConstraints);
 
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
@@ -190,7 +192,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
@@ -258,20 +260,20 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 13;
+        gridBagConstraints.gridwidth = 17;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanel1.add(pnlNavegacion, gridBagConstraints);
 
         dcFechaInicio.setDateFormatString("dd/MM/yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanel1.add(dcFechaInicio, gridBagConstraints);
 
         dcFechaFin.setDateFormatString("dd/MM/yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 7;
+        gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanel1.add(dcFechaFin, gridBagConstraints);
@@ -284,7 +286,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 0;
         jPanel1.add(radFechas, gridBagConstraints);
 
@@ -295,7 +297,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridx = 11;
         gridBagConstraints.gridy = 0;
         jPanel1.add(radHora, gridBagConstraints);
 
@@ -306,11 +308,53 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 13;
+        gridBagConstraints.gridx = 16;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(2, 2, 2, 2);
         jPanel1.add(btnBuscar1, gridBagConstraints);
+
+        radEmpleado.setSelected(true);
+        radEmpleado.setText("Empleado:");
+        radEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radEmpleadoActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        jPanel1.add(radEmpleado, gridBagConstraints);
+
+        radOficina.setText("Oficina");
+        radOficina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radOficinaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        jPanel1.add(radOficina, gridBagConstraints);
+
+        txtOficina.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        jPanel1.add(txtOficina, gridBagConstraints);
+
+        btnOficina.setText("...");
+        btnOficina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOficinaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 0;
+        jPanel1.add(btnOficina, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -329,23 +373,23 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        lblBusqueda.setBusy(true);
+//        lblBusqueda.setBusy(true);
         paginaActual = 1;
         buscar();
         actualizarControlesNavegacion();
-        lblBusqueda.setBusy(false);
+//        lblBusqueda.setBusy(false);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
         // TODO add your handling code here:
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            lblBusqueda.setBusy(true);
+//            lblBusqueda.setBusy(true);
             buscar();
-            lblBusqueda.setBusy(false);
+//            lblBusqueda.setBusy(false);
         }
     }//GEN-LAST:event_txtBusquedaKeyReleased
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btnEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadoActionPerformed
         // TODO add your handling code here:
         DlgEmpleado dialogo = new DlgEmpleado(this);
         dialogo.setAgregar(false);
@@ -357,12 +401,14 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
                     + " " + empleadoSeleccionado.getApellidoMaterno()
                     + " " + empleadoSeleccionado.getNombre());
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btnEmpleadoActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         // TODO add your handling code here:
         FormularioUtil.limpiarComponente(this.txtBusqueda);
         this.empleadoSeleccionado = null;
+        FormularioUtil.limpiarComponente(this.txtOficina);
+        this.oficinaSeleccionada = null;
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeroActionPerformed
@@ -413,12 +459,33 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         checkboxes();
     }//GEN-LAST:event_radHoraActionPerformed
 
+    private void radEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radEmpleadoActionPerformed
+        // TODO add your handling code here:
+        seleccion();
+    }//GEN-LAST:event_radEmpleadoActionPerformed
 
+    private void radOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radOficinaActionPerformed
+        // TODO add your handling code here:
+        seleccion();
+    }//GEN-LAST:event_radOficinaActionPerformed
+
+    private void btnOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOficinaActionPerformed
+        // TODO add your handling code here:
+        DlgOficina ofis = new DlgOficina(this);
+        oficinaSeleccionada = ofis.getSeleccionado();
+        if(oficinaSeleccionada != null){
+            txtOficina.setText(oficinaSeleccionada.getNombre());
+        }
+    }//GEN-LAST:event_btnOficinaActionPerformed
+
+    private Departamento oficinaSeleccionada;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnBuscar1;
+    private javax.swing.JButton btnEmpleado;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnOficina;
     private javax.swing.JButton btnPrimero;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
@@ -426,24 +493,26 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JDateChooser dcFechaFin;
     private com.toedter.calendar.JDateChooser dcFechaInicio;
     private javax.swing.ButtonGroup grpOpcion;
-    private javax.swing.JButton jButton4;
+    private javax.swing.ButtonGroup grpSeleccion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private org.jdesktop.swingx.JXBusyLabel lblBusqueda;
     private javax.swing.JPanel pnlNavegacion;
+    private javax.swing.JRadioButton radEmpleado;
     private javax.swing.JRadioButton radFechas;
     private javax.swing.JRadioButton radHora;
+    private javax.swing.JRadioButton radOficina;
     private javax.swing.JSpinner spHoraFin;
     private javax.swing.JSpinner spHoraInicio;
     private javax.swing.JSpinner spPagina;
     private org.jdesktop.swingx.JXTable tblEmpleado;
     private javax.swing.JTextField txtBusqueda;
+    private javax.swing.JTextField txtOficina;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 
     private Empleado empleadoSeleccionado;
-
+    private Departamento departamentoSeleccionado;
     private void bindeoSalvaje() {
         lista = ObservableCollections.observableList(new ArrayList<Marcacion>());
 
@@ -486,17 +555,27 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 
         lista.clear();
 
-        lista.addAll(this.listar(empleadoSeleccionado, fechaInicio, fechaFin, paginaActual, tamanioPagina));
+        lista.addAll(this.listar(this.obtenerDNIEntero(), fechaInicio, fechaFin, paginaActual, tamanioPagina));
 
         tblEmpleado.packAll();
     }
 
-    private List<Marcacion> listar(Empleado empleado, Date fechaInicio, Date fechaFin, int pagina, int tamanio) {
+    private List<Marcacion> listar(List<Integer> empleados, Date fechaInicio, Date fechaFin, int pagina, int tamanio) {
         int total;
-        if (empleado == null) {
-            total = mc.totalXFecha(fechaInicio, fechaFin);
+        if ((empleadoSeleccionado == null && radEmpleado.isSelected()) || (oficinaSeleccionada == null && radOficina.isSelected())) {
+            if(radFechas.isSelected()){
+                total = mc.totalXFecha(fechaInicio, fechaFin);
+            }else{
+                total = mc.totalXFechaXHora(fechaInicio, (Date) spHoraInicio.getValue(),(Date) spHoraFin.getValue());
+            }
+            
         } else {
-            total = mc.totalXEmpleadoXFecha(empleado.getNroDocumento(), fechaInicio, fechaFin);
+            if(radFechas.isSelected()){
+                total = mc.totalXFecha(empleados,fechaInicio, fechaFin);
+            }else{
+                total = mc.totalXFechaXHora(empleados,fechaInicio, (Date) spHoraInicio.getValue(),(Date) spHoraFin.getValue());
+            }
+//            total = mc.totalXEmpleadoXFecha(empleados, fechaInicio, fechaFin);
         }
         if (total % tamanio == 0) {
             totalPaginas = total / tamanio;
@@ -508,7 +587,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
             totalPaginas = 1;
         }
 
-        if (empleado == null) {
+        if ((empleadoSeleccionado == null && radEmpleado.isSelected()) || (oficinaSeleccionada == null && radOficina.isSelected())) {
             if (radFechas.isSelected()) {
                 return this.mc.buscarXFecha(fechaInicio, fechaFin, (pagina - 1) * tamanio, tamanio);
             } else {
@@ -517,13 +596,27 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
 
         } else {
             if (radFechas.isSelected()) {
-                return this.mc.buscarXFecha(empleado.getNroDocumento(), fechaInicio, fechaFin, (pagina - 1) * tamanio, tamanio);
+                return this.mc.buscarXFecha(empleados, fechaInicio, fechaFin, (pagina - 1) * tamanio, tamanio);
             } else {
-                return this.mc.buscarXFechaXHora(empleado.getNroDocumento(), fechaInicio, (Date) spHoraInicio.getValue(), (Date) spHoraFin.getValue(), (pagina - 1) * tamanio, tamanio);
+                return this.mc.buscarXFechaXHora(empleados, fechaInicio, (Date) spHoraInicio.getValue(), (Date) spHoraFin.getValue(), (pagina - 1) * tamanio, tamanio);
             }
 
         }
 
+    }
+    
+    private List<Integer> obtenerDNIEntero(){
+        List<Integer> dnisEnteros = new ArrayList<>();
+        if(radEmpleado.isSelected() && empleadoSeleccionado != null){
+            
+            dnisEnteros.add(Integer.parseInt(empleadoSeleccionado.getNroDocumento()));
+        }else if(radOficina.isSelected() && oficinaSeleccionada != null){
+            List<EmpleadoBiostar> empleados = oficinaSeleccionada.getEmpleadoList();
+            for(EmpleadoBiostar e : empleados){
+                dnisEnteros.add(e.getId());
+            }
+        }
+        return dnisEnteros;
     }
 
     private void siguiente() {
@@ -647,5 +740,10 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         } catch (IOException ex) {
             Logger.getLogger(VistaMarcaciones.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void seleccion() {
+        FormularioUtil.activarComponente(this.btnEmpleado, radEmpleado.isSelected());
+        FormularioUtil.activarComponente(this.btnOficina, radOficina.isSelected());
     }
 }

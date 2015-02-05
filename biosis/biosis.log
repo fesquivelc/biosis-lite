@@ -248,3 +248,5 @@ Caused by: com.microsoft.sqlserver.jdbc.SQLServerException: El nombre de objeto 
 	at com.microsoft.sqlserver.jdbc.SQLServerPreparedStatement.executeQuery(SQLServerPreparedStatement.java:285)
 	at net.sf.jasperreports.engine.query.JRJdbcQueryExecuter.createDatasource(JRJdbcQueryExecuter.java:233)
 	... 49 more
+2015-02-05 16:05:56.422	ERROR	[AWT-EventQueue-0]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:La columna "v_marcaciones.hora" de la cláusula ORDER BY no es válida, porque no está contenida en una función de agregado ni en la cláusula GROUP BY.
+2015-02-05 16:05:56.450	ERROR	[AWT-EventQueue-0]	CLASE: DAO	 METODO: contar	LINEA:187	MSJE:ERROR AL CONTAR: org.hibernate.exception.SQLGrammarException: could not extract ResultSet org.hibernate.exception.SQLGrammarException: could not extract ResultSet

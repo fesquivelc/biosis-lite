@@ -20,9 +20,12 @@ import vistas.modelos.MTHorarioRA;
 import vistas.modelos.MTMarcacion;
 import vistas.modelos.MTRegistroAsistencia;
 import com.personal.utiles.FormularioUtil;
+import controladores.EmpleadoControlador;
 import controladores.TCAnalisisControlador;
 import controladores.TCSistemaControlador;
 import entidades.Departamento;
+import entidades.DetalleGrupoHorario;
+import entidades.EmpleadoBiostar;
 import entidades.TCSistema;
 import java.util.ArrayList;
 import java.util.Date;
@@ -639,34 +642,55 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
 
     private final TCSistemaControlador tcsc = TCSistemaControlador.getInstance();
 
+    private List<String> obtenerDNI() {
+
+        List<String> lista = new ArrayList<>();
+        if (radPersonalizado.isSelected()) {
+            for (Empleado empleado : empleadoList) {
+                lista.add(empleado.getNroDocumento());
+            }
+        } else if (radOficina.isSelected()) {
+            List<EmpleadoBiostar> empleadoBiostar = oficinaSeleccionada.getEmpleadoList();
+            List<Integer> dniInt = dniInteger(empleadoBiostar);
+            List<Empleado> empleados = ec.buscarPorListaEnteros(dniInt);
+            for (Empleado empleado : empleados) {
+                lista.add(empleado.getNroDocumento());
+            }
+        }
+
+        return lista;
+    }
+    private final EmpleadoControlador ec = new EmpleadoControlador();
+    private List<Integer> dniInteger(List<EmpleadoBiostar> empleados) {
+        List<Integer> dni = new ArrayList<>();
+        for (EmpleadoBiostar e : empleados) {
+            dni.add(e.getId());
+        }
+        return dni;
+    }
+
     private void buscar() {
         Date fechaInicio = (Date) spFechaInicio.getValue();
         Date fechaFin = (Date) spFechaFin.getValue();
 
         tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
 
-        if (!empleadoList.isEmpty()) {
+        if ((!empleadoList.isEmpty() && radPersonalizado.isSelected()) || (oficinaSeleccionada != null && radOficina.isSelected())) {
+            System.out.println("SE ANALIZA");
+            List<String> dnis = obtenerDNI();
             if (retroceder) {
                 TCSistema origen = tcsc.buscarPorId("BIOSIS");
-                List<String> dnis = new ArrayList<>();
-                for(Empleado emp : empleadoList){
-                    dnis.add(emp.getNroDocumento());
-                }
                 tcac.retrocederTiempo(dnis, origen.getFechaCero());
                 retroceder = false;
             }
+            List<Empleado> empleados = radPersonalizado.isSelected() ? empleadoList : ec.buscarPorLista(dnis);
             tcsc.getDao().getEntityManager().clear();
-            analisis.analizarEmpleados(empleadoList);
-            mtRegistro.setEmpleadoList(empleadoList);
+            analisis.analizarEmpleados(empleados);
+            mtRegistro.setEmpleadoList(empleados);
             registroAsistenciaList.clear();
 
-            registroAsistenciaList.addAll(this.listar(empleadoList, fechaInicio, fechaFin, paginaActual, tamanioPagina));
+            registroAsistenciaList.addAll(this.listar(empleados, fechaInicio, fechaFin, paginaActual, tamanioPagina));
 
-//            tblRegistros.getColumn(0).setCellRenderer(render);
-//            tblRegistros.getColumn(1).setCellRenderer(render);
-//            tblRegistros.getColumn(2).setCellRenderer(render);
-//            tblRegistros.getColumn(3).setCellRenderer(render);
-//            tblRegistros.getColumn(4).setCellRenderer(render);
             tblRegistros.packAll();
 
         }
