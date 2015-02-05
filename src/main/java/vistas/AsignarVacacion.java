@@ -324,10 +324,14 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 15;
         pnlListado.add(pnlNavegacion, gridBagConstraints);
+
+        dcFechaInicio1.setDateFormatString("dd/MM/yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 0;
         pnlListado.add(dcFechaInicio1, gridBagConstraints);
+
+        dcFechaFin1.setDateFormatString("dd/MM/yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 0;
