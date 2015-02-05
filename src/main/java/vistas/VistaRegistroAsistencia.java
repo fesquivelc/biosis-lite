@@ -20,7 +20,10 @@ import vistas.modelos.MTHorarioRA;
 import vistas.modelos.MTMarcacion;
 import vistas.modelos.MTRegistroAsistencia;
 import com.personal.utiles.FormularioUtil;
+import controladores.TCAnalisisControlador;
+import controladores.TCSistemaControlador;
 import entidades.Departamento;
+import entidades.TCSistema;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -109,6 +112,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         txtOficina = new javax.swing.JTextField();
         btnOficina = new javax.swing.JButton();
         radOficina = new javax.swing.JRadioButton();
+        jButton4 = new javax.swing.JButton();
 
         grpSeleccion.add(radPersonalizado);
         grpSeleccion.add(radOficina);
@@ -277,7 +281,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Parámetros de búsqueda"));
         java.awt.GridBagLayout jPanel3Layout = new java.awt.GridBagLayout();
         jPanel3Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
-        jPanel3Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel3Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel3.setLayout(jPanel3Layout);
 
         spFechaInicio.setModel(new javax.swing.SpinnerDateModel());
@@ -416,6 +420,20 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel3.add(radOficina, gridBagConstraints);
 
+        jButton4.setText("REANALIZAR REGISTROS");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(7, 0, 7, 0);
+        jPanel3.add(jButton4, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -466,7 +484,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
     private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
         // TODO add your handling code here:
         int fila;
-        if((fila = tblEmpleados.getSelectedRow()) != -1){
+        if ((fila = tblEmpleados.getSelectedRow()) != -1) {
             empleadoList.remove(fila);
         }
     }//GEN-LAST:event_btnQuitarActionPerformed
@@ -515,7 +533,17 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         empleadoList.clear();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
 
+        retroceder = true;
+        paginaActual = 1;
+        buscar();
+        actualizarControlesNavegacion();
+    }//GEN-LAST:event_jButton4ActionPerformed
+    private final TCAnalisisControlador tcac = new TCAnalisisControlador();
+
+    private boolean retroceder = false;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnAnterior;
@@ -528,6 +556,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cboTamanio;
     private javax.swing.ButtonGroup grpSeleccion;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
@@ -566,28 +595,27 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
 
         MTEmpleado mtEmpleado = new MTEmpleado(empleadoList);
         tblEmpleados.setModel(mtEmpleado);
-        
+
         MTMarcacion mtMarcacion = new MTMarcacion(marcacionList);
         tblMarcacionesDia.setModel(mtMarcacion);
-        
+
         MTDetalleRegistroAsistencia mtDetalleRegistro = new MTDetalleRegistroAsistencia(detalleRegistroAsistenciaList);
         tblDetalleAsistencia.setModel(mtDetalleRegistro);
-        
+
         MTHorarioRA mtHorario = new MTHorarioRA(horarioList);
         tblHorario.setModel(mtHorario);
-        
+
 //        tblEmpleados.getColumn(1).setMaxWidth(300);
 //        tblEmpleados.getColumn(1).setMinWidth(300);
 //        tblEmpleados.getColumn(0).setMaxWidth(200);
 //        tblEmpleados.getColumn(0).setMinWidth(200);
-        
         tblMarcacionesDia.getColumn(0).setMinWidth(0);
         tblMarcacionesDia.getColumn(0).setMaxWidth(0);
         tblMarcacionesDia.getColumn(1).setMinWidth(0);
         tblMarcacionesDia.getColumn(1).setMaxWidth(0);
         tblMarcacionesDia.getColumn(4).setMinWidth(200);
         tblMarcacionesDia.getColumn(4).setMaxWidth(200);
-        
+
     }
 
     private void inicializar() {
@@ -599,16 +627,18 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
 
         FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
         FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
-        
-        
+
     }
-    
+
     RenderAsistencia render = new RenderAsistencia();
 
     private int paginaActual = 1;
     private int totalPaginas = 1;
     private int tamanioPagina = 0;
     private final AnalisisAsistencia analisis = new AnalisisAsistencia();
+
+    private final TCSistemaControlador tcsc = TCSistemaControlador.getInstance();
+
     private void buscar() {
         Date fechaInicio = (Date) spFechaInicio.getValue();
         Date fechaFin = (Date) spFechaFin.getValue();
@@ -616,6 +646,16 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
 
         if (!empleadoList.isEmpty()) {
+            if (retroceder) {
+                TCSistema origen = tcsc.buscarPorId("BIOSIS");
+                List<String> dnis = new ArrayList<>();
+                for(Empleado emp : empleadoList){
+                    dnis.add(emp.getNroDocumento());
+                }
+                tcac.retrocederTiempo(dnis, origen.getFechaCero());
+                retroceder = false;
+            }
+            tcsc.getDao().getEntityManager().clear();
             analisis.analizarEmpleados(empleadoList);
             mtRegistro.setEmpleadoList(empleadoList);
             registroAsistenciaList.clear();
@@ -628,7 +668,7 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
 //            tblRegistros.getColumn(3).setCellRenderer(render);
 //            tblRegistros.getColumn(4).setCellRenderer(render);
             tblRegistros.packAll();
-            
+
         }
 
     }
@@ -717,12 +757,12 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
         if (fila != -1) {
             RegistroAsistencia registro = this.registroAsistenciaList.get(fila);
 
-            if(registro.getDetalleRegistroAsistenciaList() == null){
+            if (registro.getDetalleRegistroAsistenciaList() == null) {
                 detalleRegistroAsistenciaList.clear();
-            }else{
+            } else {
                 mostrarDetalle(registro);
             }
-            
+
             mostrarHorario(registro.getHorario());
             mostrarMarcaciones(registro.getEmpleado(), registro.getFecha());
         }
@@ -746,19 +786,18 @@ public class VistaRegistroAsistencia extends javax.swing.JInternalFrame {
     private void mostrarMarcaciones(String empleado, Date fecha) {
         marcacionList.clear();
         marcacionList.addAll(mc.buscarXFecha(empleado, fecha));
-        
+
         tblMarcacionesDia.packAll();
     }
 
     private void controles() {
         FormularioUtil.activarComponente(txtOficina, false);
         FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
-        
+
         FormularioUtil.activarComponente(tblEmpleados, radPersonalizado.isSelected());
         FormularioUtil.activarComponente(btnAgregar, radPersonalizado.isSelected());
         FormularioUtil.activarComponente(btnQuitar, radPersonalizado.isSelected());
         FormularioUtil.activarComponente(btnLimpiar, radPersonalizado.isSelected());
-        
-        
+
     }
 }

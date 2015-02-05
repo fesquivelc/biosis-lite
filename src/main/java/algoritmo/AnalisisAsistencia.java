@@ -394,6 +394,8 @@ public class AnalisisAsistencia {
             //SEGUN DIRECTIVA SOLO SE DEBE ANALIZAR REFRIGERIO SI SE
             //DETECTA UNA SALIDA
             //CASO CONTRARIO NO SE TOMA EN CUENTA
+            Long milisHoraInicioRefrigerio = (jornada.getRefrigerioHS().getTime() - jornada.getRefrigerioHE().getTime())/(60*1000);
+            
             DetalleRegistroAsistencia detalleRefrigerio
                     = this.analizarRefrigerio(
                             empleado.getNroDocumento(),
@@ -401,7 +403,7 @@ public class AnalisisAsistencia {
                             jornada.getRefrigerioHS(),
                             jornada.getRefrigerioHE(),
                             horaMaximaSalida,
-                            60 * 3,
+                            milisHoraInicioRefrigerio.intValue(),
                             jornada.getMinRefrigerio());
 
             detalleTurno.setRegistroAsistencia(registroAsistencia);
