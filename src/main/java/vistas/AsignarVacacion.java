@@ -92,9 +92,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         txtEmpleado = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
-        spFechaInicio1 = new javax.swing.JSpinner();
         jLabel9 = new javax.swing.JLabel();
-        spFechaFin1 = new javax.swing.JSpinner();
         btnBuscar = new javax.swing.JButton();
         pnlNavegacion = new javax.swing.JPanel();
         btnPrimero = new javax.swing.JButton();
@@ -104,15 +102,17 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         btnSiguiente = new javax.swing.JButton();
         btnUltimo = new javax.swing.JButton();
         cboTamanio = new javax.swing.JComboBox();
+        dcFechaInicio1 = new com.toedter.calendar.JDateChooser();
+        dcFechaFin1 = new com.toedter.calendar.JDateChooser();
         pnlDatos = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtEmpleadoSeleccionado = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         pnlFHInicio = new javax.swing.JPanel();
-        spFechaFin = new javax.swing.JSpinner();
+        dcFechaFin = new com.toedter.calendar.JDateChooser();
         pnlFHInicio1 = new javax.swing.JPanel();
-        spFechaInicio = new javax.swing.JSpinner();
+        dcFechaInicio = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -240,26 +240,12 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         pnlListado.add(btnLimpiar, gridBagConstraints);
 
-        spFechaInicio1.setModel(new javax.swing.SpinnerDateModel());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        pnlListado.add(spFechaInicio1, gridBagConstraints);
-
         jLabel9.setText("-");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         pnlListado.add(jLabel9, gridBagConstraints);
-
-        spFechaFin1.setModel(new javax.swing.SpinnerDateModel());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        pnlListado.add(spFechaFin1, gridBagConstraints);
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -338,6 +324,14 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 15;
         pnlListado.add(pnlNavegacion, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 0;
+        pnlListado.add(dcFechaInicio1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 12;
+        gridBagConstraints.gridy = 0;
+        pnlListado.add(dcFechaFin1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -387,16 +381,18 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         pnlFHInicioLayout.rowHeights = new int[] {0};
         pnlFHInicio.setLayout(pnlFHInicioLayout);
 
-        spFechaFin.setModel(new javax.swing.SpinnerDateModel());
+        dcFechaFin.setDateFormatString("dd/MM/yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
-        pnlFHInicio.add(spFechaFin, gridBagConstraints);
+        pnlFHInicio.add(dcFechaFin, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(pnlFHInicio, gridBagConstraints);
 
@@ -405,16 +401,18 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         pnlFHInicio1Layout.rowHeights = new int[] {0};
         pnlFHInicio1.setLayout(pnlFHInicio1Layout);
 
-        spFechaInicio.setModel(new javax.swing.SpinnerDateModel());
+        dcFechaInicio.setDateFormatString("dd/MM/yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
-        pnlFHInicio1.add(spFechaInicio, gridBagConstraints);
+        pnlFHInicio1.add(dcFechaInicio, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(pnlFHInicio1, gridBagConstraints);
 
@@ -566,8 +564,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
 //            FormularioUtil.convertirMayusculas(this.pnlDatos);
             seleccionada.setEmpleado(empleadoSeleccionado.getNroDocumento());
-            seleccionada.setFechaInicio((Date) spFechaInicio.getValue());
-            seleccionada.setFechaFin((Date) spFechaFin.getValue());
+            seleccionada.setFechaInicio(dcFechaInicio.getDate());
+            seleccionada.setFechaFin(dcFechaFin.getDate());
             seleccionada.setHayInterrupcion(false);
             seleccionada.setDocumento(txtDocumento.getText());
             seleccionada.setPeriodo(periodoList.get(cboPeriodo.getSelectedIndex()));
@@ -737,6 +735,10 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnUltimo;
     private javax.swing.JComboBox cboPeriodo;
     private javax.swing.JComboBox cboTamanio;
+    private com.toedter.calendar.JDateChooser dcFechaFin;
+    private com.toedter.calendar.JDateChooser dcFechaFin1;
+    private com.toedter.calendar.JDateChooser dcFechaInicio;
+    private com.toedter.calendar.JDateChooser dcFechaInicio1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -759,10 +761,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlFHInicio1;
     private javax.swing.JPanel pnlListado;
     private javax.swing.JPanel pnlNavegacion;
-    private javax.swing.JSpinner spFechaFin;
-    private javax.swing.JSpinner spFechaFin1;
-    private javax.swing.JSpinner spFechaInicio;
-    private javax.swing.JSpinner spFechaInicio1;
     private javax.swing.JSpinner spPagina;
     private org.jdesktop.swingx.JXTable tblTabla;
     private org.jdesktop.swingx.JXTable tblVacaciones;
@@ -775,8 +773,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private void mostrar(Vacacion vacacion) {
         Empleado e = ec.buscarPorId(vacacion.getEmpleado());
         txtEmpleadoSeleccionado.setText(e.getApellidoPaterno() + " " + e.getApellidoMaterno() + " " + e.getNombre());
-        spFechaInicio.setValue(vacacion.getFechaInicio());
-        spFechaFin.setValue(vacacion.getFechaFin());
+        dcFechaInicio.setDate(vacacion.getFechaInicio());
+        dcFechaFin.setDate(vacacion.getFechaFin());
         cboPeriodo.setSelectedItem(vacacion.getPeriodo());
         txtDocumento.setText(vacacion.getDocumento());
         actualizarResumenVacaciones(e);
@@ -838,10 +836,10 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         ec = new EmpleadoControlador();
         controlador = new VacacionControlador();
         pc = new PeriodoControlador();
-        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
-        FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
-        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio1, "dd/MM/yyyy");
-        FormularioUtil.modeloSpinnerFechaHora(spFechaFin1, "dd/MM/yyyy");
+//        FormularioUtil.modeloSpinnerFechaHora(dcFechaInicio, "dd/MM/yyyy");
+//        FormularioUtil.modeloSpinnerFechaHora(FechaFin, "dd/MM/yyyy");
+//        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio1, "dd/MM/yyyy");
+//        FormularioUtil.modeloSpinnerFechaHora(spFechaFin1, "dd/MM/yyyy");
         this.controles(accion);
         mtVac = new MTVacacion(new ArrayList<Vacacion>());
         tblVacaciones.setModel(mtVac);
@@ -890,8 +888,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         String busqueda = txtEmpleado.getText();
         tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
 
-        Date fechaInicio = (Date) spFechaInicio1.getValue();
-        Date fechaFin = (Date) spFechaFin1.getValue();
+        Date fechaInicio = dcFechaInicio1.getDate();
+        Date fechaFin = dcFechaFin1.getDate();
         listado.clear();
         List<Vacacion> lista = this.listar(empleadoBusqueda, fechaInicio, fechaFin, paginaActual, tamanioPagina);
 //        System.out.println("LISTA: " + lista.size());
