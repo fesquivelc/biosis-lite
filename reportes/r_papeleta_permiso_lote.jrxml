@@ -110,17 +110,7 @@ permiso.id = $P{permiso_id}]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[FIRMA DEL JEFE DE PERSONAL]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="188" y="278" width="175" height="30" uuid="d888e9f9-c8c1-4425-bc32-9c7443bb445a"/>
-				<box>
-					<topPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[FIRMA DEL JEFE INMEDIATO]]></text>
+				<text><![CDATA[FIRMA DEL PERSONAL QUE AUTORIZA EL PERMISO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="160" width="157" height="20" uuid="a23734a8-1232-4873-becf-2ea118488aa4"/>

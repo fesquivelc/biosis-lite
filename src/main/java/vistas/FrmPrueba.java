@@ -5,6 +5,14 @@
  */
 package vistas;
 
+import com.personal.utiles.ReporteUtil;
+import controladores.EmpleadoControlador;
+import controladores.MarcacionControlador;
+import controladores.TCSistemaControlador;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author RyuujiMD
@@ -35,6 +43,11 @@ public class FrmPrueba extends javax.swing.JFrame {
         jPanel1.setEnabled(false);
 
         jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -72,6 +85,22 @@ public class FrmPrueba extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    private final ReporteUtil reporteador = new ReporteUtil();
+    private final MarcacionControlador mc = new MarcacionControlador();
+    private final EmpleadoControlador ec= new EmpleadoControlador();
+    private final TCSistemaControlador tc =  TCSistemaControlador.getInstance();
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        File ficheroReporte = new File("reportes/r_registro_asistencia_grupo_3.jasper");
+        Map<String,Object> mapa = new HashMap<>();
+        mapa.put("CONEXION_SUP", ec.getDao().getConexion());
+        mapa.put("CONEXION_BIOSTAR", mc.getDao().getConexion());
+        mapa.put("usuario", "francis");
+        mapa.put("mostrar_he", true);
+        
+        reporteador.setConn(tc.getDao().getConexion());
+        reporteador.generarReporte(ficheroReporte, mapa, this);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

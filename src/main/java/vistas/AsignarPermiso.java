@@ -812,7 +812,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         if (fila != -1) {
 //            List<AsignacionPermiso> lista = new ArrayList<>();
             AsignacionPermiso asignacion = this.listado.get(fila);
-//            lista.add(asignacion);
+//            lista.add(asignacion);admin   
             imprimirBoleta(asignacion);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -1134,7 +1134,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         if (seleccionada.isPorFecha()) {
             fechas = dfFecha.format(seleccionada.getFechaInicio()) + " - " + dfFecha.format(seleccionada.getFechaFin());
         } else {
-            fechas = dfFecha.format(seleccionada.getFechaInicio()) + " " + dfHora.format(seleccionada.getHoraInicio()) + " - " + dfFecha.format(seleccionada.getFechaFin()) + " " + dfHora.format(seleccionada.getHoraInicio());
+            fechas = dfFecha.format(seleccionada.getFechaInicio()) + " " + dfHora.format(seleccionada.getHoraInicio()) + " - " + dfFecha.format(seleccionada.getFechaFin()) + " " + dfHora.format(seleccionada.getHoraFin());
         }
 
 //        for (AsignacionPermiso asignacion : seleccionada.getAsignacionPermisoList()) {
@@ -1187,7 +1187,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         if (seleccionada.getPermiso().isPorFecha()) {
             fechas = dfFecha.format(seleccionada.getPermiso().getFechaInicio()) + " - " + dfFecha.format(seleccionada.getPermiso().getFechaFin());
         } else {
-            fechas = dfFecha.format(seleccionada.getPermiso().getFechaInicio()) + " " + dfHora.format(seleccionada.getPermiso().getHoraInicio()) + " - " + dfFecha.format(seleccionada.getPermiso().getFechaFin()) + " " + dfHora.format(seleccionada.getPermiso().getHoraInicio());
+            fechas = dfFecha.format(seleccionada.getPermiso().getFechaInicio()) + " " + dfHora.format(seleccionada.getPermiso().getHoraInicio()) + " - " + dfFecha.format(seleccionada.getPermiso().getFechaFin()) + " " + dfHora.format(seleccionada.getPermiso().getHoraFin());
         }
 
 //        for(AsignacionPermiso asignacion : seleccionada.getAsignacionPermisoList()){

@@ -19,6 +19,7 @@ import vistas.dialogos.DlgEmpleado;
 import vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
+import controladores.MarcacionControlador;
 import entidades.Departamento;
 import entidades.EmpleadoBiostar;
 import java.awt.Component;
@@ -64,8 +65,8 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pc = new PeriodoControlador();
         dfFecha = new SimpleDateFormat("dd/MM/yyyy");
         reporteador = new ReporteUtil();
-        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
-        FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
+//        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
+//        FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
         inicializar();
         bindeoSalvaje();
         controles();
@@ -92,12 +93,11 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         radPorFecha = new javax.swing.JRadioButton();
         radMes = new javax.swing.JRadioButton();
         radAnio = new javax.swing.JRadioButton();
-        spFechaInicio = new javax.swing.JSpinner();
-        spFechaFin = new javax.swing.JSpinner();
-        jLabel1 = new javax.swing.JLabel();
         cboMes = new com.toedter.calendar.JMonthChooser();
         cboPeriodo = new javax.swing.JComboBox();
         cboPeriodo1 = new javax.swing.JComboBox();
+        dcFechaInicio = new com.toedter.calendar.JDateChooser();
+        dcFechaFin = new com.toedter.calendar.JDateChooser();
         pnlEmpleados = new javax.swing.JPanel();
         radGrupo = new javax.swing.JRadioButton();
         radPersonalizado = new javax.swing.JRadioButton();
@@ -195,30 +195,10 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlRango.add(radAnio, gridBagConstraints);
-
-        spFechaInicio.setModel(new javax.swing.SpinnerDateModel());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlRango.add(spFechaInicio, gridBagConstraints);
-
-        spFechaFin.setModel(new javax.swing.SpinnerDateModel());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlRango.add(spFechaFin, gridBagConstraints);
-
-        jLabel1.setText("-");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        pnlRango.add(jLabel1, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
         pnlRango.add(cboMes, gridBagConstraints);
 
         cboPeriodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -236,6 +216,21 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlRango.add(cboPeriodo1, gridBagConstraints);
+
+        dcFechaInicio.setDateFormatString("dd/MM/yyyy");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlRango.add(dcFechaInicio, gridBagConstraints);
+
+        dcFechaFin.setDateFormatString("dd/MM/yyyy");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        pnlRango.add(dcFechaFin, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -449,11 +444,12 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox cboPeriodo;
     private javax.swing.JComboBox cboPeriodo1;
     private javax.swing.JCheckBox chkHFH;
+    private com.toedter.calendar.JDateChooser dcFechaFin;
+    private com.toedter.calendar.JDateChooser dcFechaInicio;
     private javax.swing.ButtonGroup grpRango;
     private javax.swing.ButtonGroup grpSeleccion;
     private javax.swing.ButtonGroup grpTipoReporte;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlBotones;
     private javax.swing.JPanel pnlEmpleados;
@@ -468,8 +464,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton radOficina;
     private javax.swing.JRadioButton radPersonalizado;
     private javax.swing.JRadioButton radPorFecha;
-    private javax.swing.JSpinner spFechaFin;
-    private javax.swing.JSpinner spFechaInicio;
     private org.jdesktop.swingx.JXTable tblTabla;
     private javax.swing.JTextField txtOficina;
     // End of variables declaration//GEN-END:variables
@@ -489,8 +483,8 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private void controles() {
 //        FormularioUtil.activarComponente(chkMarcaciones, radDetallado.isSelected());
 
-        FormularioUtil.activarComponente(spFechaInicio, radPorFecha.isSelected());
-        FormularioUtil.activarComponente(spFechaFin, radPorFecha.isSelected());
+        FormularioUtil.activarComponente(dcFechaInicio, radPorFecha.isSelected());
+        FormularioUtil.activarComponente(dcFechaFin, radPorFecha.isSelected());
         FormularioUtil.activarComponente(cboMes, radMes.isSelected());
         FormularioUtil.activarComponente(cboPeriodo1, radMes.isSelected());
         FormularioUtil.activarComponente(cboPeriodo, radAnio.isSelected());
@@ -500,6 +494,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
         FormularioUtil.activarComponente(btnAgregar, radPersonalizado.isSelected());
         FormularioUtil.activarComponente(btnQuitar, radPersonalizado.isSelected());
+        
 
         FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
     }
@@ -553,6 +548,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         cboGrupoHorario.setRenderer(renderGrupo);
     }
     private AnalisisAsistencia analisis = new AnalisisAsistencia();
+    private final MarcacionControlador mc = new MarcacionControlador();
 
     private void imprimir() {
 
@@ -572,7 +568,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         if (radConsolidado.isSelected()) {
             reporte = "reportes/r_registro_asistencia_consolidado.jasper";
         } else if (radDetallado.isSelected()) {
-            reporte = "reportes/r_registro_asistencia_detallado.jasper";
+            reporte = "reportes/r_registro_asistencia_grupo_3.jasper";
         }
 
         int anio;
@@ -583,8 +579,8 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         String rangoValor = "";
         if (radPorFecha.isSelected()) {
             rangoTitulo = "ENTRE: ";
-            fechaInicio = (Date) spFechaInicio.getValue();
-            fechaFin = (Date) spFechaFin.getValue();
+            fechaInicio = dcFechaInicio.getDate();
+            fechaFin = dcFechaFin.getDate();
             rangoValor = dfFecha.format(fechaInicio) + " - " + dfFecha.format(fechaFin);
         } else if (radMes.isSelected()) {
             rangoTitulo = "MES: ";
@@ -609,13 +605,15 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("usuario", usuario);
         parametros.put("lista", dnis);
-        parametros.put("fechaInicio", fechaInicio);
-        parametros.put("fechaFin", fechaFin);
+        parametros.put("fecha_inicio", fechaInicio);
+        parametros.put("fecha_fin", fechaFin);
         parametros.put("rangoTitulo", rangoTitulo);
         parametros.put("rangoValor", rangoValor);
         parametros.put("mostrar_he", chkHFH.isSelected());
 //        parametros.put("titulo", "REPORTE DE PERMISOS");
-        parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
+        parametros.put("CONEXION_SUP", ec.getDao().getConexion());
+        parametros.put("CONEXION_BIOSTAR", mc.getDao().getConexion());
+        
 
         reporteador.setConn(pc.getDao().getConexion());
         Component report = reporteador.obtenerReporte(archivo, parametros);

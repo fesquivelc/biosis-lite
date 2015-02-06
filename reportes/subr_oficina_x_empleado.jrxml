@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="subr_oficina_x_empleado" language="groovy" pageWidth="111" pageHeight="11" columnWidth="111" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ddde9290-1c5c-4138-baea-83a5a4f71f0a">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="empleado_nro_documento" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     dep."sName" AS nombre
+FROM
+     "dbo"."TB_USER" u INNER JOIN
+     "dbo"."TB_USER_DEPT" dep ON u.nDepartmentIdn = dep.nDepartmentIdn
+WHERE u.sUserID = $P{empleado_nro_documento}]]>
+	</queryString>
+	<field name="nombre" class="java.lang.String"/>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="111" height="11" uuid="2cf88252-b62e-4e09-8b9a-f807bba141ee"/>
+				<box leftPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

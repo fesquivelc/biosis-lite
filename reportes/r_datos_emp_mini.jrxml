@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_datos_emp_mini" language="groovy" pageWidth="209" pageHeight="11" columnWidth="209" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="f96aeab6-43df-430e-b62f-c18b21d55431">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="empleado_nro_documento" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     emp."NRO_DOCUMENTO",
+     emp."PATERNO",
+     emp."MATERNO",
+     emp."NOMBRES",
+     emp."TIPO_DOCUMENTO",
+     emp."CODIGO_MODULAR"
+FROM
+     "dbo"."v_empleados2" emp
+WHERE emp.NRO_DOCUMENTO = $P{empleado_nro_documento}]]>
+	</queryString>
+	<field name="NRO_DOCUMENTO" class="java.lang.String"/>
+	<field name="PATERNO" class="java.lang.String"/>
+	<field name="MATERNO" class="java.lang.String"/>
+	<field name="NOMBRES" class="java.lang.String"/>
+	<field name="TIPO_DOCUMENTO" class="java.lang.String"/>
+	<field name="CODIGO_MODULAR" class="java.lang.String"/>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="42" height="11" uuid="9e4ba817-1805-4d66-9a04-3954155ec10d"/>
+				<box leftPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NRO_DOCUMENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="0" width="137" height="11" uuid="92724a74-adf2-4079-bf03-8f4a150b37a5"/>
+				<box leftPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PATERNO} + " " + $F{MATERNO} + " " + $F{NOMBRES}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="42" y="0" width="30" height="11" uuid="a5c25755-4dcb-459e-a7af-2d2a1ca9f7a2"/>
+				<box leftPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NRO_DOCUMENTO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

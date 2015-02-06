@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_grupo_2" pageWidth="595" pageHeight="842" columnWidth="585" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" uuid="2351c35a-4e16-4c1c-aaf5-8e900d7ae54e">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="usuario" class="java.lang.String"/>
+	<parameter name="ruta" class="java.lang.String">
+		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="mostrar_he" class="java.lang.Boolean"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="CONEXION_BIOSTAR" class="java.sql.Connection"/>
+	<parameter name="CONEXION_SUP" class="java.sql.Connection"/>
+	<parameter name="lista" class="java.util.List">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha_inicio" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha_fin" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="rangoTitulo" class="java.lang.String"/>
+	<parameter name="rangoValor" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     registro_asistencia."empleado_nro_documento" AS registro_asistencia_empleado_nro_documento,
+     registro_asistencia."fecha" AS registro_asistencia_fecha,
+     registro_asistencia."minutos_compensados" AS registro_asistencia_minutos_compensados,
+     registro_asistencia."minutos_tardanza" AS registro_asistencia_minutos_tardanza,
+     registro_asistencia."minutos_trabajados" AS registro_asistencia_minutos_trabajados,
+     registro_asistencia."horario_codigo" AS registro_asistencia_horario_codigo,
+     registro_asistencia."minutos_extra" AS registro_asistencia_minutos_extra,
+registro_asistencia."tipo_asistencia" AS tipo_asistencia,
+     Feriado."nombre" AS Feriado_nombre,
+     Vacacion."documento" AS Vacacion_documento,
+     Permiso."documento" AS Permiso_documento,
+     detalle_registro_asistencia."minutos_tardanza" AS detalle_registro_asistencia_minutos_tardanza,
+     detalle_registro_asistencia."hora_fin" AS detalle_registro_asistencia_hora_fin,
+     detalle_registro_asistencia."hora_inicio" AS detalle_registro_asistencia_hora_inicio,
+     detalle_registro_asistencia."resultado" AS detalle_registro_asistencia_resultado,
+detalle_registro_asistencia."tipo_registro" AS detalle_registro_tipo,
+detalle_registro_asistencia."minutos_extra" AS detalle_registro_minutos_extra,
+tipo_permiso.clase as clase_permiso
+FROM
+     "dbo"."registro_asistencia" registro_asistencia LEFT JOIN "dbo"."detalle_registro_asistencia" detalle_registro_asistencia ON registro_asistencia."id" = detalle_registro_asistencia."registro_asistencia_id"
+     LEFT JOIN "dbo"."Permiso" Permiso ON detalle_registro_asistencia."permiso_id" = Permiso."id"
+     AND Permiso."id" = registro_asistencia."permiso_id"
+     LEFT JOIN "dbo"."Vacacion" Vacacion ON registro_asistencia."vacacion_id" = Vacacion."id"
+     LEFT JOIN "dbo"."Feriado" Feriado ON registro_asistencia."feriado_fecha_inicio" = Feriado."fecha_inicio" LEFT JOIN tipo_permiso on Permiso.tipo_permiso_codigo = tipo_permiso.codigo
+WHERE
+$X{IN,registro_asistencia.empleado_nro_documento,lista} AND registro_asistencia.fecha BETWEEN $P{fecha_inicio} AND $P{fecha_fin}
+ORDER BY registro_asistencia.empleado_nro_documento,registro_asistencia.fecha ASC,detalle_registro_asistencia.orden ASC]]>
+	</queryString>
+	<field name="registro_asistencia_empleado_nro_documento" class="java.lang.String"/>
+	<field name="registro_asistencia_fecha" class="java.sql.Date"/>
+	<field name="registro_asistencia_minutos_compensados" class="java.math.BigDecimal"/>
+	<field name="registro_asistencia_minutos_tardanza" class="java.math.BigDecimal"/>
+	<field name="registro_asistencia_minutos_trabajados" class="java.math.BigDecimal"/>
+	<field name="registro_asistencia_horario_codigo" class="java.lang.String"/>
+	<field name="registro_asistencia_minutos_extra" class="java.math.BigDecimal"/>
+	<field name="tipo_asistencia" class="java.lang.String"/>
+	<field name="Feriado_nombre" class="java.lang.String"/>
+	<field name="Vacacion_documento" class="java.lang.String"/>
+	<field name="Permiso_documento" class="java.lang.String"/>
+	<field name="detalle_registro_asistencia_minutos_tardanza" class="java.math.BigDecimal"/>
+	<field name="detalle_registro_asistencia_hora_fin" class="java.sql.Time"/>
+	<field name="detalle_registro_asistencia_hora_inicio" class="java.sql.Time"/>
+	<field name="detalle_registro_asistencia_resultado" class="java.lang.String"/>
+	<field name="detalle_registro_tipo" class="java.lang.String"/>
+	<field name="detalle_registro_minutos_extra" class="java.math.BigDecimal"/>
+	<field name="clase_permiso" class="java.lang.String"/>
+	<variable name="sum-min-tardanza-total" class="java.math.BigDecimal" resetType="Group" resetGroup="g-empleado" calculation="Sum">
+		<variableExpression><![CDATA[$F{detalle_registro_asistencia_minutos_tardanza}]]></variableExpression>
+	</variable>
+	<variable name="sum-min-tardanza-diaria" class="java.math.BigDecimal" resetType="Group" resetGroup="g-registro" calculation="Sum">
+		<variableExpression><![CDATA[$F{detalle_registro_asistencia_minutos_tardanza}]]></variableExpression>
+	</variable>
+	<variable name="sum-min-extra-diaria" class="java.math.BigDecimal" resetType="Group" resetGroup="g-registro" calculation="Sum">
+		<variableExpression><![CDATA[$F{detalle_registro_minutos_extra}]]></variableExpression>
+	</variable>
+	<variable name="sum-min-extra-total" class="java.math.BigDecimal" resetType="Group" resetGroup="g-empleado" calculation="Sum">
+		<variableExpression><![CDATA[$F{detalle_registro_minutos_extra}]]></variableExpression>
+	</variable>
+	<variable name="conteo-faltas-total" class="java.lang.Integer" resetType="Group" resetGroup="g-empleado" calculation="Sum">
+		<variableExpression><![CDATA[($F{tipo_asistencia}.equals("F")) ? 1 : 0]]></variableExpression>
+	</variable>
+	<group name="g-empleado" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$F{registro_asistencia_empleado_nro_documento}]]></groupExpression>
+	</group>
+	<group name="g-registro" isReprintHeaderOnEachPage="true" keepTogether="true">
+		<groupExpression><![CDATA[$F{registro_asistencia_fecha}]]></groupExpression>
+		<groupFooter>
+			<band height="2">
+				<line>
+					<reportElement x="320" y="0" width="265" height="1" forecolor="#CCCCCC" uuid="0d183e80-5f80-4ad7-a1b1-b0caf7ca53ff"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="77">
+			<staticText>
+				<reportElement x="0" y="0" width="322" height="30" forecolor="#666666" backcolor="#FFFFFF" uuid="c7fc26d9-5dcf-4cad-b084-87e2964bffdc"/>
+				<box leftPadding="3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REPORTE DE ASISTENCIA DETALLADO]]></text>
+			</staticText>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="55" width="585" height="20" forecolor="#000000" backcolor="#660000" uuid="2bec6649-5b22-4d69-802c-fd5d325f9a91"/>
+				<textField>
+					<reportElement x="373" y="0" width="212" height="20" forecolor="#CCCCCC" uuid="17a2b085-6ebe-4931-a179-7e36baf072cd"/>
+					<box rightPadding="3"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Serif" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Usuario: "+$P{usuario}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<image>
+				<reportElement x="322" y="0" width="263" height="55" uuid="c9a80649-a4ae-47ea-bcfa-adc9288c07e5"/>
+				<imageExpression><![CDATA[$P{ruta}+"/reportes/logo.png"]]></imageExpression>
+			</image>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement isPrintRepeatedValues="false" x="0" y="30" width="116" height="25" forecolor="#666666" uuid="f09ed0e8-b25b-41c5-8f02-2f977616d088"/>
+				<box leftPadding="0" rightPadding="3">
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rangoTitulo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement isPrintRepeatedValues="false" x="116" y="30" width="116" height="25" forecolor="#666666" uuid="dd0729b9-4efc-4cab-b067-24945a3b8616"/>
+				<box leftPadding="0" rightPadding="3">
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rangoValor}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="0" width="209" height="10" forecolor="#000000" backcolor="#3399FF" uuid="bbf4eed7-15eb-419e-9e4a-ea4caecede62"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Empleado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="320" y="0" width="36" height="20" forecolor="#000000" backcolor="#3399FF" uuid="175f6a50-184f-4af5-8756-7c10937c355e"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="411" y="0" width="42" height="20" forecolor="#000000" backcolor="#3399FF" uuid="ac56f4e0-f04e-48bd-ad96-0f6917ad4b99"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalle]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="453" y="0" width="30" height="20" isRemoveLineWhenBlank="true" forecolor="#000000" backcolor="#3399FF" uuid="6aced933-9789-4eba-bd0b-62c58ba59d7f"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[H. Inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="483" y="0" width="30" height="20" forecolor="#000000" backcolor="#3399FF" uuid="05c1fd12-b701-40b4-a2bd-80614fa624c5"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[H. Fin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="513" y="0" width="36" height="20" forecolor="#000000" backcolor="#3399FF" uuid="b2aa6434-888b-451b-873d-9e27e089b1a4"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tard. (min)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="549" y="0" width="36" height="20" forecolor="#000000" backcolor="#3399FF" uuid="14815c6d-ee1e-452b-aefe-c1ae3b4528b4">
+					<printWhenExpression><![CDATA[$P{mostrar_he}]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Extra (min)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="356" y="0" width="55" height="20" forecolor="#000000" backcolor="#3399FF" uuid="f21fcebd-502f-45c0-b61b-9c656f81b4ac"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Asistencia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="209" y="0" width="111" height="20" forecolor="#000000" backcolor="#3399FF" uuid="d3c58aa2-0c08-4127-88d5-8889e75f948c"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Oficina]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="10" width="42" height="10" forecolor="#000000" backcolor="#3399FF" uuid="a579d583-18f6-4e3f-8b5e-3c4e7f75897e"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cod. mod.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="42" y="10" width="30" height="10" forecolor="#000000" backcolor="#3399FF" uuid="4e48b292-ff82-441a-a140-5ef6abca64b2"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DNI / C.E.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="72" y="10" width="137" height="10" forecolor="#000000" backcolor="#3399FF" uuid="0c9ae388-2ad6-4f9a-91e9-8c32a5ea7ffc"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#000000"/>
+					<topPen lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineColor="#000000"/>
+					<bottomPen lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Serif" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apellidos y nombres]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="11" splitType="Prevent">
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="453" y="0" width="30" height="11" uuid="50383538-7c37-4226-b055-1765144cb136">
+					<printWhenExpression><![CDATA[$F{tipo_asistencia}.equals("R")
+|| $F{tipo_asistencia}.equals("T")
+|| $F{tipo_asistencia}.equals("P")
+|| $F{tipo_asistencia}.equals("F")]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="0" rightPadding="3">
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detalle_registro_asistencia_hora_inicio} == null ?
+"N.M." : new SimpleDateFormat("HH:mm:ss").format($F{detalle_registro_asistencia_hora_inicio})]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm:ss" isBlankWhenNull="true">
+				<reportElement x="483" y="0" width="30" height="11" uuid="a5c14ec0-9d9c-4ead-bed6-f541bf500bda">
+					<printWhenExpression><![CDATA[$F{tipo_asistencia}.equals("R")
+|| $F{tipo_asistencia}.equals("T")
+|| $F{tipo_asistencia}.equals("P")
+|| $F{tipo_asistencia}.equals("F")]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="0" rightPadding="3">
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[
+$F{detalle_registro_asistencia_hora_fin} == null ?
+"N.M." : new SimpleDateFormat("HH:mm:ss").format($F{detalle_registro_asistencia_hora_fin})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="513" y="0" width="36" height="11" uuid="436b74ef-e346-44ac-ab01-ce8dbe4c20f5"/>
+				<box leftPadding="0" rightPadding="3">
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detalle_registro_asistencia_minutos_tardanza}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="411" y="0" width="42" height="11" uuid="40617959-9b3c-4475-ae57-3c99bcc93a83"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detalle_registro_tipo}.equals("T")
+? "TURNO" : $F{detalle_registro_tipo}.equals("R")
+? "REFRIGERIO" : $F{detalle_registro_tipo}.equals("P")
+? "PERMISO" : null]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="549" y="0" width="36" height="11" uuid="3f068367-f287-4ebf-883d-1dbbf05e52bd">
+					<printWhenExpression><![CDATA[$P{mostrar_he}]]></printWhenExpression>
+				</reportElement>
+				<box leftPadding="0" rightPadding="3">
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{detalle_registro_minutos_extra}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement isPrintRepeatedValues="false" x="320" y="0" width="36" height="11" uuid="25ce2902-852d-44d2-9865-805bcc62f7de"/>
+				<box leftPadding="0" rightPadding="3">
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Serif" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{registro_asistencia_fecha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement isPrintRepeatedValues="false" x="356" y="0" width="229" height="11" printWhenGroupChanges="g-registro" uuid="7d510a9d-74af-4cdb-983b-ec4d813fec8f"/>
+				<box leftPadding="3">
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Serif" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_asistencia}.equals("F")
+? "FALTA" : $F{tipo_asistencia}.equals("R")
+? "ASIT. REGULAR" : $F{tipo_asistencia}.equals("T")
+? "TARDANZA" : $F{tipo_asistencia}.equals("P")
+? "PERMISO" : $F{tipo_asistencia}.equals("V")
+? "VACACIONES - "+$F{Vacacion_documento} : ""]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement isPrintRepeatedValues="false" x="209" y="0" width="111" height="11" printWhenGroupChanges="g-empleado" uuid="6a3e88ae-17f8-4524-a249-3588f5acfad6"/>
+				<subreportParameter name="empleado_nro_documento">
+					<subreportParameterExpression><![CDATA[Integer.parseInt($F{registro_asistencia_empleado_nro_documento})]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{CONEXION_BIOSTAR}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_oficina_x_empleado.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="209" height="11" isPrintInFirstWholeBand="true" printWhenGroupChanges="g-empleado" uuid="9d129ff5-5343-4f5e-bef6-aeea617dcfd2"/>
+				<subreportParameter name="empleado_nro_documento">
+					<subreportParameterExpression><![CDATA[$F{registro_asistencia_empleado_nro_documento}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{CONEXION_SUP}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{ruta} + "/reportes/r_datos_emp_mini.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="30">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="10" width="585" height="20" forecolor="#000000" backcolor="#545454" uuid="a94c5d89-d923-403f-8a50-125237b47456"/>
+				<textField pattern="dd/MM/yyyy HH:mm:ss">
+					<reportElement x="105" y="0" width="169" height="20" forecolor="#CCCCCC" uuid="7317a692-9371-400b-974f-884471f869db"/>
+					<box leftPadding="3"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Serif" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="453" y="0" width="80" height="20" forecolor="#CCCCCC" uuid="b9f24f44-a6a4-437e-9e74-b4e9a33570ae"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Serif" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement x="533" y="0" width="52" height="20" forecolor="#CCCCCC" uuid="5f0dda21-460c-4039-bc7f-63b99d092796"/>
+					<textElement verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="105" height="20" forecolor="#CCCCCC" uuid="9ccbe8de-bde3-42bc-b204-a6ae44f8273d"/>
+					<box leftPadding="3"/>
+					<textElement verticalAlignment="Middle">
+						<font fontName="Serif" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Fecha y hora de imp:]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</pageFooter>
+</jasperReport>

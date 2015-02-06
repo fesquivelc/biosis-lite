@@ -111,6 +111,7 @@ public class Principal extends javax.swing.JFrame {
         mnuControlUsuario = new javax.swing.JMenuItem();
         mnuConfiguracionBD = new javax.swing.JMenuItem();
         mnuCambiarPasswd = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL - BIOSIS MINEDU");
@@ -388,6 +389,14 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuConfiguracion.add(mnuCambiarPasswd);
 
+        jMenuItem5.setText("Ejecutar SQL");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        mnuConfiguracion.add(jMenuItem5);
+
         menuBar.add(mnuConfiguracion);
 
         setJMenuBar(menuBar);
@@ -529,6 +538,11 @@ public class Principal extends javax.swing.JFrame {
         agregarAPanel(tyf, true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        agregarAPanel(new EjecutarSQL(),true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAsignarPermiso;
@@ -541,6 +555,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblJuvitec;
