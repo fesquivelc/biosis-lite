@@ -110,13 +110,13 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         txtMotivo = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
         pnlFHInicio = new javax.swing.JPanel();
-        spFechaFin = new javax.swing.JSpinner();
         spHoraFin = new javax.swing.JSpinner();
         jLabel5 = new javax.swing.JLabel();
+        dcFechaFin = new com.toedter.calendar.JDateChooser();
         pnlFHInicio1 = new javax.swing.JPanel();
-        spFechaInicio = new javax.swing.JSpinner();
         spHoraInicio = new javax.swing.JSpinner();
         jLabel6 = new javax.swing.JLabel();
+        dcFechaInicio = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         chkPorFecha = new javax.swing.JCheckBox();
@@ -451,13 +451,6 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         pnlFHInicioLayout.rowHeights = new int[] {0};
         pnlFHInicio.setLayout(pnlFHInicioLayout);
 
-        spFechaFin.setModel(new javax.swing.SpinnerDateModel());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 0.1;
-        pnlFHInicio.add(spFechaFin, gridBagConstraints);
-
         spHoraFin.setModel(new javax.swing.SpinnerDateModel());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
@@ -471,9 +464,18 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 0;
         pnlFHInicio.add(jLabel5, gridBagConstraints);
 
+        dcFechaFin.setDateFormatString("dd/MM/yyyy");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        pnlFHInicio.add(dcFechaFin, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 12;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(pnlFHInicio, gridBagConstraints);
 
@@ -481,13 +483,6 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         pnlFHInicio1Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
         pnlFHInicio1Layout.rowHeights = new int[] {0};
         pnlFHInicio1.setLayout(pnlFHInicio1Layout);
-
-        spFechaInicio.setModel(new javax.swing.SpinnerDateModel());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.weightx = 0.1;
-        pnlFHInicio1.add(spFechaInicio, gridBagConstraints);
 
         spHoraInicio.setModel(new javax.swing.SpinnerDateModel());
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -502,9 +497,18 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 0;
         pnlFHInicio1.add(jLabel6, gridBagConstraints);
 
+        dcFechaInicio.setDateFormatString("dd/MM/yyyy");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        pnlFHInicio1.add(dcFechaInicio, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(pnlFHInicio1, gridBagConstraints);
 
@@ -653,19 +657,19 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 //            }
             seleccionada.setMotivo(txtMotivo.getText());
             seleccionada.setTipoPermiso(tipoSeleccionado);
-            seleccionada.setFechaInicio((Date) spFechaInicio.getValue());
+            seleccionada.setFechaInicio(dcFechaInicio.getDate());
             seleccionada.setPorFecha(chkPorFecha.isSelected());
             seleccionada.setDocumento(txtDocumento.getText());
             Long diferencia;
             if (chkPorFecha.isSelected()) {
-                seleccionada.setFechaFin((Date) spFechaFin.getValue());
+                seleccionada.setFechaFin( dcFechaFin.getDate());
                 diferencia = seleccionada.getFechaFin().getTime() - seleccionada.getFechaInicio().getTime();
             } else {
                 seleccionada.setCubreEntrada(false);
                 seleccionada.setCubreSalida(false);
                 seleccionada.setHoraInicio((Date) spHoraInicio.getValue());
                 seleccionada.setHoraFin((Date) spHoraFin.getValue());
-                seleccionada.setFechaFin((Date) spFechaInicio.getValue());
+                seleccionada.setFechaFin((Date) dcFechaInicio.getDate());
 
                 diferencia = FechaUtil.soloHora(seleccionada.getFechaFin()).getTime() - FechaUtil.soloHora(seleccionada.getFechaInicio()).getTime();
             }
@@ -858,6 +862,8 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnUltimo;
     private javax.swing.JComboBox cboTamanio;
     private javax.swing.JCheckBox chkPorFecha;
+    private com.toedter.calendar.JDateChooser dcFechaFin;
+    private com.toedter.calendar.JDateChooser dcFechaInicio;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
@@ -883,9 +889,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlFHInicio1;
     private javax.swing.JPanel pnlListado;
     private javax.swing.JPanel pnlNavegacion;
-    private javax.swing.JSpinner spFechaFin;
     private javax.swing.JSpinner spFechaFin1;
-    private javax.swing.JSpinner spFechaInicio;
     private javax.swing.JSpinner spFechaInicio1;
     private javax.swing.JSpinner spHoraFin;
     private javax.swing.JSpinner spHoraInicio;
@@ -903,18 +907,18 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         txtMotivo.setText(permiso.getMotivo());
         txtTipoPermiso.setText(permiso.getTipoPermiso().getNombre());
         this.chkPorFecha.setSelected(permiso.isPorFecha());
-        spFechaInicio.setValue(permiso.getFechaInicio());
+        dcFechaInicio.setDate(permiso.getFechaInicio());
         txtDocumento.setText(permiso.getDocumento());
         if (permiso.isPorFecha()) {
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.HOUR_OF_DAY, 0);
             cal.set(Calendar.MINUTE, 0);
             cal.set(Calendar.SECOND, 0);
-            spFechaFin.setValue(permiso.getFechaFin());
+            dcFechaFin.setDate(permiso.getFechaFin());
             spHoraInicio.setValue(cal.getTime());
             spHoraFin.setValue(cal.getTime());
         } else {
-            spFechaFin.setValue(permiso.getFechaInicio());
+            dcFechaFin.setDate(permiso.getFechaInicio());
             spHoraInicio.setValue(permiso.getHoraInicio());
             spHoraFin.setValue(permiso.getHoraFin());
         }
@@ -964,8 +968,8 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         controlador = new PermisoControlador();
         ec = new EmpleadoControlador();
         ac = new AsignacionPermisoControlador();
-        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
-        FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
+//        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
+//        FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
         FormularioUtil.modeloSpinnerFechaHora(spHoraInicio, "HH:mm");
         FormularioUtil.modeloSpinnerFechaHora(spHoraFin, "HH:mm");
         FormularioUtil.modeloSpinnerFechaHora(spFechaInicio1, "dd/MM/yyyy");
@@ -1218,8 +1222,8 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
     private void checkPorFecha(int accion) {
         if (accion != 0) {
-            spFechaInicio.setEnabled(true);
-            spFechaFin.setEnabled(chkPorFecha.isSelected());
+            FormularioUtil.activarComponente(dcFechaInicio, true);
+            FormularioUtil.activarComponente(dcFechaFin, chkPorFecha.isSelected());
 
             spHoraInicio.setEnabled(!chkPorFecha.isSelected());
             spHoraFin.setEnabled(!chkPorFecha.isSelected());
@@ -1228,7 +1232,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
     private boolean erroresFormulario() {
         int errores = 0;
-        Date fechaInicio = (Date) spFechaInicio.getValue();
+        Date fechaInicio = dcFechaInicio.getDate();
 
         String mensaje = "";
         if (integrantes.isEmpty()) {
@@ -1236,7 +1240,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             mensaje = ">Debe seleccionar uno o mas empleados\n";
         }
         if (chkPorFecha.isSelected()) {
-            Date fechaFin = (Date) spFechaFin.getValue();
+            Date fechaFin = dcFechaFin.getDate();
             if (fechaInicio.compareTo(fechaFin) > 0) {
                 errores++;
                 mensaje = ">La fecha de inicio debe ser menor que la fecha de fin\n";
@@ -1253,7 +1257,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         Calendar cal = Calendar.getInstance();
         cal.setTime(empleado.getFechaInicioContrato());
         
-        Date fInicio = (Date) spFechaInicio.getValue();
+        Date fInicio = dcFechaInicio.getDate();
         
         
     }
