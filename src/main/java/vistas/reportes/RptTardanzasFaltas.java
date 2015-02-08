@@ -489,8 +489,11 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
                     //SE DISCERNIRA SI ESTA EN FALTA
                     marcacion = mc.buscarXFechaXhora(dni, fecha, jornada.getToleranciaHE(), jornada.getTardanzaHE());
 
-                    if (marcacion == null && radFalta.isSelected()) {
-                        faltas.add(dni);
+                    if (marcacion == null) {
+                        if(radFalta.isSelected()){
+                            faltas.add(dni);
+                        }
+                        
                     } else if (radTardanza.isSelected()) {
                         tardanzas.add(dni);
                     }
