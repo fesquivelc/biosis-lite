@@ -35,7 +35,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
 
     public List<Marcacion> buscarXFecha(String dni, Date fechaInicio, Date fechaFin, int desde, int tamanio) {
         String jpql = "SELECT m FROM Marcacion m WHERE m.empleado = :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin "
-                + "ORDER BY m.empleado,m.fecha,m.hora";
+                + "ORDER BY m.nombre,m.fecha,m.hora";
         LOG.error("DOCUMENTO: " + dni);
         Map<String, Object> mapa = new HashMap<>();
 
@@ -72,7 +72,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
 
     public List<Marcacion> buscarXFecha(Date fechaInicio, Date fechaFin, int desde, int tamanio) {
         String jpql = "SELECT m FROM Marcacion m WHERE m.fecha BETWEEN :fechaInicio AND :fechaFin "
-                + "ORDER BY m.empleado,m.fecha,m.hora";
+                + "ORDER BY m.nombre,m.fecha,m.hora";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("fechaInicio", fechaInicio);
         mapa.put("fechaFin", fechaFin);
@@ -82,7 +82,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
 
     public List<Marcacion> buscarXFechaXHora(Date fechaInicio, Date horaInicio, Date horaFin, int desde, int tamanio) {
         String jpql = "SELECT m FROM Marcacion m WHERE m.fecha = :fechaInicio AND m.hora BETWEEN :horaInicio AND :horaFin "
-                + "ORDER BY m.empleado,m.fecha,m.hora";
+                + "ORDER BY m.nombre,m.fecha,m.hora";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("fechaInicio", fechaInicio);
         mapa.put("horaInicio", horaInicio);
@@ -196,7 +196,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
 
     public List<Marcacion> buscarXFecha(List<Integer> empleados, Date fechaInicio, Date fechaFin, int desde, int tamanio) {
         String jpql = "SELECT m FROM Marcacion m WHERE m.empleado IN :dni AND m.fecha BETWEEN :fechaInicio AND :fechaFin "
-                + "ORDER BY m.empleado,m.fecha,m.hora";
+                + "ORDER BY m.nombre,m.fecha,m.hora";
         Map<String, Object> mapa = new HashMap<>();
 
         mapa.put("dni", empleados);

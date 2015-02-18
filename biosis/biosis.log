@@ -400,3 +400,18 @@ net.sf.jasperreports.engine.JRException: java.io.FileNotFoundException: reportes
 	at java.awt.EventDispatchThread.run(EventDispatchThread.java:91)
 Caused by: java.io.FileNotFoundException: reportes\r_registro_asistencia_grupo_3.jasper
 	... 42 more
+2015-02-09 18:23:14.400	ERROR	[main]	CLASE: DlgLogin	 METODO: iniciar	LINEA:307	MSJE:Unable to build entity manager factory
+2015-02-09 18:23:29.082	ERROR	[main]	CLASE: DlgLogin	 METODO: iniciar	LINEA:315	MSJE:Unable to build entity manager factory
+2015-02-09 18:23:43.704	ERROR	[main]	CLASE: DlgLogin	 METODO: iniciar	LINEA:323	MSJE:Unable to build entity manager factory
+2015-02-09 18:36:52.763	ERROR	[AWT-EventQueue-0]	CLASE: DlgConfiguracion	 METODO: iniciar	LINEA:448	MSJE:Unable to build entity manager factory
+2015-02-09 18:36:52.879	ERROR	[AWT-EventQueue-0]	CLASE: DlgConfiguracion	 METODO: iniciar	LINEA:456	MSJE:Unable to build entity manager factory
+2015-02-09 18:36:52.977	ERROR	[AWT-EventQueue-0]	CLASE: DlgConfiguracion	 METODO: iniciar	LINEA:464	MSJE:Unable to build entity manager factory
+2015-02-09 18:36:59.162	ERROR	[AWT-EventQueue-0]	CLASE: DlgConfiguracion	 METODO: iniciar	LINEA:448	MSJE:Unable to build entity manager factory
+2015-02-09 18:36:59.234	ERROR	[AWT-EventQueue-0]	CLASE: DlgConfiguracion	 METODO: iniciar	LINEA:456	MSJE:Unable to build entity manager factory
+2015-02-09 18:36:59.292	ERROR	[AWT-EventQueue-0]	CLASE: DlgConfiguracion	 METODO: iniciar	LINEA:464	MSJE:Unable to build entity manager factory
+2015-02-09 18:37:27.369	ERROR	[AWT-EventQueue-0]	CLASE: DlgConfiguracion	 METODO: iniciar	LINEA:448	MSJE:Unable to build entity manager factory
+2015-02-09 18:37:27.430	ERROR	[AWT-EventQueue-0]	CLASE: DlgConfiguracion	 METODO: iniciar	LINEA:456	MSJE:Unable to build entity manager factory
+2015-02-09 18:37:27.487	ERROR	[AWT-EventQueue-0]	CLASE: DlgConfiguracion	 METODO: iniciar	LINEA:464	MSJE:Unable to build entity manager factory
+2015-02-09 18:40:12.691	ERROR	[main]	CLASE: DlgLogin	 METODO: iniciar	LINEA:307	MSJE:Unable to build entity manager factory
+2015-02-09 18:40:12.858	ERROR	[main]	CLASE: DlgLogin	 METODO: iniciar	LINEA:315	MSJE:Unable to build entity manager factory
+2015-02-09 18:40:13.018	ERROR	[main]	CLASE: DlgLogin	 METODO: iniciar	LINEA:323	MSJE:Unable to build entity manager factory
