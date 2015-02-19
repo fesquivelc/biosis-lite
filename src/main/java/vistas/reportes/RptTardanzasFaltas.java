@@ -500,7 +500,7 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
                         RTardanzaFaltaBean bean = new RTardanzaFaltaBean();
                         bean.setCodigoModular(e.getCodigoModular());
                         bean.setDocumentoIdentidad(e.getNroDocumento());
-                        bean.setHoraMarcacion(marcacion.getHora());
+                        bean.setHoraMarcacion(marcacion.getFechaHora());
                         bean.setNombre(e.getApellidoPaterno() + " " + e.getApellidoMaterno() + " " + e.getNombre());
                         tardanzas.add(bean);
                     }

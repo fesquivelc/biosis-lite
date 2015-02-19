@@ -729,8 +729,8 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
             
             for(Marcacion m : listado){
                 linea[0] = m.getNombre();
-                linea[1] = dfFecha.format(m.getFecha());
-                linea[2] = dfHora.format(m.getHora());
+                linea[1] = dfFecha.format(m.getFechaHora());
+                linea[2] = dfHora.format(m.getFechaHora());
                 linea[3] = m.getEquipo();
                 
                 writer.writeNext(linea, true);
