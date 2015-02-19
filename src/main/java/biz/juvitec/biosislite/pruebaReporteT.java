@@ -47,6 +47,8 @@ public class pruebaReporteT {
         map.put("usuario", "admin");
         
         reporteador.generarReporte(beans, reporte, map, null);
+        
+        System.exit(0);
     }
     
 }

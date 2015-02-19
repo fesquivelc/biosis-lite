@@ -34,8 +34,12 @@
 	</background>
 	<title>
 		<band height="75">
+			<image scaleImage="FillFrame" hAlign="Right">
+				<reportElement x="0" y="0" width="555" height="52" uuid="f5b09920-7e8b-4de2-997f-b70e84b7fa54"/>
+				<imageExpression><![CDATA[$P{ruta}+"/reportes/logo.png"]]></imageExpression>
+			</image>
 			<frame>
-				<reportElement mode="Opaque" x="0" y="52" width="555" height="20" forecolor="#000000" backcolor="#640000" uuid="2bec6649-5b22-4d69-802c-fd5d325f9a91"/>
+				<reportElement mode="Opaque" x="0" y="52" width="555" height="20" forecolor="#000000" backcolor="#002611" uuid="2bec6649-5b22-4d69-802c-fd5d325f9a91"/>
 				<textField>
 					<reportElement x="341" y="0" width="212" height="20" forecolor="#CCCCCC" uuid="17a2b085-6ebe-4931-a179-7e36baf072cd"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -52,10 +56,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
 			</textField>
-			<image>
-				<reportElement x="320" y="0" width="235" height="52" uuid="f5b09920-7e8b-4de2-997f-b70e84b7fa54"/>
-				<imageExpression><![CDATA[$P{ruta}+"/reportes/logo.png"]]></imageExpression>
-			</image>
 		</band>
 	</title>
 	<columnHeader>
