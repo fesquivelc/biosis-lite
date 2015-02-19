@@ -48,6 +48,7 @@ import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import utiles.UsuarioActivo;
 import vistas.dialogos.DlgOficina;
+import vistas.reportes.beans.RTardanzaFaltaBean;
 
 /**
  *
@@ -468,7 +469,9 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
     private void imprimir() {
         horarioSeleccionado = horarioList.get(cboHorario.getSelectedIndex());
         Date fecha = FechaUtil.soloFecha(new Date());
-        List<String> tardanzas = new ArrayList<>();
+//        List<String> tardanzas = new ArrayList<>();
+        List<Date> marcaciones = new ArrayList<>();
+        List<RTardanzaFaltaBean> tardanzas = new ArrayList<>();
         List<String> faltas = new ArrayList<>();
         if (fecha.compareTo(horarioSeleccionado.getFechaInicio()) >= 0
                 && fecha.compareTo(horarioSeleccionado.getFechaFin()) <= 0) {
@@ -481,19 +484,25 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
                 //comprobamos persona a persona si ha llegado tarde o a falta
                 Marcacion marcacion;
 //                System.out.println("EMPLEADO: "+ah.getEmpleado());
-                
+
                 marcacion = mc.buscarXFechaXhora(dni, fecha, jornada.getDesdeHE(), jornada.getToleranciaHE());
                 if (marcacion == null) {
                     //SE DISCERNIRA SI ESTA EN FALTA
                     marcacion = mc.buscarXFechaXhora(dni, fecha, jornada.getToleranciaHE(), jornada.getTardanzaHE());
 
                     if (marcacion == null) {
-                        if(radFalta.isSelected()){
+                        if (radFalta.isSelected()) {
                             faltas.add(dni);
                         }
-                        
+
                     } else if (radTardanza.isSelected()) {
-                        tardanzas.add(dni);
+                        Empleado e = ec.buscarPorId(marcacion.getEmpleado());
+                        RTardanzaFaltaBean bean = new RTardanzaFaltaBean();
+                        bean.setCodigoModular(e.getCodigoModular());
+                        bean.setDocumentoIdentidad(e.getNroDocumento());
+                        bean.setHoraMarcacion(marcacion.getHora());
+                        bean.setNombre(e.getApellidoPaterno() + " " + e.getApellidoMaterno() + " " + e.getNombre());
+                        tardanzas.add(bean);
                     }
                 } else {
                     //NO PROBLEM
@@ -504,8 +513,8 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
             if (faltas.isEmpty() && radFalta.isSelected()) {
                 System.out.println("FALTA NO PROCEDE");
                 JOptionPane.showMessageDialog(this, "No hay empleados con falta el día de hoy", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
-                
-            }else if (radFalta.isSelected()){
+
+            } else if (radFalta.isSelected()) {
                 System.out.println("FALTA PROCEDE");
                 procede = true;
             }
@@ -513,32 +522,40 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
             if (tardanzas.isEmpty() && radTardanza.isSelected()) {
                 System.out.println("TARDANZAS NO PROCEDE");
                 JOptionPane.showMessageDialog(this, "No hay empleados con tardanza el día de hoy", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
-                
-            }else if(radTardanza.isSelected()){
+
+            } else if (radTardanza.isSelected()) {
                 System.out.println("TARDANZAS PROCEDE");
                 procede = true;
             }
 
-            System.out.println("PROCEDE: "+procede);
+            System.out.println("PROCEDE: " + procede);
             if (procede) {
-                String rutaFichero = "reportes/r_tardanzas_faltas_dia.jasper";
+
                 String titulo = radTardanza.isSelected() ? "REPORTE DE TARDANZAS EN EL DÍA" : "REPORTE DE FALTAS EN EL DÍA";
-                File ficheroReporte = new File(rutaFichero);
+                String rutaFichero;
                 String usuario = UsuarioActivo.getUsuario().getLogin();
-
-                List<String> listado = radTardanza.isSelected() ? tardanzas : faltas;
-
+//                List<String> listado = radTardanza.isSelected() ? tardanzas : faltas;
+                File ficheroReporte;
+                Component comp;
                 Map<String, Object> parametros = new HashMap<>();
                 parametros.put("usuario", usuario);
                 parametros.put("titulo", titulo);
-                parametros.put("listado", listado);
-                
-                reporteador.setConn(ec.getDao().getConexion());
-                
+                if (radTardanza.isSelected()) {
+                    rutaFichero = "reportes/r_tardanzas.jasper";
+                    ficheroReporte = new File(rutaFichero);
+                    comp = reporteador.obtenerReporte(tardanzas, ficheroReporte, parametros);
+                } else {
+                    rutaFichero = "reportes/r_tardanzas_faltas_dia.jasper";
+                    ficheroReporte = new File(rutaFichero);
+                    reporteador.setConn(ec.getDao().getConexion());
+
+                    parametros.put("listado", faltas);
+                    comp = reporteador.obtenerReporte(ficheroReporte, parametros);
+
+                }
+
                 pnlTab.removeTabAt(0);
-                
-                Component comp = reporteador.obtenerReporte(ficheroReporte, parametros);
-                
+
                 pnlTab.add("Vista previa", comp);
             }
 
@@ -670,13 +687,13 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
 
     private List<String> dnis(List<AsignacionHorario> asignaciones) {
         List<String> listado = new ArrayList<>();
-        for(AsignacionHorario ah : asignaciones){
-            if(ah.isPorGrupo()){
+        for (AsignacionHorario ah : asignaciones) {
+            if (ah.isPorGrupo()) {
                 List<DetalleGrupoHorario> detalles = ah.getGrupoHorario().getDetalleGrupoHorarioList();
-                for(DetalleGrupoHorario detalle : detalles){
+                for (DetalleGrupoHorario detalle : detalles) {
                     listado.add(detalle.getEmpleado());
                 }
-            }else{
+            } else {
                 listado.add(ah.getEmpleado());
             }
         }

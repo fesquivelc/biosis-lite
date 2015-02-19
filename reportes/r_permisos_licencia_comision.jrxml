@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_permisos_licencia_comision" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="49"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -38,7 +38,7 @@
 		<![CDATA[SELECT
      DISTINCT(asignacion_permiso.empleado_nro_documento) AS empleado_nro_documento
 FROM
-     asignacion_permiso asignacion_permiso inner join permiso on asignacion_permiso.permiso_id = permiso.id inner join tipo_permiso on permiso.tipo_permiso_codigo = tipo_permiso.codigo
+     asignacion_permiso asignacion_permiso inner join Permiso permiso on asignacion_permiso.permiso_id = permiso.id inner join tipo_permiso on permiso.tipo_permiso_codigo = tipo_permiso.codigo
 WHERE $X{IN,empleado_nro_documento,lista} AND $X{IN,tipo_permiso.clase,listaTipo} AND permiso.fecha_inicio BETWEEN $P{fechaInicio} AND $P{fechaFin}]]>
 	</queryString>
 	<field name="empleado_nro_documento" class="java.lang.String"/>
