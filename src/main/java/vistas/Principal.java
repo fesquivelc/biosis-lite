@@ -55,14 +55,14 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
 
-        File file = new File("img/fondo-minedu.jpg");
-        ImagenFondo borde;
-        try {
-            borde = new ImagenFondo(ImageIO.read(file));
-            this.desktopPane.setBorder(borde);
-        } catch (IOException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        File file = new File("img/fondo-minedu.jpg");
+//        ImagenFondo borde;
+//        try {
+//            borde = new ImagenFondo(ImageIO.read(file));
+//            this.desktopPane.setBorder(borde);
+//        } catch (IOException ex) {
+//            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 //        iniciar();
     }
 

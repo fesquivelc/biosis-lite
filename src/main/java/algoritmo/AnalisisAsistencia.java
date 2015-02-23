@@ -80,13 +80,19 @@ public class AnalisisAsistencia {
             Date contrato = empleado.getFechaInicioContrato();
             Date fechaCero = sistema.getFechaCero();
 
-            if (contrato.compareTo(fechaCero) < 0) {
+            if (contrato != null) {
+                if (contrato.compareTo(fechaCero) < 0) {
+                    partida.setFecha(fechaCero);
+                    partida.setHora(sistema.getHoraCero());
+                } else {
+                    partida.setFecha(contrato);
+                    partida.setHora(contrato);
+                }
+            } else {
                 partida.setFecha(fechaCero);
                 partida.setHora(sistema.getHoraCero());
-            } else {
-                partida.setFecha(contrato);
-                partida.setHora(contrato);
             }
+
         }
         return partida;
     }
@@ -393,7 +399,7 @@ public class AnalisisAsistencia {
             //DETECTA UNA SALIDA
             //CASO CONTRARIO NO SE TOMA EN CUENTA
             Long milisInicioRefrigerio = jornada.getRefrigerioHE().getTime() - jornada.getRefrigerioHS().getTime();
-            
+
             DetalleRegistroAsistencia detalleRefrigerio
                     = this.analizarRefrigerio(
                             empleado.getNroDocumento(),
@@ -418,7 +424,7 @@ public class AnalisisAsistencia {
                 resultadoAsistencia = 'R';
             }
 
-            System.out.println("ES NULL: "+detalleTurno.getMinTardanza()+ " " +detalleRefrigerio.getHoraInicio() + " " +detalleRefrigerio.getHoraFin() + " " +detalleRefrigerio.getMinTardanza());
+            System.out.println("ES NULL: " + detalleTurno.getMinTardanza() + " " + detalleRefrigerio.getHoraInicio() + " " + detalleRefrigerio.getHoraFin() + " " + detalleRefrigerio.getMinTardanza());
             BigDecimal tardanzaTotal = (resultadoAsistencia != 'F') ? detalleTurno.getMinTardanza()
                     .add((detalleRefrigerio.getHoraInicio() == null) ? BigDecimal.ZERO : detalleRefrigerio.getMinTardanza())
                     .add(tardanzaPermisos) : null;
@@ -519,7 +525,7 @@ public class AnalisisAsistencia {
 
         Date horaMaximaInicio = calendar.getTime();
 
-        System.out.println("MINUTOS HORA INICIO: "+milisHoraInicio+" "+horaMaximaInicio);
+        System.out.println("MINUTOS HORA INICIO: " + milisHoraInicio + " " + horaMaximaInicio);
 //        System.out.println("MARCACION INICIO REFRIGERIO PARAMS: " + fechaInicio + " " + horaInicio + " " + horaMaximaInicio);
         Marcacion marcacionInicio = mc.buscarXFechaXhora(empleadoDNI, fechaInicio, horaInicio, horaMaximaInicio);
 
