@@ -26,7 +26,7 @@ public class MTMarcacion extends ModeloTabla<Marcacion> {
     public MTMarcacion(List<Marcacion> datos) {
         super(datos);
         this.nombreColumnas = new String[]{"Nro de documento", "Empleado", "Fecha", "Hora", "Ip de Equipo"};
-        dtFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        dtFecha = new SimpleDateFormat("dd/MM/yyyy");
         dtHora = new SimpleDateFormat("HH:mm:ss");
         ec = new EmpleadoControlador();
     }
@@ -59,9 +59,9 @@ public class MTMarcacion extends ModeloTabla<Marcacion> {
 //                }
                 return marcacion.getNombre();
             case 2:
-                return dtFecha.format(marcacion.getFechaHora());
+                return dtFecha.format(marcacion.getFecha());
             case 3:
-                return dtHora.format(marcacion.getFechaHora());
+                return dtHora.format(marcacion.getHora());
             case 4:
                 return marcacion.getEquipo();
             default:
