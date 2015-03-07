@@ -321,6 +321,11 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         pnlEmpleados.add(jButton1, gridBagConstraints);
 
         jButton3.setText("-");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
@@ -447,6 +452,14 @@ public class RptPermisos extends javax.swing.JInternalFrame {
 
         }
     }//GEN-LAST:event_btnOficinaActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        int fila;
+        if((fila = tblTabla.getSelectedRow()) != -1){
+            empleadoList.remove(fila);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

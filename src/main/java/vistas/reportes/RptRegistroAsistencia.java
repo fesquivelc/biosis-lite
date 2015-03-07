@@ -216,15 +216,11 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlRango.add(cboPeriodo1, gridBagConstraints);
-
-        dcFechaInicio.setDateFormatString("dd/MM/yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlRango.add(dcFechaInicio, gridBagConstraints);
-
-        dcFechaFin.setDateFormatString("dd/MM/yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -300,6 +296,11 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlEmpleados.add(btnAgregar, gridBagConstraints);
 
         btnQuitar.setText("-");
+        btnQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuitarActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
@@ -432,6 +433,14 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
 
         }
     }//GEN-LAST:event_btnOficinaActionPerformed
+
+    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
+        // TODO add your handling code here:
+        int fila;
+        if((fila = tblTabla.getSelectedRow()) != -1){
+            empleadoList.remove(fila);
+        }
+    }//GEN-LAST:event_btnQuitarActionPerformed
 
     private Departamento oficinaSeleccionada;
 
