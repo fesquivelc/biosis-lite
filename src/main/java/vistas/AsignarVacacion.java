@@ -324,14 +324,10 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 15;
         pnlListado.add(pnlNavegacion, gridBagConstraints);
-
-        dcFechaInicio1.setDateFormatString("dd/MM/yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 0;
         pnlListado.add(dcFechaInicio1, gridBagConstraints);
-
-        dcFechaFin1.setDateFormatString("dd/MM/yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 0;
@@ -384,8 +380,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         pnlFHInicioLayout.columnWidths = new int[] {0, 5, 0, 5, 0};
         pnlFHInicioLayout.rowHeights = new int[] {0};
         pnlFHInicio.setLayout(pnlFHInicioLayout);
-
-        dcFechaFin.setDateFormatString("dd/MM/yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -404,8 +398,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         pnlFHInicio1Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
         pnlFHInicio1Layout.rowHeights = new int[] {0};
         pnlFHInicio1.setLayout(pnlFHInicio1Layout);
-
-        dcFechaInicio.setDateFormatString("dd/MM/yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -563,6 +555,9 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 //    private final SaldoVacacionalControlador svc = new SaldoVacacionalControlador();
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        if(erroresFormulario()){
+            return;
+        }
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
             Vacacion seleccionada = this.controlador.getSeleccionado();
 
@@ -1029,9 +1024,42 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         return sv;
     }
 
-    private void hayErorres() {
+    private boolean erroresFormulario() {
+        int errores = 0;
+        Date fechaInicio = dcFechaInicio.getDate();
 
+        String mensaje = "";
+   
+        Date fechaFin = dcFechaFin.getDate();
+        if (fechaInicio.compareTo(fechaFin) > 0) {
+            errores++;
+            mensaje = ">La fecha de inicio debe ser menor que la fecha de fin\n";
+        }
+        //Traemos los dnis de los empleados
+        Empleado empleadoPrueba = empleadoSeleccionado;
+        //Vacacion paraComprobar = this.controlador.getSeleccionado();
+        System.out.println("dni" + empleadoPrueba.getNroDocumento());
+        //Permiso paraComprobar = this.controlador.getSeleccionado();
+        List<Vacacion> vacaciones = controlador.buscarXEmpleadoXPeriodo(empleadoPrueba.getNroDocumento(), periodoList.get(cboPeriodo.getSelectedIndex()));
+        for (Vacacion vacacion : vacaciones) {
+            if((vacacion.getFechaInicio().compareTo(fechaInicio) == 0) || 
+               (vacacion.getFechaInicio().compareTo(fechaInicio) < 0) || 
+               (vacacion.getFechaFin().compareTo(fechaFin) == 0) ||
+               (vacacion.getFechaFin().compareTo(fechaFin) > 0 )    ){
+               errores++;
+               mensaje = "El empleado "+vacacion.getEmpleado()+" tiene conflicto con una vacación añadida anteriormente \n Ingrese otro rango de fechas \n";
+               break;
+            }    
+        }
+            
+        
+        
+        if (errores > 0) {
+            JOptionPane.showMessageDialog(this, "Se ha(n) encontrado el(los) siguiente(s) error(es):\n" + mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
+        }
+        return errores != 0;
     }
+    
 
     private final Calendar cal = Calendar.getInstance();
     private int[] obtenerSaldos(Empleado empleado, Periodo periodo) {

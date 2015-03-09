@@ -1263,7 +1263,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
                     
                 }else{
                    errores++;
-                   mensaje = "El empleado "+asignacion.getEmpleado()+" tiene conflicto con un permiso añadido anteriormente \n";
+                   mensaje = "El empleado "+asignacion.getEmpleado()+" tiene conflicto con un permiso añadido anteriormente \n Ingrese otro rango de fechas \n";
                    break;
                 }
             }
