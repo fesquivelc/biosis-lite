@@ -567,7 +567,11 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             Vacacion seleccionada = this.controlador.getSeleccionado();
 
 //            FormularioUtil.convertirMayusculas(this.pnlDatos);
-            seleccionada.setEmpleado(empleadoSeleccionado.getNroDocumento());
+            
+            if(accion == Controlador.NUEVO){
+                seleccionada.setEmpleado(empleadoSeleccionado.getNroDocumento());
+            }
+            
             seleccionada.setFechaInicio(dcFechaInicio.getDate());
             seleccionada.setFechaFin(dcFechaFin.getDate());
             seleccionada.setHayInterrupcion(false);
@@ -576,7 +580,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
             if (controlador.accion(accion)) {
                 List<String> dni = new ArrayList<>();
-                dni.add(empleadoSeleccionado.getNroDocumento());
+                dni.add(seleccionada.getEmpleado());
                 retrocederTiempo(dni, seleccionada.getFechaInicio());
                 SaldoVacacional sv = buscarCrear(empleadoSeleccionado, seleccionada.getPeriodo());
                 int[] saldos = obtenerSaldos(empleadoSeleccionado,seleccionada.getPeriodo());

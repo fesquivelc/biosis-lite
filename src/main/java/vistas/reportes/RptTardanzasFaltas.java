@@ -95,12 +95,7 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         grpOpcion = new javax.swing.ButtonGroup();
         pnlEmpleados = new javax.swing.JPanel();
         radGrupo = new javax.swing.JRadioButton();
-        radPersonalizado = new javax.swing.JRadioButton();
         cboGrupoHorario = new javax.swing.JComboBox();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblTabla = new org.jdesktop.swingx.JXTable();
-        btnAgregar = new javax.swing.JButton();
-        btnQuitar = new javax.swing.JButton();
         radOficina = new javax.swing.JRadioButton();
         txtOficina = new javax.swing.JTextField();
         btnOficina = new javax.swing.JButton();
@@ -113,7 +108,6 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         radFalta = new javax.swing.JRadioButton();
         radTardanza = new javax.swing.JRadioButton();
         grpSeleccion.add(radGrupo);
-        grpSeleccion.add(radPersonalizado);
         grpSeleccion.add(radOficina);
 
         grpOpcion.add(radFalta);
@@ -128,6 +122,7 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         pnlEmpleados.setBorder(javax.swing.BorderFactory.createTitledBorder("Selección de empleados"));
         pnlEmpleados.setLayout(new java.awt.GridBagLayout());
 
+        radGrupo.setSelected(true);
         radGrupo.setText("Por grupo horario:");
         radGrupo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,19 +133,6 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(radGrupo, gridBagConstraints);
 
-        radPersonalizado.setSelected(true);
-        radPersonalizado.setText("Personalizado:");
-        radPersonalizado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radPersonalizadoActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlEmpleados.add(radPersonalizado, gridBagConstraints);
-
         cboGrupoHorario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cboGrupoHorario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,43 +140,13 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlEmpleados.add(cboGrupoHorario, gridBagConstraints);
-
-        jScrollPane1.setViewportView(tblTabla);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        pnlEmpleados.add(jScrollPane1, gridBagConstraints);
-
-        btnAgregar.setText("+");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        pnlEmpleados.add(btnAgregar, gridBagConstraints);
-
-        btnQuitar.setText("-");
-        btnQuitar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQuitarActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        pnlEmpleados.add(btnQuitar, gridBagConstraints);
+        pnlEmpleados.add(cboGrupoHorario, gridBagConstraints);
 
         radOficina.setText("Por oficina:");
         radOficina.addActionListener(new java.awt.event.ActionListener() {
@@ -213,6 +165,7 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
         pnlEmpleados.add(txtOficina, gridBagConstraints);
 
         btnOficina.setText("...");
@@ -230,10 +183,9 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
         getContentPane().add(pnlEmpleados, gridBagConstraints);
 
         pnlBotones.setLayout(new java.awt.GridBagLayout());
@@ -253,6 +205,8 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
+        gridBagConstraints.weighty = 0.5;
         getContentPane().add(pnlBotones, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -300,7 +254,6 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
         getContentPane().add(pnlOpciones, gridBagConstraints);
 
         pack();
@@ -310,12 +263,6 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         imprimir();
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
-        DlgEmpleado dialogo = new DlgEmpleado(this);
-        dialogo.setVisible(true);
-    }//GEN-LAST:event_btnAgregarActionPerformed
 
     private GrupoHorario grupoSeleccionado;
     private void cboGrupoHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboGrupoHorarioActionPerformed
@@ -327,11 +274,6 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         controles();
     }//GEN-LAST:event_radGrupoActionPerformed
-
-    private void radPersonalizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPersonalizadoActionPerformed
-        // TODO add your handling code here:
-        controles();
-    }//GEN-LAST:event_radPersonalizadoActionPerformed
 
     private void radOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radOficinaActionPerformed
         // TODO add your handling code here:
@@ -348,27 +290,16 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnOficinaActionPerformed
 
-    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
-        // TODO add your handling code here:
-        int fila;
-        if((fila = tblTabla.getSelectedRow()) != -1){
-            empleadoList.remove(fila);
-        }
-    }//GEN-LAST:event_btnQuitarActionPerformed
-
     private Departamento oficinaSeleccionada;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnOficina;
-    private javax.swing.JButton btnQuitar;
     private javax.swing.JComboBox cboGrupoHorario;
     private javax.swing.JComboBox cboHorario;
     private javax.swing.ButtonGroup grpOpcion;
     private javax.swing.ButtonGroup grpSeleccion;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel pnlBotones;
     private javax.swing.JPanel pnlEmpleados;
     private javax.swing.JPanel pnlOpciones;
@@ -376,9 +307,7 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton radFalta;
     private javax.swing.JRadioButton radGrupo;
     private javax.swing.JRadioButton radOficina;
-    private javax.swing.JRadioButton radPersonalizado;
     private javax.swing.JRadioButton radTardanza;
-    private org.jdesktop.swingx.JXTable tblTabla;
     private javax.swing.JTextField txtOficina;
     // End of variables declaration//GEN-END:variables
 
@@ -404,9 +333,6 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
 //        FormularioUtil.activarComponente(cboPeriodo, radAnio.isSelected());
         FormularioUtil.activarComponente(cboGrupoHorario, radGrupo.isSelected());
 //        FormularioUtil.activarComponente(btnOficina, radGrupo.isSelected());
-        FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
-        FormularioUtil.activarComponente(btnAgregar, radPersonalizado.isSelected());
-        FormularioUtil.activarComponente(btnQuitar, radPersonalizado.isSelected());
 
         FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
     }
@@ -414,8 +340,6 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
     private List<GrupoHorario> grupoList;
 
     private void bindeoSalvaje() {
-        MTEmpleado mt = new MTEmpleado(empleadoList);
-        tblTabla.setModel(mt);
 
         BindingGroup bindeo = new BindingGroup();
 
@@ -488,6 +412,9 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         List<String> faltas = new ArrayList<>();
         if (fecha.compareTo(horarioSeleccionado.getFechaInicio()) >= 0
                 && fecha.compareTo(horarioSeleccionado.getFechaFin()) <= 0) {
+            
+            
+            
             Jornada jornada = horarioSeleccionado.getJornada();
 
             //SE ANALIZA PERSONA A PERSONA HASTA OBTENER UN LISTADO =D
@@ -575,77 +502,6 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(this, "El horario no se encuentra vigente", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
         }
-
-//
-//        Calendar cal = Calendar.getInstance();
-//
-//        String usuario = UsuarioActivo.getUsuario().getLogin();
-//
-//        List<Empleado> empleados;
-//
-//        List<String> dnis = obtenerDNI();
-//        empleados = this.ec.buscarPorLista(dnis);
-//
-//        analisis.analizarEmpleados(empleados);
-//
-//        String reporte = "";
-//
-//        if (radConsolidado.isSelected()) {
-//            reporte = "reportes/r_registro_asistencia_consolidado.jasper";
-//        } else if (radDetallado.isSelected()) {
-//            reporte = "reportes/r_registro_asistencia_detallado.jasper";
-//        }
-//
-//        int anio;
-//        int mes;
-//        Date fechaInicio = new Date();
-//        Date fechaFin = new Date();
-//        String rangoTitulo = "";
-//        String rangoValor = "";
-//        if (radPorFecha.isSelected()) {
-//            rangoTitulo = "ENTRE: ";
-//            fechaInicio = (Date) spFechaInicio.getValue();
-//            fechaFin = (Date) spFechaFin.getValue();
-//            rangoValor = dfFecha.format(fechaInicio) + " - " + dfFecha.format(fechaFin);
-//        } else if (radMes.isSelected()) {
-//            rangoTitulo = "MES: ";
-//            anio = periodoList.get(cboPeriodo1.getSelectedIndex()).getAnio();
-//            mes = cboMes.getMonth();
-//            cal.set(anio, mes, 1);
-//            fechaInicio = cal.getTime();
-//            cal.set(Calendar.DAY_OF_MONTH, cal.getMaximum(Calendar.DAY_OF_MONTH));
-//            fechaFin = cal.getTime();
-//            rangoValor = (cboMes.getMonth() + 1) + " / " + anio;
-//        } else if (radAnio.isSelected()) {
-//            rangoTitulo = "AÑO: ";
-//            anio = periodoList.get(cboPeriodo.getSelectedIndex()).getAnio();
-//            cal.set(anio, 0, 1);
-//            fechaInicio = cal.getTime();
-//            cal.set(anio, 11, 31);
-//            fechaFin = cal.getTime();
-//            rangoValor = periodoList.get(cboPeriodo.getSelectedIndex()).getAnio() + "";
-//        }
-//
-//        File archivo = new File(reporte);
-//        Map<String, Object> parametros = new HashMap<>();
-//        parametros.put("usuario", usuario);
-//        parametros.put("lista", dnis);
-//        parametros.put("fechaInicio", fechaInicio);
-//        parametros.put("fechaFin", fechaFin);
-//        parametros.put("rangoTitulo", rangoTitulo);
-//        parametros.put("rangoValor", rangoValor);
-////        parametros.put("titulo", "REPORTE DE PERMISOS");
-//        parametros.put("CONEXION_EMPLEADOS", ec.getDao().getConexion());
-//
-//        reporteador.setConn(pc.getDao().getConexion());
-//        Component report = reporteador.obtenerReporte(archivo, parametros);
-//        report.getParent().add(new JButton("HOLI"));
-//
-////        if(bandera){
-//        pnlTab.removeTabAt(0);
-////        }
-//        pnlTab.add("Vista previa", report);
-//        bandera = true;
     }
 
     boolean bandera = false;
@@ -656,12 +512,8 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         if (radGrupo.isSelected()) {
             obtenerGrupo();
             List<DetalleGrupoHorario> detalleGrupo = dgc.buscarXGrupo(grupoSeleccionado);
-            for (DetalleGrupoHorario detalle : detalleGrupo) {
+            for (DetalleGrupoHorario detalle : detalleGrupo) {                
                 lista.add(detalle.getEmpleado());
-            }
-        } else if (radPersonalizado.isSelected()) {
-            for (Empleado empleado : empleadoList) {
-                lista.add(empleado.getNroDocumento());
             }
         } else if (radOficina.isSelected()) {
             List<EmpleadoBiostar> empleadoBiostar = oficinaSeleccionada.getEmpleadoList();
@@ -670,6 +522,12 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
             for (Empleado empleado : empleados) {
                 lista.add(empleado.getNroDocumento());
             }
+        }
+        
+        List<AsignacionHorario> listado = ahc.buscarXEmpleado(lista, horarioSeleccionado);
+        lista.clear();
+        for(AsignacionHorario asignacion : listado){
+            lista.add(asignacion.getEmpleado());
         }
 
         return lista;
@@ -682,11 +540,11 @@ public class RptTardanzasFaltas extends javax.swing.JInternalFrame {
         }
         return dni;
     }
-
-    public void agregarEmpleado(Empleado empleado) {
-        empleadoList.add(empleado);
-        tblTabla.packAll();
-    }
+//
+//    public void agregarEmpleado(Empleado empleado) {
+//        empleadoList.add(empleado);
+//        tblTabla.packAll();
+//    }
 
     private GrupoHorarioControlador gc = new GrupoHorarioControlador();
     private DetalleGrupoControlador dgc = new DetalleGrupoControlador();

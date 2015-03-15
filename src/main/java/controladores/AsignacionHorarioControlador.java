@@ -6,8 +6,11 @@
 package controladores;
 
 import entidades.AsignacionHorario;
+import entidades.DetalleGrupoHorario;
 import entidades.Empleado;
 import entidades.GrupoHorario;
+import entidades.Horario;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +21,10 @@ import java.util.Map;
  */
 public class AsignacionHorarioControlador extends Controlador<AsignacionHorario> {
 
+    private final DetalleGrupoControlador dgc;
     public AsignacionHorarioControlador() {
         super(AsignacionHorario.class);
+        dgc = new DetalleGrupoControlador();
     }
     
     public List<AsignacionHorario> buscarXGrupos(List<GrupoHorario> grupos){
@@ -43,6 +48,22 @@ public class AsignacionHorarioControlador extends Controlador<AsignacionHorario>
                 + "a.empleado = :empleado";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("empleado", empleado.getNroDocumento());
+        return this.getDao().buscar(jpql, mapa);
+    }
+    
+    public List<AsignacionHorario> buscarXEmpleado(List<String> dnis ,Horario horario){
+        List<DetalleGrupoHorario> detalleGrupo = dgc.buscarXEmpleados(dnis);
+        List<GrupoHorario> grupos = new ArrayList<>();
+        
+        for(DetalleGrupoHorario detalle : detalleGrupo){
+            grupos.add(detalle.getGrupoHorario());
+        }
+        
+        String jpql = "SELECT a FROM AsignacionHorario a WHERE "
+                + "(a.empleado IN :empleados OR a.grupo) AND a.horario = :horario";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("empleados", dnis);
+        mapa.put("horario", horario);
         return this.getDao().buscar(jpql, mapa);
     }
 

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="r_registro_asistencia_consolidado" pageWidth="595" pageHeight="600" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="13"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -18,25 +18,25 @@
 	</parameter>
 	<parameter name="ruta" class="java.lang.String"/>
 	<parameter name="lista" class="java.util.List"/>
-	<parameter name="CONEXION_EMPLEADOS" class="java.sql.Connection"/>
+	<parameter name="CONEXION_SUP" class="java.sql.Connection"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\RyuujiMD\\Documents\\NetBeansProjects\\biosis-lite\\reportes\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="rangoTitulo" class="java.lang.String"/>
 	<parameter name="rangoValor" class="java.lang.String"/>
-	<parameter name="fechaInicio" class="java.util.Date">
+	<parameter name="fecha_inicio" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="fechaFin" class="java.util.Date">
+	<parameter name="fecha_fin" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
-empleado_nro_documento
+DISTINCT(empleado_nro_documento) as empleado_nro_documento
 FROM
 registro_asistencia
 WHERE
-$X{IN,registro_asistencia.empleado_nro_documento,lista} AND registro_asistencia.fecha BETWEEN $P{fechaInicio} AND $P{fechaFin}]]>
+$X{IN,registro_asistencia.empleado_nro_documento,lista} AND registro_asistencia.fecha BETWEEN $P{fecha_inicio} AND $P{fecha_fin}]]>
 	</queryString>
 	<field name="empleado_nro_documento" class="java.lang.String"/>
 	<background>
@@ -88,7 +88,7 @@ $X{IN,registro_asistencia.empleado_nro_documento,lista} AND registro_asistencia.
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="100" splitType="Stretch">
+		<band height="118" splitType="Stretch">
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="555" height="1" uuid="25e03c4f-5988-4f92-89d3-f672827e8098"/>
 				<graphicElement>
@@ -96,25 +96,25 @@ $X{IN,registro_asistencia.empleado_nro_documento,lista} AND registro_asistencia.
 				</graphicElement>
 			</line>
 			<subreport>
-				<reportElement x="0" y="0" width="555" height="100" uuid="bd91f346-0a84-4a4f-a957-20a78f05a7ec"/>
+				<reportElement x="0" y="0" width="555" height="118" uuid="bd91f346-0a84-4a4f-a957-20a78f05a7ec"/>
 				<subreportParameter name="empleado_nro_documento">
 					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>
 				</subreportParameter>
-				<connectionExpression><![CDATA[$P{CONEXION_EMPLEADOS}]]></connectionExpression>
+				<connectionExpression><![CDATA[$P{CONEXION_SUP}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{ruta} + "/reportes/subr_datos_empleado.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 		<band height="109">
 			<subreport>
 				<reportElement x="0" y="10" width="556" height="89" uuid="afbf6734-a4f7-468e-bbe3-0ac2dd03d1a0"/>
+				<subreportParameter name="fechaFin">
+					<subreportParameterExpression><![CDATA[$P{fecha_fin}]]></subreportParameterExpression>
+				</subreportParameter>
 				<subreportParameter name="ruta">
 					<subreportParameterExpression><![CDATA[$P{ruta}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportParameter name="fechaFin">
-					<subreportParameterExpression><![CDATA[$P{fechaFin}]]></subreportParameterExpression>
-				</subreportParameter>
 				<subreportParameter name="fechaInicio">
-					<subreportParameterExpression><![CDATA[$P{fechaInicio}]]></subreportParameterExpression>
+					<subreportParameterExpression><![CDATA[$P{fecha_inicio}]]></subreportParameterExpression>
 				</subreportParameter>
 				<subreportParameter name="empleado_nro_documento">
 					<subreportParameterExpression><![CDATA[$F{empleado_nro_documento}]]></subreportParameterExpression>

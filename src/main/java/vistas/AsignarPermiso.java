@@ -636,6 +636,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         int fila = tblTabla.getSelectedRow();
         if (fila != -1) {
             this.accion = Controlador.MODIFICAR;
+            tipoSeleccionado = this.listado.get(fila).getPermiso().getTipoPermiso();
             controlador.setSeleccionado(this.listado.get(fila).getPermiso());
             this.controles(accion);
             FormularioUtil.activarComponente(txtTipoPermiso, false);

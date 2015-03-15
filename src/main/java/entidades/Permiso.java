@@ -50,7 +50,7 @@ public class Permiso implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(optional=false,targetEntity = TipoPermiso.class)
+    @ManyToOne(optional=false,targetEntity = TipoPermiso.class, fetch = FetchType.EAGER)
     @JoinColumn(name="tipo_permiso_codigo",referencedColumnName="codigo",insertable=true,nullable=false,unique=false,updatable=true)
     private TipoPermiso tipoPermiso;
     @Column(unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
@@ -63,7 +63,7 @@ public class Permiso implements Serializable {
     @Column(name="cubre_entrada",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Basic
     private boolean cubreEntrada;
-    @OneToMany(cascade={CascadeType.ALL},fetch = FetchType.LAZY,targetEntity = AsignacionPermiso.class,mappedBy = "permiso",orphanRemoval = true)
+    @OneToMany(cascade={CascadeType.ALL},fetch = FetchType.EAGER,targetEntity = AsignacionPermiso.class,mappedBy = "permiso",orphanRemoval = true)
     private List<AsignacionPermiso> asignacionPermisoList;
     @Column(name="fecha_inicio",unique=false,updatable=true,insertable=true,nullable=false,length=255,scale=0,precision=0)
     @Temporal(TemporalType.DATE)

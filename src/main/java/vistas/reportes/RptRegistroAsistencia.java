@@ -619,7 +619,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         parametros.put("rangoTitulo", rangoTitulo);
         parametros.put("rangoValor", rangoValor);
         parametros.put("mostrar_he", chkHFH.isSelected());
-//        parametros.put("titulo", "REPORTE DE PERMISOS");
         parametros.put("CONEXION_SUP", ec.getDao().getConexion());
         parametros.put("CONEXION_BIOSTAR", mc.getDao().getConexion());
         
