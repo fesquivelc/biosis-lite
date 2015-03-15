@@ -198,6 +198,11 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         pnlListado.add(lblBusqueda, gridBagConstraints);
 
         txtEmpleado.setEditable(false);
+        txtEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmpleadoActionPerformed(evt);
+            }
+        });
         txtEmpleado.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtEmpleadoKeyReleased(evt);
@@ -463,8 +468,6 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         pnlFHInicio.add(jLabel5, gridBagConstraints);
-
-        dcFechaFin.setDateFormatString("dd/MM/yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -479,6 +482,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(pnlFHInicio, gridBagConstraints);
 
+        pnlFHInicio1.setMinimumSize(new java.awt.Dimension(300, 20));
         java.awt.GridBagLayout pnlFHInicio1Layout = new java.awt.GridBagLayout();
         pnlFHInicio1Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
         pnlFHInicio1Layout.rowHeights = new int[] {0};
@@ -496,8 +500,6 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         pnlFHInicio1.add(jLabel6, gridBagConstraints);
-
-        dcFechaInicio.setDateFormatString("dd/MM/yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -682,6 +684,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             List<String> dnis = new ArrayList<>();
             for (AsignacionPermiso asignacion : seleccionada.getAsignacionPermisoList()) {
                 dnis.add(asignacion.getEmpleado());
+                //System.out.println(asignacion.getEmpleado());
             }
 
             retrocederTiempo(dnis, seleccionada.getFechaInicio());
@@ -845,6 +848,10 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             mostrarRecord(integrantes.get(fila));
         }
     }//GEN-LAST:event_tblEmpleadosMouseReleased
+
+    private void txtEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmpleadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmpleadoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1246,8 +1253,24 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
                 errores++;
                 mensaje = ">La fecha de inicio debe ser menor que la fecha de fin\n";
             }
+            //Traemos los dnis de los empleados
+            Permiso paraComprobar = this.controlador.getSeleccionado();
+            List<String> dnis = new ArrayList<>();
+            for (AsignacionPermiso asignacion : paraComprobar.getAsignacionPermisoList()) {
+                dnis.add(asignacion.getEmpleado());
+                System.out.println(asignacion.getEmpleado());
+                List<AsignacionPermiso> lista = ac.buscarXFechaDni(asignacion.getEmpleado(), fechaInicio);
+                if(lista.isEmpty()){
+                    
+                }else{
+                   errores++;
+                   mensaje = "El empleado "+asignacion.getEmpleado()+" tiene conflicto con un permiso añadido anteriormente \n Ingrese otro rango de fechas \n";
+                   break;
+                }
+            }
+            //Traemos los permisos por dni
         }
-
+        
         if (errores > 0) {
             JOptionPane.showMessageDialog(this, "Se ha(n) encontrado el(los) siguiente(s) error(es):\n" + mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
         }

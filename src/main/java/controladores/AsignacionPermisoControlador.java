@@ -40,6 +40,14 @@ public class AsignacionPermisoControlador extends Controlador<AsignacionPermiso>
         return this.getDao().buscar(jpql, mapa, desde, tamanio);
     }
 
+    //Query para comprobacion de permisos en rango de fecha
+    public List<AsignacionPermiso> buscarXFechaDni(String dni,Date fechaInicio){
+        String jpl = "SELECT a FROM AsignacionPermiso a WHERE a.empleado = :dni AND :fechaInicio BETWEEN a.permiso.fechaInicio and a.permiso.fechaFin";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", dni);
+        mapa.put("fechaInicio", fechaInicio);
+        return this.getDao().buscar(jpl, mapa);
+    }
     public int contarXEmpleadoXFecha(String dni, Date fechaInicio, Date fechaFin) {
         String jpql = "SELECT COUNT(a.id) FROM AsignacionPermiso a WHERE a.empleado = :dni AND a.permiso.fechaInicio BETWEEN :fechaInicio AND :fechaFin";
         Long cont = (Long) this.getDao().getEntityManager().createQuery(jpql)

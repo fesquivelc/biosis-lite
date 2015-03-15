@@ -703,15 +703,29 @@ public class Principal extends javax.swing.JFrame {
         boolean reportes = false;
         boolean configuracion = false;
         
+        //Permiso para los botones
+        boolean botonEmpleados = false;
+        boolean botonMarcaciones = false;
+        boolean botonAsignarPermiso = false;
+        boolean botonHorarios = false;
+        boolean botonRegistroAsistencia = false;
+        
         for(RolAcceso acceso : accesos){
             if(acceso.getAcceso().getClase().equals("HORARIO")){
                 horario = true;
+                botonEmpleados = true;
+                botonMarcaciones = true;
+                botonHorarios = true;
+              
             }
             else if(acceso.getAcceso().getClase().equals("PERIODO")){
                 periodo = true;
+                botonAsignarPermiso =true;
+                
             }
             else if(acceso.getAcceso().getClase().equals("PERMISO")){
                 permiso = true;
+                botonAsignarPermiso =true;
             }
             else if(acceso.getAcceso().getClase().equals("VACACION")){
                 vacacion = true;
@@ -720,6 +734,7 @@ public class Principal extends javax.swing.JFrame {
                 reportes = true;
             }else if(acceso.getAcceso().getClase().equals("CONFIGURACION")){
                 configuracion = true;
+                botonRegistroAsistencia = true;
             }
         }
         
@@ -734,5 +749,10 @@ public class Principal extends javax.swing.JFrame {
 //        mnuRolUsuario.setEnabled(configuracion);
         mnuControlUsuario.setEnabled(configuracion);
         
+        btnEmpleados.setEnabled(botonEmpleados);
+        btnMarcaciones.setEnabled(botonMarcaciones);
+        btnAsignarPermiso.setEnabled(botonAsignarPermiso);
+        btnHorarios.setEnabled(botonHorarios);
+        btnRegistroAsistencia.setEnabled(botonRegistroAsistencia);
     }
 }
