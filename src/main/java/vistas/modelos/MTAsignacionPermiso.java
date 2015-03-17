@@ -16,47 +16,51 @@ import java.util.List;
  *
  * @author fesquivelc
  */
-public class MTAsignacionPermiso extends ModeloTabla<AsignacionPermiso>{
+public class MTAsignacionPermiso extends ModeloTabla<AsignacionPermiso> {
+
     private final DateFormat dfFecha;
     private final DateFormat dfHora;
 
     public MTAsignacionPermiso(List<AsignacionPermiso> datos) {
         super(datos);
-        this.nombreColumnas = new String[]{"Nro de documento","Tipo de permiso","Inicio","Fin","Motivo",""};
+        this.nombreColumnas = new String[]{"DNI / C.E.", "Documento", "Tipo de permiso", "Inicio", "Fin", "Motivo", ""};
         dfFecha = new SimpleDateFormat("dd/MM/yyyy");
         dfHora = new SimpleDateFormat("HH:mm:ss");
-        
+
     }
 
     @Override
     public Object getValorEn(int rowIndex, int columnIndex) {
         AsignacionPermiso asignacion = this.datos.get(rowIndex);
-        switch(columnIndex){
+        switch (columnIndex) {
             case 0:
                 return asignacion.getEmpleado();
             case 1:
-                return clase(asignacion.getPermiso().getTipoPermiso().getClase());
+
+                return asignacion.getPermiso().getDocumento();
             case 2:
-                if(asignacion.getPermiso().isPorFecha()){
-                    return dfFecha.format(asignacion.getPermiso().getFechaInicio());
-                }else{
-                    return dfFecha.format(asignacion.getPermiso().getFechaInicio()) + " " +dfHora.format(asignacion.getPermiso().getHoraInicio());                    
-                }
+                return clase(asignacion.getPermiso().getTipoPermiso().getClase());
             case 3:
-                if(asignacion.getPermiso().isPorFecha()){
-                    return dfFecha.format(asignacion.getPermiso().getFechaFin());
-                }else{
-                    return dfFecha.format(asignacion.getPermiso().getFechaInicio()) + " " +dfHora.format(asignacion.getPermiso().getHoraFin());                    
+                if (asignacion.getPermiso().isPorFecha()) {
+                    return dfFecha.format(asignacion.getPermiso().getFechaInicio());
+                } else {
+                    return dfFecha.format(asignacion.getPermiso().getFechaInicio()) + " " + dfHora.format(asignacion.getPermiso().getHoraInicio());
                 }
             case 4:
-                return asignacion.getPermiso().getMotivo();
+                if (asignacion.getPermiso().isPorFecha()) {
+                    return dfFecha.format(asignacion.getPermiso().getFechaFin());
+                } else {
+                    return dfFecha.format(asignacion.getPermiso().getFechaInicio()) + " " + dfHora.format(asignacion.getPermiso().getHoraFin());
+                }
             case 5:
+                return asignacion.getPermiso().getMotivo();
+            case 6:
                 return tipoDescuento(asignacion.getPermiso().getTipoPermiso().getTipoDescuento());
             default:
                 return null;
         }
     }
-    
+
     private String clase(char clase) {
         switch (clase) {
             case 'C':
@@ -82,5 +86,5 @@ public class MTAsignacionPermiso extends ModeloTabla<AsignacionPermiso>{
                 return "";
         }
     }
-    
+
 }

@@ -69,6 +69,18 @@ public class Permiso implements Serializable {
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fechaInicio;
+    @Column(name = "opcion")
+    private char opcion;
+
+    public char getOpcion() {
+        return opcion;
+    }
+
+    public void setOpcion(char opcion) {
+        this.opcion = opcion;
+    }
+    
+    
 
     public Permiso() {
 
