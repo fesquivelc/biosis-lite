@@ -31,6 +31,9 @@ import entidades.TCAnalisis;
 import entidades.TCSistema;
 import entidades.Vacacion;
 import com.personal.utiles.FechaUtil;
+import controladores.Controlador;
+import controladores.PermisoControlador;
+import controladores.TipoPermisoControlador;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,6 +41,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -54,6 +58,9 @@ public class AnalisisAsistencia {
     private DetalleGrupoControlador dgc;
     private AsignacionHorarioControlador ahc;
     private RegistroAsistenciaControlador rac;
+    private PermisoControlador pc;
+    private TipoPermisoControlador tpc;
+    private static final Logger LOG = Logger.getLogger(AnalisisAsistencia.class.getName());
 
     private final int MIN_FIN_MARCACION = 500;
     private final int MIN_ANTES_INICIO_PERMISO = 30;
@@ -72,6 +79,8 @@ public class AnalisisAsistencia {
         ahc = new AsignacionHorarioControlador();
         rac = new RegistroAsistenciaControlador();
         tcsc = TCSistemaControlador.getInstance();
+        pc = new PermisoControlador();
+        tpc = new TipoPermisoControlador();
     }
 
     private TCAnalisis obtenerPuntoPartida(Empleado empleado) {
@@ -233,6 +242,8 @@ public class AnalisisAsistencia {
                                 //TOMAMOS EN CUENTA EL ONOMASTICO
                                 if (isOnomastico(empleado, fInicio)) {
                                     //SE REGISTRA COMO ONOMASTICO
+                                    registro.setPermiso(generarPermisoOnomastico(empleado.getNroDocumento(), fInicio));
+                                    registro.setTipoAsistencia('P');
                                 } else {
                                     //SE PROCEDE AL ANALISIS DE LA JORNADA
                                     registro = analizarJornada2(empleado, horario.getJornada(), fInicio, hInicio, fInicio, fFin, hFin);
@@ -626,6 +637,36 @@ public class AnalisisAsistencia {
         registroPermiso.setResultado(resultado);
 
         return registroPermiso;
+    }
+
+    private Permiso generarPermisoOnomastico(String dni, Date fInicio) {
+        pc.prepararCrear();
+        Permiso onomastico = pc.getSeleccionado();
+        
+        //CREAMOS LA ASIGNACION
+        AsignacionPermiso ap = new AsignacionPermiso();        
+        ap.setEmpleado(dni);
+        ap.setPermiso(onomastico);
+        
+        //
+        onomastico.getAsignacionPermisoList().add(ap);
+        onomastico.setFechaInicio(fInicio);
+        onomastico.setFechaFin(fInicio);
+        onomastico.setPorFecha(true);
+        onomastico.setTipoPermiso(tpc.buscarPorId("ONO"));
+        onomastico.setOpcion('F');
+        onomastico.setMotivo("LICENCIA POR ONOMÁSTICO");
+        onomastico.setDocumento("LICENCIA POR ONOMÁSTICO");
+        
+        if(pc.accion(Controlador.NUEVO)){
+            LOG.info("SE GUARDO EL PERMISO POR ONOMASTICO");
+        }else{
+            LOG.info("HUBO UN ERROR");
+        }
+        
+        pc.getDao().getEntityManager().flush();
+        
+        return onomastico;
     }
 
 }
