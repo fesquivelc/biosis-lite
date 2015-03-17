@@ -1253,22 +1253,22 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
                 errores++;
                 mensaje = ">La fecha de inicio debe ser menor que la fecha de fin\n";
             }
-            //Traemos los dnis de los empleados
-            Permiso paraComprobar = this.controlador.getSeleccionado();
-            List<String> dnis = new ArrayList<>();
-            for (AsignacionPermiso asignacion : paraComprobar.getAsignacionPermisoList()) {
-                dnis.add(asignacion.getEmpleado());
-                System.out.println(asignacion.getEmpleado());
-                List<AsignacionPermiso> lista = ac.buscarXFechaDni(asignacion.getEmpleado(), fechaInicio);
-                if(lista.isEmpty()){
-                    
-                }else{
-                   errores++;
-                   mensaje = "El empleado "+asignacion.getEmpleado()+" tiene conflicto con un permiso añadido anteriormente \n Ingrese otro rango de fechas \n";
-                   break;
-                }
-            }
-            //Traemos los permisos por dni
+//            //Traemos los dnis de los empleados
+//            Permiso paraComprobar = this.controlador.getSeleccionado();
+//            List<String> dnis = new ArrayList<>();
+//            for (AsignacionPermiso asignacion : paraComprobar.getAsignacionPermisoList()) {
+//                dnis.add(asignacion.getEmpleado());
+//                System.out.println(asignacion.getEmpleado());
+//                List<AsignacionPermiso> lista = ac.buscarXFechaDni(asignacion.getEmpleado(), fechaInicio);
+//                if(lista.isEmpty()){
+//                    
+//                }else{
+//                   errores++;
+//                   mensaje = "El empleado "+asignacion.getEmpleado()+" tiene conflicto con un permiso añadido anteriormente \n Ingrese otro rango de fechas \n";
+//                   break;
+//                }
+//            }
+//            //Traemos los permisos por dni
         }
         
         if (errores > 0) {
