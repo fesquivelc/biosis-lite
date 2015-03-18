@@ -393,6 +393,7 @@ public class AnalisisAsistencia {
             DetalleRegistroAsistencia detalleTurno = this.analizarTurno(empleado.getNroDocumento(), fecha, fechaFin, jornada.getDesdeHE(), jornada.getToleranciaHE(), jornada.getTardanzaHE(), jornada.getTurnoHS(), 60 * 4);
             detalleTurno.setHoraInicio((ocupaEntrada == null) ? detalleTurno.getHoraInicio() : ocupaEntrada);
             detalleTurno.setHoraFin((ocupaSalida == null) ? detalleTurno.getHoraFin() : ocupaSalida);
+            detalleTurno.setResultado(ocupaEntrada == null && ocupaSalida == null ? detalleTurno.getResultado() : 'R');
 
             if (detalleTurno.getHoraFin() != null) {
                 minExtra = tardanzaMin(detalleTurno.getHoraFin(), jornada.getTurnoHS());
