@@ -658,13 +658,17 @@ public class AnalisisAsistencia {
         onomastico.setMotivo("LICENCIA POR ONOMÁSTICO");
         onomastico.setDocumento("LICENCIA POR ONOMÁSTICO");
         
+        long diferencia = onomastico.getFechaFin().getTime() - onomastico.getFechaInicio().getTime();
+        BigDecimal diferenciaMin = new BigDecimal(diferencia / (60 * 1000 * 60));
+        onomastico.setDiferencia(diferenciaMin);
+        
         if(pc.accion(Controlador.NUEVO)){
             LOG.info("SE GUARDO EL PERMISO POR ONOMASTICO");
         }else{
             LOG.info("HUBO UN ERROR");
         }
         
-        pc.getDao().getEntityManager().flush();
+        pc.getDao().getEntityManager();
         
         return onomastico;
     }
