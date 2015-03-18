@@ -62,7 +62,9 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private Empleado empleadoSeleccionado;
     private PeriodoControlador pc;
     private final ReporteUtil reporteador;
-
+    //
+    private Periodo periodo;
+    private String empleado;
     public AsignarVacacion() {
         initComponents();
         reporteador = new ReporteUtil();
@@ -547,6 +549,11 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         if (fila != -1) {
             this.accion = Controlador.MODIFICAR;
             controlador.setSeleccionado(this.listado.get(fila));
+//            periodo = periodoList.get(cboPeriodo.getSelectedIndex());
+//            empleado = empleadoSeleccionado.getNroDocumento();
+//            if(empleado == null){
+//                System.out.println("Corregir aca carajo!");
+//            }
             this.controles(accion);
             FormularioUtil.activarComponente(txtEmpleadoSeleccionado, false);
         }
@@ -563,16 +570,24 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
 //            FormularioUtil.convertirMayusculas(this.pnlDatos);
             
+            
             if(accion == Controlador.NUEVO){
                 seleccionada.setEmpleado(empleadoSeleccionado.getNroDocumento());
             }
-            
+            if(seleccionada.getEmpleado() != null){
+                System.out.println("Hay empleado");
+            }else{
+                System.out.println("No hay empleado");
+            }
+//            if(accion == Controlador.MODIFICAR){
+//                seleccionada.setEmpleado(empleado);
+//            }
             seleccionada.setFechaInicio(dcFechaInicio.getDate());
             seleccionada.setFechaFin(dcFechaFin.getDate());
             seleccionada.setHayInterrupcion(false);
             seleccionada.setDocumento(txtDocumento.getText());
             seleccionada.setPeriodo(periodoList.get(cboPeriodo.getSelectedIndex()));
-
+            
             if (controlador.accion(accion)) {
                 List<String> dni = new ArrayList<>();
                 dni.add(seleccionada.getEmpleado());
@@ -1039,22 +1054,22 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             errores++;
             mensaje = ">La fecha de inicio debe ser menor que la fecha de fin\n";
         }
-        //Traemos los dnis de los empleados
-        Empleado empleadoPrueba = empleadoSeleccionado;
-        //Vacacion paraComprobar = this.controlador.getSeleccionado();
-        System.out.println("dni" + empleadoPrueba.getNroDocumento());
-        //Permiso paraComprobar = this.controlador.getSeleccionado();
-        List<Vacacion> vacaciones = controlador.buscarXEmpleadoXPeriodo(empleadoPrueba.getNroDocumento(), periodoList.get(cboPeriodo.getSelectedIndex()));
-        for (Vacacion vacacion : vacaciones) {
-            if((vacacion.getFechaInicio().compareTo(fechaInicio) == 0) || 
-               (vacacion.getFechaInicio().compareTo(fechaInicio) < 0) || 
-               (vacacion.getFechaFin().compareTo(fechaFin) == 0) ||
-               (vacacion.getFechaFin().compareTo(fechaFin) > 0 )    ){
-               errores++;
-               mensaje = "El empleado "+vacacion.getEmpleado()+" tiene conflicto con una vacación añadida anteriormente \n Ingrese otro rango de fechas \n";
-               break;
-            }    
-        }
+//        //Traemos los dnis de los empleados
+//        Empleado empleadoPrueba = empleadoSeleccionado;
+//        //Vacacion paraComprobar = this.controlador.getSeleccionado();
+//        System.out.println("dni" + empleadoPrueba.getNroDocumento());
+//        //Permiso paraComprobar = this.controlador.getSeleccionado();
+//        List<Vacacion> vacaciones = controlador.buscarXEmpleadoXPeriodo(empleadoPrueba.getNroDocumento(), periodoList.get(cboPeriodo.getSelectedIndex()));
+//        for (Vacacion vacacion : vacaciones) {
+//            if((vacacion.getFechaInicio().compareTo(fechaInicio) == 0) || 
+//               (vacacion.getFechaInicio().compareTo(fechaInicio) < 0) || 
+//               (vacacion.getFechaFin().compareTo(fechaFin) == 0) ||
+//               (vacacion.getFechaFin().compareTo(fechaFin) > 0 )    ){
+//               errores++;
+//               mensaje = "El empleado "+vacacion.getEmpleado()+" tiene conflicto con una vacación añadida anteriormente \n Ingrese otro rango de fechas \n";
+//               break;
+//            }    
+//        }
             
         
         
