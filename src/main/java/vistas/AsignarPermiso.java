@@ -683,7 +683,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
                 seleccionada.setHoraFin((Date) spHoraFin.getValue());
                 seleccionada.setFechaFin((Date) dcFechaInicio.getDate());
                 seleccionada.setOpcion('H');
-                diferencia = FechaUtil.soloHora(seleccionada.getFechaFin()).getTime() - FechaUtil.soloHora(seleccionada.getFechaInicio()).getTime();
+                diferencia = FechaUtil.soloHora(seleccionada.getHoraFin()).getTime() - FechaUtil.soloHora(seleccionada.getHoraInicio()).getTime();
             }
 
             BigDecimal diferenciaMin = new BigDecimal(diferencia / (60 * 1000 * 60));
