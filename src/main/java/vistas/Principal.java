@@ -63,7 +63,7 @@ public class Principal extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        iniciar();
+       iniciar();
     }
 
     /**
@@ -618,12 +618,8 @@ public class Principal extends javax.swing.JFrame {
     DAOMINEDU dao3;
 
     private void iniciar() {
-        dao = new DAO();
-        dao.getEntityManager();
         DAOBIOSTAR dao2 = new DAOBIOSTAR(Marcacion.class);
-        dao3 = new DAOMINEDU(Empleado.class);
         dao2.getEntityManager();
-        dao3.getEntityManager();
     }
 
     private void empleados() {
