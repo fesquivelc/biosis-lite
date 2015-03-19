@@ -597,7 +597,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
             mes = cboMes.getMonth();
             cal.set(anio, mes, 1);
             fechaInicio = cal.getTime();
-            cal.set(Calendar.DAY_OF_MONTH, cal.getMaximum(Calendar.DAY_OF_MONTH));
+            cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
             fechaFin = cal.getTime();
             rangoValor = (cboMes.getMonth() + 1) + " / " + anio;
         } else if (radAnio.isSelected()) {
