@@ -48,6 +48,7 @@ public class DAOBIOSTAR<T> extends DAO<T> {
             properties.put("javax.persistence.jdbc.url", url);
             properties.put("javax.persistence.schema-generation.database.action", "none");
 
+            System.out.println("BIOSTAR: "+Encriptador.decrypt(password));
             EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.PU, properties);
             entityManagerBIOSTAR = emf.createEntityManager();
         }
