@@ -530,6 +530,8 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(dcFechaFin, gridBagConstraints);
+
+        dcFechaInicio.setMinimumSize(new java.awt.Dimension(130, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
@@ -537,7 +539,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(dcFechaInicio, gridBagConstraints);
 
-        pnlOpcion.setLayout(new java.awt.GridLayout());
+        pnlOpcion.setLayout(new java.awt.GridLayout(1, 0));
 
         radFecha.setSelected(true);
         radFecha.setText("Por fecha");
@@ -1274,24 +1276,42 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
                 errores++;
                 mensaje = ">La fecha de inicio debe ser menor que la fecha de fin\n";
             }
-//            //Traemos los dnis de los empleados
-//            Permiso paraComprobar = this.controlador.getSeleccionado();
-//            List<String> dnis = new ArrayList<>();
-//            for (AsignacionPermiso asignacion : paraComprobar.getAsignacionPermisoList()) {
-//                dnis.add(asignacion.getEmpleado());
-//                System.out.println(asignacion.getEmpleado());
-//                List<AsignacionPermiso> lista = ac.buscarXFechaDni(asignacion.getEmpleado(), fechaInicio);
-//                if(lista.isEmpty()){
-//                    
-//                }else{
-//                   errores++;
-//                   mensaje = "El empleado "+asignacion.getEmpleado()+" tiene conflicto con un permiso añadido anteriormente \n Ingrese otro rango de fechas \n";
-//                   break;
-//                }
-//            }
-//            //Traemos los permisos por dni
+            //Traemos los dnis de los empleados
+            Permiso paraComprobar = this.controlador.getSeleccionado();
+            //List<String> dnis = new ArrayList<>();
+            for (AsignacionPermiso asignacion : paraComprobar.getAsignacionPermisoList()) {
+                //dnis.add(asignacion.getEmpleado());
+                System.out.println(asignacion.getEmpleado());
+                List<AsignacionPermiso> lista = ac.buscarXFechaDni(asignacion.getEmpleado(), fechaInicio);
+                if(lista.isEmpty()){
+                    
+                }else{
+                   errores++;
+                   mensaje = "El empleado "+asignacion.getEmpleado()+" tiene conflicto con un permiso añadido anteriormente \n Ingrese otro rango de fechas \n";
+                   break;
+                }
+            }
+            //Traemos los permisos por dni
         }
-
+        if(radHora.isSelected()){
+            Date horaInicio = (Date) spHoraInicio.getValue();
+            Date horaFin = (Date) spHoraFin.getValue();
+            if(horaInicio.compareTo(horaFin) > 0){
+                errores++;
+                mensaje = ">La hora de inicio debe ser menor que la hora de fin \n";
+            }
+            Permiso paraComprobar = this.controlador.getSeleccionado();
+            for(AsignacionPermiso asignacion : paraComprobar.getAsignacionPermisoList()){
+                List<AsignacionPermiso> lista = ac.buscarXHora(asignacion.getEmpleado(), horaInicio);
+                if(lista.isEmpty()){
+                
+                }else{
+                    errores++;
+                    mensaje = "El empleado "+asignacion.getEmpleado()+" tiene conflicto con un permiso añadido anteriormente \n Ingrese otro rango de horas\n";
+                    break;
+                }
+            }
+        }
         if (errores > 0) {
             JOptionPane.showMessageDialog(this, "Se ha(n) encontrado el(los) siguiente(s) error(es):\n" + mensaje, "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
         }

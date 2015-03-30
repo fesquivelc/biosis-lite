@@ -363,6 +363,11 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         jPanel4.add(jLabel1, gridBagConstraints);
 
         txtEmpleadoSeleccionado.setEditable(false);
+        txtEmpleadoSeleccionado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmpleadoSeleccionadoActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -549,11 +554,11 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         if (fila != -1) {
             this.accion = Controlador.MODIFICAR;
             controlador.setSeleccionado(this.listado.get(fila));
-//            periodo = periodoList.get(cboPeriodo.getSelectedIndex());
-//            empleado = empleadoSeleccionado.getNroDocumento();
-//            if(empleado == null){
-//                System.out.println("Corregir aca carajo!");
-//            }
+            periodo = periodoList.get(cboPeriodo.getSelectedIndex());
+            empleado = empleadoSeleccionado.getNroDocumento();
+            if(empleado == null){
+                System.out.println("Corregir aca carajo!");
+            }
             this.controles(accion);
             FormularioUtil.activarComponente(txtEmpleadoSeleccionado, false);
         }
@@ -738,6 +743,10 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         actualizarResumenVacaciones(empleadoSeleccionado);
     }//GEN-LAST:event_cboPeriodoActionPerformed
+
+    private void txtEmpleadoSeleccionadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmpleadoSeleccionadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmpleadoSeleccionadoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1055,11 +1064,15 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             mensaje = ">La fecha de inicio debe ser menor que la fecha de fin\n";
         }
 //        //Traemos los dnis de los empleados
-//        Empleado empleadoPrueba = empleadoSeleccionado;
-//        //Vacacion paraComprobar = this.controlador.getSeleccionado();
-//        System.out.println("dni" + empleadoPrueba.getNroDocumento());
+////        String empleadoPrueba = this.controlador.getSeleccionado().getEmpleado();
+////        System.out.println(empleadoPrueba);
+//        Vacacion paraComprobar = this.controlador.getSeleccionado();
+//        if(paraComprobar != null){
+//            System.out.println("No es null"+paraComprobar.getEmpleado());
+//        }
+//        //aSystem.out.println("dni" + empleadoPrueba.getNroDocumento());
 //        //Permiso paraComprobar = this.controlador.getSeleccionado();
-//        List<Vacacion> vacaciones = controlador.buscarXEmpleadoXPeriodo(empleadoPrueba.getNroDocumento(), periodoList.get(cboPeriodo.getSelectedIndex()));
+//        List<Vacacion> vacaciones = controlador.buscarXEmpleadoXPeriodo(paraComprobar.getEmpleado(), periodoList.get(cboPeriodo.getSelectedIndex()));
 //        for (Vacacion vacacion : vacaciones) {
 //            if((vacacion.getFechaInicio().compareTo(fechaInicio) == 0) || 
 //               (vacacion.getFechaInicio().compareTo(fechaInicio) < 0) || 
@@ -1070,7 +1083,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 //               break;
 //            }    
 //        }
-            
+//            
         
         
         if (errores > 0) {
